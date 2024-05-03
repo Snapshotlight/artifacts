@@ -11,7 +11,7 @@ public class SwimSpeedAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.SWIM_SPEED;
+        return ModAbilities.SWIM_SPEED.get();
     }
 
     @Override

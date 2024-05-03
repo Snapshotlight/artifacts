@@ -28,7 +28,7 @@ public class HeliumFlamingoInputEventHandler {
     }
 
     private static void handleHeliumFlamingoInput(Player player) {
-        if (!AbilityHelper.hasAbility(ModAbilities.SWIM_IN_AIR, player)) {
+        if (!AbilityHelper.hasAbility(ModAbilities.SWIM_IN_AIR.get(), player)) {
             return;
         }
 
@@ -64,7 +64,7 @@ public class HeliumFlamingoInputEventHandler {
     private static boolean canActivateHeliumFlamingo(SwimData swimData, Player player, boolean isSprintKeyDown) {
         if (swimData.isSwimming()
                 || swimData.getSwimTime() < 0
-                || !AbilityHelper.hasAbility(ModAbilities.SWIM_IN_AIR, player)) {
+                || !AbilityHelper.hasAbility(ModAbilities.SWIM_IN_AIR.get(), player)) {
             return false;
         }
         if (player.isSwimming()) {
@@ -75,7 +75,7 @@ public class HeliumFlamingoInputEventHandler {
                 && !wasSprintingOnGround
                 && hasTouchedGround
                 && !player.onGround()
-                && (!player.isInWater() || AbilityHelper.hasAbility(ModAbilities.SINKING, player))
+                && (!player.isInWater() || AbilityHelper.hasAbility(ModAbilities.SINKING.get(), player))
                 && !player.isFallFlying()
                 && !player.getAbilities().flying
                 && !player.isPassenger();

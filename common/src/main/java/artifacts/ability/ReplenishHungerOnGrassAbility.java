@@ -16,7 +16,7 @@ public class ReplenishHungerOnGrassAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.REPLENISH_HUNGER_ON_GRASS;
+        return ModAbilities.REPLENISH_HUNGER_ON_GRASS.get();
     }
 
     @Override

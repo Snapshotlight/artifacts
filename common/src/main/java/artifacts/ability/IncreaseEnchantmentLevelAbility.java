@@ -30,7 +30,7 @@ public class IncreaseEnchantmentLevelAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.INCREASE_ENCHANTMENT_LEVEL;
+        return ModAbilities.INCREASE_ENCHANTMENT_LEVEL.get();
     }
 
     @Override

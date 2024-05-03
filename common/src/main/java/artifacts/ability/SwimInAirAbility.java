@@ -18,7 +18,7 @@ public class SwimInAirAbility implements ArtifactAbility {
             return;
         }
         int maxFlightTime = getFlightDuration(player);
-        boolean shouldSink = AbilityHelper.hasAbility(ModAbilities.SINKING, player);
+        boolean shouldSink = AbilityHelper.hasAbility(ModAbilities.SINKING.get(), player);
         boolean canFly = maxFlightTime > 0;
         if (swimData.isSwimming()) {
             if (swimData.getSwimTime() > maxFlightTime
@@ -45,11 +45,11 @@ public class SwimInAirAbility implements ArtifactAbility {
     }
 
     public static int getFlightDuration(LivingEntity entity) {
-        return AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR, entity, SwimInAirAbility::getFlightDuration, false);
+        return AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.get(), entity, SwimInAirAbility::getFlightDuration, false);
     }
 
     public static int getRechargeDuration(LivingEntity entity) {
-        return Math.max(20, AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR, entity, SwimInAirAbility::getRechargeDuration, false));
+        return Math.max(20, AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.get(), entity, SwimInAirAbility::getRechargeDuration, false));
     }
 
     public int getFlightDuration() {
@@ -62,7 +62,7 @@ public class SwimInAirAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.SWIM_IN_AIR;
+        return ModAbilities.SWIM_IN_AIR.get();
     }
 
     @Override

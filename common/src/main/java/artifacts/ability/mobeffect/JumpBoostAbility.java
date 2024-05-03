@@ -12,6 +12,6 @@ public class JumpBoostAbility extends MobEffectAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.JUMP_BOOST;
+        return ModAbilities.JUMP_BOOST.get();
     }
 }

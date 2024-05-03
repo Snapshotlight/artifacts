@@ -47,7 +47,7 @@ public class ArtifactEventsNeoForge {
     }
 
     private static void onLivingFall(LivingFallEvent event) {
-        if (AbilityHelper.hasAbility(ModAbilities.CANCEL_FALL_DAMAGE, event.getEntity())) {
+        if (AbilityHelper.hasAbility(ModAbilities.CANCEL_FALL_DAMAGE.get(), event.getEntity())) {
             event.setDamageMultiplier(0);
         }
         onCloudInABottleFall(event);
@@ -75,7 +75,7 @@ public class ArtifactEventsNeoForge {
 
     private static void onKittySlippersChangeTarget(LivingChangeTargetEvent event) {
         LivingEntity target = event.getNewTarget();
-        if (AbilityHelper.hasAbility(ModAbilities.SCARE_CREEPERS, target)
+        if (AbilityHelper.hasAbility(ModAbilities.SCARE_CREEPERS.get(), target)
                 && event.getEntity() instanceof Mob creeper
                 && creeper.getType().is(ModTags.CREEPERS)
         ) {
@@ -84,7 +84,7 @@ public class ArtifactEventsNeoForge {
     }
 
     private static void onKittySlippersLivingUpdate(LivingEvent.LivingTickEvent event) {
-        if (AbilityHelper.hasAbility(ModAbilities.SCARE_CREEPERS, event.getEntity().getLastHurtByMob())
+        if (AbilityHelper.hasAbility(ModAbilities.SCARE_CREEPERS.get(), event.getEntity().getLastHurtByMob())
                 && event.getEntity().getType().is(ModTags.CREEPERS)
         ) {
             event.getEntity().setLastHurtByMob(null);
@@ -106,7 +106,7 @@ public class ArtifactEventsNeoForge {
         LivingEntity entity = event.getEntity();
         AttributeInstance gravity = entity.getAttribute(NeoForgeMod.ENTITY_GRAVITY.value());
         if (gravity != null) {
-            boolean isInWater = entity.isInWater() && !AbilityHelper.hasAbility(ModAbilities.SINKING, entity);
+            boolean isInWater = entity.isInWater() && !AbilityHelper.hasAbility(ModAbilities.SINKING.get(), entity);
             if (ModGameRules.UMBRELLA_IS_GLIDER.get()
                     && !entity.onGround() && !isInWater
                     && entity.getDeltaMovement().y < 0

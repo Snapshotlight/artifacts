@@ -22,7 +22,7 @@ public class GameRendererMixin {
         if (effect == null || effect.getDuration() - f > 60) {
             return original;
         }
-        double scale = AbilityHelper.maxDouble(ModAbilities.NIGHT_VISION, entity, NightVisionAbility::getStrength, false);
+        double scale = AbilityHelper.maxDouble(ModAbilities.NIGHT_VISION.get(), entity, NightVisionAbility::getStrength, false);
         return Mth.lerp(Math.max(0, effect.getDuration() - f - 40) / (60 - 40), (float) scale, original);
     }
 }

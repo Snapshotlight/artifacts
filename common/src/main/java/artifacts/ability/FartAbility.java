@@ -11,7 +11,7 @@ public class FartAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.FART;
+        return ModAbilities.FART.get();
     }
 
     @Override

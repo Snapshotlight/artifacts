@@ -14,7 +14,7 @@ public class KnockbackAbility implements ArtifactAbility {
     public static EventResult onLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {
         LivingEntity attacker = DamageSourceHelper.getAttacker(damageSource);
         if (attacker != null) {
-            double knockbackBonus = AbilityHelper.sumDouble(ModAbilities.KNOCKBACK, attacker, KnockbackAbility::getStrength, false);
+            double knockbackBonus = AbilityHelper.sumDouble(ModAbilities.KNOCKBACK.get(), attacker, KnockbackAbility::getStrength, false);
             entity.knockback(knockbackBonus, Mth.sin((float) (attacker.getYRot() * (Math.PI / 180))), -Mth.cos((float) (attacker.getYRot() * (Math.PI / 180))));
         }
         return EventResult.pass();
@@ -26,7 +26,7 @@ public class KnockbackAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.KNOCKBACK;
+        return ModAbilities.KNOCKBACK.get();
     }
 
     @Override

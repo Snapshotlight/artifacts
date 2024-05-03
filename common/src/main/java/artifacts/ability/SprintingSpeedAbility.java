@@ -19,7 +19,7 @@ public class SprintingSpeedAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.SPRINTING_SPEED;
+        return ModAbilities.SPRINTING_SPEED.get();
     }
 
     @Override

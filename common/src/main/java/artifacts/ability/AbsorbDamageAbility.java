@@ -15,7 +15,7 @@ public class AbsorbDamageAbility implements ArtifactAbility {
     public static void onLivingDamage(LivingEntity entity, DamageSource damageSource, float amount) {
         LivingEntity attacker = DamageSourceHelper.getAttacker(damageSource);
         if (attacker != null && DamageSourceHelper.isMeleeAttack(damageSource)) {
-            AbilityHelper.forEach(ModAbilities.ABSORB_DAMAGE, entity, ability -> {
+            AbilityHelper.forEach(ModAbilities.ABSORB_DAMAGE.get(), entity, ability -> {
                 int maxHealthAbsorbed = ability.getMaxHealingPerHit();
                 double absorptionRatio = ability.getAbsorptionRatio();
                 double absorptionProbability = ability.getAbsorptionChance();
@@ -44,7 +44,7 @@ public class AbsorbDamageAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.ABSORB_DAMAGE;
+        return ModAbilities.ABSORB_DAMAGE.get();
     }
 
     @Override

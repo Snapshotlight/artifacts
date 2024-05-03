@@ -17,7 +17,7 @@ public class SprintingStepHeightAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.SPRINTING_STEP_HEIGHT;
+        return ModAbilities.SPRINTING_STEP_HEIGHT.get();
     }
 
     @Override

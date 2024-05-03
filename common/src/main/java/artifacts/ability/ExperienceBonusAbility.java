@@ -13,7 +13,7 @@ public class ExperienceBonusAbility implements ArtifactAbility {
             return 0;
         }
 
-        double multiplier = AbilityHelper.maxDouble(ModAbilities.EXPERIENCE_BONUS, attacker, ExperienceBonusAbility::getExperienceBonus, false);
+        double multiplier = AbilityHelper.maxDouble(ModAbilities.EXPERIENCE_BONUS.get(), attacker, ExperienceBonusAbility::getExperienceBonus, false);
         int experienceBonus = (int) (originalXP * multiplier);
         return Math.max(0, experienceBonus);
     }
@@ -24,7 +24,7 @@ public class ExperienceBonusAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.EXPERIENCE_BONUS;
+        return ModAbilities.EXPERIENCE_BONUS.get();
     }
 
     @Override

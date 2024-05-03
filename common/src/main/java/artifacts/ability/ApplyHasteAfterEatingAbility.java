@@ -12,7 +12,7 @@ public class ApplyHasteAfterEatingAbility implements ArtifactAbility {
 
     public static void applyHasteEffect(LivingEntity entity, FoodProperties properties) {
         if (properties.getNutrition() > 0 && !properties.canAlwaysEat()) {
-            AbilityHelper.forEach(ModAbilities.APPLY_HASTE_AFTER_EATING, entity, ability -> {
+            AbilityHelper.forEach(ModAbilities.APPLY_HASTE_AFTER_EATING.get(), entity, ability -> {
                 int duration = ability.getDurationPerFoodPoint() * properties.getNutrition();
                 entity.addEffect((new MobEffectInstance(MobEffects.DIG_SPEED, duration, ability.getHasteLevel() - 1, false, false, true)));
             });
@@ -29,7 +29,7 @@ public class ApplyHasteAfterEatingAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.APPLY_HASTE_AFTER_EATING;
+        return ModAbilities.APPLY_HASTE_AFTER_EATING.get();
     }
 
     @Override

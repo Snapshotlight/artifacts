@@ -6,7 +6,7 @@ public class MakePiglinsNeutralAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.MAKE_PIGLINS_NEUTRAL;
+        return ModAbilities.MAKE_PIGLINS_NEUTRAL.get();
     }
 
     @Override

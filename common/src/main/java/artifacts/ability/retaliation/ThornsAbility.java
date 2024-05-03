@@ -20,7 +20,7 @@ public class ThornsAbility extends RetaliationAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.THORNS;
+        return ModAbilities.THORNS.get();
     }
 
     @Override

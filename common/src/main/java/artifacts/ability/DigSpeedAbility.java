@@ -10,7 +10,7 @@ public class DigSpeedAbility implements ArtifactAbility {
 
     public static float getSpeedBonus(Player player, BlockState state) {
         if (player.hasCorrectToolForDrops(state)) {
-            return (float) AbilityHelper.sumDouble(ModAbilities.DIG_SPEED, player, DigSpeedAbility::getSpeedBonus, false);
+            return (float) AbilityHelper.sumDouble(ModAbilities.DIG_SPEED.get(), player, DigSpeedAbility::getSpeedBonus, false);
         }
         return 0;
     }
@@ -21,7 +21,7 @@ public class DigSpeedAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.DIG_SPEED;
+        return ModAbilities.DIG_SPEED.get();
     }
 
     @Override

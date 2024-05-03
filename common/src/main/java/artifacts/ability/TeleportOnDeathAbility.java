@@ -23,7 +23,7 @@ public class TeleportOnDeathAbility implements ArtifactAbility {
     public static ItemStack findTotem(LivingEntity entity) {
         for (InteractionHand hand : InteractionHand.values()) {
             ItemStack handItem = entity.getItemInHand(hand);
-            if (AbilityHelper.hasAbility(ModAbilities.TELEPORT_ON_DEATH, handItem)
+            if (AbilityHelper.hasAbility(ModAbilities.TELEPORT_ON_DEATH.get(), handItem)
                     && !(entity instanceof Player player && player.getCooldowns().isOnCooldown(handItem.getItem()))
             ) {
                 return handItem;
@@ -31,7 +31,7 @@ public class TeleportOnDeathAbility implements ArtifactAbility {
         }
 
         return PlatformServices.platformHelper
-                .findAllEquippedBy(entity, stack -> AbilityHelper.hasAbility(ModAbilities.TELEPORT_ON_DEATH, stack)
+                .findAllEquippedBy(entity, stack -> AbilityHelper.hasAbility(ModAbilities.TELEPORT_ON_DEATH.get(), stack)
                         && !(entity instanceof Player player && player.getCooldowns().isOnCooldown(stack.getItem())))
                 .findFirst()
                 .orElse(ItemStack.EMPTY);
@@ -83,7 +83,7 @@ public class TeleportOnDeathAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.TELEPORT_ON_DEATH;
+        return ModAbilities.TELEPORT_ON_DEATH.get();
     }
 
     @Override

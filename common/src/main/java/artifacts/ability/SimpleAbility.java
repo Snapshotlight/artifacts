@@ -7,17 +7,17 @@ import java.util.function.Supplier;
 
 public class SimpleAbility implements ArtifactAbility {
 
-    private final Type<SimpleAbility> type;
+    private final Supplier<Type<SimpleAbility>> type;
     private final Supplier<Boolean> isEnabled;
 
-    public SimpleAbility(Type<SimpleAbility> type, Supplier<Boolean> isEnabled) {
+    public SimpleAbility(Supplier<Type<SimpleAbility>> type, Supplier<Boolean> isEnabled) {
         this.type = type;
         this.isEnabled = isEnabled;
     }
 
     @Override
     public Type<?> getType() {
-        return type;
+        return type.get();
     }
 
     @Override

@@ -24,7 +24,7 @@ public class DoubleJumpAbility implements ArtifactAbility {
         }
         if (player.isSprinting()) {
             upwardsMotion *= 1 + AbilityHelper.maxDouble(
-                    ModAbilities.DOUBLE_JUMP, player,
+                    ModAbilities.DOUBLE_JUMP.get(), player,
                     DoubleJumpAbility::getSprintJumpVerticalVelocity, false
             );
         }
@@ -33,7 +33,7 @@ public class DoubleJumpAbility implements ArtifactAbility {
         double motionMultiplier = 0;
         if (player.isSprinting()) {
             motionMultiplier = AbilityHelper.maxDouble(
-                    ModAbilities.DOUBLE_JUMP, player,
+                    ModAbilities.DOUBLE_JUMP.get(), player,
                     DoubleJumpAbility::getSprintJumpHorizontalVelocity, false
             );
         }
@@ -53,7 +53,7 @@ public class DoubleJumpAbility implements ArtifactAbility {
             player.causeFoodExhaustion(0.05F);
         }
 
-        if (AbilityHelper.hasAbility(ModAbilities.FART, player)) {
+        if (AbilityHelper.hasAbility(ModAbilities.FART.get(), player)) {
             player.playSound(ModSoundEvents.FART.get(), 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
         } else {
             player.playSound(SoundEvents.WOOL_FALL, 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
@@ -61,7 +61,7 @@ public class DoubleJumpAbility implements ArtifactAbility {
     }
 
     public static float getReducedFallDistance(LivingEntity entity, float distance) {
-        if (AbilityHelper.hasAbility(ModAbilities.DOUBLE_JUMP, entity)) {
+        if (AbilityHelper.hasAbility(ModAbilities.DOUBLE_JUMP.get(), entity)) {
             return Math.max(0, distance - 3);
         }
         return distance;
@@ -77,7 +77,7 @@ public class DoubleJumpAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.DOUBLE_JUMP;
+        return ModAbilities.DOUBLE_JUMP.get();
     }
 
     @Override

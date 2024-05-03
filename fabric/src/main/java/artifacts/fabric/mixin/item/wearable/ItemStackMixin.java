@@ -31,12 +31,12 @@ public class ItemStackMixin {
         //noinspection ConstantConditions
         ItemStack stack = (ItemStack) (Object) this;
 
-        if (!Artifacts.CONFIG.client.showTooltips || !AbilityHelper.hasAbility(ModAbilities.ATTRIBUTE_MODIFIER, stack)) {
+        if (!Artifacts.CONFIG.client.showTooltips || !AbilityHelper.hasAbility(ModAbilities.ATTRIBUTE_MODIFIER.get(), stack)) {
             return;
         }
 
         tooltip.add(Component.translatable("trinkets.tooltip.attributes.all").withStyle(ChatFormatting.GRAY));
-        AbilityHelper.getAbilities(ModAbilities.ATTRIBUTE_MODIFIER, stack).forEach(ability -> {
+        AbilityHelper.getAbilities(ModAbilities.ATTRIBUTE_MODIFIER.get(), stack).forEach(ability -> {
             double amount = ability.getAmount();
 
             if (ability.getOperation() == AttributeModifier.Operation.ADDITION) {

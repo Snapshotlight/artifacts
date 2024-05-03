@@ -24,7 +24,7 @@ public class ReduceEatingDurationAbility implements ArtifactAbility {
             return original;
         }
         double newDuration = original * AbilityHelper.minDouble(
-                ModAbilities.REDUCE_EATING_DURATION, entity, 1,
+                ModAbilities.REDUCE_EATING_DURATION.get(), entity, 1,
                 ability -> ability.getAnim() == anim ? ability.getDurationMultiplier() : 1,
                 false);
         return (int) newDuration;
@@ -40,7 +40,7 @@ public class ReduceEatingDurationAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.REDUCE_EATING_DURATION;
+        return ModAbilities.REDUCE_EATING_DURATION.get();
     }
 
     @Override

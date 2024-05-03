@@ -19,7 +19,7 @@ public class NightVisionAbility extends MobEffectAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.NIGHT_VISION;
+        return ModAbilities.NIGHT_VISION.get();
     }
 
     @Override

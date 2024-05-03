@@ -61,7 +61,7 @@ public class AttributeModifierAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.ATTRIBUTE_MODIFIER;
+        return ModAbilities.ATTRIBUTE_MODIFIER.get();
     }
 
     @Override

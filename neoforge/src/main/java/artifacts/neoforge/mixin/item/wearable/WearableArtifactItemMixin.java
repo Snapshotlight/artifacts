@@ -31,7 +31,7 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
         Set<String> curioTags = CuriosApi.getItemStackSlots(stack).keySet();
         List<String> slots = new ArrayList<>(curioTags);
 
-        if (!Artifacts.CONFIG.client.showTooltips || slots.isEmpty() || !AbilityHelper.hasAbility(ModAbilities.ATTRIBUTE_MODIFIER, stack)) {
+        if (!Artifacts.CONFIG.client.showTooltips || slots.isEmpty() || !AbilityHelper.hasAbility(ModAbilities.ATTRIBUTE_MODIFIER.get(), stack)) {
             return;
         }
 
@@ -40,7 +40,7 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
         String identifier = slots.contains("curio") ? "curio" : slots.get(0);
         tooltipList.add(Component.translatable("curios.modifiers." + identifier));
 
-        AbilityHelper.getAbilities(ModAbilities.ATTRIBUTE_MODIFIER, stack).forEach(ability -> {
+        AbilityHelper.getAbilities(ModAbilities.ATTRIBUTE_MODIFIER.get(), stack).forEach(ability -> {
             double amount = ability.getAmount();
 
             if (ability.getOperation() == AttributeModifier.Operation.ADDITION) {

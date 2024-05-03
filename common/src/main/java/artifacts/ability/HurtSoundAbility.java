@@ -17,7 +17,7 @@ public class HurtSoundAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.MODIFY_HURT_SOUND;
+        return ModAbilities.MODIFY_HURT_SOUND.get();
     }
 
     @Override

@@ -15,15 +15,15 @@ import java.util.List;
 public class AttractItemsAbility implements ArtifactAbility {
 
     public static EventResult onItemToss(Player player, ItemEntity entity) {
-        if (AbilityHelper.hasAbility(ModAbilities.ATTRACT_ITEMS, player, true)) {
-            AbilityHelper.addCooldown(ModAbilities.ATTRACT_ITEMS, player, 5 * 20);
+        if (AbilityHelper.hasAbility(ModAbilities.ATTRACT_ITEMS.get(), player, true)) {
+            AbilityHelper.addCooldown(ModAbilities.ATTRACT_ITEMS.get(), player, 5 * 20);
         }
         return EventResult.pass();
     }
     
     @Override
     public Type<?> getType() {
-        return ModAbilities.ATTRACT_ITEMS;
+        return ModAbilities.ATTRACT_ITEMS.get();
     }
 
     @Override

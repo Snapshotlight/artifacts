@@ -17,7 +17,7 @@ public class RemoveBadEffectsAbility implements ArtifactAbility {
     }
     @Override
     public Type<?> getType() {
-        return ModAbilities.REMOVE_BAD_EFFECTS;
+        return ModAbilities.REMOVE_BAD_EFFECTS.get();
     }
 
     @Override

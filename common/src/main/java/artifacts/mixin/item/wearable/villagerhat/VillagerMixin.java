@@ -14,6 +14,6 @@ public abstract class VillagerMixin {
 
     @ModifyExpressionValue(method = "updateSpecialPrices", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/npc/Villager;getPlayerReputation(Lnet/minecraft/world/entity/player/Player;)I"))
     private int increaseReputation(int original, Player player) {
-        return original + AbilityHelper.sumInt(ModAbilities.VILLAGER_REPUTATION, player, VillagerReputation::getReputationBonus, false);
+        return original + AbilityHelper.sumInt(ModAbilities.VILLAGER_REPUTATION.get(), player, VillagerReputation::getReputationBonus, false);
     }
 }

@@ -13,7 +13,7 @@ public class MountSpeedAbility extends MobEffectAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.MOUNT_SPEED;
+        return ModAbilities.MOUNT_SPEED.get();
     }
 
     @Override

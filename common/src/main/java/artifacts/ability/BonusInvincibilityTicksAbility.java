@@ -15,7 +15,7 @@ public class BonusInvincibilityTicksAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.BONUS_INVINCIBILITY_TICKS;
+        return ModAbilities.BONUS_INVINCIBILITY_TICKS.get();
     }
 
     @Override

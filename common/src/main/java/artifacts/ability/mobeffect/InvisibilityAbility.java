@@ -12,6 +12,6 @@ public class InvisibilityAbility extends MobEffectAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.INVISIBILITY;
+        return ModAbilities.INVISIBILITY.get();
     }
 }

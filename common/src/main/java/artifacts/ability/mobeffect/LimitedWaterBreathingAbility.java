@@ -28,7 +28,7 @@ public class LimitedWaterBreathingAbility extends MobEffectAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.LIMITED_WATER_BREATHING;
+        return ModAbilities.LIMITED_WATER_BREATHING.get();
     }
 
     @Override

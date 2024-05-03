@@ -21,7 +21,7 @@ public class CustomTooltipAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.CUSTOM_TOOLTIP;
+        return ModAbilities.CUSTOM_TOOLTIP.get();
     }
 
     @Override

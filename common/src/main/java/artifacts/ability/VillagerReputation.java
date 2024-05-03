@@ -11,7 +11,7 @@ public class VillagerReputation implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.VILLAGER_REPUTATION;
+        return ModAbilities.VILLAGER_REPUTATION.get();
     }
 
     @Override

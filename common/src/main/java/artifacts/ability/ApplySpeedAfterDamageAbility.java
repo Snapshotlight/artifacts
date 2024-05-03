@@ -13,13 +13,13 @@ public class ApplySpeedAfterDamageAbility implements ArtifactAbility {
 
     public static EventResult onLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {
         if (!entity.level().isClientSide() && amount >= 1) {
-            if (AbilityHelper.hasAbility(ModAbilities.APPLY_SPEED_AFTER_DAMAGE, entity, true)) {
-                int duration = AbilityHelper.maxInt(ModAbilities.APPLY_SPEED_AFTER_DAMAGE, entity, ApplySpeedAfterDamageAbility::getSpeedDuration, true);
-                int level = AbilityHelper.maxInt(ModAbilities.APPLY_SPEED_AFTER_DAMAGE, entity, ApplySpeedAfterDamageAbility::getSpeedLevel, true);
+            if (AbilityHelper.hasAbility(ModAbilities.APPLY_SPEED_AFTER_DAMAGE.get(), entity, true)) {
+                int duration = AbilityHelper.maxInt(ModAbilities.APPLY_SPEED_AFTER_DAMAGE.get(), entity, ApplySpeedAfterDamageAbility::getSpeedDuration, true);
+                int level = AbilityHelper.maxInt(ModAbilities.APPLY_SPEED_AFTER_DAMAGE.get(), entity, ApplySpeedAfterDamageAbility::getSpeedLevel, true);
 
                 if (duration > 0 && level > 0) {
                     entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, duration, level - 1, false, false));
-                    AbilityHelper.applyCooldowns(ModAbilities.APPLY_SPEED_AFTER_DAMAGE, entity, ApplySpeedAfterDamageAbility::getCooldown);
+                    AbilityHelper.applyCooldowns(ModAbilities.APPLY_SPEED_AFTER_DAMAGE.get(), entity, ApplySpeedAfterDamageAbility::getCooldown);
                 }
             }
         }
@@ -40,7 +40,7 @@ public class ApplySpeedAfterDamageAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.APPLY_SPEED_AFTER_DAMAGE;
+        return ModAbilities.APPLY_SPEED_AFTER_DAMAGE.get();
     }
 
     @Override

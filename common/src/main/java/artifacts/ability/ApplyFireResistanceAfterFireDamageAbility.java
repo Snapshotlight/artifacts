@@ -18,7 +18,7 @@ public class ApplyFireResistanceAfterFireDamageAbility implements ArtifactAbilit
                 && damageSource.is(DamageTypeTags.IS_FIRE)
                 && entity instanceof Player player
         ) {
-            AbilityHelper.forEach(ModAbilities.APPLY_FIRE_RESISTANCE_AFTER_FIRE_DAMAGE, entity, (ability, stack) -> {
+            AbilityHelper.forEach(ModAbilities.APPLY_FIRE_RESISTANCE_AFTER_FIRE_DAMAGE.get(), entity, (ability, stack) -> {
                 entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, ability.getFireResistanceDuration(), 0, false, false, true));
                 if (ability.getCooldown() > 0) {
                     player.getCooldowns().addCooldown(stack.getItem(), ability.getCooldown());
@@ -37,7 +37,7 @@ public class ApplyFireResistanceAfterFireDamageAbility implements ArtifactAbilit
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.APPLY_FIRE_RESISTANCE_AFTER_FIRE_DAMAGE;
+        return ModAbilities.APPLY_FIRE_RESISTANCE_AFTER_FIRE_DAMAGE.get();
     }
 
     @Override

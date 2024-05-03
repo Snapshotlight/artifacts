@@ -26,7 +26,7 @@ public class DoubleJumpPacket {
     }
 
     void apply(Supplier<NetworkManager.PacketContext> context) {
-        if (context.get().getPlayer() instanceof ServerPlayer player && AbilityHelper.hasAbility(ModAbilities.DOUBLE_JUMP, player)) {
+        if (context.get().getPlayer() instanceof ServerPlayer player && AbilityHelper.hasAbility(ModAbilities.DOUBLE_JUMP.get(), player)) {
             context.get().queue(() -> {
                 DoubleJumpAbility.jump(player);
 

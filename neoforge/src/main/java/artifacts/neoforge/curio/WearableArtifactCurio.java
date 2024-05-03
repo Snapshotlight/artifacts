@@ -58,7 +58,7 @@ public class WearableArtifactCurio implements ICurioItem {
 
     @Override
     public int getFortuneLevel(SlotContext slotContext, @Nullable LootContext lootContext, ItemStack stack) {
-        return AbilityHelper.getAbilities(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, stack)
+        return AbilityHelper.getAbilities(ModAbilities.INCREASE_ENCHANTMENT_LEVEL.get(), stack)
                 .filter(ability -> ability.getEnchantment() == Enchantments.BLOCK_FORTUNE)
                 .mapToInt(IncreaseEnchantmentLevelAbility::getAmount)
                 .sum();
@@ -66,7 +66,7 @@ public class WearableArtifactCurio implements ICurioItem {
 
     @Override
     public int getLootingLevel(SlotContext slotContext, DamageSource source, LivingEntity target, int baseLooting, ItemStack stack) {
-        return AbilityHelper.getAbilities(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, stack)
+        return AbilityHelper.getAbilities(ModAbilities.INCREASE_ENCHANTMENT_LEVEL.get(), stack)
                 .filter(ability -> ability.getEnchantment() == Enchantments.MOB_LOOTING)
                 .mapToInt(IncreaseEnchantmentLevelAbility::getAmount)
                 .sum();
@@ -74,11 +74,11 @@ public class WearableArtifactCurio implements ICurioItem {
 
     @Override
     public boolean makesPiglinsNeutral(SlotContext slotContext, ItemStack stack) {
-        return AbilityHelper.hasAbility(ModAbilities.MAKE_PIGLINS_NEUTRAL, stack);
+        return AbilityHelper.hasAbility(ModAbilities.MAKE_PIGLINS_NEUTRAL.get(), stack);
     }
 
     @Override
     public boolean canWalkOnPowderedSnow(SlotContext slotContext, ItemStack stack) {
-        return AbilityHelper.hasAbility(ModAbilities.WALK_ON_POWDER_SNOW, stack);
+        return AbilityHelper.hasAbility(ModAbilities.WALK_ON_POWDER_SNOW.get(), stack);
     }
 }

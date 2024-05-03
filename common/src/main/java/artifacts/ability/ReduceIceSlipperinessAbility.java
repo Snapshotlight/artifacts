@@ -16,7 +16,7 @@ public class ReduceIceSlipperinessAbility implements ArtifactAbility {
                 && friction > 0.6F
         ) {
             double slipperinessReduction = AbilityHelper.maxDouble(
-                    ModAbilities.REDUCE_ICE_SLIPPERINESS,
+                    ModAbilities.REDUCE_ICE_SLIPPERINESS.get(),
                     entity,
                     ReduceIceSlipperinessAbility::getSlipperinessReduction,
                     false
@@ -32,7 +32,7 @@ public class ReduceIceSlipperinessAbility implements ArtifactAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.REDUCE_ICE_SLIPPERINESS;
+        return ModAbilities.REDUCE_ICE_SLIPPERINESS.get();
     }
 
     @Override

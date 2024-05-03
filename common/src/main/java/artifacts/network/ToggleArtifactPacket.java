@@ -16,13 +16,7 @@ public class ToggleArtifactPacket {
     public ToggleArtifactPacket(FriendlyByteBuf buffer) {
         // TODO use registry for abilities
         ResourceLocation id = buffer.readResourceLocation();
-        if (id.equals(ModAbilities.NIGHT_VISION.id())) {
-            this.ability = ModAbilities.NIGHT_VISION;
-        } else if (id.equals(ModAbilities.ATTRACT_ITEMS.id())) {
-            this.ability = ModAbilities.ATTRACT_ITEMS;
-        } else {
-            throw new IllegalStateException();
-        }
+        this.ability = ModAbilities.REGISTRY.get(id);
     }
 
     public ToggleArtifactPacket(ArtifactAbility.Type<?> ability) {
@@ -30,7 +24,7 @@ public class ToggleArtifactPacket {
     }
 
     void encode(FriendlyByteBuf buffer) {
-        buffer.writeResourceLocation(ability.id());
+        buffer.writeResourceLocation(ModAbilities.REGISTRY.getId(ability));
     }
 
     void apply(Supplier<NetworkManager.PacketContext> context) {
