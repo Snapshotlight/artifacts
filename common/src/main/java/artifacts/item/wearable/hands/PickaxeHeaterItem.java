@@ -1,8 +1,9 @@
 package artifacts.item.wearable.hands;
 
+import artifacts.ability.SimpleAbility;
 import artifacts.item.wearable.WearableArtifactItem;
-import artifacts.registry.ModGameRules;
-import artifacts.registry.ModItems;
+import artifacts.registry.ModAbilities;
+import artifacts.util.AbilityHelper;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -27,9 +28,8 @@ import java.util.Optional;
 
 public class PickaxeHeaterItem extends WearableArtifactItem {
 
-    @Override
-    public boolean hasNonCosmeticEffects() {
-        return ModGameRules.PICKAXE_HEATER_ENABLED.get();
+    public PickaxeHeaterItem() {
+        super(SimpleAbility.smeltOres());
     }
 
     @Override
@@ -38,9 +38,8 @@ public class PickaxeHeaterItem extends WearableArtifactItem {
     }
 
     public static ObjectArrayList<ItemStack> getModifiedBlockDrops(ObjectArrayList<ItemStack> items, LootContext context, TagKey<Block> ores, TagKey<Item> rawOres) {
-        if (ModGameRules.PICKAXE_HEATER_ENABLED.get()
-                && context.getParamOrNull(LootContextParams.THIS_ENTITY) instanceof LivingEntity entity
-                && ModItems.PICKAXE_HEATER.get().isEquippedBy(entity)
+        if (context.getParamOrNull(LootContextParams.THIS_ENTITY) instanceof LivingEntity entity
+                && AbilityHelper.hasAbility(ModAbilities.SMELT_ORES, entity)
                 && context.hasParam(LootContextParams.ORIGIN)
                 && context.hasParam(LootContextParams.BLOCK_STATE)
                 && context.getParam(LootContextParams.BLOCK_STATE).is(ores)

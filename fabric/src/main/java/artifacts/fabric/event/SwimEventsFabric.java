@@ -1,7 +1,6 @@
 package artifacts.fabric.event;
 
-import artifacts.component.SwimEventHandler;
-import artifacts.item.wearable.feet.AquaDashersItem;
+import artifacts.component.SwimEvents;
 import be.florens.expandability.api.fabric.LivingFluidCollisionCallback;
 import be.florens.expandability.api.fabric.PlayerSwimCallback;
 import dev.architectury.event.EventResult;
@@ -18,7 +17,7 @@ public class SwimEventsFabric {
     }
 
     private static TriState onPlayerSwim(Player player) {
-        EventResult result = SwimEventHandler.onPlayerSwim(player);
+        EventResult result = SwimEvents.onPlayerSwim(player);
         if (!result.interruptsFurtherEvaluation()) {
             return TriState.DEFAULT;
         } else if (result.isTrue()) {
@@ -29,6 +28,6 @@ public class SwimEventsFabric {
     }
 
     private static boolean onAquaDashersFluidCollision(LivingEntity entity, FluidState fluidState) {
-        return AquaDashersItem.onFluidCollision(entity, fluidState);
+        return SwimEvents.onFluidCollision(entity, fluidState);
     }
 }

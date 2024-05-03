@@ -1,11 +1,10 @@
 package artifacts.client;
 
-import artifacts.item.wearable.belt.CloudInABottleItem;
-import artifacts.item.wearable.necklace.CharmOfSinkingItem;
+import artifacts.ability.DoubleJumpAbility;
 import artifacts.network.DoubleJumpPacket;
 import artifacts.network.NetworkHandler;
-import artifacts.registry.ModGameRules;
-import artifacts.registry.ModItems;
+import artifacts.registry.ModAbilities;
+import artifacts.util.AbilityHelper;
 import dev.architectury.event.events.client.ClientTickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -27,16 +26,16 @@ public class CloudInABottleInputHandler {
     }
 
     private static void handleCloudInABottleInput(LocalPlayer player) {
-        if ((player.onGround() || player.onClimbable()) && (!player.isInWater() || CharmOfSinkingItem.shouldSink(player))) {
+        if ((player.onGround() || player.onClimbable()) && (!player.isInWater() || AbilityHelper.hasAbility(ModAbilities.SINKING, player))) {
             hasReleasedJumpKey = false;
             canDoubleJump = true;
         } else if (!player.input.jumping) {
             hasReleasedJumpKey = true;
         } else if (!player.getAbilities().flying && canDoubleJump && hasReleasedJumpKey) {
             canDoubleJump = false;
-            if (ModItems.CLOUD_IN_A_BOTTLE.get().isEquippedBy(player) && ModGameRules.CLOUD_IN_A_BOTTLE_ENABLED.get()) {
+            if (AbilityHelper.hasAbility(ModAbilities.DOUBLE_JUMP, player)) {
                 NetworkHandler.CHANNEL.sendToServer(new DoubleJumpPacket());
-                CloudInABottleItem.jump(player);
+                DoubleJumpAbility.jump(player);
             }
         }
     }

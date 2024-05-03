@@ -1,8 +1,9 @@
 package artifacts;
 
-import artifacts.component.SwimEventHandler;
+import artifacts.component.SwimEvents;
 import artifacts.config.ModConfig;
 import artifacts.entity.MimicEntity;
+import artifacts.event.ArtifactEvents;
 import artifacts.network.NetworkHandler;
 import artifacts.registry.*;
 import dev.architectury.event.events.common.LifecycleEvent;
@@ -56,6 +57,7 @@ public class Artifacts {
         LifecycleEvent.SERVER_STARTED.register(ModGameRules::onServerStarted);
         PlayerEvent.PLAYER_JOIN.register(ModGameRules::onPlayerJoinLevel);
 
-        SwimEventHandler.register();
+        SwimEvents.register();
+        ArtifactEvents.register();
     }
 }

@@ -1,5 +1,7 @@
 package artifacts.fabric.platform;
 
+import artifacts.ability.ArtifactAbility;
+import artifacts.ability.SwimSpeedAbility;
 import artifacts.client.item.renderer.ArtifactRenderer;
 import artifacts.component.SwimData;
 import artifacts.fabric.client.CosmeticsHelper;
@@ -33,6 +35,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -47,8 +50,26 @@ public class FabricPlatformHelper implements PlatformHelper {
     }
 
     @Override
-    public Stream<ItemStack> findAllEquippedBy(LivingEntity entity, Item item) {
-        return TrinketsHelper.findAllEquippedBy(entity).filter(stack -> stack.getItem() == item);
+    public Stream<ItemStack> findAllEquippedBy(LivingEntity entity, Predicate<ItemStack> predicate) {
+        return TrinketsHelper.findAllEquippedBy(entity).filter(predicate);
+    }
+
+    @Override
+    public <T> T reduceItems(LivingEntity entity, T init, BiFunction<ItemStack, T, T> f) {
+        Optional<TrinketComponent> component = TrinketsApi.getTrinketComponent(entity);
+        if (component.isPresent()) {
+            for (Map<String, TrinketInventory> map : component.get().getInventory().values()) {
+                for (TrinketInventory inventory : map.values()) {
+                    for (int i = 0; i < inventory.getContainerSize(); i++) {
+                        ItemStack item = inventory.getItem(i);
+                        if (!item.isEmpty() && item.getItem() instanceof WearableArtifactItem) {
+                            init = f.apply(item, init);
+                        }
+                    }
+                }
+            }
+        }
+        return init;
     }
 
     @Override
@@ -89,6 +110,11 @@ public class FabricPlatformHelper implements PlatformHelper {
     @Override
     public SwimData getSwimData(LivingEntity player) {
         return ModComponents.SWIM_DATA.getNullable(player);
+    }
+
+    @Override
+    public ArtifactAbility getFlippersSwimAbility() {
+        return new SwimSpeedAbility();
     }
 
     @Override

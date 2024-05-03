@@ -1,9 +1,11 @@
 package artifacts.client;
 
 import artifacts.Artifacts;
+import artifacts.ability.SwimInAirAbility;
 import artifacts.component.SwimData;
 import artifacts.platform.PlatformServices;
-import artifacts.registry.ModGameRules;
+import artifacts.registry.ModAbilities;
+import artifacts.util.AbilityHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,8 +18,9 @@ public class HeliumFlamingoOverlay {
     private static final ResourceLocation HELIUM_FLAMINGO_ICON = Artifacts.id("textures/gui/icons.png");
 
     public static boolean renderOverlay(int height, GuiGraphics guiGraphics, int screenWidth, int screenHeight) {
-        boolean isEnabled = ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION.get() > 0;
-        if (!isEnabled || !(Minecraft.getInstance().getCameraEntity() instanceof LivingEntity player)) {
+        if (!(Minecraft.getInstance().getCameraEntity() instanceof LivingEntity player)
+                || !AbilityHelper.hasAbility(ModAbilities.SWIM_IN_AIR, player)
+        ) {
             return false;
         }
         SwimData swimData = PlatformServices.platformHelper.getSwimData(player);
@@ -35,9 +38,9 @@ public class HeliumFlamingoOverlay {
         if (Math.abs(swimTime) == 0) {
             return false;
         } else if (swimTime > 0) {
-            maxProgressTime = Math.max(1, ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION.get());
+            maxProgressTime = SwimInAirAbility.getFlightDuration(player);
         } else {
-            maxProgressTime = Math.max(20, ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION.get());
+            maxProgressTime = SwimInAirAbility.getRechargeDuration(player);
         }
 
         float progress = 1 - Math.abs(swimTime) / (float) maxProgressTime;

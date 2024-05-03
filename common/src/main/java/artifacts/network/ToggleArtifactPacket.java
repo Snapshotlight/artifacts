@@ -1,37 +1,43 @@
 package artifacts.network;
 
+import artifacts.ability.ArtifactAbility;
 import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.registry.ModAbilities;
 import dev.architectury.networking.NetworkManager;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.Item;
 
 import java.util.function.Supplier;
 
 public class ToggleArtifactPacket {
 
-    private final WearableArtifactItem item;
+    private final ArtifactAbility.Type<?> ability;
 
     public ToggleArtifactPacket(FriendlyByteBuf buffer) {
-        Item item = BuiltInRegistries.ITEM.get(buffer.readResourceLocation());
-        if (!(item instanceof WearableArtifactItem wearableArtifactItem)) {
+        // TODO use registry for abilities
+        ResourceLocation id = buffer.readResourceLocation();
+        if (id.equals(ModAbilities.NIGHT_VISION.id())) {
+            this.ability = ModAbilities.NIGHT_VISION;
+        } else if (id.equals(ModAbilities.ATTRACT_ITEMS.id())) {
+            this.ability = ModAbilities.ATTRACT_ITEMS;
+        } else {
             throw new IllegalStateException();
         }
-        this.item = wearableArtifactItem;
     }
 
-    public ToggleArtifactPacket(WearableArtifactItem item) {
-        this.item = item;
+    public ToggleArtifactPacket(ArtifactAbility.Type<?> ability) {
+        this.ability = ability;
     }
 
     void encode(FriendlyByteBuf buffer) {
-        buffer.writeResourceLocation(BuiltInRegistries.ITEM.getKey(item));
+        buffer.writeResourceLocation(ability.id());
     }
 
     void apply(Supplier<NetworkManager.PacketContext> context) {
         if (context.get().getPlayer() instanceof ServerPlayer player) {
-            context.get().queue(() -> item.toggleItem(player));
+            // TODO ability toggles
+            // context.get().queue(() -> WearableArtifactItem.toggleItem(ability, player));
         }
     }
 }

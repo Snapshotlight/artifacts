@@ -1,8 +1,9 @@
 package artifacts.component;
 
+import artifacts.ability.SwimInAirAbility;
 import artifacts.network.NetworkHandler;
 import artifacts.network.SwimPacket;
-import artifacts.registry.ModGameRules;
+import net.minecraft.world.entity.LivingEntity;
 
 public class SwimData {
 
@@ -22,10 +23,10 @@ public class SwimData {
         return swimTime;
     }
 
-    public void setSwimming(boolean shouldSwim) {
+    public void setSwimming(LivingEntity entity, boolean shouldSwim) {
         if (this.shouldSwim && !shouldSwim) {
-            int rechargeTime = Math.max(20, ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION.get());
-            int maxFlightTime = Math.max(1, ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION.get());
+            int rechargeTime = SwimInAirAbility.getRechargeDuration(entity);
+            int maxFlightTime = Math.max(1, SwimInAirAbility.getFlightDuration(entity));
 
             setSwimTime((int) (-rechargeTime * getSwimTime() / (float) maxFlightTime));
         }

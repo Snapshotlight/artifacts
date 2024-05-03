@@ -1,7 +1,8 @@
 package artifacts.fabric.mixin.item.wearable.kittyslippers;
 
-import artifacts.registry.ModItems;
+import artifacts.registry.ModAbilities;
 import artifacts.registry.ModTags;
+import artifacts.util.AbilityHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -21,7 +22,7 @@ import java.util.function.Predicate;
 public abstract class NearestAttackableTargetGoalMixin<T extends LivingEntity> extends TargetGoal {
 
     @Unique
-    private static final Predicate<LivingEntity> NOT_WEARING_KITTY_SLIPPERS = entity -> !ModItems.KITTY_SLIPPERS.get().isEquippedBy(entity);
+    private static final Predicate<LivingEntity> NOT_WEARING_KITTY_SLIPPERS = entity -> !AbilityHelper.hasAbility(ModAbilities.SCARE_CREEPERS, entity);
 
     @Shadow
     @Final

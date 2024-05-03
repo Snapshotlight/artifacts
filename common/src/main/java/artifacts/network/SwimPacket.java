@@ -30,7 +30,7 @@ public class SwimPacket {
             context.get().queue(() -> {
                 SwimData swimData = PlatformServices.platformHelper.getSwimData(player);
                 if (swimData != null) {
-                    swimData.setSwimming(shouldSwim);
+                    swimData.setSwimming(player, shouldSwim);
                 }
             });
         }

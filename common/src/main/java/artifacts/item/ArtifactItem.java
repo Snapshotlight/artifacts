@@ -38,7 +38,7 @@ public abstract class ArtifactItem extends Item {
     }
 
     protected void addTooltip(ItemStack stack, List<MutableComponent> tooltip) {
-        if (isCosmetic()) {
+        if (isCosmetic(stack)) {
             tooltip.add(Component.translatable("%s.tooltip.cosmetic".formatted(Artifacts.MOD_ID)).withStyle(ChatFormatting.ITALIC));
         } else {
             addEffectsTooltip(stack, tooltip);
@@ -57,7 +57,7 @@ public abstract class ArtifactItem extends Item {
         return BuiltInRegistries.ITEM.getKey(this).getPath();
     }
 
-    public abstract boolean isCosmetic();
+    public abstract boolean isCosmetic(ItemStack stack);
 
     public boolean isOnCooldown(LivingEntity entity) {
         if (entity instanceof Player player) {

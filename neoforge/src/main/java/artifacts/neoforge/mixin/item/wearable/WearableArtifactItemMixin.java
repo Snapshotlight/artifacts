@@ -2,8 +2,9 @@ package artifacts.neoforge.mixin.item.wearable;
 
 import artifacts.Artifacts;
 import artifacts.item.ArtifactItem;
-import artifacts.item.wearable.ArtifactAttributeModifier;
 import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.registry.ModAbilities;
+import artifacts.util.AbilityHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -12,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.ArrayList;
@@ -24,9 +24,6 @@ import static net.minecraft.world.item.ItemStack.ATTRIBUTE_MODIFIER_FORMAT;
 @Mixin(WearableArtifactItem.class)
 public abstract class WearableArtifactItemMixin extends ArtifactItem {
 
-    @Shadow
-    public abstract List<ArtifactAttributeModifier> getAttributeModifiers();
-
     // mimic Curios' attribute tooltip
     @Override
     public void appendHoverText(ItemStack stack, Level world, List<Component> tooltipList, TooltipFlag flags) {
@@ -34,7 +31,7 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
         Set<String> curioTags = CuriosApi.getItemStackSlots(stack).keySet();
         List<String> slots = new ArrayList<>(curioTags);
 
-        if (!Artifacts.CONFIG.client.showTooltips || isCosmetic() || slots.isEmpty() || getAttributeModifiers().isEmpty()) {
+        if (!Artifacts.CONFIG.client.showTooltips || slots.isEmpty() || !AbilityHelper.hasAbility(ModAbilities.ATTRIBUTE_MODIFIER, stack)) {
             return;
         }
 
@@ -43,11 +40,11 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
         String identifier = slots.contains("curio") ? "curio" : slots.get(0);
         tooltipList.add(Component.translatable("curios.modifiers." + identifier));
 
-        for (ArtifactAttributeModifier modifier : getAttributeModifiers()) {
-            double amount = modifier.getAmount();
+        AbilityHelper.getAbilities(ModAbilities.ATTRIBUTE_MODIFIER, stack).forEach(ability -> {
+            double amount = ability.getAmount();
 
-            if (modifier.getOperation() == AttributeModifier.Operation.ADDITION) {
-                if (modifier.getAttribute().equals(Attributes.KNOCKBACK_RESISTANCE)) {
+            if (ability.getOperation() == AttributeModifier.Operation.ADDITION) {
+                if (ability.getAttribute().equals(Attributes.KNOCKBACK_RESISTANCE)) {
                     amount *= 10;
                 }
             } else {
@@ -55,10 +52,10 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
             }
 
             tooltipList.add((Component.translatable(
-                    "attribute.modifier.plus." + modifier.getOperation().toValue(),
+                    "attribute.modifier.plus." + ability.getOperation().toValue(),
                     ATTRIBUTE_MODIFIER_FORMAT.format(amount),
-                    Component.translatable(modifier.getAttribute().getDescriptionId())))
+                    Component.translatable(ability.getAttribute().getDescriptionId())))
                     .withStyle(ChatFormatting.BLUE));
-        }
+        });
     }
 }

@@ -1,5 +1,6 @@
 package artifacts.platform;
 
+import artifacts.ability.ArtifactAbility;
 import artifacts.client.item.renderer.ArtifactRenderer;
 import artifacts.component.SwimData;
 import artifacts.item.wearable.WearableArtifactItem;
@@ -13,6 +14,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -25,7 +27,13 @@ public interface PlatformHelper {
 
     boolean isEquippedBy(@Nullable LivingEntity entity, Predicate<ItemStack> predicate);
 
-    Stream<ItemStack> findAllEquippedBy(LivingEntity entity, Item item);
+    default Stream<ItemStack> findAllEquippedBy(LivingEntity entity, Item item) {
+        return findAllEquippedBy(entity, stack -> stack.is(item));
+    }
+
+    Stream<ItemStack> findAllEquippedBy(LivingEntity entity, Predicate<ItemStack> predicate);
+
+    <T> T reduceItems(LivingEntity entity, T init, BiFunction<ItemStack, T, T> f);
 
     boolean tryEquipInFirstSlot(LivingEntity entity, ItemStack item);
 
@@ -35,6 +43,8 @@ public interface PlatformHelper {
 
     @Nullable
     SwimData getSwimData(LivingEntity player);
+
+    ArtifactAbility getFlippersSwimAbility();
 
     boolean isEyeInWater(Player player);
 

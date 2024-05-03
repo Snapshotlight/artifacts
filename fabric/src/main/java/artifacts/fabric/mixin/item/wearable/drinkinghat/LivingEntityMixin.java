@@ -1,5 +1,6 @@
 package artifacts.fabric.mixin.item.wearable.drinkinghat;
 
+import artifacts.ability.ReduceEatingDurationAbility;
 import artifacts.item.wearable.head.DrinkingHatItem;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.world.InteractionHand;
@@ -18,7 +19,7 @@ public abstract class LivingEntityMixin {
     @ModifyExpressionValue(method = "startUsingItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getUseDuration()I"))
     private int decreaseDrinkingDuration(int original, InteractionHand hand) {
         //noinspection ConstantConditions
-        return DrinkingHatItem.getDrinkingHatUseDuration(
+        return ReduceEatingDurationAbility.getDrinkingHatUseDuration(
                 (LivingEntity) (Object) this,
                 getUseItem().getUseAnimation(),
                 original

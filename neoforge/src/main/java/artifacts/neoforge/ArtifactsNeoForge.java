@@ -2,20 +2,18 @@ package artifacts.neoforge;
 
 import artifacts.Artifacts;
 import artifacts.config.ModConfig;
+import artifacts.item.wearable.WearableArtifactItem;
 import artifacts.neoforge.curio.WearableArtifactCurio;
 import artifacts.neoforge.event.ArtifactEventsNeoForge;
 import artifacts.neoforge.event.SwimEventsNeoForge;
 import artifacts.neoforge.registry.ModAttachmentTypes;
-import artifacts.neoforge.registry.ModItemsNeoForge;
 import artifacts.neoforge.registry.ModLootModifiers;
-import artifacts.item.wearable.WearableArtifactItem;
 import artifacts.registry.ModItems;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.ConfigScreenHandler;
@@ -33,7 +31,6 @@ public class ArtifactsNeoForge {
         ModLootModifiers.LOOT_MODIFIERS.register(modBus);
         ModAttachmentTypes.ATTACHMENT_TYPES.register(modBus);
 
-        modBus.addListener(this::onCommonSetup);
         modBus.addListener(this::registerCapabilities);
 
         registerConfig();
@@ -56,9 +53,5 @@ public class ArtifactsNeoForge {
                 CuriosApi.registerCurio(item, new WearableArtifactCurio(item));
             }
         });
-    }
-
-    private void onCommonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(ModItemsNeoForge::register);
     }
 }

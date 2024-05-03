@@ -18,6 +18,6 @@ public class CosmeticsHelper {
     }
 
     private static boolean isCosmeticOnly(ItemStack stack) {
-        return stack.getItem() instanceof ArtifactItem item && item.isCosmetic();
+        return stack.getItem() instanceof ArtifactItem item && item.isCosmetic(stack);
     }
 }

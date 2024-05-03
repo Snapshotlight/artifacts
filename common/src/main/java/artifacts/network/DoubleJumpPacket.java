@@ -1,7 +1,10 @@
 package artifacts.network;
 
+import artifacts.ability.DoubleJumpAbility;
 import artifacts.item.wearable.belt.CloudInABottleItem;
+import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
+import artifacts.util.AbilityHelper;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -25,9 +28,9 @@ public class DoubleJumpPacket {
     }
 
     void apply(Supplier<NetworkManager.PacketContext> context) {
-        if (context.get().getPlayer() instanceof ServerPlayer player && ModGameRules.CLOUD_IN_A_BOTTLE_ENABLED.get()) {
+        if (context.get().getPlayer() instanceof ServerPlayer player && AbilityHelper.hasAbility(ModAbilities.DOUBLE_JUMP, player)) {
             context.get().queue(() -> {
-                CloudInABottleItem.jump(player);
+                DoubleJumpAbility.jump(player);
 
                 for (int i = 0; i < 20; ++i) {
                     double motionX = player.getRandom().nextGaussian() * 0.02;

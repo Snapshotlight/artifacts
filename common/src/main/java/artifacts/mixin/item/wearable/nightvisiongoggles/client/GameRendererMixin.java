@@ -1,7 +1,8 @@
 package artifacts.mixin.item.wearable.nightvisiongoggles.client;
 
-import artifacts.registry.ModGameRules;
-import artifacts.registry.ModItems;
+import artifacts.ability.mobeffect.NightVisionAbility;
+import artifacts.registry.ModAbilities;
+import artifacts.util.AbilityHelper;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
@@ -18,13 +19,10 @@ public class GameRendererMixin {
     @ModifyReturnValue(method = "getNightVisionScale", at = @At("RETURN"))
     private static float getNightVisionScale(float original, LivingEntity entity, float f) {
         MobEffectInstance effect = entity.getEffect(MobEffects.NIGHT_VISION);
-        if (effect == null
-                || effect.getDuration() - f > 60
-                || !ModItems.NIGHT_VISION_GOGGLES.get().isEquippedBy(entity)
-                || ModGameRules.NIGHT_VISION_GOGGLES_STRENGTH.get() == 0
-        ) {
+        if (effect == null || effect.getDuration() - f > 60) {
             return original;
         }
-        return Mth.lerp(Math.max(0, effect.getDuration() - f - 40) / (60 - 40), ModGameRules.NIGHT_VISION_GOGGLES_STRENGTH.get().floatValue(), original);
+        double scale = AbilityHelper.maxDouble(ModAbilities.NIGHT_VISION, entity, NightVisionAbility::getStrength, false);
+        return Mth.lerp(Math.max(0, effect.getDuration() - f - 40) / (60 - 40), (float) scale, original);
     }
 }

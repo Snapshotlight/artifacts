@@ -1,10 +1,14 @@
 package artifacts.neoforge.curio;
 
+import artifacts.ability.IncreaseEnchantmentLevelAbility;
 import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.registry.ModAbilities;
+import artifacts.util.AbilityHelper;
 import artifacts.util.DamageSourceHelper;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.storage.loot.LootContext;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.SlotContext;
@@ -54,21 +58,27 @@ public class WearableArtifactCurio implements ICurioItem {
 
     @Override
     public int getFortuneLevel(SlotContext slotContext, @Nullable LootContext lootContext, ItemStack stack) {
-        return item.getFortuneLevel();
+        return AbilityHelper.getAbilities(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, stack)
+                .filter(ability -> ability.getEnchantment() == Enchantments.BLOCK_FORTUNE)
+                .mapToInt(IncreaseEnchantmentLevelAbility::getAmount)
+                .sum();
     }
 
     @Override
     public int getLootingLevel(SlotContext slotContext, DamageSource source, LivingEntity target, int baseLooting, ItemStack stack) {
-        return item.getLootingLevel();
+        return AbilityHelper.getAbilities(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, stack)
+                .filter(ability -> ability.getEnchantment() == Enchantments.MOB_LOOTING)
+                .mapToInt(IncreaseEnchantmentLevelAbility::getAmount)
+                .sum();
     }
 
     @Override
     public boolean makesPiglinsNeutral(SlotContext slotContext, ItemStack stack) {
-        return item.makesPiglinsNeutral();
+        return AbilityHelper.hasAbility(ModAbilities.MAKE_PIGLINS_NEUTRAL, stack);
     }
 
     @Override
     public boolean canWalkOnPowderedSnow(SlotContext slotContext, ItemStack stack) {
-        return item.canWalkOnPowderedSnow();
+        return AbilityHelper.hasAbility(ModAbilities.WALK_ON_POWDER_SNOW, stack);
     }
 }

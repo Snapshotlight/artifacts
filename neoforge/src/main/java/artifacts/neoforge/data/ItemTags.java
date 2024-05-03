@@ -2,7 +2,9 @@ package artifacts.neoforge.data;
 
 import artifacts.Artifacts;
 import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.registry.ModAbilities;
 import artifacts.registry.ModItems;
+import artifacts.util.AbilityHelper;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -12,6 +14,7 @@ import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
@@ -108,9 +111,11 @@ public class ItemTags extends ItemTagsProvider {
                 ModItems.UMBRELLA.get()
         );
 
-        tag(net.minecraft.tags.ItemTags.PIGLIN_LOVED).add(BuiltInRegistries.ITEM.stream()
-                .filter(item -> item instanceof WearableArtifactItem artifactItem && artifactItem.makesPiglinsNeutral())
-                .toArray(Item[]::new)
+        tag(net.minecraft.tags.ItemTags.PIGLIN_LOVED).add(
+                ModItems.GOLDEN_HOOK.get(),
+                ModItems.CROSS_NECKLACE.get(),
+                ModItems.ANTIDOTE_VESSEL.get(),
+                ModItems.UNIVERSAL_ATTRACTOR.get()
         );
     }
 }

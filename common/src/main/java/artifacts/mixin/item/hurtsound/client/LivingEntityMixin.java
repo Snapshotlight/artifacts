@@ -1,6 +1,6 @@
 package artifacts.mixin.item.hurtsound.client;
 
-import artifacts.event.HurtSoundHandler;
+import artifacts.event.ArtifactEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,6 +21,6 @@ public abstract class LivingEntityMixin {
     @Inject(method = "handleDamageEvent", at = @At(value = "HEAD"))
     private void onClientPlayHurtSound(DamageSource damageSource, CallbackInfo ci) {
         //noinspection ConstantConditions
-        HurtSoundHandler.onPlaySoundAtEntity((LivingEntity) (Object) this, this.getSoundVolume(), this.getVoicePitch());
+        ArtifactEvents.onPlaySoundAtEntity((LivingEntity) (Object) this, this.getSoundVolume(), this.getVoicePitch());
     }
 }

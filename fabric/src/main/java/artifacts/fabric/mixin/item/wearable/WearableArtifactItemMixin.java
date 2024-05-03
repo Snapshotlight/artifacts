@@ -43,7 +43,7 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
 
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack slotStack, ItemStack holdingStack, Slot slot, ClickAction clickAction, Player player, SlotAccess slotAccess) {
-        if (isCosmetic()) { // Revert to default behavior if tooltip is not shown
+        if (isCosmetic(slotStack)) { // Revert to default behavior if tooltip is not shown
             return super.overrideOtherStackedOnMe(slotStack, holdingStack, slot, clickAction, player, slotAccess);
         }
 
@@ -57,7 +57,7 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
 
     @Override
     protected void addTooltip(ItemStack stack, List<MutableComponent> tooltip) {
-        if (!isCosmetic()) { // Don't render cosmetics tooltip if item is cosmetic-only
+        if (!isCosmetic(stack)) { // Don't render cosmetics tooltip if item is cosmetic-only
             if (CosmeticsHelper.areCosmeticsToggledOffByPlayer(stack)) {
                 tooltip.add(
                         Component.translatable("%s.tooltip.cosmetics_disabled".formatted(Artifacts.MOD_ID))

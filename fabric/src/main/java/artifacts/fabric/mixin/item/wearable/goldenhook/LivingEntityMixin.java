@@ -1,6 +1,6 @@
 package artifacts.fabric.mixin.item.wearable.goldenhook;
 
-import artifacts.item.wearable.hands.GoldenHookItem;
+import artifacts.ability.ExperienceBonusAbility;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,6 +27,6 @@ public abstract class LivingEntityMixin extends Entity {
     @ModifyArg(method = "dropExperience", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ExperienceOrb;award(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/phys/Vec3;I)V"))
     private int modifyXp(int originalXp) {
         //noinspection ConstantConditions
-        return originalXp + GoldenHookItem.getExperienceBonus(originalXp, (LivingEntity) (Object) this, lastHurtByPlayer);
+        return originalXp + ExperienceBonusAbility.getExperienceBonus(originalXp, (LivingEntity) (Object) this, lastHurtByPlayer);
     }
 }

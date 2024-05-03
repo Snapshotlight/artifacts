@@ -1,19 +1,13 @@
 package artifacts.neoforge.event;
 
+import artifacts.ability.*;
 import artifacts.item.UmbrellaItem;
-import artifacts.item.wearable.belt.CloudInABottleItem;
 import artifacts.item.wearable.belt.ObsidianSkullItem;
-import artifacts.item.wearable.feet.BunnyHoppersItem;
 import artifacts.item.wearable.feet.RootedBootsItem;
-import artifacts.item.wearable.hands.DiggingClawsItem;
-import artifacts.item.wearable.hands.GoldenHookItem;
-import artifacts.item.wearable.hands.OnionRingItem;
-import artifacts.item.wearable.hands.VampiricGloveItem;
-import artifacts.item.wearable.head.DrinkingHatItem;
-import artifacts.item.wearable.necklace.CharmOfSinkingItem;
+import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
-import artifacts.registry.ModItems;
 import artifacts.registry.ModTags;
+import artifacts.util.AbilityHelper;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -50,12 +44,14 @@ public class ArtifactEventsNeoForge {
     }
 
     private static void onLivingDamage(LivingDamageEvent event) {
-        VampiricGloveItem.onLivingDamage(event.getEntity(), event.getSource(), event.getAmount());
-        ObsidianSkullItem.onLivingDamage(event.getEntity(), event.getSource(), event.getAmount());
+        AbsorbDamageAbility.onLivingDamage(event.getEntity(), event.getSource(), event.getAmount());
+        ApplyFireResistanceAfterFireDamageAbility.onLivingDamage(event.getEntity(), event.getSource(), event.getAmount());
     }
 
     private static void onLivingFall(LivingFallEvent event) {
-        onBunnyHoppersFall(event);
+        if (AbilityHelper.hasAbility(ModAbilities.CANCEL_FALL_DAMAGE, event.getEntity())) {
+            event.setDamageMultiplier(0);
+        }
         onCloudInABottleFall(event);
     }
 
@@ -64,32 +60,24 @@ public class ArtifactEventsNeoForge {
         onUmbrellaLivingUpdate(event);
     }
 
-    private static void onBunnyHoppersFall(LivingFallEvent event) {
-        if (BunnyHoppersItem.shouldCancelFallDamage(event.getEntity())) {
-            event.setDamageMultiplier(0);
-        }
-    }
-
     private static void onCloudInABottleFall(LivingFallEvent event) {
-        event.setDistance(CloudInABottleItem.getReducedFallDistance(event.getEntity(), event.getDistance()));
+        event.setDistance(DoubleJumpAbility.getReducedFallDistance(event.getEntity(), event.getDistance()));
     }
 
     private static void onDrinkingHatItemUse(LivingEntityUseItemEvent.Start event) {
-        event.setDuration(DrinkingHatItem.getDrinkingHatUseDuration(event.getEntity(), event.getItem().getUseAnimation(), event.getDuration()));
+        event.setDuration(ReduceEatingDurationAbility.getDrinkingHatUseDuration(event.getEntity(), event.getItem().getUseAnimation(), event.getDuration()));
     }
 
     private static void onGoldenHookExperienceDrop(LivingExperienceDropEvent event) {
         int originalXp = event.getOriginalExperience();
         int droppedXp = event.getDroppedExperience();
-        int modifiedXp = droppedXp + GoldenHookItem.getExperienceBonus(originalXp, event.getEntity(), event.getAttackingPlayer());
+        int modifiedXp = droppedXp + ExperienceBonusAbility.getExperienceBonus(originalXp, event.getEntity(), event.getAttackingPlayer());
         event.setDroppedExperience(modifiedXp);
     }
 
     private static void onKittySlippersChangeTarget(LivingChangeTargetEvent event) {
         LivingEntity target = event.getNewTarget();
-        if (
-                ModGameRules.KITTY_SLIPPERS_ENABLED.get()
-                && ModItems.KITTY_SLIPPERS.get().isEquippedBy(target)
+        if (AbilityHelper.hasAbility(ModAbilities.SCARE_CREEPERS, target)
                 && event.getEntity() instanceof Mob creeper
                 && creeper.getType().is(ModTags.CREEPERS)
         ) {
@@ -98,9 +86,7 @@ public class ArtifactEventsNeoForge {
     }
 
     private static void onKittySlippersLivingUpdate(LivingEvent.LivingTickEvent event) {
-        if (
-                ModGameRules.KITTY_SLIPPERS_ENABLED.get()
-                && ModItems.KITTY_SLIPPERS.get().isEquippedBy(event.getEntity().getLastHurtByMob())
+        if (AbilityHelper.hasAbility(ModAbilities.SCARE_CREEPERS, event.getEntity().getLastHurtByMob())
                 && event.getEntity().getType().is(ModTags.CREEPERS)
         ) {
             event.getEntity().setLastHurtByMob(null);
@@ -108,21 +94,21 @@ public class ArtifactEventsNeoForge {
     }
 
     private static void onDiggingClawsBreakSpeed(PlayerEvent.BreakSpeed event) {
-        float speedBonus = DiggingClawsItem.getSpeedBonus(event.getEntity(), event.getState());
+        float speedBonus = DigSpeedAbility.getSpeedBonus(event.getEntity(), event.getState());
         if (speedBonus > 0) {
             event.setNewSpeed(event.getNewSpeed() + speedBonus);
         }
     }
 
     private static void onDiggingClawsHarvestCheck(PlayerEvent.HarvestCheck event) {
-        event.setCanHarvest(event.canHarvest() || DiggingClawsItem.canDiggingClawsHarvest(event.getEntity(), event.getTargetBlock()));
+        event.setCanHarvest(event.canHarvest() || UpgradeToolTierAbility.canHarvestWithTier(event.getEntity(), event.getTargetBlock()));
     }
 
     private static void onUmbrellaLivingUpdate(LivingEvent.LivingTickEvent event) {
         LivingEntity entity = event.getEntity();
         AttributeInstance gravity = entity.getAttribute(NeoForgeMod.ENTITY_GRAVITY.value());
         if (gravity != null) {
-            boolean isInWater = entity.isInWater() && !CharmOfSinkingItem.shouldSink(entity);
+            boolean isInWater = entity.isInWater() && !AbilityHelper.hasAbility(ModAbilities.SINKING, entity);
             if (ModGameRules.UMBRELLA_IS_GLIDER.get()
                     && !entity.onGround() && !isInWater
                     && entity.getDeltaMovement().y < 0
@@ -142,7 +128,7 @@ public class ArtifactEventsNeoForge {
     private static void onFoodEaten(LivingEntityUseItemEvent.Finish event) {
         FoodProperties properties = event.getItem().getFoodProperties(event.getEntity());
         if (properties != null) {
-            OnionRingItem.applyMiningSpeedBuff(event.getEntity(), properties);
+            ApplyHasteAfterEatingAbility.applyHasteEffect(event.getEntity(), properties);
             RootedBootsItem.applyBoneMeal(event.getEntity(), properties);
         }
     }

@@ -21,7 +21,7 @@ public class UmbrellaItem extends ArtifactItem {
     }
 
     @Override
-    public boolean isCosmetic() {
+    public boolean isCosmetic(ItemStack stack) {
         return !ModGameRules.UMBRELLA_IS_GLIDER.get() && !ModGameRules.UMBRELLA_IS_SHIELD.get();
     }
 

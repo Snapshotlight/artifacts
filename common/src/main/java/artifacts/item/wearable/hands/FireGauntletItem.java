@@ -1,5 +1,6 @@
 package artifacts.item.wearable.hands;
 
+import artifacts.ability.FireAspectAbility;
 import artifacts.item.wearable.WearableArtifactItem;
 import artifacts.registry.ModGameRules;
 import artifacts.util.DamageSourceHelper;
@@ -13,20 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class FireGauntletItem extends WearableArtifactItem {
 
     public FireGauntletItem() {
-        EntityEvent.LIVING_HURT.register(this::onLivingHurt);
-    }
-
-    @Override
-    public boolean hasNonCosmeticEffects() {
-        return ModGameRules.FIRE_GAUNTLET_FIRE_DURATION.get() > 0;
-    }
-
-    private EventResult onLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {
-        LivingEntity attacker = DamageSourceHelper.getAttacker(damageSource);
-        if (isEquippedBy(attacker) && DamageSourceHelper.isMeleeAttack(damageSource) && !entity.fireImmune()) {
-            entity.setSecondsOnFire(ModGameRules.FIRE_GAUNTLET_FIRE_DURATION.get() / 20);
-        }
-        return EventResult.pass();
+        super(new FireAspectAbility());
     }
 
     @Override

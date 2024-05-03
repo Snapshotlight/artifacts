@@ -1,7 +1,6 @@
 package artifacts.neoforge.event;
 
-import artifacts.component.SwimEventHandler;
-import artifacts.item.wearable.feet.AquaDashersItem;
+import artifacts.component.SwimEvents;
 import be.florens.expandability.api.forge.LivingFluidCollisionEvent;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
 import dev.architectury.event.EventResult;
@@ -17,7 +16,7 @@ public class SwimEventsNeoForge {
 
     public static void onPlayerSwim(PlayerSwimEvent event) {
         if (event.getResult() == Event.Result.DEFAULT) {
-            EventResult result = SwimEventHandler.onPlayerSwim(event.getEntity());
+            EventResult result = SwimEvents.onPlayerSwim(event.getEntity());
             if (!result.interruptsFurtherEvaluation()) {
                 event.setResult(Event.Result.DEFAULT);
             } else if (result.isTrue()) {
@@ -29,7 +28,7 @@ public class SwimEventsNeoForge {
     }
 
     private static void onAquaDashersFluidCollision(LivingFluidCollisionEvent event) {
-        if (AquaDashersItem.onFluidCollision(event.getEntity(), event.getFluidState())) {
+        if (SwimEvents.onFluidCollision(event.getEntity(), event.getFluidState())) {
             event.setResult(Event.Result.ALLOW);
         }
     }

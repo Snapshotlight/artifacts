@@ -1,5 +1,6 @@
 package artifacts.network;
 
+import artifacts.ability.TeleportOnDeathAbility;
 import artifacts.registry.ModItems;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.Minecraft;
@@ -26,8 +27,12 @@ public class ChorusTotemUsedPacket {
     }
 
     void apply(Supplier<NetworkManager.PacketContext> context) {
-        Minecraft.getInstance().gameRenderer.displayItemActivation(new ItemStack(ModItems.CHORUS_TOTEM.get()));
         Player player = context.get().getPlayer();
+        ItemStack totem = TeleportOnDeathAbility.findTotem(player);
+        if (totem.isEmpty()) {
+            totem = new ItemStack(ModItems.CHORUS_TOTEM.get());
+        }
+        Minecraft.getInstance().gameRenderer.displayItemActivation(totem);
         player.level().playSound(context.get().getPlayer(), context.get().getPlayer(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1, 1);
     }
 }

@@ -22,7 +22,7 @@ public class EverlastingFoodItem extends ArtifactItem {
     }
 
     @Override
-    public boolean isCosmetic() {
+    public boolean isCosmetic(ItemStack stack) {
         return !isEnabled.get();
     }
 

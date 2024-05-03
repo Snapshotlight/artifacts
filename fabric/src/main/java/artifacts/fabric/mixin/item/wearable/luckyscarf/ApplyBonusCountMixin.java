@@ -1,7 +1,6 @@
 package artifacts.fabric.mixin.item.wearable.luckyscarf;
 
-import artifacts.fabric.trinket.TrinketsHelper;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.util.AbilityHelper;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
@@ -29,12 +28,7 @@ public class ApplyBonusCountMixin {
         Entity entity = lootContext.getParamOrNull(LootContextParams.THIS_ENTITY);
 
         if (this.enchantment.value() == Enchantments.BLOCK_FORTUNE && entity instanceof LivingEntity livingEntity) {
-            level += TrinketsHelper.findAllEquippedBy(livingEntity)
-                    .map(ItemStack::getItem)
-                    .map(item -> (WearableArtifactItem) item)
-                    .map(WearableArtifactItem::getFortuneLevel)
-                    .max(Integer::compareTo)
-                    .orElse(0);
+            level += AbilityHelper.getEnchantmentSum(Enchantments.BLOCK_FORTUNE, livingEntity);
         }
 
         return level;

@@ -1,11 +1,10 @@
 package artifacts;
 
 import artifacts.component.SwimData;
-import artifacts.item.wearable.necklace.CharmOfSinkingItem;
 import artifacts.platform.PlatformServices;
-import artifacts.registry.ModGameRules;
-import artifacts.registry.ModItems;
+import artifacts.registry.ModAbilities;
 import artifacts.registry.ModKeyMappings;
+import artifacts.util.AbilityHelper;
 import dev.architectury.event.events.client.ClientTickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -29,7 +28,7 @@ public class HeliumFlamingoInputEventHandler {
     }
 
     private static void handleHeliumFlamingoInput(Player player) {
-        if (ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION.get() == 0) {
+        if (!AbilityHelper.hasAbility(ModAbilities.SWIM_IN_AIR, player)) {
             return;
         }
 
@@ -44,12 +43,12 @@ public class HeliumFlamingoInputEventHandler {
             if (player.onGround()) {
                 hasTouchedGround = true;
             } else if (canActivateHeliumFlamingo(swimData, player, isSprintKeyDown)) {
-                swimData.setSwimming(true);
+                swimData.setSwimming(player, true);
                 swimData.syncSwimming();
                 hasTouchedGround = false;
             }
         } else if (player.getAbilities().flying) {
-            swimData.setSwimming(false);
+            swimData.setSwimming(player, false);
             swimData.syncSwimming();
             hasTouchedGround = true;
         }
@@ -65,7 +64,7 @@ public class HeliumFlamingoInputEventHandler {
     private static boolean canActivateHeliumFlamingo(SwimData swimData, Player player, boolean isSprintKeyDown) {
         if (swimData.isSwimming()
                 || swimData.getSwimTime() < 0
-                || !ModItems.HELIUM_FLAMINGO.get().isEquippedBy(player)) {
+                || !AbilityHelper.hasAbility(ModAbilities.SWIM_IN_AIR, player)) {
             return false;
         }
         if (player.isSwimming()) {
@@ -76,7 +75,7 @@ public class HeliumFlamingoInputEventHandler {
                 && !wasSprintingOnGround
                 && hasTouchedGround
                 && !player.onGround()
-                && (!player.isInWater() || CharmOfSinkingItem.shouldSink(player))
+                && (!player.isInWater() || AbilityHelper.hasAbility(ModAbilities.SINKING, player))
                 && !player.isFallFlying()
                 && !player.getAbilities().flying
                 && !player.isPassenger();

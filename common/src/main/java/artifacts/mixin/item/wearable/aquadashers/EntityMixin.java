@@ -2,9 +2,9 @@ package artifacts.mixin.item.wearable.aquadashers;
 
 import artifacts.component.SwimData;
 import artifacts.platform.PlatformServices;
-import artifacts.registry.ModGameRules;
-import artifacts.registry.ModItems;
+import artifacts.registry.ModAbilities;
 import artifacts.registry.ModSoundEvents;
+import artifacts.util.AbilityHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -91,8 +91,7 @@ public abstract class EntityMixin {
         }
         SwimData swimData = PlatformServices.platformHelper.getSwimData(entity);
         return swimData != null
-                && ModItems.AQUA_DASHERS.get().isEquippedBy(entity)
-                && ModGameRules.AQUA_DASHERS_ENABLED.get()
+                && AbilityHelper.hasAbility(ModAbilities.SPRINT_ON_WATER, entity)
                 && entity.isSprinting()
                 && !swimData.isWet();
     }

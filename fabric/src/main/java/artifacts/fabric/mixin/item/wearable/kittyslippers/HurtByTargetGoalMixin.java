@@ -1,7 +1,9 @@
 package artifacts.fabric.mixin.item.wearable.kittyslippers;
 
+import artifacts.registry.ModAbilities;
 import artifacts.registry.ModItems;
 import artifacts.registry.ModTags;
+import artifacts.util.AbilityHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -22,7 +24,7 @@ public abstract class HurtByTargetGoalMixin extends TargetGoal {
     @Inject(method = "canUse", at = @At("HEAD"), cancellable = true)
     private void cancelRevenge(CallbackInfoReturnable<Boolean> info) {
         LivingEntity attacker = mob.getLastHurtByMob();
-        if (ModTags.isInTag(mob.getType(), ModTags.CREEPERS) && ModItems.KITTY_SLIPPERS.get().isEquippedBy(attacker)) {
+        if (ModTags.isInTag(mob.getType(), ModTags.CREEPERS) && AbilityHelper.hasAbility(ModAbilities.SCARE_CREEPERS, attacker)) {
             info.setReturnValue(false); // early return intended!
         }
     }

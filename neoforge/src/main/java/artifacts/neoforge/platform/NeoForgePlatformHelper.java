@@ -1,11 +1,15 @@
 package artifacts.neoforge.platform;
 
+import artifacts.Artifacts;
+import artifacts.ability.ArtifactAbility;
+import artifacts.ability.AttributeModifierAbility;
 import artifacts.client.item.renderer.ArtifactRenderer;
 import artifacts.component.SwimData;
 import artifacts.neoforge.integration.CosmeticArmorCompat;
 import artifacts.neoforge.registry.ModAttachmentTypes;
 import artifacts.item.wearable.WearableArtifactItem;
 import artifacts.platform.PlatformHelper;
+import artifacts.registry.ModGameRules;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -33,6 +37,7 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -47,11 +52,27 @@ public class NeoForgePlatformHelper implements PlatformHelper {
     }
 
     @Override
-    public Stream<ItemStack> findAllEquippedBy(LivingEntity entity, Item item) {
+    public Stream<ItemStack> findAllEquippedBy(LivingEntity entity, Predicate<ItemStack> predicate) {
         return CuriosApi.getCuriosInventory(entity)
-                .map(inv -> inv.findCurios(item))
+                .map(inv -> inv.findCurios(predicate))
                 .orElse(List.of()).stream()
                 .map(SlotResult::stack);
+    }
+
+    @Override
+    public <T> T reduceItems(LivingEntity entity, T init, BiFunction<ItemStack, T, T> f) {
+        Optional<ICuriosItemHandler> itemHandler = CuriosApi.getCuriosInventory(entity);
+        if (itemHandler.isPresent()) {
+            for (ICurioStacksHandler stacksHandler : itemHandler.get().getCurios().values()) {
+                for (int i = 0; i < stacksHandler.getStacks().getSlots(); i++) {
+                    ItemStack item = stacksHandler.getStacks().getStackInSlot(i);
+                    if (!item.isEmpty() && item.getItem() instanceof WearableArtifactItem) {
+                        init = f.apply(item, init);
+                    }
+                }
+            }
+        }
+        return init;
     }
 
     @Override
@@ -87,6 +108,15 @@ public class NeoForgePlatformHelper implements PlatformHelper {
     @Override
     public SwimData getSwimData(LivingEntity player) {
         return player.getData(ModAttachmentTypes.SWIM_DATA);
+    }
+
+    @Override
+    public ArtifactAbility getFlippersSwimAbility() {
+        return new AttributeModifierAbility(
+                NeoForgeMod.SWIM_SPEED.value(),
+                ModGameRules.FLIPPERS_SWIM_SPEED_BONUS,
+                Artifacts.id("flippers/swim_speed_bonus")
+        );
     }
 
     @Override

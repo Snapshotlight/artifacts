@@ -1,7 +1,8 @@
 package artifacts.fabric.mixin.item.wearable;
 
+import artifacts.ability.AbsorbDamageAbility;
+import artifacts.ability.ApplyFireResistanceAfterFireDamageAbility;
 import artifacts.item.wearable.belt.ObsidianSkullItem;
-import artifacts.item.wearable.hands.VampiricGloveItem;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -26,8 +27,8 @@ public abstract class LivingEntitiesMixin extends Entity {
     @Inject(method = "actuallyHurt", allow = 1, at = @At(value = "JUMP", opcode = Opcodes.IFNE))
     private void onEntityDamaged(DamageSource source, float amount, CallbackInfo info) {
         if (!this.isInvulnerableTo(source)) {
-            VampiricGloveItem.onLivingDamage((LivingEntity) (Object) this, source, amount);
-            ObsidianSkullItem.onLivingDamage((LivingEntity) (Object) this, source, amount);
+            AbsorbDamageAbility.onLivingDamage((LivingEntity) (Object) this, source, amount);
+            ApplyFireResistanceAfterFireDamageAbility.onLivingDamage((LivingEntity) (Object) this, source, amount);
         }
     }
 }

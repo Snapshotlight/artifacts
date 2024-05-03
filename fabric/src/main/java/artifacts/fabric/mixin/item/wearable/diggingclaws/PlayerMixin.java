@@ -1,5 +1,7 @@
 package artifacts.fabric.mixin.item.wearable.diggingclaws;
 
+import artifacts.ability.DigSpeedAbility;
+import artifacts.ability.UpgradeToolTierAbility;
 import artifacts.item.wearable.hands.DiggingClawsItem;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.world.entity.EntityType;
@@ -20,7 +22,7 @@ public abstract class PlayerMixin extends LivingEntity {
 
     @ModifyReturnValue(method = "hasCorrectToolForDrops", at = @At("RETURN"))
     private boolean increaseBaseToolTier(boolean original, BlockState state) {
-        return original || DiggingClawsItem.canDiggingClawsHarvest(this, state);
+        return original || UpgradeToolTierAbility.canHarvestWithTier(this, state);
     }
 
     /**
@@ -31,6 +33,6 @@ public abstract class PlayerMixin extends LivingEntity {
     @SuppressWarnings("ConstantConditions")
     @ModifyReturnValue(method = "getDestroySpeed", at = @At("RETURN"))
     private float increaseMiningSpeed(float original, BlockState state) {
-        return original + DiggingClawsItem.getSpeedBonus((Player) (Object) this, state);
+        return original + DigSpeedAbility.getSpeedBonus((Player) (Object) this, state);
     }
 }
