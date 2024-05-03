@@ -1,9 +1,7 @@
 package artifacts.network;
 
 import artifacts.ability.DoubleJumpAbility;
-import artifacts.item.wearable.belt.CloudInABottleItem;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.particles.ParticleOptions;

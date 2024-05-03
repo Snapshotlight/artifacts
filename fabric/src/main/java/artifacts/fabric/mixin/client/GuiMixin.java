@@ -1,7 +1,7 @@
 package artifacts.fabric.mixin.client;
 
 import artifacts.Artifacts;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import dev.emi.trinkets.api.TrinketInventory;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.client.Minecraft;

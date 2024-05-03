@@ -1,6 +1,5 @@
 package artifacts.ability;
 
-import artifacts.item.wearable.WearableArtifactItem;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;

@@ -1,7 +1,7 @@
 package artifacts.neoforge.curio;
 
 import artifacts.ability.IncreaseEnchantmentLevelAbility;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
 import artifacts.util.DamageSourceHelper;
@@ -48,7 +48,7 @@ public class WearableArtifactCurio implements ICurioItem {
 
     @Override
     public final ICurio.SoundInfo getEquipSound(SlotContext slotContext, ItemStack stack) {
-        return new ICurio.SoundInfo(item.getEquipSound(), 1, 1);
+        return new ICurio.SoundInfo(item.getEquipSound(), 1, item.getEquipSoundPitch());
     }
 
     @Override

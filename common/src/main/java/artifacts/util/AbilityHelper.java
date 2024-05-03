@@ -1,7 +1,7 @@
 package artifacts.util;
 
 import artifacts.ability.ArtifactAbility;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
 import net.minecraft.world.entity.LivingEntity;

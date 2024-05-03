@@ -2,7 +2,6 @@ package artifacts.fabric.mixin.item.wearable.diggingclaws;
 
 import artifacts.ability.DigSpeedAbility;
 import artifacts.ability.UpgradeToolTierAbility;
-import artifacts.item.wearable.hands.DiggingClawsItem;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

@@ -1,7 +1,6 @@
 package artifacts.mixin.item.wearable.chorustotem;
 
 import artifacts.ability.TeleportOnDeathAbility;
-import artifacts.item.wearable.WearableArtifactItem;
 import artifacts.network.ChorusTotemUsedPacket;
 import artifacts.network.NetworkHandler;
 import artifacts.registry.ModAbilities;

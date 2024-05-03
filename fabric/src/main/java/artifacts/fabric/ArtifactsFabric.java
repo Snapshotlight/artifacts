@@ -7,7 +7,7 @@ import artifacts.fabric.integration.CompatHandler;
 import artifacts.fabric.registry.ModFeatures;
 import artifacts.fabric.registry.ModLootTablesFabric;
 import artifacts.fabric.trinket.WearableArtifactTrinket;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;

@@ -76,7 +76,7 @@
   "artifacts.tooltip.cosmetic": "Cosmetic",
   "artifacts.tooltip.cosmetics_disabled": "Cosmetics disabled (right-click to toggle)",
   "artifacts.tooltip.cosmetics_enabled": "Cosmetics enabled (right-click to toggle)",
-  "artifacts.tooltip.item.novelty_drinking_hat.special": "'Hey! I'm #1, and I let gravity do my drinking!'",
+  "artifacts.tooltip.item.novelty_drinking_hat": "'Hey! I'm #1, and I let gravity do my drinking!'",
   "artifacts.tooltip.item.everlasting_food": "Not consumed when eaten",
   "artifacts.tooltip.item.umbrella.glider": "Slows your fall when held",
   "artifacts.tooltip.item.umbrella.shield": "Can be used as a shield",

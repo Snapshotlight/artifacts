@@ -1,7 +1,7 @@
 package artifacts.neoforge.client;
 
 import artifacts.Artifacts;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

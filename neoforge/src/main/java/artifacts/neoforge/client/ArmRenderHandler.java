@@ -2,7 +2,7 @@ package artifacts.neoforge.client;
 
 import artifacts.Artifacts;
 import artifacts.client.item.renderer.GloveArtifactRenderer;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.EventPriority;

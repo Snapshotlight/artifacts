@@ -1,6 +1,6 @@
 package artifacts.fabric.trinket;
 
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import artifacts.util.DamageSourceHelper;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.Trinket;

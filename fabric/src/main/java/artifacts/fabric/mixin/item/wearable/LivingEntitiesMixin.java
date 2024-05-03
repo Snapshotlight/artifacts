@@ -2,7 +2,6 @@ package artifacts.fabric.mixin.item.wearable;
 
 import artifacts.ability.AbsorbDamageAbility;
 import artifacts.ability.ApplyFireResistanceAfterFireDamageAbility;
-import artifacts.item.wearable.belt.ObsidianSkullItem;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

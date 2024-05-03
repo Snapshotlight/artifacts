@@ -1,30 +1,48 @@
-package artifacts.item.wearable;
+package artifacts.item;
 
 import artifacts.ability.ArtifactAbility;
-import artifacts.item.ArtifactItem;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class WearableArtifactItem extends ArtifactItem {
 
     private final List<ArtifactAbility> abilities = new ArrayList<>();
 
-    public WearableArtifactItem(Properties properties, ArtifactAbility... abilities) {
-        super(properties);
-        this.abilities.addAll(Set.of(abilities));
-    }
+    private final Supplier<SoundEvent> equipSound;
+    private final float equipSoundPitch;
 
     public WearableArtifactItem(ArtifactAbility... abilities) {
-        this(new Properties(), abilities);
+        this(new Item.Properties(), abilities);
+    }
+
+    public WearableArtifactItem(SoundEvent equipSound, ArtifactAbility... abilities) {
+        this(new Item.Properties(), equipSound, abilities);
+    }
+
+    public WearableArtifactItem(Item.Properties properties, ArtifactAbility... abilities) {
+        this(properties, SoundEvents.ARMOR_EQUIP_GENERIC, abilities);
+    }
+
+    public WearableArtifactItem(Item.Properties properties, SoundEvent equipSound, ArtifactAbility... abilities) {
+        this(properties, () -> equipSound, 1F, abilities);
+    }
+
+    public WearableArtifactItem(Item.Properties properties, Supplier<SoundEvent> equipSound, float equipSoundPitch, ArtifactAbility... abilities) {
+        super(properties);
+        this.abilities.addAll(Set.of(abilities));
+        this.equipSound = equipSound;
+        this.equipSoundPitch = equipSoundPitch;
     }
 
     public static Collection<ArtifactAbility> getAbilities(ItemStack stack) {
@@ -74,7 +92,11 @@ public class WearableArtifactItem extends ArtifactItem {
     }
 
     public SoundEvent getEquipSound() {
-        return SoundEvents.ARMOR_EQUIP_GENERIC;
+        return equipSound.get();
+    }
+
+    public float getEquipSoundPitch() {
+        return equipSoundPitch;
     }
 
     @Override

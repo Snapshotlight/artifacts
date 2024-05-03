@@ -1,10 +1,7 @@
 package artifacts.neoforge.data;
 
 import artifacts.Artifacts;
-import artifacts.item.wearable.WearableArtifactItem;
-import artifacts.registry.ModAbilities;
 import artifacts.registry.ModItems;
-import artifacts.util.AbilityHelper;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -14,7 +11,6 @@ import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 

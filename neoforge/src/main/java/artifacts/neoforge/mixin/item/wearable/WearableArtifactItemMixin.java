@@ -2,7 +2,7 @@ package artifacts.neoforge.mixin.item.wearable;
 
 import artifacts.Artifacts;
 import artifacts.item.ArtifactItem;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
 import net.minecraft.ChatFormatting;

@@ -1,7 +1,6 @@
 package artifacts.fabric.mixin.item.wearable.drinkinghat;
 
 import artifacts.ability.ReduceEatingDurationAbility;
-import artifacts.item.wearable.head.DrinkingHatItem;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;

@@ -3,7 +3,7 @@ package artifacts.platform;
 import artifacts.ability.ArtifactAbility;
 import artifacts.client.item.renderer.ArtifactRenderer;
 import artifacts.component.SwimData;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;

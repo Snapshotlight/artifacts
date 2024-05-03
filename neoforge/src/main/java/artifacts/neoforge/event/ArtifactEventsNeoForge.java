@@ -2,8 +2,6 @@ package artifacts.neoforge.event;
 
 import artifacts.ability.*;
 import artifacts.item.UmbrellaItem;
-import artifacts.item.wearable.belt.ObsidianSkullItem;
-import artifacts.item.wearable.feet.RootedBootsItem;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.registry.ModTags;
@@ -129,7 +127,7 @@ public class ArtifactEventsNeoForge {
         FoodProperties properties = event.getItem().getFoodProperties(event.getEntity());
         if (properties != null) {
             ApplyHasteAfterEatingAbility.applyHasteEffect(event.getEntity(), properties);
-            RootedBootsItem.applyBoneMeal(event.getEntity(), properties);
+            GrowPlantsAfterEatingAbility.applyBoneMeal(event.getEntity(), properties);
         }
     }
 }

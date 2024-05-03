@@ -3,7 +3,7 @@ package artifacts.fabric.mixin.client;
 import artifacts.Artifacts;
 import artifacts.client.item.renderer.GloveArtifactRenderer;
 import artifacts.fabric.client.CosmeticsHelper;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketsApi;

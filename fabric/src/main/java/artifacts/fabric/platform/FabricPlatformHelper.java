@@ -7,7 +7,7 @@ import artifacts.component.SwimData;
 import artifacts.fabric.client.CosmeticsHelper;
 import artifacts.fabric.registry.ModComponents;
 import artifacts.fabric.trinket.TrinketsHelper;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import artifacts.platform.PlatformHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;

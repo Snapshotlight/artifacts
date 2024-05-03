@@ -1,7 +1,6 @@
 package artifacts.network;
 
 import artifacts.ability.ArtifactAbility;
-import artifacts.item.wearable.WearableArtifactItem;
 import artifacts.registry.ModAbilities;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.network.FriendlyByteBuf;

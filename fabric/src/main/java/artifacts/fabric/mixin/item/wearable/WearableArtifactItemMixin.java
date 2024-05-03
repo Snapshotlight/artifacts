@@ -4,7 +4,7 @@ import artifacts.Artifacts;
 import artifacts.fabric.ArtifactsFabric;
 import artifacts.fabric.client.CosmeticsHelper;
 import artifacts.item.ArtifactItem;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import dev.emi.trinkets.api.TrinketItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -29,11 +29,14 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
     @Shadow
     public abstract SoundEvent getEquipSound();
 
+    @Shadow
+    public abstract float getEquipSoundPitch();
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player user, InteractionHand hand) {
         ItemStack stack = user.getItemInHand(hand);
         if (getFoodProperties() == null && TrinketItem.equipItem(user, stack)) {
-            user.playSound(getEquipSound(), 1, 1);
+            user.playSound(getEquipSound(), 1, getEquipSoundPitch());
 
             return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
         }

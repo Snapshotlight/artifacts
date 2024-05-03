@@ -1,6 +1,6 @@
 package artifacts.neoforge.loot;
 
-import artifacts.item.wearable.hands.PickaxeHeaterItem;
+import artifacts.event.ArtifactEvents;
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -28,7 +28,7 @@ public class SmeltOresWithPickaxeHeaterModifier extends LootModifier {
 
     @Override
     protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> items, LootContext context) {
-        return PickaxeHeaterItem.getModifiedBlockDrops(items, context, Tags.Blocks.ORES, Tags.Items.RAW_MATERIALS);
+        return ArtifactEvents.getPickaxeHeaterModifiedBlockDrops(items, context, Tags.Blocks.ORES, Tags.Items.RAW_MATERIALS);
     }
 
     @Override

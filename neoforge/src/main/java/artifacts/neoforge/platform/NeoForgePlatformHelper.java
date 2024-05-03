@@ -7,7 +7,7 @@ import artifacts.client.item.renderer.ArtifactRenderer;
 import artifacts.component.SwimData;
 import artifacts.neoforge.integration.CosmeticArmorCompat;
 import artifacts.neoforge.registry.ModAttachmentTypes;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import artifacts.platform.PlatformHelper;
 import artifacts.registry.ModGameRules;
 import com.mojang.blaze3d.vertex.PoseStack;

@@ -2,7 +2,7 @@ package artifacts.neoforge;
 
 import artifacts.Artifacts;
 import artifacts.config.ModConfig;
-import artifacts.item.wearable.WearableArtifactItem;
+import artifacts.item.WearableArtifactItem;
 import artifacts.neoforge.curio.WearableArtifactCurio;
 import artifacts.neoforge.event.ArtifactEventsNeoForge;
 import artifacts.neoforge.event.SwimEventsNeoForge;

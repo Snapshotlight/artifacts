@@ -1,8 +1,8 @@
 package artifacts.fabric.mixin.item.wearable;
 
 import artifacts.ability.ApplyHasteAfterEatingAbility;
-import artifacts.item.wearable.WearableArtifactItem;
-import artifacts.item.wearable.feet.RootedBootsItem;
+import artifacts.ability.GrowPlantsAfterEatingAbility;
+import artifacts.item.WearableArtifactItem;
 import dev.emi.trinkets.api.TrinketInventory;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.world.entity.LivingEntity;
@@ -47,7 +47,7 @@ public abstract class LivingEntityMixin {
         if (properties != null) {
             LivingEntity entity = (LivingEntity) (Object) this;
             ApplyHasteAfterEatingAbility.applyHasteEffect(entity, properties);
-            RootedBootsItem.applyBoneMeal(entity, properties);
+            GrowPlantsAfterEatingAbility.applyBoneMeal(entity, properties);
         }
     }
 }
