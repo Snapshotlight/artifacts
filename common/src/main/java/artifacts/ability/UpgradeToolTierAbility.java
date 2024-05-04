@@ -8,6 +8,7 @@ import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
@@ -54,13 +55,17 @@ public class UpgradeToolTierAbility implements ArtifactAbility {
         return getTier(getToolTier()).isPresent();
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        getTier(getToolTier()).ifPresent(tier -> tooltip.add(
-                Component.translatable(
-                        "%s.tooltip.ability.%s".formatted(getType().id().getNamespace(), getType().id().getPath()),
-                        Component.translatable("%s.tooltip.tool_tier.%s".formatted(Artifacts.MOD_ID, tier.getLevel() + 1))
-                )
-        ));
+        getTier(getToolTier()).ifPresent(tier ->  {
+            ResourceLocation id = ModAbilities.REGISTRY.getId(getType());
+            tooltip.add(
+                    Component.translatable(
+                            "%s.tooltip.ability.%s".formatted(id.getNamespace(), id.getPath()),
+                            Component.translatable("%s.tooltip.tool_tier.%s".formatted(Artifacts.MOD_ID, tier.getLevel() + 1))
+                    )
+            );
+        });
     }
 }

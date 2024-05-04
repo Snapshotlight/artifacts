@@ -74,6 +74,6 @@ public class ModAbilities {
     }
 
     public static <T extends ArtifactAbility> RegistrySupplier<Type<T>> register(String name) {
-        return RegistrySupplier.of(REGISTRY.register(Artifacts.id(name), () -> new Type<>(Artifacts.id(name))));
+        return RegistrySupplier.of(REGISTRY.register(Artifacts.id(name), Type::new));
     }
 }

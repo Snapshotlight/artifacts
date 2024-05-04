@@ -2,6 +2,7 @@ package artifacts.ability;
 
 import artifacts.Artifacts;
 import artifacts.client.ToggleKeyHandler;
+import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.Component;
@@ -23,7 +24,7 @@ public interface ArtifactAbility {
         return isNonCosmetic();
     }
 
-    default boolean isEnabledAndToggledOn(LivingEntity entity) {
+    default boolean isActive(LivingEntity entity) {
         return isEnabled() && AbilityHelper.isToggledOn(getType(), entity);
     }
 
@@ -34,8 +35,10 @@ public interface ArtifactAbility {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     default void addAbilityTooltip(List<MutableComponent> tooltip) {
-        tooltip.add(Component.translatable("%s.tooltip.ability.%s".formatted(getType().id.getNamespace(), getType().id.getPath())));
+        ResourceLocation id = ModAbilities.REGISTRY.getId(getType());
+        tooltip.add(Component.translatable("%s.tooltip.ability.%s".formatted(id.getNamespace(), id.getPath())));
     }
 
     default void addToggleKeyTooltip(List<MutableComponent> tooltip, @Nullable Player player) {
@@ -45,8 +48,10 @@ public interface ArtifactAbility {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     default MutableComponent tooltipLine(String abilityName, Object... args) {
-        return Component.translatable("%s.tooltip.ability.%s.%s".formatted(getType().id.getNamespace(), getType().id.getPath(), abilityName), args);
+        ResourceLocation id = ModAbilities.REGISTRY.getId(getType());
+        return Component.translatable("%s.tooltip.ability.%s.%s".formatted(id.getNamespace(), id.getPath(), abilityName), args);
     }
 
     default void wornTick(LivingEntity entity, boolean isOnCooldown, boolean isActive) {
@@ -62,7 +67,7 @@ public interface ArtifactAbility {
     }
 
     @SuppressWarnings("unused")
-    record Type<T extends ArtifactAbility>(ResourceLocation id) {
+    class Type<T extends ArtifactAbility> {
 
     }
 }

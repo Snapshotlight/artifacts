@@ -22,16 +22,6 @@ import java.util.stream.Stream;
 
 public interface PlatformHelper {
 
-    default boolean isEquippedBy(@Nullable LivingEntity entity, Item item) {
-        return isEquippedBy(entity, stack -> stack.is(item));
-    }
-
-    boolean isEquippedBy(@Nullable LivingEntity entity, Predicate<ItemStack> predicate);
-
-    default Stream<ItemStack> findAllEquippedBy(LivingEntity entity, Item item) {
-        return findAllEquippedBy(entity, stack -> stack.is(item));
-    }
-
     Stream<ItemStack> findAllEquippedBy(LivingEntity entity, Predicate<ItemStack> predicate);
 
     <T> T reduceItems(LivingEntity entity, T init, BiFunction<ItemStack, T, T> f);

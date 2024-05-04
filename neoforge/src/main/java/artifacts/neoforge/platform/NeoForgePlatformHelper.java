@@ -46,13 +46,6 @@ import java.util.stream.Stream;
 public class NeoForgePlatformHelper implements PlatformHelper {
 
     @Override
-    public boolean isEquippedBy(@Nullable LivingEntity entity, Predicate<ItemStack> predicate) {
-        return entity != null && CuriosApi.getCuriosInventory(entity)
-                .flatMap(inv -> inv.findFirstCurio(predicate))
-                .isPresent();
-    }
-
-    @Override
     public Stream<ItemStack> findAllEquippedBy(LivingEntity entity, Predicate<ItemStack> predicate) {
         return CuriosApi.getCuriosInventory(entity)
                 .map(inv -> inv.findCurios(predicate))

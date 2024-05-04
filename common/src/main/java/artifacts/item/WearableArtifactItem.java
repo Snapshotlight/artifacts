@@ -58,7 +58,7 @@ public class WearableArtifactItem extends ArtifactItem {
             return;
         }
         for (ArtifactAbility ability : getAbilities(stack)) {
-            ability.onEquip(entity, ability.isEnabledAndToggledOn(entity));
+            ability.onEquip(entity, ability.isActive(entity));
         }
     }
 
@@ -67,7 +67,7 @@ public class WearableArtifactItem extends ArtifactItem {
             return;
         }
         for (ArtifactAbility ability : getAbilities(stack)) {
-            ability.onUnequip(entity, ability.isEnabledAndToggledOn(entity));
+            ability.onUnequip(entity, ability.isActive(entity));
         }
     }
 
@@ -76,7 +76,7 @@ public class WearableArtifactItem extends ArtifactItem {
             return;
         }
         for (ArtifactAbility ability : getAbilities(stack)) {
-            boolean isActive = ability.isEnabledAndToggledOn(entity);
+            boolean isActive = ability.isActive(entity);
             boolean isOnCooldown = entity instanceof Player player && player.getCooldowns().isOnCooldown(this);
             ability.wornTick(entity, isOnCooldown, isActive);
         }

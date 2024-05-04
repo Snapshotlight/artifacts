@@ -119,14 +119,11 @@ public class AbilityHelper {
         forEach(type, entity, (ability, stack) -> consumer.accept(ability), false);
     }
 
-    @SuppressWarnings("unchecked")
     public static <A extends ArtifactAbility> void forEach(ArtifactAbility.Type<A> type, LivingEntity entity, BiConsumer<A, ItemStack> consumer, boolean skipItemsOnCooldown) {
         PlatformServices.platformHelper.findAllEquippedBy(entity, stack -> hasAbility(type, stack))
-                .forEach(stack -> WearableArtifactItem.getAbilities(stack).stream()
-                        .filter(ability -> ability.getType() == type)
+                .forEach(stack -> getAbilities(type, stack)
                         .filter(ArtifactAbility::isEnabled)
                         .filter(ability -> !skipItemsOnCooldown || !(entity instanceof Player player) || !player.getCooldowns().isOnCooldown(stack.getItem()))
-                        .map(ability -> (A) ability)
                         .forEach(ability -> consumer.accept(ability, stack))
                 );
     }

@@ -245,9 +245,5 @@ public class ModGameRules {
         public Double get() {
             return integerValue.get() / factor;
         }
-
-        public boolean fuzzyEquals(double a) {
-            return Math.abs(get() - a) < 1e-10;
-        }
     }
 }
