@@ -4,10 +4,11 @@ import artifacts.Artifacts;
 import artifacts.ability.ArtifactAbility;
 import artifacts.ability.AttributeModifierAbility;
 import artifacts.client.item.renderer.ArtifactRenderer;
+import artifacts.component.AbilityToggles;
 import artifacts.component.SwimData;
+import artifacts.item.WearableArtifactItem;
 import artifacts.neoforge.integration.CosmeticArmorCompat;
 import artifacts.neoforge.registry.ModAttachmentTypes;
-import artifacts.item.WearableArtifactItem;
 import artifacts.platform.PlatformHelper;
 import artifacts.registry.ModGameRules;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -106,8 +107,14 @@ public class NeoForgePlatformHelper implements PlatformHelper {
 
     @Nullable
     @Override
-    public SwimData getSwimData(LivingEntity player) {
-        return player.getData(ModAttachmentTypes.SWIM_DATA);
+    public AbilityToggles getAbilityToggles(LivingEntity entity) {
+        return entity.getData(ModAttachmentTypes.ABILITY_TOGGLES);
+    }
+
+    @Nullable
+    @Override
+    public SwimData getSwimData(LivingEntity entity) {
+        return entity.getData(ModAttachmentTypes.SWIM_DATA);
     }
 
     @Override

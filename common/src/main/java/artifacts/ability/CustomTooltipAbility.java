@@ -4,6 +4,8 @@ import artifacts.Artifacts;
 import artifacts.registry.ModAbilities;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class CustomTooltipAbility implements ArtifactAbility {
     }
 
     @Override
-    public void addTooltipIfNonCosmetic(List<MutableComponent> tooltip) {
+    public void addTooltipIfNonCosmetic(List<MutableComponent> tooltip, @Nullable Player player) {
         tooltip.add(Component.translatable(name));
     }
 }

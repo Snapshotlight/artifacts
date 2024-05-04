@@ -1,11 +1,14 @@
 package artifacts.neoforge.event;
 
 import artifacts.ability.*;
+import artifacts.component.AbilityToggles;
 import artifacts.item.UmbrellaItem;
+import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -15,6 +18,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
@@ -39,6 +43,14 @@ public class ArtifactEventsNeoForge {
         NeoForge.EVENT_BUS.addListener(EventPriority.LOW, ArtifactEventsNeoForge::onDiggingClawsBreakSpeed);
         NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onDiggingClawsHarvestCheck);
         NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onFoodEaten);
+        NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onPlayerTick);
+    }
+
+    private static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        AbilityToggles abilityToggles = PlatformServices.platformHelper.getAbilityToggles(event.player);
+        if (event.player instanceof ServerPlayer serverPlayer && abilityToggles != null) {
+            abilityToggles.sendToClient(serverPlayer);
+        }
     }
 
     private static void onLivingDamage(LivingDamageEvent event) {
@@ -47,7 +59,7 @@ public class ArtifactEventsNeoForge {
     }
 
     private static void onLivingFall(LivingFallEvent event) {
-        if (AbilityHelper.hasAbility(ModAbilities.CANCEL_FALL_DAMAGE.get(), event.getEntity())) {
+        if (AbilityHelper.hasAbilityActive(ModAbilities.CANCEL_FALL_DAMAGE.get(), event.getEntity())) {
             event.setDamageMultiplier(0);
         }
         onCloudInABottleFall(event);
@@ -75,7 +87,7 @@ public class ArtifactEventsNeoForge {
 
     private static void onKittySlippersChangeTarget(LivingChangeTargetEvent event) {
         LivingEntity target = event.getNewTarget();
-        if (AbilityHelper.hasAbility(ModAbilities.SCARE_CREEPERS.get(), target)
+        if (AbilityHelper.hasAbilityActive(ModAbilities.SCARE_CREEPERS.get(), target)
                 && event.getEntity() instanceof Mob creeper
                 && creeper.getType().is(ModTags.CREEPERS)
         ) {
@@ -84,7 +96,7 @@ public class ArtifactEventsNeoForge {
     }
 
     private static void onKittySlippersLivingUpdate(LivingEvent.LivingTickEvent event) {
-        if (AbilityHelper.hasAbility(ModAbilities.SCARE_CREEPERS.get(), event.getEntity().getLastHurtByMob())
+        if (AbilityHelper.hasAbilityActive(ModAbilities.SCARE_CREEPERS.get(), event.getEntity().getLastHurtByMob())
                 && event.getEntity().getType().is(ModTags.CREEPERS)
         ) {
             event.getEntity().setLastHurtByMob(null);
@@ -106,7 +118,7 @@ public class ArtifactEventsNeoForge {
         LivingEntity entity = event.getEntity();
         AttributeInstance gravity = entity.getAttribute(NeoForgeMod.ENTITY_GRAVITY.value());
         if (gravity != null) {
-            boolean isInWater = entity.isInWater() && !AbilityHelper.hasAbility(ModAbilities.SINKING.get(), entity);
+            boolean isInWater = entity.isInWater() && !AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), entity);
             if (ModGameRules.UMBRELLA_IS_GLIDER.get()
                     && !entity.onGround() && !isInWater
                     && entity.getDeltaMovement().y < 0

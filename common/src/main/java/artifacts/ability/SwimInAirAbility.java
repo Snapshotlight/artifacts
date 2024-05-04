@@ -2,11 +2,15 @@ package artifacts.ability;
 
 import artifacts.component.SwimData;
 import artifacts.platform.PlatformServices;
-import artifacts.registry.*;
+import artifacts.registry.ModAbilities;
+import artifacts.registry.ModGameRules;
+import artifacts.registry.ModKeyMappings;
+import artifacts.registry.ModSoundEvents;
 import artifacts.util.AbilityHelper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -18,7 +22,7 @@ public class SwimInAirAbility implements ArtifactAbility {
             return;
         }
         int maxFlightTime = getFlightDuration(player);
-        boolean shouldSink = AbilityHelper.hasAbility(ModAbilities.SINKING.get(), player);
+        boolean shouldSink = AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), player);
         boolean canFly = maxFlightTime > 0;
         if (swimData.isSwimming()) {
             if (swimData.getSwimTime() > maxFlightTime
@@ -76,7 +80,7 @@ public class SwimInAirAbility implements ArtifactAbility {
     }
 
     @Override
-    public void addToggleKeyTooltip(List<MutableComponent> tooltip) {
+    public void addToggleKeyTooltip(List<MutableComponent> tooltip, @Nullable Player player) {
         tooltip.add(tooltipLine("keymapping", ModKeyMappings.getHeliumFlamingoKey().getTranslatedKeyMessage()));
     }
 }

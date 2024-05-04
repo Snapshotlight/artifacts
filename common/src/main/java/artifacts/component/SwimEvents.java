@@ -35,7 +35,7 @@ public class SwimEvents {
         if (swimData != null) {
             if (swimData.isSwimming()) {
                 return EventResult.interruptTrue();
-            } else if (AbilityHelper.hasAbility(ModAbilities.SINKING.get(), player)) {
+            } else if (AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), player)) {
                 return EventResult.interruptFalse();
             }
         }
@@ -56,7 +56,7 @@ public class SwimEvents {
     }
 
     private static boolean canCollideWithFluid(LivingEntity entity) {
-        return AbilityHelper.hasAbility(ModAbilities.SPRINT_ON_WATER.get(), entity)
+        return AbilityHelper.hasAbilityActive(ModAbilities.SPRINT_ON_WATER.get(), entity)
                 && entity.isSprinting()
                 && !entity.isUsingItem()
                 && !entity.isCrouching();

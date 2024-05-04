@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class UmbrellaItem extends ArtifactItem {
     }
 
     @Override
-    protected void addEffectsTooltip(ItemStack stack, List<MutableComponent> tooltip) {
+    protected void addEffectsTooltip(ItemStack stack, List<MutableComponent> tooltip, @Nullable Player player) {
         if (ModGameRules.UMBRELLA_IS_GLIDER.get()) {
             tooltip.add(tooltipLine("glider"));
         }

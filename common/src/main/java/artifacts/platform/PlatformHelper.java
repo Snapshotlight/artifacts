@@ -2,6 +2,7 @@ package artifacts.platform;
 
 import artifacts.ability.ArtifactAbility;
 import artifacts.client.item.renderer.ArtifactRenderer;
+import artifacts.component.AbilityToggles;
 import artifacts.component.SwimData;
 import artifacts.item.WearableArtifactItem;
 import net.minecraft.world.InteractionHand;
@@ -42,7 +43,10 @@ public interface PlatformHelper {
     boolean isCorrectTierForDrops(Tier tier, BlockState state);
 
     @Nullable
-    SwimData getSwimData(LivingEntity player);
+    AbilityToggles getAbilityToggles(LivingEntity entity);
+
+    @Nullable
+    SwimData getSwimData(LivingEntity entity);
 
     ArtifactAbility getFlippersSwimAbility();
 

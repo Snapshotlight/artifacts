@@ -3,13 +3,11 @@ package artifacts.ability.retaliation;
 import artifacts.ability.ArtifactAbility;
 import artifacts.util.AbilityHelper;
 import artifacts.util.DamageSourceHelper;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.List;
 import java.util.function.Supplier;
 
 public abstract class RetaliationAbility implements ArtifactAbility {
@@ -33,7 +31,7 @@ public abstract class RetaliationAbility implements ArtifactAbility {
     public void onLivingHurt(LivingEntity entity, ItemStack stack, DamageSource damageSource, float amount) {
         LivingEntity attacker = DamageSourceHelper.getAttacker(damageSource);
         if (amount >= 1 && attacker != null
-                        && AbilityHelper.hasAbility(getType(), entity)
+                        && AbilityHelper.hasAbilityActive(getType(), entity)
                         && entity.getRandom().nextDouble() < getStrikeChance()
         ) {
             applyEffect(entity, attacker);

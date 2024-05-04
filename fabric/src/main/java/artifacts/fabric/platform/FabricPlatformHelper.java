@@ -3,6 +3,7 @@ package artifacts.fabric.platform;
 import artifacts.ability.ArtifactAbility;
 import artifacts.ability.SwimSpeedAbility;
 import artifacts.client.item.renderer.ArtifactRenderer;
+import artifacts.component.AbilityToggles;
 import artifacts.component.SwimData;
 import artifacts.fabric.client.CosmeticsHelper;
 import artifacts.fabric.registry.ModComponents;
@@ -108,8 +109,14 @@ public class FabricPlatformHelper implements PlatformHelper {
 
     @Nullable
     @Override
-    public SwimData getSwimData(LivingEntity player) {
-        return ModComponents.SWIM_DATA.getNullable(player);
+    public AbilityToggles getAbilityToggles(LivingEntity entity) {
+        return ModComponents.ABILITY_TOGGLES.getNullable(entity);
+    }
+
+    @Nullable
+    @Override
+    public SwimData getSwimData(LivingEntity entity) {
+        return ModComponents.SWIM_DATA.getNullable(entity);
     }
 
     @Override

@@ -13,7 +13,7 @@ public class ApplySpeedAfterDamageAbility implements ArtifactAbility {
 
     public static EventResult onLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {
         if (!entity.level().isClientSide() && amount >= 1) {
-            if (AbilityHelper.hasAbility(ModAbilities.APPLY_SPEED_AFTER_DAMAGE.get(), entity, true)) {
+            if (AbilityHelper.hasAbilityActive(ModAbilities.APPLY_SPEED_AFTER_DAMAGE.get(), entity, true)) {
                 int duration = AbilityHelper.maxInt(ModAbilities.APPLY_SPEED_AFTER_DAMAGE.get(), entity, ApplySpeedAfterDamageAbility::getSpeedDuration, true);
                 int level = AbilityHelper.maxInt(ModAbilities.APPLY_SPEED_AFTER_DAMAGE.get(), entity, ApplySpeedAfterDamageAbility::getSpeedLevel, true);
 

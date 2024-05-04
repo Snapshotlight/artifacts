@@ -53,7 +53,7 @@ public class DoubleJumpAbility implements ArtifactAbility {
             player.causeFoodExhaustion(0.05F);
         }
 
-        if (AbilityHelper.hasAbility(ModAbilities.FART.get(), player)) {
+        if (AbilityHelper.hasAbilityActive(ModAbilities.FART.get(), player)) {
             player.playSound(ModSoundEvents.FART.get(), 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
         } else {
             player.playSound(SoundEvents.WOOL_FALL, 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
@@ -61,7 +61,7 @@ public class DoubleJumpAbility implements ArtifactAbility {
     }
 
     public static float getReducedFallDistance(LivingEntity entity, float distance) {
-        if (AbilityHelper.hasAbility(ModAbilities.DOUBLE_JUMP.get(), entity)) {
+        if (AbilityHelper.hasAbilityActive(ModAbilities.DOUBLE_JUMP.get(), entity)) {
             return Math.max(0, distance - 3);
         }
         return distance;

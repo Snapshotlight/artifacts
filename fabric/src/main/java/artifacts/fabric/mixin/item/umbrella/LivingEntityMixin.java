@@ -31,7 +31,7 @@ public abstract class LivingEntityMixin extends Entity {
     private double changeGravity(double gravity) {
         LivingEntity entity = (LivingEntity) (Object) this;
         boolean isFalling = !this.onGround() && this.getDeltaMovement().y <= 0;
-        boolean isInWater = this.isInWater() && !AbilityHelper.hasAbility(ModAbilities.SINKING.get(), entity);
+        boolean isInWater = this.isInWater() && !AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), entity);
 
         if (UmbrellaItem.isHoldingUmbrellaUpright(entity)
                 && isFalling

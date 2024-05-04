@@ -62,7 +62,7 @@ public class ArtifactEvents {
 
     private static EventResult onEntityJoinWorld(Entity entity, Level level) {
         if (entity instanceof PathfinderMob creeper && creeper.getType().is(ModTags.CREEPERS)) {
-            Predicate<LivingEntity> predicate = target -> AbilityHelper.hasAbility(ModAbilities.SCARE_CREEPERS.get(), target);
+            Predicate<LivingEntity> predicate = target -> AbilityHelper.hasAbilityActive(ModAbilities.SCARE_CREEPERS.get(), target);
             ((MobAccessor) creeper).getGoalSelector().addGoal(3,
                     new AvoidEntityGoal<>(creeper, Player.class, predicate, 6, 1, 1.3, EntitySelector.NO_CREATIVE_OR_SPECTATOR::test)
             );
@@ -80,7 +80,7 @@ public class ArtifactEvents {
         if (!entity.level().isClientSide()
                 && amount > 0
                 && damageSource.is(DamageTypeTags.IS_LIGHTNING)
-                && AbilityHelper.hasAbility(ModAbilities.LIGHTNING_IMMUNITY.get(), entity)
+                && AbilityHelper.hasAbilityActive(ModAbilities.LIGHTNING_IMMUNITY.get(), entity)
         ) {
             return EventResult.interruptFalse();
         }
@@ -89,7 +89,7 @@ public class ArtifactEvents {
 
     public static ObjectArrayList<ItemStack> getPickaxeHeaterModifiedBlockDrops(ObjectArrayList<ItemStack> items, LootContext context, TagKey<Block> ores, TagKey<Item> rawOres) {
         if (context.getParamOrNull(LootContextParams.THIS_ENTITY) instanceof LivingEntity entity
-                && AbilityHelper.hasAbility(ModAbilities.SMELT_ORES.get(), entity)
+                && AbilityHelper.hasAbilityActive(ModAbilities.SMELT_ORES.get(), entity)
                 && context.hasParam(LootContextParams.ORIGIN)
                 && context.hasParam(LootContextParams.BLOCK_STATE)
                 && context.getParam(LootContextParams.BLOCK_STATE).is(ores)

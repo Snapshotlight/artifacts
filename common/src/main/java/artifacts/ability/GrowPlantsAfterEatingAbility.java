@@ -32,7 +32,7 @@ public class GrowPlantsAfterEatingAbility implements ArtifactAbility {
 
     public static void applyBoneMeal(LivingEntity entity, FoodProperties properties) {
         if (!entity.level().isClientSide()
-                && AbilityHelper.hasAbility(ModAbilities.GROW_PLANTS_AFTER_EATING.get(), entity)
+                && AbilityHelper.hasAbilityActive(ModAbilities.GROW_PLANTS_AFTER_EATING.get(), entity)
                 && properties.getNutrition() > 0
                 && !properties.canAlwaysEat()
                 && entity.onGround()

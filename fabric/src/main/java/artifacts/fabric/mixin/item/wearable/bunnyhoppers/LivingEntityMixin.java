@@ -15,7 +15,7 @@ public abstract class LivingEntityMixin {
     @SuppressWarnings("ConstantConditions")
     @Inject(method = "causeFallDamage", cancellable = true, at = @At("HEAD"))
     private void cancelFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> info) {
-        if (AbilityHelper.hasAbility(ModAbilities.CANCEL_FALL_DAMAGE.get(), (LivingEntity) (Object) this)) {
+        if (AbilityHelper.hasAbilityActive(ModAbilities.CANCEL_FALL_DAMAGE.get(), (LivingEntity) (Object) this)) {
             info.setReturnValue(false); // early return intended
         }
     }

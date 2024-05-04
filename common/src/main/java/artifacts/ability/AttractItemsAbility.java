@@ -15,7 +15,7 @@ import java.util.List;
 public class AttractItemsAbility implements ArtifactAbility {
 
     public static EventResult onItemToss(Player player, ItemEntity entity) {
-        if (AbilityHelper.hasAbility(ModAbilities.ATTRACT_ITEMS.get(), player, true)) {
+        if (AbilityHelper.hasAbilityActive(ModAbilities.ATTRACT_ITEMS.get(), player, true)) {
             AbilityHelper.addCooldown(ModAbilities.ATTRACT_ITEMS.get(), player, 5 * 20);
         }
         return EventResult.pass();

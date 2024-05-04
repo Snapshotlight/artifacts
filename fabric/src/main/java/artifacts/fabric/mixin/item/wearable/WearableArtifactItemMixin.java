@@ -18,6 +18,7 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -59,7 +60,7 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
     }
 
     @Override
-    protected void addTooltip(ItemStack stack, List<MutableComponent> tooltip) {
+    protected void addTooltip(ItemStack stack, List<MutableComponent> tooltip, @Nullable Player player) {
         if (!isCosmetic(stack)) { // Don't render cosmetics tooltip if item is cosmetic-only
             if (CosmeticsHelper.areCosmeticsToggledOffByPlayer(stack)) {
                 tooltip.add(
@@ -74,6 +75,6 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
             }
 
         }
-        super.addTooltip(stack, tooltip);
+        super.addTooltip(stack, tooltip, player);
     }
 }

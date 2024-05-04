@@ -13,6 +13,6 @@ public abstract class EnchantmentHelperMixin {
 
     @ModifyReturnValue(method = "hasAquaAffinity", at = @At("RETURN"))
     private static boolean dontSlowMiningUnderwater(boolean original, LivingEntity entity) {
-        return original || AbilityHelper.hasAbility(ModAbilities.SINKING.get(), entity);
+        return original || AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), entity);
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,7 +58,7 @@ public class WearableArtifactItem extends ArtifactItem {
             return;
         }
         for (ArtifactAbility ability : getAbilities(stack)) {
-            ability.onEquip(entity, ability.isEnabled());
+            ability.onEquip(entity, ability.isEnabledAndToggledOn(entity));
         }
     }
 
@@ -66,7 +67,7 @@ public class WearableArtifactItem extends ArtifactItem {
             return;
         }
         for (ArtifactAbility ability : getAbilities(stack)) {
-            ability.onUnequip(entity, ability.isEnabled());
+            ability.onUnequip(entity, ability.isEnabledAndToggledOn(entity));
         }
     }
 
@@ -75,7 +76,7 @@ public class WearableArtifactItem extends ArtifactItem {
             return;
         }
         for (ArtifactAbility ability : getAbilities(stack)) {
-            boolean isActive = ability.isEnabled();
+            boolean isActive = ability.isEnabledAndToggledOn(entity);
             boolean isOnCooldown = entity instanceof Player player && player.getCooldowns().isOnCooldown(this);
             ability.wornTick(entity, isOnCooldown, isActive);
         }
@@ -100,9 +101,9 @@ public class WearableArtifactItem extends ArtifactItem {
     }
 
     @Override
-    protected void addEffectsTooltip(ItemStack stack, List<MutableComponent> tooltip) {
+    protected void addEffectsTooltip(ItemStack stack, List<MutableComponent> tooltip, @Nullable Player player) {
         for (ArtifactAbility ability : getAbilities(stack)) {
-            ability.addTooltipIfNonCosmetic(tooltip);
+            ability.addTooltipIfNonCosmetic(tooltip, player);
         }
     }
 }

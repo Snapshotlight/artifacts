@@ -1,6 +1,7 @@
 package artifacts.util;
 
 import artifacts.ability.ArtifactAbility;
+import artifacts.component.AbilityToggles;
 import artifacts.item.WearableArtifactItem;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
@@ -43,12 +44,20 @@ public class AbilityHelper {
         return false;
     }
 
-    public static boolean hasAbility(ArtifactAbility.Type<?> type, @Nullable LivingEntity entity) {
-        return hasAbility(type, entity, false);
+    public static boolean isToggledOn(ArtifactAbility.Type<?> type, LivingEntity entity) {
+        AbilityToggles abilityToggles = PlatformServices.platformHelper.getAbilityToggles(entity);
+        if (abilityToggles != null) {
+            return abilityToggles.isToggledOn(type);
+        }
+        return true;
     }
 
-    public static boolean hasAbility(ArtifactAbility.Type<?> type, @Nullable LivingEntity entity, boolean skipItemsOnCooldown) {
-        if (entity == null) {
+    public static boolean hasAbilityActive(ArtifactAbility.Type<?> type, @Nullable LivingEntity entity) {
+        return hasAbilityActive(type, entity, false);
+    }
+
+    public static boolean hasAbilityActive(ArtifactAbility.Type<?> type, @Nullable LivingEntity entity, boolean skipItemsOnCooldown) {
+        if (entity == null || !isToggledOn(type, entity)) {
             return false;
         }
         return reduce(type, entity, skipItemsOnCooldown, false, (ability, b) -> b || ability.isEnabled());
