@@ -164,7 +164,7 @@ public class ModItems {
             new KnockbackAbility()
     ));
     public static RegistrySupplier<WearableArtifactItem> VAMPIRIC_GLOVE = register("vampiric_glove", () -> new WearableArtifactItem(
-            new AbsorbDamageAbility()
+            ModAbilities.ABSORB_DAMAGE.get().createDefaultInstance() // TODO
     ));
     public static RegistrySupplier<WearableArtifactItem> GOLDEN_HOOK = register("golden_hook", () -> new WearableArtifactItem(
             new ExperienceBonusAbility(),

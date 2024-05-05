@@ -9,6 +9,7 @@ import artifacts.ability.mobeffect.NightVisionAbility;
 import artifacts.ability.retaliation.SetAttackersOnFireAbility;
 import artifacts.ability.retaliation.StrikeAttackersWithLightningAbility;
 import artifacts.ability.retaliation.ThornsAbility;
+import com.mojang.serialization.MapCodec;
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrarManager;
 import net.minecraft.core.Registry;
@@ -27,7 +28,7 @@ public class ModAbilities {
             .syncToClients()
             .build();
 
-    public static final Supplier<Type<AbsorbDamageAbility>> ABSORB_DAMAGE = register("absorb_damage");
+    public static final Supplier<Type<AbsorbDamageAbility>> ABSORB_DAMAGE = register("absorb_damage", AbsorbDamageAbility.CODEC);
     public static final RegistrySupplier<Type<ApplyFireResistanceAfterFireDamageAbility>> APPLY_FIRE_RESISTANCE_AFTER_FIRE_DAMAGE = register("apply_fire_resistance_after_fire_damage");
     public static final RegistrySupplier<Type<ApplyHasteAfterEatingAbility>> APPLY_HASTE_AFTER_EATING = register("apply_haste_after_eating");
     public static final RegistrySupplier<Type<ApplySpeedAfterDamageAbility>> APPLY_SPEED_AFTER_DAMAGE = register("apply_speed_after_damage");
@@ -76,7 +77,7 @@ public class ModAbilities {
 
     }
 
-    public static <T extends ArtifactAbility> RegistrySupplier<Type<T>> register(String name) {
-        return RegistrySupplier.of(REGISTRY.register(Artifacts.id(name), Type::new));
+    public static <T extends ArtifactAbility> RegistrySupplier<Type<T>> register(String name, MapCodec<T> codec) {
+        return RegistrySupplier.of(REGISTRY.register(Artifacts.id(name), () -> new Type<>(codec)));
     }
 }

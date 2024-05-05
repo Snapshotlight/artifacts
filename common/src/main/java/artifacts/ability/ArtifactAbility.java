@@ -4,7 +4,11 @@ import artifacts.Artifacts;
 import artifacts.client.ToggleKeyHandler;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +19,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public interface ArtifactAbility {
+
+    @SuppressWarnings("ConstantConditions")
+    Codec<ArtifactAbility> CODEC = ResourceLocation.CODEC.dispatch("type",
+            ability -> ModAbilities.REGISTRY.getId(ability.getType()),
+            id -> ModAbilities.REGISTRY.get(id).codec()
+    );
 
     Type<?> getType();
 
@@ -67,7 +77,10 @@ public interface ArtifactAbility {
     }
 
     @SuppressWarnings("unused")
-    class Type<T extends ArtifactAbility> {
+    record Type<T extends ArtifactAbility>(MapCodec<T> codec) {
 
+        public T createDefaultInstance() {
+            return codec().codec().decode(NbtOps.INSTANCE, new CompoundTag()).getOrThrow().getFirst();
+        }
     }
 }

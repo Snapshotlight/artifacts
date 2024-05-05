@@ -11,10 +11,10 @@ import java.util.List;
 
 public class ReduceEatingDurationAbility implements ArtifactAbility {
 
-    private final ModGameRules.DoubleValue durationMultiplier;
+    private final ModGameRules.DoubleGameRule durationMultiplier;
     private final UseAnim anim;
 
-    public ReduceEatingDurationAbility(ModGameRules.DoubleValue durationMultiplier, UseAnim anim) {
+    public ReduceEatingDurationAbility(ModGameRules.DoubleGameRule durationMultiplier, UseAnim anim) {
         this.durationMultiplier = durationMultiplier;
         this.anim = anim;
     }
