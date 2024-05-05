@@ -1,12 +1,13 @@
 package artifacts.registry;
 
 import artifacts.Artifacts;
+import artifacts.ability.UpgradeToolTierAbility;
 import artifacts.mixin.gamerule.BooleanValueInvoker;
 import artifacts.mixin.gamerule.IntegerValueInvoker;
 import artifacts.network.BooleanGameRuleChangedPacket;
 import artifacts.network.IntegerGameRuleChangedPacket;
-import artifacts.network.NetworkHandler;
 import com.google.common.base.CaseFormat;
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
@@ -52,7 +53,7 @@ public class ModGameRules {
             CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS = integerValue(createName(ModItems.CROSS_NECKLACE, "bonusInvincibilityTicks"), 20, 60 * 20),
             CHORUS_TOTEM_HEALTH_RESTORED = integerValue(createName(ModItems.CHORUS_TOTEM, "healthRestored"), 10),
             CRYSTAL_HEART_HEALTH_BONUS = integerValue(createName(ModItems.CRYSTAL_HEART, "healthBonus"), 10, 100),
-            DIGGING_CLAWS_TOOL_TIER = integerValue(createName(ModItems.DIGGING_CLAWS, "toolTier"), Tiers.STONE.getLevel() + 1, Tiers.NETHERITE.getLevel() + 1),
+            DIGGING_CLAWS_TOOL_TIER = integerValue(createName(ModItems.DIGGING_CLAWS, "toolTier"), UpgradeToolTierAbility.getTierLevel(Tiers.STONE), UpgradeToolTierAbility.getTierLevel(Tiers.NETHERITE)),
             LUCKY_SCARF_FORTUNE_BONUS = integerValue(createName(ModItems.LUCKY_SCARF, "fortuneBonus"), 1, 100),
             POWER_GLOVE_ATTACK_DAMAGE_BONUS = integerValue(createName(ModItems.POWER_GLOVE, "attackDamageBonus"), 4),
             SUPERSTITIOUS_HAT_LOOTING_LEVEL_BONUS = integerValue(createName(ModItems.SUPERSTITIOUS_HAT, "lootingLevelBonus"), 1, 100),
@@ -127,7 +128,7 @@ public class ModGameRules {
         result.update(defaultValue);
         GameRules.Type<GameRules.BooleanValue> type = BooleanValueInvoker.invokeCreate(defaultValue, (server, value) -> {
             result.update(value.get());
-            NetworkHandler.CHANNEL.sendToPlayers(server.getPlayerList().getPlayers(), new BooleanGameRuleChangedPacket(name, value.get()));
+            NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(), new BooleanGameRuleChangedPacket(name, value.get()));
         });
         result.key = GameRules.register(name, GameRules.Category.PLAYER, type);
         BOOLEAN_VALUES.put(name, result);
@@ -147,7 +148,7 @@ public class ModGameRules {
         result.update(defaultValue);
         GameRules.Type<GameRules.IntegerValue> type = IntegerValueInvoker.invokeCreate(defaultValue, (server, value) -> {
             result.update(value.get());
-            NetworkHandler.CHANNEL.sendToPlayers(server.getPlayerList().getPlayers(), new IntegerGameRuleChangedPacket(name, value.get()));
+            NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(), new IntegerGameRuleChangedPacket(name, value.get()));
         });
         result.key = GameRules.register(name, GameRules.Category.PLAYER, type);
 
@@ -184,8 +185,8 @@ public class ModGameRules {
     }
 
     public static void onPlayerJoinLevel(ServerPlayer player) {
-        BOOLEAN_VALUES.forEach((key, value) -> NetworkHandler.CHANNEL.sendToPlayer(player, new BooleanGameRuleChangedPacket(key, value.value)));
-        INTEGER_VALUES.forEach((key, value) -> NetworkHandler.CHANNEL.sendToPlayer(player, new IntegerGameRuleChangedPacket(key, value.value)));
+        BOOLEAN_VALUES.forEach((key, value) -> NetworkManager.sendToPlayer(player, new BooleanGameRuleChangedPacket(key, value.value)));
+        INTEGER_VALUES.forEach((key, value) -> NetworkManager.sendToPlayer(player, new IntegerGameRuleChangedPacket(key, value.value)));
     }
 
     public static void onServerStarted(MinecraftServer server) {

@@ -17,15 +17,11 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.NeoForgeMod;
-import net.neoforged.neoforge.common.TierSortingRegistry;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
@@ -88,16 +84,6 @@ public class NeoForgePlatformHelper implements PlatformHelper {
         return false;
     }
 
-    @Override
-    public Attribute getStepHeightAttribute() {
-        return NeoForgeMod.STEP_HEIGHT.value();
-    }
-
-    @Override
-    public boolean isCorrectTierForDrops(Tier tier, BlockState state) {
-        return TierSortingRegistry.isCorrectTierForDrops(tier, state);
-    }
-
     @Nullable
     @Override
     public AbilityToggles getAbilityToggles(LivingEntity entity) {
@@ -113,7 +99,7 @@ public class NeoForgePlatformHelper implements PlatformHelper {
     @Override
     public ArtifactAbility getFlippersSwimAbility() {
         return new AttributeModifierAbility(
-                NeoForgeMod.SWIM_SPEED.value(),
+                NeoForgeMod.SWIM_SPEED,
                 ModGameRules.FLIPPERS_SWIM_SPEED_BONUS,
                 Artifacts.id("flippers/swim_speed_bonus")
         );

@@ -2,10 +2,11 @@ package artifacts.loot;
 
 import artifacts.Artifacts;
 import artifacts.registry.ModLootFunctions;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -17,20 +18,20 @@ import java.util.List;
 
 public class ReplaceWithLootTableFunction extends LootItemConditionalFunction {
 
-    public static final Codec<ReplaceWithLootTableFunction> CODEC = RecordCodecBuilder.create(instance ->
-            commonFields(instance).and(ResourceLocation.CODEC.fieldOf("loot_table").forGetter(f -> f.lootTable))
+    public static final MapCodec<ReplaceWithLootTableFunction> CODEC = RecordCodecBuilder.mapCodec(instance ->
+            commonFields(instance).and(ResourceKey.codec(Registries.LOOT_TABLE).fieldOf("loot_table").forGetter(f -> f.lootTable))
                     .apply(instance, ReplaceWithLootTableFunction::new)
     );
 
-    private final ResourceLocation lootTable;
+    private final ResourceKey<LootTable> lootTable;
 
-    public ReplaceWithLootTableFunction(List<LootItemCondition> conditions, ResourceLocation lootTable) {
+    public ReplaceWithLootTableFunction(List<LootItemCondition> conditions, ResourceKey<LootTable> lootTable) {
         super(conditions);
         this.lootTable = lootTable;
     }
 
     @Override
-    public LootItemFunctionType getType() {
+    public LootItemFunctionType<ReplaceWithLootTableFunction> getType() {
         return ModLootFunctions.REPLACE_WITH_LOOT_TABLE.get();
     }
 
@@ -39,7 +40,7 @@ public class ReplaceWithLootTableFunction extends LootItemConditionalFunction {
         if (stack.isEmpty()) {
             return stack;
         }
-        LootTable table = lootContext.getLevel().getServer().getLootData().getLootTable(lootTable);
+        LootTable table = lootContext.getLevel().getServer().reloadableRegistries().getLootTable(lootTable);
         ObjectArrayList<ItemStack> loot = new ObjectArrayList<>();
         table.getRandomItemsRaw(lootContext, loot::add);
         if (loot.size() > 1) {
@@ -51,7 +52,7 @@ public class ReplaceWithLootTableFunction extends LootItemConditionalFunction {
         return loot.get(0);
     }
 
-    public static LootItemConditionalFunction.Builder<?> replaceWithLootTable(ResourceLocation lootTable) {
+    public static LootItemConditionalFunction.Builder<?> replaceWithLootTable(ResourceKey<LootTable> lootTable) {
         return simpleBuilder((conditions) -> new ReplaceWithLootTableFunction(conditions, lootTable));
     }
 }

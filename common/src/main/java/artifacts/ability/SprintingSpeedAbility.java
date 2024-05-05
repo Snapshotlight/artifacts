@@ -14,7 +14,7 @@ public class SprintingSpeedAbility implements ArtifactAbility {
 
     private static AttributeModifier getSpeedBonus() {
         double speedMultiplier = ModGameRules.RUNNING_SHOES_SPEED_BONUS.get();
-        return new AttributeModifier(UUID.fromString("ac7ab816-2b08-46b6-879d-e5dea34ff305"), "artifacts:running_shoes_movement_speed", speedMultiplier, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        return new AttributeModifier(UUID.fromString("ac7ab816-2b08-46b6-879d-e5dea34ff305"), "artifacts:running_shoes_movement_speed", speedMultiplier, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class SprintingSpeedAbility implements ArtifactAbility {
             }
         } else {
             if (movementSpeed != null && movementSpeed.hasModifier(modifier)) {
-                movementSpeed.removeModifier(modifier.getId());
+                movementSpeed.removeModifier(modifier.id());
             }
         }
     }

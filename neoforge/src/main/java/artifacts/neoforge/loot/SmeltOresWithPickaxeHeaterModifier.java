@@ -2,7 +2,7 @@ package artifacts.neoforge.loot;
 
 import artifacts.event.ArtifactEvents;
 import com.google.common.base.Suppliers;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.item.ItemStack;
@@ -16,8 +16,8 @@ import java.util.function.Supplier;
 
 public class SmeltOresWithPickaxeHeaterModifier extends LootModifier {
 
-    public static final Supplier<Codec<SmeltOresWithPickaxeHeaterModifier>> CODEC = Suppliers.memoize(
-            () -> RecordCodecBuilder.create(instance -> codecStart(instance)
+    public static final Supplier<MapCodec<SmeltOresWithPickaxeHeaterModifier>> CODEC = Suppliers.memoize(
+            () -> RecordCodecBuilder.mapCodec(instance -> codecStart(instance)
                     .apply(instance, SmeltOresWithPickaxeHeaterModifier::new)
             )
     );
@@ -32,7 +32,7 @@ public class SmeltOresWithPickaxeHeaterModifier extends LootModifier {
     }
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
+    public MapCodec<? extends IGlobalLootModifier> codec() {
         return CODEC.get();
     }
 }

@@ -2,9 +2,9 @@ package artifacts.mixin.item.wearable.chorustotem;
 
 import artifacts.ability.TeleportOnDeathAbility;
 import artifacts.network.ChorusTotemUsedPacket;
-import artifacts.network.NetworkHandler;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -42,7 +42,7 @@ public class LivingEntityMixin {
                     entity.setHealth(Math.min(entity.getMaxHealth(), Math.max(1, ability.getHealthRestored())));
                     if (entity instanceof ServerPlayer player) {
                         entity.level().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1, 1);
-                        NetworkHandler.CHANNEL.sendToPlayer(player, new ChorusTotemUsedPacket());
+                        NetworkManager.sendToPlayer(player, new ChorusTotemUsedPacket());
                     }
                     cir.setReturnValue(true); // early return intended!
                 }

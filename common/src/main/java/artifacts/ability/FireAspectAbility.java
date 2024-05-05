@@ -13,8 +13,8 @@ public class FireAspectAbility implements ArtifactAbility {
     public static EventResult onLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {
         LivingEntity attacker = DamageSourceHelper.getAttacker(damageSource);
         if (attacker != null && DamageSourceHelper.isMeleeAttack(damageSource) && !entity.fireImmune()) {
-            int durationTicks = AbilityHelper.maxInt(ModAbilities.FIRE_ASPECT.get(), attacker, FireAspectAbility::fireDuration, false);
-            entity.setSecondsOnFire(durationTicks / 20);
+            int duration = AbilityHelper.maxInt(ModAbilities.FIRE_ASPECT.get(), attacker, FireAspectAbility::fireDuration, false);
+            entity.igniteForTicks(duration);
         }
         return EventResult.pass();
     }

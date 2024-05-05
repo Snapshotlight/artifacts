@@ -5,7 +5,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:artifact"
+          "value": "artifacts:artifact"
         }
       ],
       "rolls": 1.0

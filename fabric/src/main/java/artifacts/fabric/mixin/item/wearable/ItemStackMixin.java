@@ -39,7 +39,7 @@ public class ItemStackMixin {
         AbilityHelper.getAbilities(ModAbilities.ATTRIBUTE_MODIFIER.get(), stack).forEach(ability -> {
             double amount = ability.getAmount();
 
-            if (ability.getOperation() == AttributeModifier.Operation.ADDITION) {
+            if (ability.getOperation() == AttributeModifier.Operation.ADD_VALUE) {
                 if (ability.getAttribute().equals(Attributes.KNOCKBACK_RESISTANCE)) {
                     amount *= 10;
                 }

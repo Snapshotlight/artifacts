@@ -1,32 +1,31 @@
 package artifacts.network;
 
+import artifacts.Artifacts;
 import artifacts.registry.ModGameRules;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-import java.util.function.Supplier;
+public record IntegerGameRuleChangedPacket(String key, int value) implements CustomPacketPayload {
 
-public class IntegerGameRuleChangedPacket {
+    public static final CustomPacketPayload.Type<IntegerGameRuleChangedPacket> TYPE = new CustomPacketPayload.Type<>(Artifacts.id("integer_game_rule_changed"));
 
-    private final String key;
-    private final int value;
+    public static final StreamCodec<FriendlyByteBuf, IntegerGameRuleChangedPacket> CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8,
+            IntegerGameRuleChangedPacket::key,
+            ByteBufCodecs.INT,
+            IntegerGameRuleChangedPacket::value,
+            IntegerGameRuleChangedPacket::new
+    );
 
-    public IntegerGameRuleChangedPacket(FriendlyByteBuf buffer) {
-        key = buffer.readUtf();
-        value = buffer.readInt();
+    public void apply(NetworkManager.PacketContext context) {
+        context.queue(() -> ModGameRules.updateValue(key, value));
     }
 
-    public IntegerGameRuleChangedPacket(String key, int value) {
-        this.key = key;
-        this.value = value;
-    }
-
-    void encode(FriendlyByteBuf buffer) {
-        buffer.writeUtf(key);
-        buffer.writeInt(value);
-    }
-
-    void apply(Supplier<NetworkManager.PacketContext> context) {
-        context.get().queue(() -> ModGameRules.updateValue(key, value));
+    @Override
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

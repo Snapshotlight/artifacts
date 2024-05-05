@@ -1,12 +1,12 @@
 package artifacts.component;
 
 import artifacts.ability.ArtifactAbility;
-import artifacts.network.NetworkHandler;
-import artifacts.network.ToggleArtifactPacket;
+import artifacts.network.SyncArtifactTogglesPacket;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
 import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -61,17 +61,13 @@ public class AbilityToggles {
         }
     }
 
-    public void applyToggles(Set<ArtifactAbility.Type<?>> toggles, LivingEntity entity) {
-        for (ArtifactAbility.Type<?> type : new HashSet<>(Sets.symmetricDifference(this.toggles, toggles))) {
+    public void applyToggles(Collection<ArtifactAbility.Type<?>> toggles, LivingEntity entity) {
+        for (ArtifactAbility.Type<?> type : Set.copyOf(Sets.symmetricDifference(this.toggles, Set.copyOf(toggles)))) {
             toggle(type, entity);
         }
     }
 
-    public void sendToServer() {
-        NetworkHandler.CHANNEL.sendToServer(new ToggleArtifactPacket(toggles));
-    }
-
     public void sendToClient(ServerPlayer player) {
-        NetworkHandler.CHANNEL.sendToPlayer(player, new ToggleArtifactPacket(toggles));
+        NetworkManager.sendToPlayer(player, new SyncArtifactTogglesPacket(List.copyOf(toggles)));
     }
 }

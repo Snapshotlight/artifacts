@@ -3,6 +3,7 @@ package artifacts.ability;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.registry.ModTags;
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,11 +31,11 @@ public class RemoveBadEffectsAbility implements ArtifactAbility {
         if (!isActive) {
             return;
         }
-        Map<MobEffect, MobEffectInstance> effects = new HashMap<>();
+        Map<Holder<MobEffect>, MobEffectInstance> effects = new HashMap<>();
 
         int maxEffectDuration = getMaxEffectDuration();
         entity.getActiveEffectsMap().forEach((effect, instance) -> {
-            if (ModTags.isInTag(effect, ModTags.ANTIDOTE_VESSEL_CANCELLABLE) && instance.getDuration() > maxEffectDuration) {
+            if (ModTags.isInTag(effect.value(), ModTags.ANTIDOTE_VESSEL_CANCELLABLE) && instance.getDuration() > maxEffectDuration) {
                 effects.put(effect, instance);
             }
         });

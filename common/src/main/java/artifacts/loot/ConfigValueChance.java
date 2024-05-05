@@ -3,6 +3,7 @@ package artifacts.loot;
 import artifacts.Artifacts;
 import artifacts.registry.ModLootConditions;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -13,7 +14,7 @@ import java.util.function.Supplier;
 
 public class ConfigValueChance implements LootItemCondition {
 
-    public static final Codec<ConfigValueChance> CODEC = RecordCodecBuilder.create(instance ->
+    public static final MapCodec<ConfigValueChance> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(ChanceConfig.CODEC.fieldOf("config").forGetter(c -> c.chanceConfig))
                     .apply(instance, ConfigValueChance::new)
     );

@@ -416,7 +416,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:artifact"
+          "value": "artifacts:artifact"
         }
       ],
       "name": "artifact",

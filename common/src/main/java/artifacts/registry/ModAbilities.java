@@ -11,6 +11,8 @@ import artifacts.ability.retaliation.StrikeAttackersWithLightningAbility;
 import artifacts.ability.retaliation.ThornsAbility;
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrarManager;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Supplier;
@@ -19,8 +21,9 @@ import static artifacts.ability.ArtifactAbility.Type;
 
 public class ModAbilities {
 
-    private static final ResourceLocation registryId = Artifacts.id("ability_types");
-    public static final Registrar<Type<?>> REGISTRY = RegistrarManager.get(Artifacts.MOD_ID).<Type<?>>builder(registryId)
+    private static final ResourceLocation REGISTRY_ID = Artifacts.id("ability_types");
+    private static final ResourceKey<Registry<Type<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(REGISTRY_ID);
+    public static final Registrar<Type<?>> REGISTRY = RegistrarManager.get(Artifacts.MOD_ID).<Type<?>>builder(REGISTRY_ID)
             .syncToClients()
             .build();
 

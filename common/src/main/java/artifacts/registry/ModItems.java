@@ -40,8 +40,8 @@ public class ModItems {
 
     public static RegistrySupplier<Item> MIMIC_SPAWN_EGG = register("mimic_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntityTypes.MIMIC.getRegistrySupplier(), 0x805113, 0x212121, new Item.Properties().arch$tab(CREATIVE_TAB.getRegistrySupplier())));
     public static RegistrySupplier<Item> UMBRELLA = register("umbrella", UmbrellaItem::new);
-    public static RegistrySupplier<Item> EVERLASTING_BEEF = register("everlasting_beef", () -> new EverlastingFoodItem(new FoodProperties.Builder().nutrition(3).saturationMod(0.3F).build(), ModGameRules.EVERLASTING_BEEF_COOLDOWN, ModGameRules.EVERLASTING_BEEF_ENABLED));
-    public static RegistrySupplier<Item> ETERNAL_STEAK = register("eternal_steak", () -> new EverlastingFoodItem(new FoodProperties.Builder().nutrition(8).saturationMod(0.8F).build(), ModGameRules.ETERNAL_STEAK_COOLDOWN, ModGameRules.ETERNAL_STEAK_ENABLED));
+    public static RegistrySupplier<Item> EVERLASTING_BEEF = register("everlasting_beef", () -> new EverlastingFoodItem(new FoodProperties.Builder().nutrition(3).saturationModifier(0.3F).build(), ModGameRules.EVERLASTING_BEEF_COOLDOWN, ModGameRules.EVERLASTING_BEEF_ENABLED));
+    public static RegistrySupplier<Item> ETERNAL_STEAK = register("eternal_steak", () -> new EverlastingFoodItem(new FoodProperties.Builder().nutrition(8).saturationModifier(0.8F).build(), ModGameRules.ETERNAL_STEAK_COOLDOWN, ModGameRules.ETERNAL_STEAK_ENABLED));
 
     // head
     public static RegistrySupplier<WearableArtifactItem> PLASTIC_DRINKING_HAT = register("plastic_drinking_hat", () -> new WearableArtifactItem(
@@ -68,11 +68,11 @@ public class ModItems {
             IncreaseEnchantmentLevelAbility.looting()
     ));
     public static RegistrySupplier<WearableArtifactItem> COWBOY_HAT = register("cowboy_hat", () -> new WearableArtifactItem(
-            SoundEvents.ARMOR_EQUIP_LEATHER,
+            SoundEvents.ARMOR_EQUIP_LEATHER::value,
             new MountSpeedAbility()
     ));
     public static RegistrySupplier<WearableArtifactItem> ANGLERS_HAT = register("anglers_hat", () -> new WearableArtifactItem(
-            SoundEvents.ARMOR_EQUIP_LEATHER,
+            SoundEvents.ARMOR_EQUIP_LEATHER::value,
             IncreaseEnchantmentLevelAbility.luckOfTheSea(),
             IncreaseEnchantmentLevelAbility.lure()
     ));
@@ -85,12 +85,12 @@ public class ModItems {
             new InvisibilityAbility()
     ));
     public static RegistrySupplier<WearableArtifactItem> CROSS_NECKLACE = register("cross_necklace", () -> new WearableArtifactItem(
-            SoundEvents.ARMOR_EQUIP_DIAMOND,
+            SoundEvents.ARMOR_EQUIP_DIAMOND::value,
             new MakePiglinsNeutralAbility(),
             new BonusInvincibilityTicksAbility()
     ));
     public static RegistrySupplier<WearableArtifactItem> PANIC_NECKLACE = register("panic_necklace", () -> new WearableArtifactItem(
-            SoundEvents.ARMOR_EQUIP_DIAMOND,
+            SoundEvents.ARMOR_EQUIP_DIAMOND::value,
             new ApplySpeedAfterDamageAbility()
     ));
     public static RegistrySupplier<WearableArtifactItem> SHOCK_PENDANT = register("shock_pendant", () -> new WearableArtifactItem(
@@ -112,7 +112,7 @@ public class ModItems {
             new DoubleJumpAbility()
     ));
     public static RegistrySupplier<WearableArtifactItem> OBSIDIAN_SKULL = register("obsidian_skull", () ->  new WearableArtifactItem(
-            SoundEvents.ARMOR_EQUIP_IRON,
+            SoundEvents.ARMOR_EQUIP_IRON::value,
             new ApplyFireResistanceAfterFireDamageAbility()
     ));
     public static RegistrySupplier<WearableArtifactItem> ANTIDOTE_VESSEL = register("antidote_vessel", () -> new WearableArtifactItem(
@@ -125,7 +125,7 @@ public class ModItems {
             new AttractItemsAbility()
     ));
     public static RegistrySupplier<WearableArtifactItem> CRYSTAL_HEART = register("crystal_heart", () -> new WearableArtifactItem(
-            SoundEvents.ARMOR_EQUIP_DIAMOND,
+            SoundEvents.ARMOR_EQUIP_DIAMOND::value,
             CustomTooltipAbility.attributeTooltip("max_health"),
             new AttributeModifierAbility(Attributes.MAX_HEALTH, () -> (double) ModGameRules.CRYSTAL_HEART_HEALTH_BONUS.get(), Artifacts.id("crystal_heart/health_bonus")
     )
@@ -141,12 +141,12 @@ public class ModItems {
 
     // hands
     public static RegistrySupplier<WearableArtifactItem> DIGGING_CLAWS = register("digging_claws", () -> new WearableArtifactItem(
-            SoundEvents.ARMOR_EQUIP_NETHERITE,
+            SoundEvents.ARMOR_EQUIP_NETHERITE::value,
             new DigSpeedAbility(),
             new UpgradeToolTierAbility()
     ));
     public static RegistrySupplier<WearableArtifactItem> FERAL_CLAWS = register("feral_claws", () -> new WearableArtifactItem(
-            SoundEvents.ARMOR_EQUIP_NETHERITE,
+            SoundEvents.ARMOR_EQUIP_NETHERITE::value,
             CustomTooltipAbility.attributeTooltip("attack_speed"),
             new AttributeModifierAbility(Attributes.ATTACK_SPEED, ModGameRules.FERAL_CLAWS_ATTACK_SPEED_BONUS, Artifacts.id("feral_claws/attack_speed_bonus")
     )
@@ -156,7 +156,7 @@ public class ModItems {
             new AttributeModifierAbility(Attributes.ATTACK_DAMAGE, () -> (double) ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS.get(), Artifacts.id("power_glove/attack_damage_bonus"))
     ));
     public static RegistrySupplier<WearableArtifactItem> FIRE_GAUNTLET = register("fire_gauntlet", () -> new WearableArtifactItem(
-            SoundEvents.ARMOR_EQUIP_IRON,
+            SoundEvents.ARMOR_EQUIP_IRON::value,
             new FireAspectAbility()
     ));
     public static RegistrySupplier<WearableArtifactItem> POCKET_PISTON = register("pocket_piston", () -> new WearableArtifactItem(
@@ -175,7 +175,7 @@ public class ModItems {
             new ApplyHasteAfterEatingAbility()
     ));
     public static RegistrySupplier<WearableArtifactItem> PICKAXE_HEATER = register("pickaxe_heater", () -> new WearableArtifactItem(
-            SoundEvents.ARMOR_EQUIP_IRON,
+            SoundEvents.ARMOR_EQUIP_IRON::value,
             SimpleAbility.smeltOres()
     ));
 
@@ -210,7 +210,7 @@ public class ModItems {
             PlatformServices.platformHelper.getFlippersSwimAbility()
     ));
     public static RegistrySupplier<WearableArtifactItem> ROOTED_BOOTS = register("rooted_boots", () -> new WearableArtifactItem(
-            SoundEvents.ARMOR_EQUIP_LEATHER,
+            SoundEvents.ARMOR_EQUIP_LEATHER::value,
             new ReplenishHungerOnGrassAbility(),
             new GrowPlantsAfterEatingAbility()
     ));

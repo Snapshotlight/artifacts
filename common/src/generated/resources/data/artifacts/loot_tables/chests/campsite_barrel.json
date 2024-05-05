@@ -161,43 +161,43 @@
         },
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:chests/campsite_barrel/tnt"
+          "value": "artifacts:chests/campsite_barrel/tnt"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:chests/campsite_barrel/cobwebs"
+          "value": "artifacts:chests/campsite_barrel/cobwebs"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:chests/campsite_barrel/ores"
+          "value": "artifacts:chests/campsite_barrel/ores"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:chests/campsite_barrel/ingots"
+          "value": "artifacts:chests/campsite_barrel/ingots"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:chests/campsite_barrel/gems"
+          "value": "artifacts:chests/campsite_barrel/gems"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:chests/campsite_barrel/crops"
+          "value": "artifacts:chests/campsite_barrel/crops"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:chests/campsite_barrel/food"
+          "value": "artifacts:chests/campsite_barrel/food"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:chests/campsite_barrel/cobblestone"
+          "value": "artifacts:chests/campsite_barrel/cobblestone"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:chests/campsite_barrel/rails"
+          "value": "artifacts:chests/campsite_barrel/rails"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:chests/campsite_barrel/minecarts"
+          "value": "artifacts:chests/campsite_barrel/minecarts"
         }
       ],
       "rolls": 1.0

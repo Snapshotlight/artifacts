@@ -15,7 +15,7 @@ public abstract class FishingRodItemMixin {
 
     @ModifyExpressionValue(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/enchantment/EnchantmentHelper;getFishingLuckBonus(Lnet/minecraft/world/item/ItemStack;)I"))
     private int getFishingLuckBonus(int original, Level level, Player player, InteractionHand interactionHand) {
-        return original + AbilityHelper.getEnchantmentSum(Enchantments.FISHING_LUCK, player);
+        return original + AbilityHelper.getEnchantmentSum(Enchantments.LUCK_OF_THE_SEA, player);
     }
 
     @ModifyExpressionValue(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/enchantment/EnchantmentHelper;getFishingSpeedBonus(Lnet/minecraft/world/item/ItemStack;)I"))
@@ -24,6 +24,6 @@ public abstract class FishingRodItemMixin {
         if (original >= 5) {
             return original;
         }
-        return Math.min(5, original + AbilityHelper.getEnchantmentSum(Enchantments.FISHING_SPEED, player));
+        return Math.min(5, original + AbilityHelper.getEnchantmentSum(Enchantments.LURE, player));
     }
 }

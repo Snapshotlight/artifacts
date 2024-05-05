@@ -7,6 +7,7 @@ import artifacts.item.ArtifactItem;
 import artifacts.item.WearableArtifactItem;
 import dev.emi.trinkets.api.TrinketItem;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvent;
@@ -36,7 +37,7 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player user, InteractionHand hand) {
         ItemStack stack = user.getItemInHand(hand);
-        if (getFoodProperties() == null && TrinketItem.equipItem(user, stack)) {
+        if (!stack.has(DataComponents.FOOD) && TrinketItem.equipItem(user, stack)) {
             user.playSound(getEquipSound(), 1, getEquipSoundPitch());
 
             return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());

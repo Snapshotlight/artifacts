@@ -13,6 +13,6 @@ public class EnchantmentHelperMixin {
 
     @ModifyReturnValue(method = "getMobLooting", at = @At("RETURN"))
     private static int increaseLooting(int original, LivingEntity entity) {
-        return original + AbilityHelper.getEnchantmentSum(Enchantments.MOB_LOOTING, entity);
+        return original + AbilityHelper.getEnchantmentSum(Enchantments.LOOTING, entity);
     }
 }

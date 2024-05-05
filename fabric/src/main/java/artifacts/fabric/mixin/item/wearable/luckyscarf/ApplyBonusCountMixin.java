@@ -27,8 +27,8 @@ public class ApplyBonusCountMixin {
     private int addFortuneLevel(int level, ItemStack stack, LootContext lootContext) {
         Entity entity = lootContext.getParamOrNull(LootContextParams.THIS_ENTITY);
 
-        if (this.enchantment.value() == Enchantments.BLOCK_FORTUNE && entity instanceof LivingEntity livingEntity) {
-            level += AbilityHelper.getEnchantmentSum(Enchantments.BLOCK_FORTUNE, livingEntity);
+        if (this.enchantment.value() == Enchantments.FORTUNE && entity instanceof LivingEntity livingEntity) {
+            level += AbilityHelper.getEnchantmentSum(Enchantments.FORTUNE, livingEntity);
         }
 
         return level;

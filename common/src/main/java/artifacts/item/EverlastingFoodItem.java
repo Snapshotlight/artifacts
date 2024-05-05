@@ -1,5 +1,6 @@
 package artifacts.item;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,7 +34,7 @@ public class EverlastingFoodItem extends ArtifactItem {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity entity) {
-        if (isEdible()) {
+        if (stack.has(DataComponents.FOOD)) {
             entity.eat(world, stack.copy());
             addCooldown(entity, eatingCooldown.get());
         }
@@ -41,20 +42,13 @@ public class EverlastingFoodItem extends ArtifactItem {
         return stack;
     }
 
+    // TODO test this
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (!isEnabled.get()) {
             return InteractionResultHolder.pass(player.getItemInHand(hand));
         }
         return super.use(level, player, hand);
-    }
-
-    @Override
-    public boolean isEdible() {
-        if (!isEnabled.get()) {
-            return false;
-        }
-        return super.isEdible();
     }
 }
 

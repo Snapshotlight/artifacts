@@ -1,6 +1,7 @@
 package artifacts.ability.mobeffect;
 
 import artifacts.ability.ArtifactAbility;
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,19 +11,19 @@ import java.util.function.Supplier;
 
 public abstract class MobEffectAbility implements ArtifactAbility {
 
-    private final MobEffect mobEffect;
+    private final Holder<MobEffect> mobEffect;
     private final int duration;
     protected final Supplier<Integer> amplifier;
 
-    public MobEffectAbility(MobEffect mobEffect) {
+    public MobEffectAbility(Holder<MobEffect> mobEffect) {
         this(mobEffect, () -> 1);
     }
 
-    public MobEffectAbility(MobEffect mobEffect, Supplier<Integer> amplifier) {
+    public MobEffectAbility(Holder<MobEffect> mobEffect, Supplier<Integer> amplifier) {
         this(mobEffect, amplifier, 40);
     }
 
-    private MobEffectAbility(MobEffect mobEffect, Supplier<Integer> amplifier, int duration) {
+    private MobEffectAbility(Holder<MobEffect> mobEffect, Supplier<Integer> amplifier, int duration) {
         this.mobEffect = mobEffect;
         this.duration = duration;
         this.amplifier = amplifier;

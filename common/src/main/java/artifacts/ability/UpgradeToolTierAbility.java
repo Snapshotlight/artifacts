@@ -1,7 +1,6 @@
 package artifacts.ability;
 
 import artifacts.Artifacts;
-import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.registry.ModTags;
@@ -9,6 +8,7 @@ import artifacts.util.AbilityHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
@@ -25,7 +25,7 @@ public class UpgradeToolTierAbility implements ArtifactAbility {
                     ModAbilities.UPGRADE_TOOL_TIER.get(), entity,
                     UpgradeToolTierAbility::getToolTier, false
             ));
-            return tier.isPresent() && PlatformServices.platformHelper.isCorrectTierForDrops(tier.get(), state);
+            return tier.isPresent() && isCorrectTierForDrops(tier.get(), state);
         }
         return false;
     }
@@ -39,6 +39,32 @@ public class UpgradeToolTierAbility implements ArtifactAbility {
             case 4 -> Optional.of(Tiers.DIAMOND);
             default -> Optional.of(Tiers.NETHERITE);
         };
+    }
+
+    public static int getTierLevel(Tier tier) {
+        if (!(tier instanceof Tiers tiers)) {
+            return 0;
+        }
+        return switch (tiers) {
+            case WOOD -> 1;
+            case STONE -> 2;
+            case IRON -> 3;
+            case DIAMOND -> 4;
+            case NETHERITE -> 5;
+            default -> 0;
+        };
+    }
+
+    public static boolean isCorrectTierForDrops(Tier tier, BlockState state) {
+        int i = UpgradeToolTierAbility.getTierLevel(tier);
+        if (state.is(BlockTags.NEEDS_DIAMOND_TOOL)) {
+            return i >= 4;
+        } else if (state.is(BlockTags.NEEDS_IRON_TOOL)) {
+            return i >= 3;
+        } else if (state.is(BlockTags.NEEDS_STONE_TOOL)) {
+            return i >= 2;
+        }
+        return true;
     }
 
     public int getToolTier() {
@@ -63,7 +89,7 @@ public class UpgradeToolTierAbility implements ArtifactAbility {
             tooltip.add(
                     Component.translatable(
                             "%s.tooltip.ability.%s".formatted(id.getNamespace(), id.getPath()),
-                            Component.translatable("%s.tooltip.tool_tier.%s".formatted(Artifacts.MOD_ID, tier.getLevel() + 1))
+                            Component.translatable("%s.tooltip.tool_tier.%s".formatted(Artifacts.MOD_ID, getTierLevel(tier)))
                     )
             );
         });

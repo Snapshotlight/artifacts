@@ -1,19 +1,18 @@
 package artifacts.ability;
 
-import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
 
 public class SprintingStepHeightAbility implements ArtifactAbility {
 
-    private static final AttributeModifier STEP_HEIGHT_BONUS = new AttributeModifier(UUID.fromString("4a312f09-78e0-4f3a-95c2-07ed63212472"), "artifacts:running_shoes_step_height", 0.5, AttributeModifier.Operation.ADDITION);
+    private static final AttributeModifier STEP_HEIGHT_BONUS = new AttributeModifier(UUID.fromString("4a312f09-78e0-4f3a-95c2-07ed63212472"), "artifacts:running_shoes_step_height", 0.5, AttributeModifier.Operation.ADD_VALUE);
 
     @Override
     public Type<?> getType() {
@@ -27,14 +26,14 @@ public class SprintingStepHeightAbility implements ArtifactAbility {
 
     @Override
     public void wornTick(LivingEntity entity, boolean isOnCooldown, boolean isActive) {
-        AttributeInstance stepHeight = entity.getAttribute(PlatformServices.platformHelper.getStepHeightAttribute());
+        AttributeInstance stepHeight = entity.getAttribute(Attributes.STEP_HEIGHT);
         if (entity.isSprinting() && isActive) {
             if (stepHeight != null && !stepHeight.hasModifier(STEP_HEIGHT_BONUS) && entity instanceof Player) {
                 stepHeight.addTransientModifier(STEP_HEIGHT_BONUS);
             }
         } else {
             if (stepHeight != null && stepHeight.hasModifier(STEP_HEIGHT_BONUS)) {
-                stepHeight.removeModifier(STEP_HEIGHT_BONUS.getId());
+                stepHeight.removeModifier(STEP_HEIGHT_BONUS.id());
             }
         }
     }

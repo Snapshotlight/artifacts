@@ -5,13 +5,16 @@ import be.florens.expandability.api.forge.LivingFluidCollisionEvent;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
 import dev.architectury.event.EventResult;
 import net.neoforged.bus.api.Event;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.NeoForge;
 
 public class SwimEventsNeoForge {
 
     public static void register() {
-        NeoForge.EVENT_BUS.addListener(SwimEventsNeoForge::onPlayerSwim);
-        NeoForge.EVENT_BUS.addListener(SwimEventsNeoForge::onAquaDashersFluidCollision);
+        if (ModList.get().isLoaded("expandability")) {
+            NeoForge.EVENT_BUS.addListener(SwimEventsNeoForge::onPlayerSwim);
+            NeoForge.EVENT_BUS.addListener(SwimEventsNeoForge::onAquaDashersFluidCollision);
+        }
     }
 
     public static void onPlayerSwim(PlayerSwimEvent event) {

@@ -2,9 +2,11 @@ package artifacts.registry;
 
 import artifacts.Artifacts;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.Map;
 
 public class ModLootTables {
 
-    public static final List<ResourceLocation> INJECTED_LOOT_TABLES = List.of(
+    public static final List<ResourceKey<LootTable>> INJECTED_LOOT_TABLES = List.of(
             EntityType.COW.getDefaultLootTable(),
             EntityType.MOOSHROOM.getDefaultLootTable(),
             BuiltInLootTables.VILLAGE_DESERT_HOUSE,
@@ -46,7 +48,7 @@ public class ModLootTables {
             BuiltInLootTables.ANCIENT_CITY
     );
 
-    public static final List<ResourceLocation> ARCHAEOLOGY_LOOT_TABLES = List.of(
+    public static final List<ResourceKey<LootTable>> ARCHAEOLOGY_LOOT_TABLES = List.of(
             BuiltInLootTables.DESERT_PYRAMID_ARCHAEOLOGY,
             BuiltInLootTables.DESERT_WELL_ARCHAEOLOGY,
             BuiltInLootTables.OCEAN_RUIN_COLD_ARCHAEOLOGY,
@@ -54,7 +56,7 @@ public class ModLootTables {
             BuiltInLootTables.TRAIL_RUINS_ARCHAEOLOGY_RARE
     );
 
-    public static final Map<EntityType<?>, ResourceLocation> ENTITY_EQUIPMENT;
+    public static final Map<EntityType<?>, ResourceKey<LootTable>> ENTITY_EQUIPMENT;
 
     static {
         ENTITY_EQUIPMENT = new HashMap<>();
@@ -71,7 +73,7 @@ public class ModLootTables {
         ).forEach(type -> ENTITY_EQUIPMENT.put(type, entityEquipmentLootTable(type)));
     }
 
-    public static ResourceLocation entityEquipmentLootTable(EntityType<?> entityType) {
-        return Artifacts.id("entity_equipment/%s", BuiltInRegistries.ENTITY_TYPE.getKey(entityType).getPath());
+    public static ResourceKey<LootTable> entityEquipmentLootTable(EntityType<?> entityType) {
+        return ResourceKey.create(Registries.LOOT_TABLE, Artifacts.id("entity_equipment/%s", BuiltInRegistries.ENTITY_TYPE.getKey(entityType).getPath()));
     }
 }

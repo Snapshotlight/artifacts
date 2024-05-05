@@ -1,7 +1,7 @@
 package artifacts.world.placement;
 
 import artifacts.registry.ModPlacementModifierTypes;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.RandomSource;
@@ -11,10 +11,9 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 
 public class CeilingHeightFilter extends PlacementFilter {
 
-    public static final Codec<CeilingHeightFilter> CODEC = ExtraCodecs.NON_NEGATIVE_INT
+    public static final MapCodec<CeilingHeightFilter> CODEC = ExtraCodecs.NON_NEGATIVE_INT
             .fieldOf("max_height")
-            .xmap(CeilingHeightFilter::new, f -> f.maxHeight)
-            .codec();
+            .xmap(CeilingHeightFilter::new, f -> f.maxHeight);
 
     private final int maxHeight;
 

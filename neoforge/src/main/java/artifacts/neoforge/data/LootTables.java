@@ -7,17 +7,20 @@ import artifacts.registry.ModItems;
 import artifacts.world.CampsiteFeature;
 import com.google.common.base.Preconditions;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.storage.loot.*;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
-import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
 import net.minecraft.world.level.storage.loot.functions.EnchantWithLevelsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
@@ -27,6 +30,10 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.*;
 
 public class LootTables extends LootTableProvider {
@@ -36,8 +43,8 @@ public class LootTables extends LootTableProvider {
     private final ExistingFileHelper existingFileHelper;
     private final LootModifiers lootModifiers;
 
-    public LootTables(PackOutput packOutput, ExistingFileHelper existingFileHelper, LootModifiers lootModifiers) {
-        super(packOutput, Set.of(), List.of());
+    public LootTables(PackOutput packOutput, ExistingFileHelper existingFileHelper, LootModifiers lootModifiers, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(packOutput, Set.of(), List.of(), lookupProvider);
         this.existingFileHelper = existingFileHelper;
         this.lootModifiers = lootModifiers;
     }
@@ -54,7 +61,7 @@ public class LootTables extends LootTableProvider {
             addLootTable("inject/" + lootBuilder.getName(), lootBuilder.createLootTable(), lootBuilder.getParameterSet());
         }
 
-        addLootTable(MimicEntity.LOOT_TABLE.getPath(), new LootTable.Builder().withPool(new LootPool.Builder().add(artifact(1))));
+        addLootTable(MimicEntity.LOOT_TABLE.location().getPath(), new LootTable.Builder().withPool(new LootPool.Builder().add(artifact(1))));
 
 
         return tables;
@@ -103,7 +110,7 @@ public class LootTables extends LootTableProvider {
     }
 
     private void addChestLootTables() {
-        String barrel = CampsiteFeature.BARREL_LOOT.getPath();
+        String barrel = CampsiteFeature.BARREL_LOOT.location().getPath();
         addLootTable(barrel, new LootTable.Builder()
                 .withPool(new LootPool.Builder()
                         .when(LootItemRandomChanceCondition.randomChance(0.7F))
@@ -247,7 +254,7 @@ public class LootTables extends LootTableProvider {
                 )
         );
 
-        addLootTable(CampsiteFeature.CHEST_LOOT.getPath(), new LootTable.Builder()
+        addLootTable(CampsiteFeature.CHEST_LOOT.location().getPath(), new LootTable.Builder()
                 .withPool(new LootPool.Builder()
                         .name("tools")
                         .setRolls(UniformGenerator.between(1, 3))
@@ -321,7 +328,7 @@ public class LootTables extends LootTableProvider {
     }
 
     private static LootPoolEntryContainer.Builder<?> lootTable(String lootTable, int weight) {
-        return LootTableReference.lootTableReference(Artifacts.id(lootTable)).setWeight(weight);
+        return NestedLootTable.lootTableReference(Artifacts.key(Registries.LOOT_TABLE, lootTable)).setWeight(weight);
     }
 
     public void addLootTable(String location, LootTable.Builder lootTable, LootContextParamSet lootParameterSet) {
@@ -329,15 +336,10 @@ public class LootTables extends LootTableProvider {
             String actualLocation = location.replace("inject/", "");
             Preconditions.checkArgument(existingFileHelper.exists(new ResourceLocation("loot_tables/" + actualLocation + ".json"), PackType.SERVER_DATA), "Loot table %s does not exist in any known data pack", actualLocation);
         }
-        tables.add(new SubProviderEntry(() -> lootBuilder -> lootBuilder.accept(Artifacts.id(location), lootTable), lootParameterSet));
+        tables.add(new SubProviderEntry(() -> (provider, builder) -> builder.accept(Artifacts.key(Registries.LOOT_TABLE, location), lootTable), lootParameterSet));
     }
 
     private void addLootTable(String location, LootTable.Builder lootTable) {
         addLootTable(location, lootTable, LootContextParamSets.ALL_PARAMS);
-    }
-
-    @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext context) {
-        map.forEach((id, lootTable) -> lootTable.validate(context.setParams(lootTable.getParamSet()).enterElement("{" + id + "}", new LootDataId<>(LootDataType.TABLE, id))));
     }
 }

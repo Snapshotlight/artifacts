@@ -14,13 +14,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.FoodProperties;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.NeoForgeMod;
-import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public class ArtifactEventsNeoForge {
             UUID.fromString("a7a25453-2065-4a96-bc83-df600e13f390"),
             "artifacts:umbrella_slow_falling",
             -0.875,
-            AttributeModifier.Operation.MULTIPLY_TOTAL
+            AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
     );
 
     public static void register() {
@@ -46,9 +47,9 @@ public class ArtifactEventsNeoForge {
         NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onPlayerTick);
     }
 
-    private static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        AbilityToggles abilityToggles = PlatformServices.platformHelper.getAbilityToggles(event.player);
-        if (event.player instanceof ServerPlayer serverPlayer && abilityToggles != null) {
+    private static void onPlayerTick(PlayerTickEvent.Post event) {
+        AbilityToggles abilityToggles = PlatformServices.platformHelper.getAbilityToggles(event.getEntity());
+        if (event.getEntity() instanceof ServerPlayer serverPlayer && abilityToggles != null) {
             abilityToggles.sendToClient(serverPlayer);
         }
     }
@@ -65,7 +66,7 @@ public class ArtifactEventsNeoForge {
         onCloudInABottleFall(event);
     }
 
-    private static void onLivingUpdate(LivingEvent.LivingTickEvent event) {
+    private static void onLivingUpdate(EntityTickEvent.Post event) {
         onKittySlippersLivingUpdate(event);
         onUmbrellaLivingUpdate(event);
     }
@@ -95,11 +96,13 @@ public class ArtifactEventsNeoForge {
         }
     }
 
-    private static void onKittySlippersLivingUpdate(LivingEvent.LivingTickEvent event) {
-        if (AbilityHelper.hasAbilityActive(ModAbilities.SCARE_CREEPERS.get(), event.getEntity().getLastHurtByMob())
-                && event.getEntity().getType().is(ModTags.CREEPERS)
-        ) {
-            event.getEntity().setLastHurtByMob(null);
+    private static void onKittySlippersLivingUpdate(EntityTickEvent event) {
+        if (event.getEntity() instanceof LivingEntity entity) {
+            if (AbilityHelper.hasAbilityActive(ModAbilities.SCARE_CREEPERS.get(), entity.getLastHurtByMob())
+                    && event.getEntity().getType().is(ModTags.CREEPERS)
+            ) {
+                entity.setLastHurtByMob(null);
+            }
         }
     }
 
@@ -114,23 +117,25 @@ public class ArtifactEventsNeoForge {
         event.setCanHarvest(event.canHarvest() || UpgradeToolTierAbility.canHarvestWithTier(event.getEntity(), event.getTargetBlock()));
     }
 
-    private static void onUmbrellaLivingUpdate(LivingEvent.LivingTickEvent event) {
-        LivingEntity entity = event.getEntity();
-        AttributeInstance gravity = entity.getAttribute(NeoForgeMod.ENTITY_GRAVITY.value());
-        if (gravity != null) {
-            boolean isInWater = entity.isInWater() && !AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), entity);
-            if (ModGameRules.UMBRELLA_IS_GLIDER.get()
-                    && !entity.onGround() && !isInWater
-                    && entity.getDeltaMovement().y < 0
-                    && !entity.hasEffect(MobEffects.SLOW_FALLING)
-                    && UmbrellaItem.isHoldingUmbrellaUpright(entity)
-            ) {
-                if (!gravity.hasModifier(UMBRELLA_SLOW_FALLING)) {
-                    gravity.addTransientModifier(UMBRELLA_SLOW_FALLING);
+    private static void onUmbrellaLivingUpdate(EntityTickEvent event) {
+        if (event.getEntity() instanceof LivingEntity entity) {
+            // TODO
+            AttributeInstance gravity = entity.getAttribute(Attributes.GRAVITY);
+            if (gravity != null) {
+                boolean isInWater = entity.isInWater() && !AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), entity);
+                if (ModGameRules.UMBRELLA_IS_GLIDER.get()
+                        && !entity.onGround() && !isInWater
+                        && entity.getDeltaMovement().y < 0
+                        && !entity.hasEffect(MobEffects.SLOW_FALLING)
+                        && UmbrellaItem.isHoldingUmbrellaUpright(entity)
+                ) {
+                    if (!gravity.hasModifier(UMBRELLA_SLOW_FALLING)) {
+                        gravity.addTransientModifier(UMBRELLA_SLOW_FALLING);
+                    }
+                    entity.fallDistance = 0;
+                } else if (gravity.hasModifier(UMBRELLA_SLOW_FALLING)) {
+                    gravity.removeModifier(UMBRELLA_SLOW_FALLING.id());
                 }
-                entity.fallDistance = 0;
-            } else if (gravity.hasModifier(UMBRELLA_SLOW_FALLING)) {
-                gravity.removeModifier(UMBRELLA_SLOW_FALLING.getId());
             }
         }
     }

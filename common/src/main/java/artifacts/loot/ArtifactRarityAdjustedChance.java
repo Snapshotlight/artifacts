@@ -3,6 +3,7 @@ package artifacts.loot;
 import artifacts.Artifacts;
 import artifacts.registry.ModLootConditions;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -10,7 +11,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 
 public record ArtifactRarityAdjustedChance(float defaultProbability) implements LootItemCondition {
 
-    public static final Codec<ArtifactRarityAdjustedChance> CODEC = RecordCodecBuilder.create(instance ->
+    public static final MapCodec<ArtifactRarityAdjustedChance> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(Codec.FLOAT.fieldOf("default_probability").forGetter(ArtifactRarityAdjustedChance::defaultProbability))
                     .apply(instance, ArtifactRarityAdjustedChance::new)
     );

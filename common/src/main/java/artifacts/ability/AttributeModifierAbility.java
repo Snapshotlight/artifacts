@@ -1,6 +1,7 @@
 package artifacts.ability;
 
 import artifacts.registry.ModAbilities;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,17 +16,17 @@ import java.util.function.Supplier;
 
 public class AttributeModifierAbility implements ArtifactAbility {
 
-    private final Attribute attribute;
+    private final Holder<Attribute> attribute;
     private final Supplier<Double> amount;
     private final AttributeModifier.Operation operation;
     private final UUID modifierId;
     private final String modifierName;
 
-    public AttributeModifierAbility(Attribute attribute, Supplier<Double> amount, ResourceLocation id) {
-        this(attribute, amount, AttributeModifier.Operation.ADDITION, id);
+    public AttributeModifierAbility(Holder<Attribute> attribute, Supplier<Double> amount, ResourceLocation id) {
+        this(attribute, amount, AttributeModifier.Operation.ADD_VALUE, id);
     }
 
-    public AttributeModifierAbility(Attribute attribute, Supplier<Double> amount, AttributeModifier.Operation operation, ResourceLocation id) {
+    public AttributeModifierAbility(Holder<Attribute> attribute, Supplier<Double> amount, AttributeModifier.Operation operation, ResourceLocation id) {
         this.attribute = attribute;
         this.amount = amount;
         this.operation = operation;
@@ -37,7 +38,7 @@ public class AttributeModifierAbility implements ArtifactAbility {
         return new AttributeModifier(modifierId, modifierName, getAmount(), getOperation());
     }
 
-    public Attribute getAttribute() {
+    public Holder<Attribute> getAttribute() {
         return attribute;
     }
 
@@ -96,7 +97,7 @@ public class AttributeModifierAbility implements ArtifactAbility {
         AttributeInstance attributeInstance = entity.getAttribute(getAttribute());
         if (attributeInstance != null) {
             AttributeModifier existingModifier = attributeInstance.getModifier(getModifierId());
-            if (existingModifier == null || existingModifier.getAmount() != getAmount()) {
+            if (existingModifier == null || existingModifier.amount() != getAmount()) {
                 attributeInstance.removeModifier(getModifierId());
                 if (isActive) {
                     attributeInstance.addTransientModifier(createModifier());

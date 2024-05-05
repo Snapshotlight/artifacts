@@ -3,8 +3,9 @@ package artifacts.entity;
 import artifacts.Artifacts;
 import artifacts.registry.ModSoundEvents;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
@@ -22,12 +23,13 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.EnumSet;
 
 public class MimicEntity extends Mob implements Enemy {
 
-    public static final ResourceLocation LOOT_TABLE = Artifacts.id("entities/mimic");
+    public static final ResourceKey<LootTable> LOOT_TABLE = Artifacts.key(Registries.LOOT_TABLE, "entities/mimic");
 
     public int ticksInAir;
     public int attackCooldown;
@@ -187,7 +189,7 @@ public class MimicEntity extends Mob implements Enemy {
     }
 
     @Override
-    protected ResourceLocation getDefaultLootTable() {
+    protected ResourceKey<LootTable> getDefaultLootTable() {
         return LOOT_TABLE;
     }
 

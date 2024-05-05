@@ -2,7 +2,7 @@ package artifacts.world.placement;
 
 import artifacts.Artifacts;
 import artifacts.registry.ModPlacementModifierTypes;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
@@ -11,7 +11,7 @@ import net.minecraft.world.level.levelgen.placement.RepeatingPlacement;
 public class CampsiteCountPlacement extends RepeatingPlacement {
 
     private static final CampsiteCountPlacement INSTANCE = new CampsiteCountPlacement();
-    public static final Codec<CampsiteCountPlacement> CODEC = Codec.unit(() -> INSTANCE);
+    public static final MapCodec<CampsiteCountPlacement> CODEC = MapCodec.unit(() -> INSTANCE);
 
     private CampsiteCountPlacement() {
 

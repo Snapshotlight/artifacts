@@ -15,7 +15,7 @@
         },
         {
           "type": "minecraft:loot_table",
-          "name": "artifacts:items/drinking_hat"
+          "value": "artifacts:items/drinking_hat"
         },
         {
           "type": "minecraft:item",

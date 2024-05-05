@@ -29,8 +29,7 @@ public class ArtifactsFabric implements ModInitializer {
         SwimEventsFabric.register();
         ModFeatures.register();
 
-        LootTableEvents.MODIFY.register((rm, lt, id, supplier, s) ->
-                ModLootTablesFabric.onLootTableLoad(id, supplier));
+        LootTableEvents.MODIFY.register(ModLootTablesFabric::onLootTableLoad);
 
         runCompatibilityHandlers();
     }

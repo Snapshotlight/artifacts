@@ -4,9 +4,7 @@
     "eat_artifact": {
       "conditions": {
         "item": {
-          "items": [
-            "artifacts:onion_ring"
-          ]
+          "items": "artifacts:onion_ring"
         }
       },
       "trigger": "minecraft:consume_item"
@@ -18,7 +16,8 @@
     },
     "hidden": true,
     "icon": {
-      "item": "artifacts:onion_ring"
+      "count": 1,
+      "id": "artifacts:onion_ring"
     },
     "title": {
       "translate": "artifacts.advancements.adventurous_eater.title"

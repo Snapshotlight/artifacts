@@ -1,38 +1,36 @@
 package artifacts.network;
 
+import artifacts.Artifacts;
 import artifacts.ability.TeleportOnDeathAbility;
 import artifacts.registry.ModItems;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.function.Supplier;
+public record ChorusTotemUsedPacket() implements CustomPacketPayload {
 
-public class ChorusTotemUsedPacket {
+    public static Type<ChorusTotemUsedPacket> TYPE = new Type<>(Artifacts.id("chorus_totem_used"));
 
-    public ChorusTotemUsedPacket(FriendlyByteBuf buffer) {
+    public static StreamCodec<FriendlyByteBuf, ChorusTotemUsedPacket> CODEC = StreamCodec.unit(new ChorusTotemUsedPacket());
 
-    }
-
-    public ChorusTotemUsedPacket() {
-
-    }
-
-    void encode(FriendlyByteBuf buffer) {
-
-    }
-
-    void apply(Supplier<NetworkManager.PacketContext> context) {
-        Player player = context.get().getPlayer();
+    void apply(NetworkManager.PacketContext context) {
+        Player player = context.getPlayer();
         ItemStack totem = TeleportOnDeathAbility.findTotem(player);
         if (totem.isEmpty()) {
             totem = new ItemStack(ModItems.CHORUS_TOTEM.get());
         }
         Minecraft.getInstance().gameRenderer.displayItemActivation(totem);
-        player.level().playSound(context.get().getPlayer(), context.get().getPlayer(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1, 1);
+        player.level().playSound(context.getPlayer(), context.getPlayer(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1, 1);
+    }
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

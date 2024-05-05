@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "artifacts:artifacts"
+            "items": "#artifacts:artifacts"
           }
         ]
       },
@@ -17,7 +17,8 @@
       "translate": "artifacts.advancements.amateur_archaeologist.description"
     },
     "icon": {
-      "item": "artifacts:flame_pendant"
+      "count": 1,
+      "id": "artifacts:flame_pendant"
     },
     "title": {
       "translate": "artifacts.advancements.amateur_archaeologist.title"

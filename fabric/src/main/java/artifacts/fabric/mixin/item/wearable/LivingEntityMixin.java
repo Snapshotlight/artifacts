@@ -5,6 +5,7 @@ import artifacts.ability.GrowPlantsAfterEatingAbility;
 import artifacts.item.WearableArtifactItem;
 import dev.emi.trinkets.api.TrinketInventory;
 import dev.emi.trinkets.api.TrinketsApi;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
@@ -43,7 +44,7 @@ public abstract class LivingEntityMixin {
     @SuppressWarnings("ConstantConditions")
     @Inject(method = "completeUsingItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;triggerItemUseEffects(Lnet/minecraft/world/item/ItemStack;I)V"))
     protected void completeUsingItem(CallbackInfo ci) {
-        FoodProperties properties = useItem.getItem().getFoodProperties();
+        FoodProperties properties = useItem.get(DataComponents.FOOD);
         if (properties != null) {
             LivingEntity entity = (LivingEntity) (Object) this;
             ApplyHasteAfterEatingAbility.applyHasteEffect(entity, properties);

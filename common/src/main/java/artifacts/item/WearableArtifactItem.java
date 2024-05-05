@@ -28,15 +28,19 @@ public class WearableArtifactItem extends ArtifactItem {
     }
 
     public WearableArtifactItem(SoundEvent equipSound, ArtifactAbility... abilities) {
+        this(() -> equipSound, abilities);
+    }
+
+    public WearableArtifactItem(Supplier<SoundEvent> equipSound, ArtifactAbility... abilities) {
         this(new Item.Properties(), equipSound, abilities);
     }
 
     public WearableArtifactItem(Item.Properties properties, ArtifactAbility... abilities) {
-        this(properties, SoundEvents.ARMOR_EQUIP_GENERIC, abilities);
+        this(properties, SoundEvents.ARMOR_EQUIP_GENERIC::value, abilities);
     }
 
-    public WearableArtifactItem(Item.Properties properties, SoundEvent equipSound, ArtifactAbility... abilities) {
-        this(properties, () -> equipSound, 1F, abilities);
+    public WearableArtifactItem(Item.Properties properties, Supplier<SoundEvent> equipSound, ArtifactAbility... abilities) {
+        this(properties, equipSound, 1F, abilities);
     }
 
     public WearableArtifactItem(Item.Properties properties, Supplier<SoundEvent> equipSound, float equipSoundPitch, ArtifactAbility... abilities) {

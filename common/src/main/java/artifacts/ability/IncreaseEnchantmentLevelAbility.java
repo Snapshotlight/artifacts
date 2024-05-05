@@ -50,18 +50,18 @@ public class IncreaseEnchantmentLevelAbility implements ArtifactAbility {
     }
 
     public static IncreaseEnchantmentLevelAbility fortune() {
-        return new IncreaseEnchantmentLevelAbility(Enchantments.BLOCK_FORTUNE, ModGameRules.LUCKY_SCARF_FORTUNE_BONUS);
+        return new IncreaseEnchantmentLevelAbility(Enchantments.FORTUNE, ModGameRules.LUCKY_SCARF_FORTUNE_BONUS);
     }
 
     public static IncreaseEnchantmentLevelAbility looting() {
-        return new IncreaseEnchantmentLevelAbility(Enchantments.MOB_LOOTING, ModGameRules.SUPERSTITIOUS_HAT_LOOTING_LEVEL_BONUS);
+        return new IncreaseEnchantmentLevelAbility(Enchantments.LOOTING, ModGameRules.SUPERSTITIOUS_HAT_LOOTING_LEVEL_BONUS);
     }
 
     public static IncreaseEnchantmentLevelAbility lure() {
-        return new IncreaseEnchantmentLevelAbility(Enchantments.FISHING_SPEED, ModGameRules.ANGLERS_HAT_LURE_LEVEL_BONUS);
+        return new IncreaseEnchantmentLevelAbility(Enchantments.LURE, ModGameRules.ANGLERS_HAT_LURE_LEVEL_BONUS);
     }
 
     public static IncreaseEnchantmentLevelAbility luckOfTheSea() {
-        return new IncreaseEnchantmentLevelAbility(Enchantments.FISHING_LUCK, ModGameRules.ANGLERS_HAT_LUCK_OF_THE_SEA_LEVEL_BONUS);
+        return new IncreaseEnchantmentLevelAbility(Enchantments.LUCK_OF_THE_SEA, ModGameRules.ANGLERS_HAT_LUCK_OF_THE_SEA_LEVEL_BONUS);
     }
 }

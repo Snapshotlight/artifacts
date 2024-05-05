@@ -2,7 +2,7 @@ package artifacts.world.placement;
 
 import artifacts.Artifacts;
 import artifacts.registry.ModPlacementModifierTypes;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class CampsiteHeightRangePlacement extends PlacementModifier {
 
     private static final CampsiteHeightRangePlacement INSTANCE = new CampsiteHeightRangePlacement();
-    public static final Codec<CampsiteHeightRangePlacement> CODEC = Codec.unit(() -> INSTANCE);
+    public static final MapCodec<CampsiteHeightRangePlacement> CODEC = MapCodec.unit(() -> INSTANCE);
 
     private CampsiteHeightRangePlacement() {
 

@@ -11,7 +11,6 @@ import artifacts.fabric.trinket.TrinketsHelper;
 import artifacts.item.WearableArtifactItem;
 import artifacts.platform.PlatformHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 import dev.emi.trinkets.TrinketSlot;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketComponent;
@@ -21,17 +20,13 @@ import dev.emi.trinkets.api.client.TrinketRenderer;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -80,24 +75,6 @@ public class FabricPlatformHelper implements PlatformHelper {
             }
         }
         return false;
-    }
-
-    @Override
-    public Attribute getStepHeightAttribute() {
-        return StepHeightEntityAttributeMain.STEP_HEIGHT; // TODO 1.20.5
-    }
-
-    @Override
-    public boolean isCorrectTierForDrops(Tier tier, BlockState state) {
-        int i = tier.getLevel();
-        if (state.is(BlockTags.NEEDS_DIAMOND_TOOL)) {
-            return i >= 3;
-        } else if (state.is(BlockTags.NEEDS_IRON_TOOL)) {
-            return i >= 2;
-        } else if (state.is(BlockTags.NEEDS_STONE_TOOL)) {
-            return i >= 1;
-        }
-        return true;
     }
 
     @Nullable

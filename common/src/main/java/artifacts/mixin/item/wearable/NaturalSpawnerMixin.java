@@ -5,7 +5,7 @@ import artifacts.platform.PlatformServices;
 import artifacts.registry.ModLootTables;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
@@ -26,8 +26,8 @@ public class NaturalSpawnerMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;addFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)V", shift = At.Shift.AFTER))
     private static void spawnCategoryForPosition(MobCategory mobCategory, ServerLevel serverLevel, ChunkAccess chunkAccess, BlockPos blockPos, NaturalSpawner.SpawnPredicate spawnPredicate, NaturalSpawner.AfterSpawnCallback afterSpawnCallback, CallbackInfo ci, @Local(ordinal = 0) Mob mob) {
         if (ModLootTables.ENTITY_EQUIPMENT.containsKey(mob.getType()) && mob.level() instanceof ServerLevel level) {
-            ResourceLocation id = ModLootTables.ENTITY_EQUIPMENT.get(mob.getType());
-            LootTable loottable = level.getServer().getLootData().getLootTable(id);
+            ResourceKey<LootTable> id = ModLootTables.ENTITY_EQUIPMENT.get(mob.getType());
+            LootTable loottable = level.getServer().reloadableRegistries().getLootTable(id);
             LootParams.Builder params = new LootParams.Builder(level);
 
             LootParams lootparams = params.create(LootContextParamSets.EMPTY);

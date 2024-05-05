@@ -21,7 +21,8 @@
       "translate": "artifacts.advancements.chest_slayer.description"
     },
     "icon": {
-      "item": "artifacts:mimic_spawn_egg"
+      "count": 1,
+      "id": "artifacts:mimic_spawn_egg"
     },
     "title": {
       "translate": "artifacts.advancements.chest_slayer.title"

@@ -1,32 +1,31 @@
 package artifacts.network;
 
+import artifacts.Artifacts;
 import artifacts.registry.ModGameRules;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-import java.util.function.Supplier;
+public record BooleanGameRuleChangedPacket(String key, boolean value) implements CustomPacketPayload {
 
-public class BooleanGameRuleChangedPacket {
+    public static final Type<BooleanGameRuleChangedPacket> TYPE = new Type<>(Artifacts.id("boolean_game_rule_changed"));
 
-    private final String key;
-    private final boolean value;
+    public static final StreamCodec<FriendlyByteBuf, BooleanGameRuleChangedPacket> CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8,
+            BooleanGameRuleChangedPacket::key,
+            ByteBufCodecs.BOOL,
+            BooleanGameRuleChangedPacket::value,
+            BooleanGameRuleChangedPacket::new
+    );
 
-    public BooleanGameRuleChangedPacket(FriendlyByteBuf buffer) {
-        key = buffer.readUtf();
-        value = buffer.readBoolean();
+    public void apply(NetworkManager.PacketContext context) {
+        context.queue(() -> ModGameRules.updateValue(key, value));
     }
 
-    public BooleanGameRuleChangedPacket(String key, boolean value) {
-        this.key = key;
-        this.value = value;
-    }
-
-    void encode(FriendlyByteBuf buffer) {
-        buffer.writeUtf(key);
-        buffer.writeBoolean(value);
-    }
-
-    void apply(Supplier<NetworkManager.PacketContext> context) {
-        context.get().queue(() -> ModGameRules.updateValue(key, value));
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

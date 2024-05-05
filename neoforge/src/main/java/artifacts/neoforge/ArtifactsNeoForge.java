@@ -16,7 +16,7 @@ import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.client.ConfigScreenHandler;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import top.theillusivec4.curios.api.CuriosApi;
 
 @Mod(Artifacts.MOD_ID)
@@ -32,6 +32,7 @@ public class ArtifactsNeoForge {
         ModAttachmentTypes.ATTACHMENT_TYPES.register(modBus);
 
         modBus.addListener(this::registerCapabilities);
+        modBus.addListener(ArtifactsData::gatherData);
 
         registerConfig();
         ArtifactEventsNeoForge.register();
@@ -40,10 +41,8 @@ public class ArtifactsNeoForge {
 
     private void registerConfig() {
         ModLoadingContext.get().registerExtensionPoint(
-                ConfigScreenHandler.ConfigScreenFactory.class,
-                () -> new ConfigScreenHandler.ConfigScreenFactory(
-                        (client, parent) -> AutoConfig.getConfigScreen(ModConfig.class, parent).get()
-                )
+                IConfigScreenFactory.class,
+                () -> (client, parent) -> AutoConfig.getConfigScreen(ModConfig.class, parent).get()
         );
     }
 

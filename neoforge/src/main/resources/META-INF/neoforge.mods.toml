@@ -26,18 +26,12 @@ config="mixins.artifacts.neoforge.json"
 [[dependencies.artifacts]]
     modId = "minecraft"
     type="required"
-    versionRange = "[1.20.4,1.20.5)"
+    versionRange = "[1.20.5,)"
     ordering = "NONE"
     side = "BOTH"
 
 [[dependencies.artifacts]]
     modId = "curios"
-    type="required"
-    ordering = "NONE"
-    side = "BOTH"
-
-[[dependencies.artifacts]]
-    modId = "expandability"
     type="required"
     ordering = "NONE"
     side = "BOTH"

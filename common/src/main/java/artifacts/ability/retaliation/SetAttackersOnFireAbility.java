@@ -39,7 +39,7 @@ public class SetAttackersOnFireAbility extends RetaliationAbility {
             if (grantsFireResistance()) {
                 target.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, getFireDuration(), 0, false, false, true));
             }
-            attacker.setSecondsOnFire(getFireDuration() / 20);
+            attacker.igniteForTicks(getFireDuration());
         }
     }
 
