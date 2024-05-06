@@ -37,7 +37,7 @@ public class ItemStackMixin {
 
         tooltip.add(Component.translatable("trinkets.tooltip.attributes.all").withStyle(ChatFormatting.GRAY));
         AbilityHelper.getAbilities(ModAbilities.ATTRIBUTE_MODIFIER.get(), stack).forEach(ability -> {
-            double amount = ability.getAmount();
+            double amount = ability.amount().get();
 
             if (ability.getOperation() == AttributeModifier.Operation.ADD_VALUE) {
                 if (ability.getAttribute().equals(Attributes.KNOCKBACK_RESISTANCE)) {

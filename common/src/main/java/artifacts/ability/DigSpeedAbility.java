@@ -1,22 +1,37 @@
 package artifacts.ability;
 
+import artifacts.ability.value.DoubleValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class DigSpeedAbility implements ArtifactAbility {
+public record DigSpeedAbility(DoubleValue speedBonus) implements ArtifactAbility {
+
+    public static final MapCodec<DigSpeedAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            DoubleValue.field(ModGameRules.DIGGING_CLAWS_DIG_SPEED_BONUS).forGetter(DigSpeedAbility::speedBonus)
+    ).apply(instance, DigSpeedAbility::new));
+
+    public static final StreamCodec<ByteBuf, DigSpeedAbility> STREAM_CODEC = StreamCodec.composite(
+            DoubleValue.defaultStreamCodec(ModGameRules.DIGGING_CLAWS_DIG_SPEED_BONUS),
+            DigSpeedAbility::speedBonus,
+            DigSpeedAbility::new
+    );
 
     public static float getSpeedBonus(Player player, BlockState state) {
         if (player.hasCorrectToolForDrops(state)) {
-            return (float) AbilityHelper.sumDouble(ModAbilities.DIG_SPEED.get(), player, DigSpeedAbility::getSpeedBonus, false);
+            return (float) AbilityHelper.sumDouble(ModAbilities.DIG_SPEED.get(), player, ability -> ability.speedBonus().get(), false);
         }
         return 0;
     }
 
-    public double getSpeedBonus() {
-        return ModGameRules.DIGGING_CLAWS_DIG_SPEED_BONUS.get();
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
     }
 
     @Override
@@ -26,6 +41,6 @@ public class DigSpeedAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return getSpeedBonus() > 0;
+        return !speedBonus().fuzzyEquals(0);
     }
 }

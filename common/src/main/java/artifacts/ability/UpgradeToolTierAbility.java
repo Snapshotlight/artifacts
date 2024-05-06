@@ -1,12 +1,17 @@
 package artifacts.ability;
 
 import artifacts.Artifacts;
+import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,13 +22,27 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 import java.util.Optional;
 
-public class UpgradeToolTierAbility implements ArtifactAbility {
+public record UpgradeToolTierAbility(IntegerValue tierLevel) implements ArtifactAbility {
+
+    public static final MapCodec<UpgradeToolTierAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            IntegerValue.field(ModGameRules.DIGGING_CLAWS_TOOL_TIER).forGetter(UpgradeToolTierAbility::tierLevel)
+    ).apply(instance, UpgradeToolTierAbility::new));
+
+    public static final StreamCodec<ByteBuf, UpgradeToolTierAbility> STREAM_CODEC = StreamCodec.composite(
+            IntegerValue.defaultStreamCodec(ModGameRules.DIGGING_CLAWS_TOOL_TIER),
+            UpgradeToolTierAbility::tierLevel,
+            UpgradeToolTierAbility::new
+    );
+
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
+    }
 
     public static boolean canHarvestWithTier(LivingEntity entity, BlockState state) {
         if (state.is(ModTags.MINEABLE_WITH_DIGGING_CLAWS)) {
             Optional<Tier> tier = getTier(AbilityHelper.maxInt(
                     ModAbilities.UPGRADE_TOOL_TIER.get(), entity,
-                    UpgradeToolTierAbility::getToolTier, false
+                    ability -> ability.tierLevel().get(), false
             ));
             return tier.isPresent() && isCorrectTierForDrops(tier.get(), state);
         }
@@ -78,13 +97,13 @@ public class UpgradeToolTierAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return getTier(getToolTier()).isPresent();
+        return getTier(tierLevel().get()).isPresent();
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        getTier(getToolTier()).ifPresent(tier ->  {
+        getTier(tierLevel().get()).ifPresent(tier ->  {
             ResourceLocation id = ModAbilities.REGISTRY.getId(getType());
             tooltip.add(
                     Component.translatable(

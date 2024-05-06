@@ -10,21 +10,22 @@ import artifacts.mixin.gamerule.IntegerValueInvoker;
 import artifacts.network.BooleanGameRuleChangedPacket;
 import artifacts.network.IntegerGameRuleChangedPacket;
 import com.google.common.base.CaseFormat;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.GameRules;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class ModGameRules {
 
-    public static final Map<String, BooleanGameRule> BOOLEAN_VALUES = new HashMap<>();
-    public static final Map<String, IntegerGameRule> INTEGER_VALUES = new HashMap<>();
+    public static final BiMap<String, BooleanGameRule> BOOLEAN_VALUES = HashBiMap.create();
+    public static final BiMap<String, IntegerGameRule> INTEGER_VALUES = HashBiMap.create();
+    public static final BiMap<String, DoubleGameRule> DOUBLE_VALUES = HashBiMap.create();
 
     public static final BooleanGameRule
             ANTIDOTE_VESSEL_ENABLED = booleanGameRule(ModItems.ANTIDOTE_VESSEL, "enabled"),
@@ -51,19 +52,18 @@ public class ModGameRules {
             UMBRELLA_IS_GLIDER = booleanGameRule(ModItems.UMBRELLA, "isGlider");
 
     public static final IntegerGameRule
-            ANGLERS_HAT_LUCK_OF_THE_SEA_LEVEL_BONUS = integerGameRule(ModItems.ANGLERS_HAT, "luckOfTheSeaLevelBonus", 1),
-            ANGLERS_HAT_LURE_LEVEL_BONUS = integerGameRule(ModItems.ANGLERS_HAT, "lureLevelBonus", 1),
             CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS = integerGameRule(ModItems.CROSS_NECKLACE, "bonusInvincibilityTicks", 20, 60 * 20),
             CHORUS_TOTEM_HEALTH_RESTORED = integerGameRule(ModItems.CHORUS_TOTEM, "healthRestored", 10),
-            CRYSTAL_HEART_HEALTH_BONUS = integerGameRule(ModItems.CRYSTAL_HEART, "healthBonus", 10, 100),
-            DIGGING_CLAWS_TOOL_TIER = integerGameRule(ModItems.DIGGING_CLAWS, "toolTier", UpgradeToolTierAbility.getTierLevel(Tiers.STONE), UpgradeToolTierAbility.getTierLevel(Tiers.NETHERITE)),
-            LUCKY_SCARF_FORTUNE_BONUS = integerGameRule(ModItems.LUCKY_SCARF, "fortuneBonus", 1, 100),
-            POWER_GLOVE_ATTACK_DAMAGE_BONUS = integerGameRule(ModItems.POWER_GLOVE, "attackDamageBonus", 4),
-            SUPERSTITIOUS_HAT_LOOTING_LEVEL_BONUS = integerGameRule(ModItems.SUPERSTITIOUS_HAT, "lootingLevelBonus", 1, 100),
+            DIGGING_CLAWS_TOOL_TIER = integerGameRule(ModItems.DIGGING_CLAWS, "toolTier", 2, 5),
             THORN_PENDANT_MAX_DAMAGE = integerGameRule(ModItems.THORN_PENDANT, "maxDamage", 6),
             THORN_PENDANT_MIN_DAMAGE = integerGameRule(ModItems.THORN_PENDANT, "minDamage", 2),
             VAMPIRIC_GLOVE_MAX_HEALING_PER_HIT = integerGameRule(ModItems.VAMPIRIC_GLOVE, "maxHealingPerHit", 6),
             VILLAGER_HAT_REPUTATION_BONUS = integerGameRule(ModItems.VILLAGER_HAT, "reputationBonus", 100),
+
+            ANGLERS_HAT_LUCK_OF_THE_SEA_LEVEL_BONUS = enchantmentBonus(ModItems.ANGLERS_HAT, "luckOfTheSeaLevelBonus"),
+            ANGLERS_HAT_LURE_LEVEL_BONUS = enchantmentBonus(ModItems.ANGLERS_HAT, "lureLevelBonus"),
+            LUCKY_SCARF_FORTUNE_BONUS = enchantmentBonus(ModItems.LUCKY_SCARF, "fortuneBonus"),
+            SUPERSTITIOUS_HAT_LOOTING_LEVEL_BONUS = enchantmentBonus(ModItems.SUPERSTITIOUS_HAT, "lootingLevelBonus"),
 
             ANTIDOTE_VESSEL_MAX_EFFECT_DURATION = durationSeconds(ModItems.ANTIDOTE_VESSEL, "maxEffectDuration", 5),
             CHORUS_TOTEM_COOLDOWN = durationSeconds(ModItems.CHORUS_TOTEM, "cooldown", 0),
@@ -94,6 +94,7 @@ public class ModGameRules {
             CHORUS_TOTEM_TELEPORTATION_CHANCE = percentage(ModItems.CHORUS_TOTEM, "teleportationChance", 100),
             CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY = doubleGameRule(ModItems.CLOUD_IN_A_BOTTLE, "sprintJumpVerticalVelocity", 50, 100 * 100, 100),
             CLOUD_IN_A_BOTTLE_SPRINT_JUMP_HORIZONTAL_VELOCITY = doubleGameRule(ModItems.CLOUD_IN_A_BOTTLE, "sprintJumpHorizontalVelocity", 50, 100 * 100, 100),
+            CRYSTAL_HEART_HEALTH_BONUS = doubleGameRule(ModItems.CRYSTAL_HEART, "healthBonus", 10, 100, 1),
             DIGGING_CLAWS_DIG_SPEED_BONUS = doubleGameRule(ModItems.DIGGING_CLAWS, "digSpeedBonus", 32, 10),
             FERAL_CLAWS_ATTACK_SPEED_BONUS = percentage(ModItems.FERAL_CLAWS, "attackSpeedBonus", 40),
             FLAME_PENDANT_STRIKE_CHANCE = percentage(ModItems.FLAME_PENDANT, "strikeChance", 40),
@@ -105,6 +106,7 @@ public class ModGameRules {
             PLASTIC_DRINKING_HAT_DRINKING_DURATION_MULTIPLIER = percentage(ModItems.PLASTIC_DRINKING_HAT, "drinkingDurationMultiplier", 30),
             PLASTIC_DRINKING_HAT_EATING_DURATION_MULTIPLIER = percentage(ModItems.PLASTIC_DRINKING_HAT, "eatingDurationMultiplier", 60),
             POCKET_PISTON_KNOCKBACK_STRENGTH = doubleGameRule(ModItems.POCKET_PISTON, "knockbackStrength", 15, 10),
+            POWER_GLOVE_ATTACK_DAMAGE_BONUS = doubleGameRule(ModItems.POWER_GLOVE, "attackDamageBonus", 4, 1),
             RUNNING_SHOES_SPEED_BONUS = doubleGameRule(ModItems.RUNNING_SHOES, "speedBonus", 40, 100 * 100, 100),
             SHOCK_PENDANT_STRIKE_CHANCE = percentage(ModItems.SHOCK_PENDANT, "strikeChance", 25),
             STEADFAST_SPIKES_KNOCKBACK_RESISTANCE = doubleGameRule(ModItems.STEADFAST_SPIKES, "knockbackResistance", 10, 10, 10),
@@ -169,8 +171,14 @@ public class ModGameRules {
         return integerGameRule(item, key, defaultValue, 128);
     }
 
+    private static IntegerGameRule enchantmentBonus(RegistrySupplier<? extends Item> item, String key) {
+        return integerGameRule(item, key, 1, 100);
+    }
+
     private static DoubleGameRule doubleGameRule(RegistrySupplier<? extends Item> item, String key, int defaultValue, int maxValue, double factor) {
-        return new DoubleGameRule(integerGameRule(item, key, defaultValue, maxValue), factor);
+        DoubleGameRule gameRule = new DoubleGameRule(integerGameRule(item, key, defaultValue, maxValue), factor);
+        DOUBLE_VALUES.put(createName(item, key), gameRule);
+        return gameRule;
     }
 
     private static DoubleGameRule doubleGameRule(RegistrySupplier<? extends Item> item, String key, int defaultValue, int factor) {
@@ -199,7 +207,7 @@ public class ModGameRules {
         INTEGER_VALUES.values().forEach(value -> value.update(server));
     }
 
-    public static class BooleanGameRule implements Supplier<Boolean>, BooleanValue {
+    public static class BooleanGameRule implements Supplier<Boolean>, BooleanValue, StringRepresentable {
 
         private Boolean value = true;
         private GameRules.Key<GameRules.BooleanValue> key;
@@ -220,9 +228,14 @@ public class ModGameRules {
         private void update(boolean value) {
             this.value = value;
         }
+
+        @Override
+        public String getSerializedName() {
+            return key.getId();
+        }
     }
 
-    public static class IntegerGameRule implements Supplier<Integer>, IntegerValue {
+    public static class IntegerGameRule implements Supplier<Integer>, IntegerValue, StringRepresentable {
 
         private final int max;
         private final int multiplier;
@@ -259,13 +272,23 @@ public class ModGameRules {
         private void update(int value) {
             this.value = value;
         }
+
+        @Override
+        public String getSerializedName() {
+            return key.getId();
+        }
     }
 
-    public record DoubleGameRule(IntegerGameRule integerGameRule, double factor) implements Supplier<Double>, DoubleValue {
+    public record DoubleGameRule(IntegerGameRule integerGameRule, double factor) implements Supplier<Double>, DoubleValue, StringRepresentable {
 
         @Override
         public Double get() {
             return integerGameRule.get() / factor;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return integerGameRule().getSerializedName();
         }
     }
 }

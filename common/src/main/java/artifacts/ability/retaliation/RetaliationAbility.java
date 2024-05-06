@@ -1,42 +1,52 @@
 package artifacts.ability.retaliation;
 
 import artifacts.ability.ArtifactAbility;
+import artifacts.ability.value.DoubleValue;
+import artifacts.ability.value.IntegerValue;
+import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
 import artifacts.util.DamageSourceHelper;
+import com.mojang.datafixers.Products;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.function.Supplier;
-
 public abstract class RetaliationAbility implements ArtifactAbility {
 
-    private final Supplier<Double> strikeChance;
-    private final Supplier<Integer> cooldown;
+    private final DoubleValue strikeChance;
+    private final IntegerValue cooldown;
 
-    public RetaliationAbility(Supplier<Double> strikeChance, Supplier<Integer> cooldown) {
+    protected static <T extends RetaliationAbility> Products.P2<RecordCodecBuilder.Mu<T>, DoubleValue, IntegerValue> codecStart(RecordCodecBuilder.Instance<T> instance, ModGameRules.DoubleGameRule strikeChance, ModGameRules.IntegerGameRule cooldown) {
+        return instance.group(
+                DoubleValue.field(strikeChance, "strike_chance").forGetter(RetaliationAbility::strikeChance),
+                IntegerValue.field(cooldown, "cooldown").forGetter(RetaliationAbility::cooldown)
+        );
+    }
+
+    public RetaliationAbility(DoubleValue strikeChance, IntegerValue cooldown) {
         this.strikeChance = strikeChance;
         this.cooldown = cooldown;
     }
 
-    public double getStrikeChance() {
-        return strikeChance.get();
+    public DoubleValue strikeChance() {
+        return strikeChance;
     }
 
-    public int getCooldown() {
-        return cooldown.get();
+    public IntegerValue cooldown() {
+        return cooldown;
     }
 
     public void onLivingHurt(LivingEntity entity, ItemStack stack, DamageSource damageSource, float amount) {
         LivingEntity attacker = DamageSourceHelper.getAttacker(damageSource);
         if (amount >= 1 && attacker != null
                         && AbilityHelper.hasAbilityActive(getType(), entity)
-                        && entity.getRandom().nextDouble() < getStrikeChance()
+                        && entity.getRandom().nextDouble() < strikeChance().get()
         ) {
             applyEffect(entity, attacker);
-            if (entity instanceof Player player && getCooldown() > 0) {
-                player.getCooldowns().addCooldown(stack.getItem(), getCooldown());
+            if (entity instanceof Player player && cooldown().get() > 0) {
+                player.getCooldowns().addCooldown(stack.getItem(), cooldown().get());
             }
         }
     }
@@ -45,6 +55,6 @@ public abstract class RetaliationAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return getStrikeChance() > 0;
+        return !strikeChance().fuzzyEquals(0);
     }
 }

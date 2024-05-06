@@ -17,7 +17,7 @@ public record PlaySoundAtPlayerPacket(SoundEvent soundEvent, float volume, float
     public static final Type<PlaySoundAtPlayerPacket> TYPE = new Type<>(Artifacts.id("play_sound_at_player"));
 
     public static final StreamCodec<FriendlyByteBuf, PlaySoundAtPlayerPacket> CODEC = StreamCodec.composite(
-            ByteBufCodecs.fromCodec(BuiltInRegistries.SOUND_EVENT.byNameCodec()),
+            ByteBufCodecs.idMapper(BuiltInRegistries.SOUND_EVENT),
             PlaySoundAtPlayerPacket::soundEvent,
             ByteBufCodecs.FLOAT,
             PlaySoundAtPlayerPacket::volume,

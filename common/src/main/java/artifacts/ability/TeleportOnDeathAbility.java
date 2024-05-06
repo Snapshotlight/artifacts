@@ -1,10 +1,17 @@
 package artifacts.ability;
 
+import artifacts.ability.value.BooleanValue;
+import artifacts.ability.value.DoubleValue;
+import artifacts.ability.value.IntegerValue;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,7 +25,30 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class TeleportOnDeathAbility implements ArtifactAbility {
+public record TeleportOnDeathAbility(DoubleValue teleportationChance, IntegerValue healthRestored, IntegerValue cooldown, BooleanValue consumedOnUse) implements ArtifactAbility {
+
+    public static final MapCodec<TeleportOnDeathAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            DoubleValue.field(ModGameRules.CHORUS_TOTEM_TELEPORTATION_CHANCE).forGetter(TeleportOnDeathAbility::teleportationChance),
+            IntegerValue.field(ModGameRules.CHORUS_TOTEM_HEALTH_RESTORED).forGetter(TeleportOnDeathAbility::healthRestored),
+            IntegerValue.field(ModGameRules.CHORUS_TOTEM_COOLDOWN).forGetter(TeleportOnDeathAbility::cooldown),
+            BooleanValue.field(ModGameRules.CHORUS_TOTEM_DO_CONSUME_ON_USE).forGetter(TeleportOnDeathAbility::consumedOnUse)
+    ).apply(instance, TeleportOnDeathAbility::new));
+
+    public static final StreamCodec<ByteBuf, TeleportOnDeathAbility> STREAM_CODEC = StreamCodec.composite(
+            DoubleValue.defaultStreamCodec(ModGameRules.CHORUS_TOTEM_TELEPORTATION_CHANCE),
+            TeleportOnDeathAbility::teleportationChance,
+            IntegerValue.defaultStreamCodec(ModGameRules.CHORUS_TOTEM_HEALTH_RESTORED),
+            TeleportOnDeathAbility::healthRestored,
+            IntegerValue.defaultStreamCodec(ModGameRules.CHORUS_TOTEM_COOLDOWN),
+            TeleportOnDeathAbility::cooldown,
+            BooleanValue.defaultStreamCodec(ModGameRules.CHORUS_TOTEM_DO_CONSUME_ON_USE),
+            TeleportOnDeathAbility::consumedOnUse,
+            TeleportOnDeathAbility::new
+    );
+
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
+    }
 
     public static ItemStack findTotem(LivingEntity entity) {
         for (InteractionHand hand : InteractionHand.values()) {
@@ -65,22 +95,6 @@ public class TeleportOnDeathAbility implements ArtifactAbility {
         }
     }
 
-    public double getTeleportationChance() {
-        return ModGameRules.CHORUS_TOTEM_TELEPORTATION_CHANCE.get();
-    }
-
-    public int getHealthRestored() {
-        return ModGameRules.CHORUS_TOTEM_HEALTH_RESTORED.get();
-    }
-
-    public boolean isConsumedOnUse() {
-        return ModGameRules.CHORUS_TOTEM_DO_CONSUME_ON_USE.get();
-    }
-
-    public int getCooldown() {
-        return ModGameRules.CHORUS_TOTEM_COOLDOWN.get();
-    }
-
     @Override
     public Type<?> getType() {
         return ModAbilities.TELEPORT_ON_DEATH.get();
@@ -88,17 +102,17 @@ public class TeleportOnDeathAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return getTeleportationChance() > 0;
+        return !teleportationChance().fuzzyEquals(0);
     }
 
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        if (getTeleportationChance() + 1e-10 >= 1) {
+        if (teleportationChance().fuzzyEquals(1)) {
             tooltip.add(tooltipLine("constant"));
         } else {
             tooltip.add(tooltipLine("chance"));
         }
-        if (!isConsumedOnUse()) {
+        if (!consumedOnUse().get()) {
             tooltip.add(tooltipLine("not_consumed"));
         }
     }

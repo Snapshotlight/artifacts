@@ -33,7 +33,7 @@ public abstract class LivingEntityMixin {
     private double getIncreasedSwimSpeed(double speed) {
         // noinspection ConstantConditions
         double swimSpeedBonus = AbilityHelper.sumDouble(
-                ModAbilities.SWIM_SPEED.get(), (LivingEntity) (Object) this, SwimSpeedAbility::getSwimSpeedBonus, false
+                ModAbilities.SWIM_SPEED.get(), (LivingEntity) (Object) this, ability -> ability.swimSpeedBonus().get(), false
         );
         return speed * (1 + swimSpeedBonus);
     }

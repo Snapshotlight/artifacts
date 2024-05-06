@@ -1,6 +1,7 @@
 package artifacts.item;
 
 import artifacts.ability.ArtifactAbility;
+import artifacts.registry.ModDataComponents;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -10,15 +11,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Supplier;
 
 public class WearableArtifactItem extends ArtifactItem {
-
-    private final List<ArtifactAbility> abilities = new ArrayList<>();
 
     private final Supplier<SoundEvent> equipSound;
     private final float equipSoundPitch;
@@ -44,15 +40,14 @@ public class WearableArtifactItem extends ArtifactItem {
     }
 
     public WearableArtifactItem(Item.Properties properties, Supplier<SoundEvent> equipSound, float equipSoundPitch, ArtifactAbility... abilities) {
-        super(properties);
-        this.abilities.addAll(Set.of(abilities));
+        super(properties.component(ModDataComponents.ABILITIES.get(), List.of(abilities)));
         this.equipSound = equipSound;
         this.equipSoundPitch = equipSoundPitch;
     }
 
-    public static Collection<ArtifactAbility> getAbilities(ItemStack stack) {
-        if (stack.getItem() instanceof WearableArtifactItem item) {
-            return item.abilities;
+    public static List<ArtifactAbility> getAbilities(ItemStack stack) {
+        if (stack.has(ModDataComponents.ABILITIES.get())) {
+            return stack.get(ModDataComponents.ABILITIES.get());
         }
         return List.of();
     }

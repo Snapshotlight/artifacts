@@ -1,9 +1,15 @@
 package artifacts.ability;
 
+import artifacts.ability.value.BooleanValue;
+import artifacts.ability.value.DoubleValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.registry.ModSoundEvents;
 import artifacts.util.AbilityHelper;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
@@ -12,7 +18,27 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
-public class DoubleJumpAbility implements ArtifactAbility {
+public record DoubleJumpAbility(BooleanValue enabled, DoubleValue sprintHorizontalVelocity, DoubleValue sprintVerticalVelocity) implements ArtifactAbility {
+
+    public static final MapCodec<DoubleJumpAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            BooleanValue.field(ModGameRules.CLOUD_IN_A_BOTTLE_ENABLED).forGetter(DoubleJumpAbility::enabled),
+            DoubleValue.field(ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_HORIZONTAL_VELOCITY).forGetter(DoubleJumpAbility::sprintHorizontalVelocity),
+            DoubleValue.field(ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY).forGetter(DoubleJumpAbility::sprintVerticalVelocity)
+    ).apply(instance, DoubleJumpAbility::new));
+
+    public static final StreamCodec<ByteBuf, DoubleJumpAbility> STREAM_CODEC = StreamCodec.composite(
+            BooleanValue.defaultStreamCodec(ModGameRules.CLOUD_IN_A_BOTTLE_ENABLED),
+            DoubleJumpAbility::enabled,
+            DoubleValue.defaultStreamCodec(ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_HORIZONTAL_VELOCITY),
+            DoubleJumpAbility::sprintHorizontalVelocity,
+            DoubleValue.defaultStreamCodec(ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY),
+            DoubleJumpAbility::sprintVerticalVelocity,
+            DoubleJumpAbility::new
+    );
+
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
+    }
 
     public static void jump(Player player) {
         player.fallDistance = 0;
@@ -25,7 +51,7 @@ public class DoubleJumpAbility implements ArtifactAbility {
         if (player.isSprinting()) {
             upwardsMotion *= 1 + AbilityHelper.maxDouble(
                     ModAbilities.DOUBLE_JUMP.get(), player,
-                    DoubleJumpAbility::getSprintJumpVerticalVelocity, false
+                    ability -> ability.sprintVerticalVelocity().get(), false
             );
         }
 
@@ -34,7 +60,7 @@ public class DoubleJumpAbility implements ArtifactAbility {
         if (player.isSprinting()) {
             motionMultiplier = AbilityHelper.maxDouble(
                     ModAbilities.DOUBLE_JUMP.get(), player,
-                    DoubleJumpAbility::getSprintJumpHorizontalVelocity, false
+                    ability -> ability.sprintHorizontalVelocity().get(), false
             );
         }
         float direction = (float) (player.getYRot() * Math.PI / 180);
@@ -60,19 +86,12 @@ public class DoubleJumpAbility implements ArtifactAbility {
         }
     }
 
+    // TODO replace with attribute ability
     public static float getReducedFallDistance(LivingEntity entity, float distance) {
         if (AbilityHelper.hasAbilityActive(ModAbilities.DOUBLE_JUMP.get(), entity)) {
             return Math.max(0, distance - 3);
         }
         return distance;
-    }
-
-    public double getSprintJumpHorizontalVelocity() {
-        return ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_HORIZONTAL_VELOCITY.get();
-    }
-
-    public double getSprintJumpVerticalVelocity() {
-        return ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY.get();
     }
 
     @Override
@@ -82,6 +101,6 @@ public class DoubleJumpAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return ModGameRules.CLOUD_IN_A_BOTTLE_ENABLED.get();
+        return enabled().get();
     }
 }

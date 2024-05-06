@@ -1,12 +1,27 @@
 package artifacts.ability;
 
+import artifacts.ability.value.DoubleValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 
-public class SwimSpeedAbility implements ArtifactAbility {
+public record SwimSpeedAbility(DoubleValue swimSpeedBonus) implements ArtifactAbility {
 
-    public double getSwimSpeedBonus() {
-        return ModGameRules.FLIPPERS_SWIM_SPEED_BONUS.get();
+    public static final MapCodec<SwimSpeedAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            DoubleValue.field(ModGameRules.FLIPPERS_SWIM_SPEED_BONUS).forGetter(SwimSpeedAbility::swimSpeedBonus)
+    ).apply(instance, SwimSpeedAbility::new));
+
+    public static final StreamCodec<ByteBuf, SwimSpeedAbility> STREAM_CODEC = StreamCodec.composite(
+            DoubleValue.defaultStreamCodec(ModGameRules.FLIPPERS_SWIM_SPEED_BONUS),
+            SwimSpeedAbility::swimSpeedBonus,
+            SwimSpeedAbility::new
+    );
+
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
     }
 
     @Override
@@ -16,6 +31,6 @@ public class SwimSpeedAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return getSwimSpeedBonus() > 0;
+        return !swimSpeedBonus().fuzzyEquals(0);
     }
 }

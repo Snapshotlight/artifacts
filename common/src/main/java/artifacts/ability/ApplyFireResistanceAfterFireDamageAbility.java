@@ -1,8 +1,13 @@
 package artifacts.ability;
 
+import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -10,7 +15,20 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
-public class ApplyFireResistanceAfterFireDamageAbility implements ArtifactAbility {
+public record ApplyFireResistanceAfterFireDamageAbility(IntegerValue fireResistanceDuration, IntegerValue cooldown) implements ArtifactAbility {
+
+    public static final MapCodec<ApplyFireResistanceAfterFireDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            IntegerValue.field(ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_DURATION).forGetter(ApplyFireResistanceAfterFireDamageAbility::fireResistanceDuration),
+            IntegerValue.field(ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_COOLDOWN).forGetter(ApplyFireResistanceAfterFireDamageAbility::cooldown)
+    ).apply(instance, ApplyFireResistanceAfterFireDamageAbility::new));
+
+    public static final StreamCodec<ByteBuf, ApplyFireResistanceAfterFireDamageAbility> STREAM_CODEC = StreamCodec.composite(
+            IntegerValue.defaultStreamCodec(ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_DURATION),
+            ApplyFireResistanceAfterFireDamageAbility::fireResistanceDuration,
+            IntegerValue.defaultStreamCodec(ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_COOLDOWN),
+            ApplyFireResistanceAfterFireDamageAbility::cooldown,
+            ApplyFireResistanceAfterFireDamageAbility::new
+    );
 
     public static void onLivingDamage(LivingEntity entity, DamageSource damageSource, float amount) {
         if (!entity.level().isClientSide
@@ -19,20 +37,16 @@ public class ApplyFireResistanceAfterFireDamageAbility implements ArtifactAbilit
                 && entity instanceof Player player
         ) {
             AbilityHelper.forEach(ModAbilities.APPLY_FIRE_RESISTANCE_AFTER_FIRE_DAMAGE.get(), entity, (ability, stack) -> {
-                entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, ability.getFireResistanceDuration(), 0, false, false, true));
-                if (ability.getCooldown() > 0) {
-                    player.getCooldowns().addCooldown(stack.getItem(), ability.getCooldown());
+                entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, ability.fireResistanceDuration().get(), 0, false, false, true));
+                if (ability.cooldown().get() > 0) {
+                    player.getCooldowns().addCooldown(stack.getItem(), ability.cooldown().get());
                 }
             }, true);
         }
     }
 
-    public int getFireResistanceDuration() {
-        return ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_DURATION.get();
-    }
-
-    public int getCooldown() {
-        return ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_COOLDOWN.get();
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
     }
 
     @Override
@@ -42,6 +56,6 @@ public class ApplyFireResistanceAfterFireDamageAbility implements ArtifactAbilit
 
     @Override
     public boolean isNonCosmetic() {
-        return getFireResistanceDuration() > 0;
+        return fireResistanceDuration().get() > 0;
     }
 }

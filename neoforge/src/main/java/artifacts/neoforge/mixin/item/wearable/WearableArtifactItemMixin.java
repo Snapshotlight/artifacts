@@ -38,7 +38,7 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
         tooltipList.add(Component.translatable("curios.modifiers." + identifier));
 
         AbilityHelper.getAbilities(ModAbilities.ATTRIBUTE_MODIFIER.get(), stack).forEach(ability -> {
-            double amount = ability.getAmount();
+            double amount = ability.amount().get();
 
             if (ability.getOperation() == AttributeModifier.Operation.ADD_VALUE) {
                 if (ability.getAttribute().equals(Attributes.KNOCKBACK_RESISTANCE)) {

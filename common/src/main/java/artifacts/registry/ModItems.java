@@ -21,7 +21,6 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
 
 import java.util.function.Supplier;
 
@@ -46,30 +45,30 @@ public class ModItems {
     // head
     public static RegistrySupplier<WearableArtifactItem> PLASTIC_DRINKING_HAT = register("plastic_drinking_hat", () -> new WearableArtifactItem(
             SoundEvents.BOTTLE_FILL,
-            new ReduceEatingDurationAbility(ModGameRules.PLASTIC_DRINKING_HAT_DRINKING_DURATION_MULTIPLIER, UseAnim.DRINK),
-            new ReduceEatingDurationAbility(ModGameRules.PLASTIC_DRINKING_HAT_EATING_DURATION_MULTIPLIER, UseAnim.EAT)
+            new ReduceEatingDurationAbility(ModGameRules.PLASTIC_DRINKING_HAT_DRINKING_DURATION_MULTIPLIER, ReduceEatingDurationAbility.Action.DRINK),
+            new ReduceEatingDurationAbility(ModGameRules.PLASTIC_DRINKING_HAT_EATING_DURATION_MULTIPLIER, ReduceEatingDurationAbility.Action.EAT)
     ));
     public static RegistrySupplier<WearableArtifactItem> NOVELTY_DRINKING_HAT = register("novelty_drinking_hat", () -> new WearableArtifactItem(
             SoundEvents.BOTTLE_FILL,
             new CustomTooltipAbility("artifacts.tooltip.item.novelty_drinking_hat"),
-            new ReduceEatingDurationAbility(ModGameRules.NOVELTY_DRINKING_HAT_DRINKING_DURATION_MULTIPLIER, UseAnim.DRINK),
-            new ReduceEatingDurationAbility(ModGameRules.NOVELTY_DRINKING_HAT_EATING_DURATION_MULTIPLIER, UseAnim.EAT)
+            new ReduceEatingDurationAbility(ModGameRules.NOVELTY_DRINKING_HAT_DRINKING_DURATION_MULTIPLIER, ReduceEatingDurationAbility.Action.DRINK),
+            new ReduceEatingDurationAbility(ModGameRules.NOVELTY_DRINKING_HAT_EATING_DURATION_MULTIPLIER, ReduceEatingDurationAbility.Action.EAT)
     ));
     public static RegistrySupplier<WearableArtifactItem> SNORKEL = register("snorkel", () -> new WearableArtifactItem(
-            new LimitedWaterBreathingAbility()
+            LimitedWaterBreathingAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> NIGHT_VISION_GOGGLES = register("night_vision_goggles", () -> new WearableArtifactItem(
-            new NightVisionAbility()
+            NightVisionAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> VILLAGER_HAT = register("villager_hat", () -> new WearableArtifactItem(
-            new VillagerReputation()
+            VillagerReputationAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> SUPERSTITIOUS_HAT = register("superstitious_hat", () -> new WearableArtifactItem(
             IncreaseEnchantmentLevelAbility.looting()
     ));
     public static RegistrySupplier<WearableArtifactItem> COWBOY_HAT = register("cowboy_hat", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_LEATHER::value,
-            new MountSpeedAbility()
+            MountSpeedAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> ANGLERS_HAT = register("anglers_hat", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_LEATHER::value,
@@ -82,68 +81,69 @@ public class ModItems {
             IncreaseEnchantmentLevelAbility.fortune()
     ));
     public static RegistrySupplier<WearableArtifactItem> SCARF_OF_INVISIBILITY = register("scarf_of_invisibility", () -> new WearableArtifactItem(
-            new InvisibilityAbility()
+            InvisibilityAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> CROSS_NECKLACE = register("cross_necklace", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_DIAMOND::value,
-            new MakePiglinsNeutralAbility(),
-            new BonusInvincibilityTicksAbility()
+            MakePiglinsNeutralAbility.INSTANCE,
+            BonusInvincibilityTicksAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> PANIC_NECKLACE = register("panic_necklace", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_DIAMOND::value,
-            new ApplySpeedAfterDamageAbility()
+            ApplySpeedAfterDamageAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> SHOCK_PENDANT = register("shock_pendant", () -> new WearableArtifactItem(
-            new StrikeAttackersWithLightningAbility(), SimpleAbility.lightningImmunity()
+            StrikeAttackersWithLightningAbility.createDefaultInstance(),
+            ArtifactAbility.createDefaultInstance(SimpleAbility.lightningImmunity().getFirst())
     ));
     public static RegistrySupplier<WearableArtifactItem> FLAME_PENDANT = register("flame_pendant", () -> new WearableArtifactItem(
-            new SetAttackersOnFireAbility()
+            SetAttackersOnFireAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> THORN_PENDANT = register("thorn_pendant", () -> new WearableArtifactItem(
-            new ThornsAbility()
+            ThornsAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> CHARM_OF_SINKING = register("charm_of_sinking", () -> new WearableArtifactItem(
-            SimpleAbility.sinking()
+            ArtifactAbility.createDefaultInstance(SimpleAbility.sinking().getFirst())
     ));
 
     // belt
     public static RegistrySupplier<WearableArtifactItem> CLOUD_IN_A_BOTTLE = register("cloud_in_a_bottle", () -> new WearableArtifactItem(
             SoundEvents.BOTTLE_FILL_DRAGONBREATH,
-            new DoubleJumpAbility()
+            DoubleJumpAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> OBSIDIAN_SKULL = register("obsidian_skull", () ->  new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_IRON::value,
-            new ApplyFireResistanceAfterFireDamageAbility()
+            ApplyFireResistanceAfterFireDamageAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> ANTIDOTE_VESSEL = register("antidote_vessel", () -> new WearableArtifactItem(
             SoundEvents.BOTTLE_FILL,
-            new MakePiglinsNeutralAbility(),
-            new RemoveBadEffectsAbility()
+            MakePiglinsNeutralAbility.INSTANCE,
+            RemoveBadEffectsAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> UNIVERSAL_ATTRACTOR = register("universal_attractor", () -> new WearableArtifactItem(
-            new MakePiglinsNeutralAbility(),
-            new AttractItemsAbility()
+            MakePiglinsNeutralAbility.INSTANCE,
+            AttractItemsAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> CRYSTAL_HEART = register("crystal_heart", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_DIAMOND::value,
             CustomTooltipAbility.attributeTooltip("max_health"),
-            new AttributeModifierAbility(Attributes.MAX_HEALTH, () -> (double) ModGameRules.CRYSTAL_HEART_HEALTH_BONUS.get(), Artifacts.id("crystal_heart/health_bonus")
+            new AttributeModifierAbility(Attributes.MAX_HEALTH, ModGameRules.CRYSTAL_HEART_HEALTH_BONUS, Artifacts.id("crystal_heart/health_bonus")
     )
     ));
     public static RegistrySupplier<WearableArtifactItem> HELIUM_FLAMINGO = register("helium_flamingo", () -> new WearableArtifactItem(
             new Item.Properties(),
             ModSoundEvents.POP, 0.7F,
-            new SwimInAirAbility()
+            SwimInAirAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> CHORUS_TOTEM = register("chorus_totem", () -> new WearableArtifactItem(
-            new TeleportOnDeathAbility()
+            TeleportOnDeathAbility.createDefaultInstance()
     ));
 
     // hands
     public static RegistrySupplier<WearableArtifactItem> DIGGING_CLAWS = register("digging_claws", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_NETHERITE::value,
-            new DigSpeedAbility(),
-            new UpgradeToolTierAbility()
+            DigSpeedAbility.createDefaultInstance(),
+            UpgradeToolTierAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> FERAL_CLAWS = register("feral_claws", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_NETHERITE::value,
@@ -153,53 +153,53 @@ public class ModItems {
     ));
     public static RegistrySupplier<WearableArtifactItem> POWER_GLOVE = register("power_glove", () -> new WearableArtifactItem(
             CustomTooltipAbility.attributeTooltip("attack_damage"),
-            new AttributeModifierAbility(Attributes.ATTACK_DAMAGE, () -> (double) ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS.get(), Artifacts.id("power_glove/attack_damage_bonus"))
+            new AttributeModifierAbility(Attributes.ATTACK_DAMAGE, ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS, Artifacts.id("power_glove/attack_damage_bonus"))
     ));
     public static RegistrySupplier<WearableArtifactItem> FIRE_GAUNTLET = register("fire_gauntlet", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_IRON::value,
-            new FireAspectAbility()
+            FireAspectAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> POCKET_PISTON = register("pocket_piston", () -> new WearableArtifactItem(
             SoundEvents.PISTON_EXTEND,
-            new KnockbackAbility()
+            KnockbackAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> VAMPIRIC_GLOVE = register("vampiric_glove", () -> new WearableArtifactItem(
-            ModAbilities.ABSORB_DAMAGE.get().createDefaultInstance() // TODO
+            AbsorbDamageAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> GOLDEN_HOOK = register("golden_hook", () -> new WearableArtifactItem(
-            new ExperienceBonusAbility(),
-            new MakePiglinsNeutralAbility()
+            ExperienceBonusAbility.createDefaultInstance(),
+            MakePiglinsNeutralAbility.INSTANCE
     ));
     public static RegistrySupplier<WearableArtifactItem> ONION_RING = register("onion_ring", () -> new WearableArtifactItem(
             new Item.Properties().food(new FoodProperties.Builder().nutrition(2).build()),
-            new ApplyHasteAfterEatingAbility()
+            ApplyHasteAfterEatingAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> PICKAXE_HEATER = register("pickaxe_heater", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_IRON::value,
-            SimpleAbility.smeltOres()
+            ArtifactAbility.createDefaultInstance(SimpleAbility.smeltOres().getFirst())
     ));
 
     // feet
     public static RegistrySupplier<WearableArtifactItem> AQUA_DASHERS = register("aqua_dashers", () -> new WearableArtifactItem(
-            SimpleAbility.sprintOnWater()
+            ArtifactAbility.createDefaultInstance(SimpleAbility.sprintOnWater().getFirst())
     ));
     public static RegistrySupplier<WearableArtifactItem> BUNNY_HOPPERS = register("bunny_hoppers", () -> new WearableArtifactItem(
-            new JumpBoostAbility(),
-            SimpleAbility.cancelFallDamage(),
+            JumpBoostAbility.createDefaultInstance(),
+            ArtifactAbility.createDefaultInstance(SimpleAbility.cancelFallDamage().getFirst()),
             new HurtSoundAbility(SoundEvents.RABBIT_HURT)
     ));
     public static RegistrySupplier<WearableArtifactItem> KITTY_SLIPPERS = register("kitty_slippers", () -> new WearableArtifactItem(
             SoundEvents.CAT_AMBIENT,
-            SimpleAbility.scareCreepers(),
+            ArtifactAbility.createDefaultInstance(SimpleAbility.scareCreepers().getFirst()),
             new HurtSoundAbility(SoundEvents.CAT_HURT)
     ));
     public static RegistrySupplier<WearableArtifactItem> RUNNING_SHOES = register("running_shoes", () -> new WearableArtifactItem(
-            new SprintingSpeedAbility(),
-            new SprintingStepHeightAbility()
+            SprintingSpeedAbility.INSTANCE,
+            SprintingStepHeightAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> SNOWSHOES = register("snowshoes", () -> new WearableArtifactItem(
-            SimpleAbility.walkOnPowderSnow(),
-            new ReduceIceSlipperinessAbility()
+            ArtifactAbility.createDefaultInstance(SimpleAbility.walkOnPowderSnow().getFirst()),
+            ReduceIceSlipperinessAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> STEADFAST_SPIKES = register("steadfast_spikes", () -> new WearableArtifactItem(
             CustomTooltipAbility.attributeTooltip("knockback_resistance"),
@@ -211,15 +211,15 @@ public class ModItems {
     ));
     public static RegistrySupplier<WearableArtifactItem> ROOTED_BOOTS = register("rooted_boots", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_LEATHER::value,
-            new ReplenishHungerOnGrassAbility(),
-            new GrowPlantsAfterEatingAbility()
+            ReplenishHungerOnGrassAbility.createDefaultInstance(),
+            GrowPlantsAfterEatingAbility.createDefaultInstance()
     ));
 
     // curio
     public static RegistrySupplier<WearableArtifactItem> WHOOPEE_CUSHION = register("whoopee_cushion", () -> new WearableArtifactItem(
             new Item.Properties(),
             ModSoundEvents.FART, 1F,
-            new FartAbility()
+            FartAbility.createDefaultInstance()
     ));
 
     private static <T extends Item> RegistrySupplier<T> register(String name, Supplier<T> supplier) {

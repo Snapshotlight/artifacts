@@ -1,6 +1,5 @@
 package artifacts.mixin.item.wearable.crossnecklace;
 
-import artifacts.ability.BonusInvincibilityTicksAbility;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
 import net.minecraft.world.damagesource.DamageSource;
@@ -18,17 +17,17 @@ public abstract class LivingEntityMixin {
     @Inject(method = "hurt", at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/LivingEntity;invulnerableTime:I", opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER))
     private void hurt(DamageSource damageSource, float f, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity entity = ((LivingEntity) (Object) this);
-        int bonusTicks = AbilityHelper.maxInt(ModAbilities.BONUS_INVINCIBILITY_TICKS.get(), entity, BonusInvincibilityTicksAbility::getBonusInvincibilityTicks, true);
+        int bonusTicks = AbilityHelper.maxInt(ModAbilities.BONUS_INVINCIBILITY_TICKS.get(), entity, ability -> ability.bonusTicks().get(), true);
         if (bonusTicks > 0) {
             entity.invulnerableTime += bonusTicks;
-            AbilityHelper.applyCooldowns(ModAbilities.BONUS_INVINCIBILITY_TICKS.get(), entity, BonusInvincibilityTicksAbility::getCooldown);
+            AbilityHelper.applyCooldowns(ModAbilities.BONUS_INVINCIBILITY_TICKS.get(), entity, ability -> ability.cooldown().get());
         }
     }
 
     @Inject(method = "handleDamageEvent", at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/LivingEntity;invulnerableTime:I", opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER))
     private void handleDamageEvent(DamageSource damageSource, CallbackInfo ci) {
         LivingEntity entity = ((LivingEntity) (Object) this);
-        int bonusTicks = AbilityHelper.maxInt(ModAbilities.BONUS_INVINCIBILITY_TICKS.get(), entity, BonusInvincibilityTicksAbility::getBonusInvincibilityTicks, true);
+        int bonusTicks = AbilityHelper.maxInt(ModAbilities.BONUS_INVINCIBILITY_TICKS.get(), entity, ability -> ability.bonusTicks().get(), true);
         if (bonusTicks > 0) {
             entity.invulnerableTime += bonusTicks;
         }

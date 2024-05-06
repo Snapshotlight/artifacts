@@ -5,26 +5,46 @@ import artifacts.client.ToggleKeyHandler;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Function;
 
 public interface ArtifactAbility {
 
     @SuppressWarnings("ConstantConditions")
-    Codec<ArtifactAbility> CODEC = ResourceLocation.CODEC.dispatch("type",
-            ability -> ModAbilities.REGISTRY.getId(ability.getType()),
-            id -> ModAbilities.REGISTRY.get(id).codec()
-    );
+    Codec<ArtifactAbility> CODEC = ResourceLocation.CODEC
+            .comapFlatMap(id -> ModAbilities.REGISTRY.contains(id)
+                    ? DataResult.success(id)
+                    : DataResult.error(() -> "Unknown ability type '%s'".formatted(id)),
+                    Function.identity()
+            ).dispatch("type",
+                    ability -> ModAbilities.REGISTRY.getId(ability.getType()),
+                    id -> ModAbilities.REGISTRY.get(id).codec()
+            );
+
+    @SuppressWarnings("ConstantConditions")
+    StreamCodec<ByteBuf, ArtifactAbility> STREAM_CODEC = ResourceLocation.STREAM_CODEC
+            .dispatch(
+                    ability -> ModAbilities.REGISTRY.getId(ability.getType()),
+                    id -> ModAbilities.REGISTRY.get(id).streamCodec()
+            );
+
+    static <T> T createDefaultInstance(MapCodec<T> codec) {
+        return codec.codec().decode(NbtOps.INSTANCE, new CompoundTag()).getOrThrow().getFirst();
+    }
 
     Type<?> getType();
 
@@ -76,11 +96,7 @@ public interface ArtifactAbility {
 
     }
 
-    @SuppressWarnings("unused")
-    record Type<T extends ArtifactAbility>(MapCodec<T> codec) {
+    record Type<T extends ArtifactAbility>(MapCodec<T> codec, StreamCodec<ByteBuf, T> streamCodec) {
 
-        public T createDefaultInstance() {
-            return codec().codec().decode(NbtOps.INSTANCE, new CompoundTag()).getOrThrow().getFirst();
-        }
     }
 }

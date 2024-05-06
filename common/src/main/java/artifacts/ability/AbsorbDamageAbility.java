@@ -8,7 +8,9 @@ import artifacts.util.AbilityHelper;
 import artifacts.util.DamageSourceHelper;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -17,10 +19,20 @@ import java.util.List;
 public record AbsorbDamageAbility(DoubleValue absorptionRatio, IntegerValue maxHealingPerHit, DoubleValue absorptionChance) implements ArtifactAbility {
 
     public static final MapCodec<AbsorbDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.codec(ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_RATIO).forGetter(AbsorbDamageAbility::absorptionRatio),
-            IntegerValue.codec(ModGameRules.VAMPIRIC_GLOVE_MAX_HEALING_PER_HIT).forGetter(AbsorbDamageAbility::maxHealingPerHit),
-            DoubleValue.codec(ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_CHANCE).forGetter(AbsorbDamageAbility::absorptionChance)
+            DoubleValue.field(ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_RATIO).forGetter(AbsorbDamageAbility::absorptionRatio),
+            IntegerValue.field(ModGameRules.VAMPIRIC_GLOVE_MAX_HEALING_PER_HIT).forGetter(AbsorbDamageAbility::maxHealingPerHit),
+            DoubleValue.field(ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_CHANCE).forGetter(AbsorbDamageAbility::absorptionChance)
     ).apply(instance, AbsorbDamageAbility::new));
+
+    public static final StreamCodec<ByteBuf, AbsorbDamageAbility> STREAM_CODEC = StreamCodec.composite(
+            DoubleValue.defaultStreamCodec(ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_RATIO),
+            AbsorbDamageAbility::absorptionRatio,
+            IntegerValue.defaultStreamCodec(ModGameRules.VAMPIRIC_GLOVE_MAX_HEALING_PER_HIT),
+            AbsorbDamageAbility::maxHealingPerHit,
+            DoubleValue.defaultStreamCodec(ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_CHANCE),
+            AbsorbDamageAbility::absorptionChance,
+            AbsorbDamageAbility::new
+    );
 
     public static void onLivingDamage(LivingEntity entity, DamageSource damageSource, float amount) {
         LivingEntity attacker = DamageSourceHelper.getAttacker(damageSource);
@@ -40,6 +52,10 @@ public record AbsorbDamageAbility(DoubleValue absorptionRatio, IntegerValue maxH
         }
     }
 
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
+    }
+
     @Override
     public Type<?> getType() {
         return ModAbilities.ABSORB_DAMAGE.get();
@@ -47,7 +63,7 @@ public record AbsorbDamageAbility(DoubleValue absorptionRatio, IntegerValue maxH
 
     @Override
     public boolean isNonCosmetic() {
-        return absorptionChance().get() > 0 && absorptionRatio().get() > 0 && maxHealingPerHit().get() > 0;
+        return !absorptionChance().fuzzyEquals(0) && !absorptionRatio().fuzzyEquals(0) && maxHealingPerHit().get() > 0;
     }
 
     @Override

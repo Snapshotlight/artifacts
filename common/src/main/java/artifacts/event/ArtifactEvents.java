@@ -72,7 +72,7 @@ public class ArtifactEvents {
 
     public static void onPlaySoundAtEntity(LivingEntity entity, float volume, float pitch) {
         if (Artifacts.CONFIG.common.modifyHurtSounds) {
-            AbilityHelper.forEach(ModAbilities.MODIFY_HURT_SOUND.get(), entity, ability -> entity.playSound(ability.getSoundEvent(), volume, pitch));
+            AbilityHelper.forEach(ModAbilities.MODIFY_HURT_SOUND.get(), entity, ability -> entity.playSound(ability.soundEvent(), volume, pitch));
         }
     }
 

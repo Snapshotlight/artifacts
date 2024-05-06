@@ -1,5 +1,6 @@
 package artifacts.ability;
 
+import artifacts.ability.value.IntegerValue;
 import artifacts.component.SwimData;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
@@ -7,14 +8,35 @@ import artifacts.registry.ModGameRules;
 import artifacts.registry.ModKeyMappings;
 import artifacts.registry.ModSoundEvents;
 import artifacts.util.AbilityHelper;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SwimInAirAbility implements ArtifactAbility {
+public record SwimInAirAbility(IntegerValue flightDuration, IntegerValue rechargeDuration) implements ArtifactAbility {
+
+    public static final MapCodec<SwimInAirAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            IntegerValue.field(ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION).forGetter(SwimInAirAbility::flightDuration),
+            IntegerValue.field(ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION).forGetter(SwimInAirAbility::rechargeDuration)
+    ).apply(instance, SwimInAirAbility::new));
+
+    public static final StreamCodec<ByteBuf, SwimInAirAbility> STREAM_CODEC = StreamCodec.composite(
+            IntegerValue.defaultStreamCodec(ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION),
+            SwimInAirAbility::flightDuration,
+            IntegerValue.defaultStreamCodec(ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION),
+            SwimInAirAbility::rechargeDuration,
+            SwimInAirAbility::new
+    );
+
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
+    }
 
     public static void onHeliumFlamingoTick(Player player) {
         SwimData swimData = PlatformServices.platformHelper.getSwimData(player);
@@ -49,19 +71,11 @@ public class SwimInAirAbility implements ArtifactAbility {
     }
 
     public static int getFlightDuration(LivingEntity entity) {
-        return AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.get(), entity, SwimInAirAbility::getFlightDuration, false);
+        return AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.get(), entity, ability -> ability.flightDuration().get(), false);
     }
 
     public static int getRechargeDuration(LivingEntity entity) {
-        return Math.max(20, AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.get(), entity, SwimInAirAbility::getRechargeDuration, false));
-    }
-
-    public int getFlightDuration() {
-        return ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION.get();
-    }
-
-    public int getRechargeDuration() {
-        return ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION.get();
+        return Math.max(20, AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.get(), entity, ability -> ability.rechargeDuration().get(), false));
     }
 
     @Override
@@ -71,7 +85,7 @@ public class SwimInAirAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return getFlightDuration() > 0;
+        return flightDuration().get() > 0;
     }
 
     @Override

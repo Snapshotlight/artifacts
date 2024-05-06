@@ -2,6 +2,9 @@ package artifacts.ability;
 
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
+import com.mojang.serialization.MapCodec;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -11,6 +14,12 @@ import net.minecraft.world.entity.player.Player;
 import java.util.UUID;
 
 public class SprintingSpeedAbility implements ArtifactAbility {
+
+    // TODO configurable sprinting speed
+    // TODO equals
+    public static final SprintingSpeedAbility INSTANCE = new SprintingSpeedAbility();
+    public static final MapCodec<SprintingSpeedAbility> CODEC = MapCodec.unit(INSTANCE);
+    public static final StreamCodec<ByteBuf, SprintingSpeedAbility> STREAM_CODEC = StreamCodec.unit(INSTANCE);
 
     private static AttributeModifier getSpeedBonus() {
         double speedMultiplier = ModGameRules.RUNNING_SHOES_SPEED_BONUS.get();

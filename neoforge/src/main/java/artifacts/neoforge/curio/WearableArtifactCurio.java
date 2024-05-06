@@ -59,16 +59,16 @@ public class WearableArtifactCurio implements ICurioItem {
     @Override
     public int getFortuneLevel(SlotContext slotContext, @Nullable LootContext lootContext, ItemStack stack) {
         return AbilityHelper.getAbilities(ModAbilities.INCREASE_ENCHANTMENT_LEVEL.get(), stack)
-                .filter(ability -> ability.getEnchantment() == Enchantments.FORTUNE)
-                .mapToInt(IncreaseEnchantmentLevelAbility::getAmount)
+                .filter(ability -> ability.enchantment() == Enchantments.FORTUNE)
+                .mapToInt(ability -> ability.amount().get())
                 .sum();
     }
 
     @Override
     public int getLootingLevel(SlotContext slotContext, DamageSource source, LivingEntity target, int baseLooting, ItemStack stack) {
         return AbilityHelper.getAbilities(ModAbilities.INCREASE_ENCHANTMENT_LEVEL.get(), stack)
-                .filter(ability -> ability.getEnchantment() == Enchantments.LOOTING)
-                .mapToInt(IncreaseEnchantmentLevelAbility::getAmount)
+                .filter(ability -> ability.enchantment() == Enchantments.LOOTING)
+                .mapToInt(ability -> ability.amount().get())
                 .sum();
     }
 

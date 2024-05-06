@@ -1,10 +1,15 @@
 package artifacts.ability;
 
+import artifacts.ability.value.BooleanValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BoneMealItem;
@@ -13,7 +18,21 @@ import net.minecraft.world.item.Items;
 
 import java.util.List;
 
-public class GrowPlantsAfterEatingAbility implements ArtifactAbility {
+public record GrowPlantsAfterEatingAbility(BooleanValue enabled) implements ArtifactAbility {
+
+    public static final MapCodec<GrowPlantsAfterEatingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            BooleanValue.field(ModGameRules.ROOTED_BOOTS_DO_GROW_PLANTS_AFTER_EATING, "enabled").forGetter(GrowPlantsAfterEatingAbility::enabled)
+    ).apply(instance, GrowPlantsAfterEatingAbility::new));
+
+    public static final StreamCodec<ByteBuf, GrowPlantsAfterEatingAbility> STREAM_CODEC = StreamCodec.composite(
+            BooleanValue.defaultStreamCodec(ModGameRules.ROOTED_BOOTS_DO_GROW_PLANTS_AFTER_EATING),
+            GrowPlantsAfterEatingAbility::enabled,
+            GrowPlantsAfterEatingAbility::new
+    );
+
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
+    }
 
     @Override
     public Type<?> getType() {
@@ -22,7 +41,7 @@ public class GrowPlantsAfterEatingAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return ModGameRules.ROOTED_BOOTS_DO_GROW_PLANTS_AFTER_EATING.get() && ModGameRules.ROOTED_BOOTS_ENABLED.get();
+        return enabled().get();
     }
 
     @Override

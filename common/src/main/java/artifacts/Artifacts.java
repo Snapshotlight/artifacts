@@ -51,6 +51,7 @@ public class Artifacts {
         ModItems.ITEMS.register();
         ModEntityTypes.ENTITY_TYPES.register();
         ModFeatures.FEATURES.register();
+        ModDataComponents.DATA_COMPONENT_TYPES.register();
         ModAbilities.register();
 
         EntityAttributeRegistry.register(ModEntityTypes.MIMIC, MimicEntity::createMobAttributes);

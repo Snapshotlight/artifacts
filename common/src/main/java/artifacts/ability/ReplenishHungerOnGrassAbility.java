@@ -1,17 +1,36 @@
 package artifacts.ability;
 
+import artifacts.ability.value.BooleanValue;
+import artifacts.ability.value.IntegerValue;
 import artifacts.network.PlaySoundAtPlayerPacket;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.registry.ModTags;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 
-public class ReplenishHungerOnGrassAbility implements ArtifactAbility {
+public record ReplenishHungerOnGrassAbility(BooleanValue enabled, IntegerValue replenishingDuration) implements ArtifactAbility {
 
-    private int getHungerReplenishingDuration() {
-        return ModGameRules.ROOTED_BOOTS_HUNGER_REPLENISHING_DURATION.get();
+    public static final MapCodec<ReplenishHungerOnGrassAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            BooleanValue.field(ModGameRules.ROOTED_BOOTS_ENABLED).forGetter(ReplenishHungerOnGrassAbility::enabled),
+            IntegerValue.field(ModGameRules.ROOTED_BOOTS_HUNGER_REPLENISHING_DURATION).forGetter(ReplenishHungerOnGrassAbility::replenishingDuration)
+    ).apply(instance, ReplenishHungerOnGrassAbility::new));
+
+    public static final StreamCodec<ByteBuf, ReplenishHungerOnGrassAbility> STREAM_CODEC = StreamCodec.composite(
+            BooleanValue.defaultStreamCodec(ModGameRules.ROOTED_BOOTS_ENABLED),
+            ReplenishHungerOnGrassAbility::enabled,
+            IntegerValue.defaultStreamCodec(ModGameRules.ROOTED_BOOTS_HUNGER_REPLENISHING_DURATION),
+            ReplenishHungerOnGrassAbility::replenishingDuration,
+            ReplenishHungerOnGrassAbility::new
+    );
+
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
     }
 
     @Override
@@ -21,7 +40,7 @@ public class ReplenishHungerOnGrassAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return ModGameRules.ROOTED_BOOTS_ENABLED.get();
+        return enabled().get();
     }
 
     @Override
@@ -29,7 +48,7 @@ public class ReplenishHungerOnGrassAbility implements ArtifactAbility {
         if (isActive && entity instanceof ServerPlayer player
                 && player.onGround()
                 && player.getFoodData().needsFood()
-                && entity.tickCount % Math.max(20, getHungerReplenishingDuration()) == 0
+                && entity.tickCount % Math.max(20, replenishingDuration().get()) == 0
                 && entity.getBlockStateOn().is(ModTags.ROOTED_BOOTS_GRASS)
         ) {
             player.getFoodData().eat(1, 0.5F);

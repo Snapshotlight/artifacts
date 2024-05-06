@@ -1,20 +1,44 @@
 package artifacts.ability.mobeffect;
 
+import artifacts.ability.ArtifactAbility;
+import artifacts.ability.value.DoubleValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.effect.MobEffects;
 
 import java.util.List;
+import java.util.Objects;
 
 public class NightVisionAbility extends MobEffectAbility {
 
-    public NightVisionAbility() {
+    public static final MapCodec<NightVisionAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            DoubleValue.field(ModGameRules.NIGHT_VISION_GOGGLES_STRENGTH).forGetter(NightVisionAbility::strength)
+    ).apply(instance, NightVisionAbility::new));
+
+    public static final StreamCodec<ByteBuf, NightVisionAbility> STREAM_CODEC = StreamCodec.composite(
+            DoubleValue.defaultStreamCodec(ModGameRules.NIGHT_VISION_GOGGLES_STRENGTH),
+            NightVisionAbility::strength,
+            NightVisionAbility::new
+    );
+
+    private final DoubleValue strength;
+
+    public NightVisionAbility(DoubleValue strength) {
         super(MobEffects.NIGHT_VISION);
+        this.strength = strength;
     }
 
-    public double getStrength() {
-        return ModGameRules.NIGHT_VISION_GOGGLES_STRENGTH.get();
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
+    }
+
+    public DoubleValue strength() {
+        return strength;
     }
 
     @Override
@@ -24,7 +48,7 @@ public class NightVisionAbility extends MobEffectAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return getStrength() > 0;
+        return !strength().fuzzyEquals(0);
     }
 
     @Override
@@ -34,6 +58,19 @@ public class NightVisionAbility extends MobEffectAbility {
         } else {
             tooltip.add(tooltipLine("partial"));
         }
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        NightVisionAbility that = (NightVisionAbility) o;
+        return strength.equals(that.strength);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), strength);
     }
 }

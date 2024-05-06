@@ -1,9 +1,14 @@
 package artifacts.ability;
 
+import artifacts.ability.value.BooleanValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.event.EventResult;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -12,13 +17,27 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class AttractItemsAbility implements ArtifactAbility {
+public record AttractItemsAbility(BooleanValue enabled) implements ArtifactAbility {
+
+    public static final MapCodec<AttractItemsAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            BooleanValue.field(ModGameRules.UNIVERSAL_ATTRACTOR_ENABLED).forGetter(AttractItemsAbility::enabled)
+    ).apply(instance, AttractItemsAbility::new));
+
+    public static final StreamCodec<ByteBuf, AttractItemsAbility> STREAM_CODEC = StreamCodec.composite(
+            BooleanValue.defaultStreamCodec(ModGameRules.UNIVERSAL_ATTRACTOR_ENABLED),
+            AttractItemsAbility::enabled,
+            AttractItemsAbility::new
+    );
 
     public static EventResult onItemToss(Player player, ItemEntity entity) {
         if (AbilityHelper.hasAbilityActive(ModAbilities.ATTRACT_ITEMS.get(), player, true)) {
             AbilityHelper.addCooldown(ModAbilities.ATTRACT_ITEMS.get(), player, 5 * 20);
         }
         return EventResult.pass();
+    }
+
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
     }
     
     @Override
@@ -28,7 +47,7 @@ public class AttractItemsAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return ModGameRules.UNIVERSAL_ATTRACTOR_ENABLED.get();
+        return enabled().get();
     }
 
     @Override

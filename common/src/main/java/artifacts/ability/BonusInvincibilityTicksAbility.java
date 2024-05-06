@@ -1,16 +1,30 @@
 package artifacts.ability;
 
+import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 
-public class BonusInvincibilityTicksAbility implements ArtifactAbility {
+public record BonusInvincibilityTicksAbility(IntegerValue bonusTicks, IntegerValue cooldown) implements ArtifactAbility {
 
-    public int getBonusInvincibilityTicks() {
-        return ModGameRules.CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS.get();
-    }
+    public static final MapCodec<BonusInvincibilityTicksAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            IntegerValue.field(ModGameRules.CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS).forGetter(BonusInvincibilityTicksAbility::bonusTicks),
+            IntegerValue.field(ModGameRules.CROSS_NECKLACE_COOLDOWN).forGetter(BonusInvincibilityTicksAbility::cooldown)
+    ).apply(instance, BonusInvincibilityTicksAbility::new));
 
-    public int getCooldown() {
-        return ModGameRules.CROSS_NECKLACE_COOLDOWN.get();
+    public static final StreamCodec<ByteBuf, BonusInvincibilityTicksAbility> STREAM_CODEC = StreamCodec.composite(
+            IntegerValue.defaultStreamCodec(ModGameRules.CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS),
+            BonusInvincibilityTicksAbility::bonusTicks,
+            IntegerValue.defaultStreamCodec(ModGameRules.CROSS_NECKLACE_COOLDOWN),
+            BonusInvincibilityTicksAbility::cooldown,
+            BonusInvincibilityTicksAbility::new
+    );
+
+    public static ArtifactAbility createDefaultInstance() {
+        return ArtifactAbility.createDefaultInstance(CODEC);
     }
 
     @Override
@@ -20,6 +34,6 @@ public class BonusInvincibilityTicksAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return getBonusInvincibilityTicks() > 0;
+        return bonusTicks().get() > 0;
     }
 }

@@ -1,36 +1,41 @@
 package artifacts.ability.mobeffect;
 
 import artifacts.ability.ArtifactAbility;
+import artifacts.ability.value.IntegerValue;
 import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Supplier;
+import java.util.Objects;
 
 public abstract class MobEffectAbility implements ArtifactAbility {
 
     private final Holder<MobEffect> mobEffect;
     private final int duration;
-    protected final Supplier<Integer> amplifier;
+    protected final IntegerValue level;
 
     public MobEffectAbility(Holder<MobEffect> mobEffect) {
-        this(mobEffect, () -> 1);
+        this(mobEffect, new IntegerValue.Constant(1));
     }
 
-    public MobEffectAbility(Holder<MobEffect> mobEffect, Supplier<Integer> amplifier) {
-        this(mobEffect, amplifier, 40);
+    public MobEffectAbility(Holder<MobEffect> mobEffect, IntegerValue level) {
+        this(mobEffect, level, 40);
     }
 
-    private MobEffectAbility(Holder<MobEffect> mobEffect, Supplier<Integer> amplifier, int duration) {
+    private MobEffectAbility(Holder<MobEffect> mobEffect, IntegerValue level, int duration) {
         this.mobEffect = mobEffect;
         this.duration = duration;
-        this.amplifier = amplifier;
+        this.level = level;
+    }
+
+    public IntegerValue level() {
+        return level;
     }
 
     private int getAmplifier() {
-        return this.amplifier.get() - 1;
+        return this.level().get() - 1;
     }
 
     protected int getDuration(LivingEntity entity) {
@@ -60,7 +65,7 @@ public abstract class MobEffectAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return amplifier.get() > 0;
+        return level.get() > 0;
     }
 
     @Override
@@ -81,5 +86,18 @@ public abstract class MobEffectAbility implements ArtifactAbility {
                 entity.removeEffect(mobEffect);
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MobEffectAbility that = (MobEffectAbility) o;
+        return duration == that.duration && mobEffect.equals(that.mobEffect) && level.equals(that.level);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mobEffect, duration, level);
     }
 }

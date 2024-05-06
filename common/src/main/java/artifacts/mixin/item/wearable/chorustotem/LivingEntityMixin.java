@@ -32,14 +32,14 @@ public class LivingEntityMixin {
                 && !damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY)
         ) {
             AbilityHelper.getAbilities(ModAbilities.TELEPORT_ON_DEATH.get(), totem).findFirst().ifPresent(ability -> {
-                if (ability.getTeleportationChance() > entity.getRandom().nextDouble()) {
+                if (ability.teleportationChance().get() > entity.getRandom().nextDouble()) {
                     TeleportOnDeathAbility.teleport(entity, level);
-                    if (ability.isConsumedOnUse()) {
+                    if (ability.consumedOnUse().get()) {
                         totem.shrink(1);
                     } else if (entity instanceof Player player) {
-                        player.getCooldowns().addCooldown(totem.getItem(), ability.getCooldown());
+                        player.getCooldowns().addCooldown(totem.getItem(), ability.cooldown().get());
                     }
-                    entity.setHealth(Math.min(entity.getMaxHealth(), Math.max(1, ability.getHealthRestored())));
+                    entity.setHealth(Math.min(entity.getMaxHealth(), Math.max(1, ability.healthRestored().get())));
                     if (entity instanceof ServerPlayer player) {
                         entity.level().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1, 1);
                         NetworkManager.sendToPlayer(player, new ChorusTotemUsedPacket());
