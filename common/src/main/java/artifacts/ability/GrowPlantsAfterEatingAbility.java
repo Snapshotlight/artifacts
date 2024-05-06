@@ -8,7 +8,6 @@ import artifacts.util.AbilityHelper;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
@@ -16,12 +15,10 @@ import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-import java.util.List;
-
 public record GrowPlantsAfterEatingAbility(BooleanValue enabled) implements ArtifactAbility {
 
     public static final MapCodec<GrowPlantsAfterEatingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.field(ModGameRules.ROOTED_BOOTS_DO_GROW_PLANTS_AFTER_EATING, "enabled").forGetter(GrowPlantsAfterEatingAbility::enabled)
+            BooleanValue.enabledField(ModGameRules.ROOTED_BOOTS_DO_GROW_PLANTS_AFTER_EATING).forGetter(GrowPlantsAfterEatingAbility::enabled)
     ).apply(instance, GrowPlantsAfterEatingAbility::new));
 
     public static final StreamCodec<ByteBuf, GrowPlantsAfterEatingAbility> STREAM_CODEC = StreamCodec.composite(
@@ -42,11 +39,6 @@ public record GrowPlantsAfterEatingAbility(BooleanValue enabled) implements Arti
     @Override
     public boolean isNonCosmetic() {
         return enabled().get();
-    }
-
-    @Override
-    public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        // TODO
     }
 
     public static void applyBoneMeal(LivingEntity entity, FoodProperties properties) {

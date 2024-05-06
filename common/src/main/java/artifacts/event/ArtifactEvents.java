@@ -3,8 +3,10 @@ package artifacts.event;
 import artifacts.Artifacts;
 import artifacts.ability.*;
 import artifacts.ability.retaliation.RetaliationAbility;
+import artifacts.item.UmbrellaItem;
 import artifacts.mixin.accessors.MobAccessor;
 import artifacts.registry.ModAbilities;
+import artifacts.registry.ModGameRules;
 import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
 import dev.architectury.event.EventResult;
@@ -19,7 +21,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -34,9 +40,17 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 public class ArtifactEvents {
+
+    private static final AttributeModifier UMBRELLA_SLOW_FALLING = new AttributeModifier(
+            UUID.fromString("a7a25453-2065-4a96-bc83-df600e13f390"),
+            "artifacts:umbrella_slow_falling",
+            -0.875,
+            AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+    );
 
     public static void register() {
         PlayerEvent.DROP_ITEM.register(AttractItemsAbility::onItemToss);
@@ -47,6 +61,30 @@ public class ArtifactEvents {
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onLightningHurt);
         EntityEvent.ADD.register(ArtifactEvents::onEntityJoinWorld);
         TickEvent.PLAYER_PRE.register(SwimInAirAbility::onHeliumFlamingoTick);
+    }
+
+    public static void livingUpdate(LivingEntity entity) {
+        onUmbrellaLivingUpdate(entity);
+    }
+
+    private static void onUmbrellaLivingUpdate(LivingEntity entity) {
+        AttributeInstance gravity = entity.getAttribute(Attributes.GRAVITY);
+        if (gravity != null) {
+            boolean isInWater = entity.isInWater() && !AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), entity);
+            if (ModGameRules.UMBRELLA_IS_GLIDER.get()
+                    && !entity.onGround() && !isInWater
+                    && entity.getDeltaMovement().y < 0
+                    && !entity.hasEffect(MobEffects.SLOW_FALLING)
+                    && UmbrellaItem.isHoldingUmbrellaUpright(entity)
+            ) {
+                if (!gravity.hasModifier(UMBRELLA_SLOW_FALLING)) {
+                    gravity.addTransientModifier(UMBRELLA_SLOW_FALLING);
+                }
+                entity.fallDistance = 0;
+            } else if (gravity.hasModifier(UMBRELLA_SLOW_FALLING)) {
+                gravity.removeModifier(UMBRELLA_SLOW_FALLING.id());
+            }
+        }
     }
 
     private static EventResult onPendantLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {

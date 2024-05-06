@@ -1,6 +1,5 @@
 package artifacts.ability;
 
-import artifacts.Artifacts;
 import artifacts.registry.ModAbilities;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -26,10 +25,6 @@ public record CustomTooltipAbility(String name) implements ArtifactAbility {
             CustomTooltipAbility::name,
             CustomTooltipAbility::new
     );
-
-    public static CustomTooltipAbility attributeTooltip(String name) {
-        return new CustomTooltipAbility("%s.tooltip.ability.attribute.%s".formatted(Artifacts.MOD_ID, name));
-    }
 
     @Override
     public Type<?> getType() {

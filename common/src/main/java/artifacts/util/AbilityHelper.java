@@ -2,15 +2,16 @@ package artifacts.util;
 
 import artifacts.ability.ArtifactAbility;
 import artifacts.component.AbilityToggles;
-import artifacts.item.WearableArtifactItem;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
+import artifacts.registry.ModDataComponents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -21,7 +22,7 @@ public class AbilityHelper {
 
     public static <A extends ArtifactAbility, T> T reduce(ArtifactAbility.Type<A> type, LivingEntity entity, boolean skipItemsOnCooldown, T init, BiFunction<A, T, T> f) {
         return PlatformServices.platformHelper.reduceItems(entity, init, (stack, init_) -> {
-            for (ArtifactAbility ability : WearableArtifactItem.getAbilities(stack)) {
+            for (ArtifactAbility ability : getAbilities(stack)) {
                 if (ability.getType() == type && (!skipItemsOnCooldown || !isOnCooldown(entity, stack))) {
                     //noinspection unchecked
                     init_ = f.apply(((A) ability), init_);
@@ -36,7 +37,7 @@ public class AbilityHelper {
     }
 
     public static boolean hasAbility(ArtifactAbility.Type<?> type, ItemStack stack) {
-        for (ArtifactAbility ability : WearableArtifactItem.getAbilities(stack)) {
+        for (ArtifactAbility ability : getAbilities(stack)) {
             if (ability.getType() == type && ability.isEnabled()) {
                 return true;
             }
@@ -63,9 +64,16 @@ public class AbilityHelper {
         return reduce(type, entity, skipItemsOnCooldown, false, (ability, b) -> b || ability.isEnabled());
     }
 
+    public static List<ArtifactAbility> getAbilities(ItemStack stack) {
+        if (stack.has(ModDataComponents.ABILITIES.get())) {
+            return stack.get(ModDataComponents.ABILITIES.get());
+        }
+        return List.of();
+    }
+
     @SuppressWarnings("unchecked")
     public static <T extends ArtifactAbility> Stream<T> getAbilities(ArtifactAbility.Type<T> type, ItemStack stack) {
-        return WearableArtifactItem.getAbilities(stack)
+        return getAbilities(stack)
                 .stream()
                 .filter(ability -> ability.getType() == type)
                 .map(ability -> (T) ability);

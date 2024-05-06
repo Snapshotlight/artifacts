@@ -14,7 +14,7 @@ import net.minecraft.world.entity.player.Player;
 public record ExperienceBonusAbility(DoubleValue experienceBonus) implements ArtifactAbility {
 
     public static MapCodec<ExperienceBonusAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.field(ModGameRules.GOLDEN_HOOK_EXPERIENCE_BONUS).forGetter(ExperienceBonusAbility::experienceBonus)
+            DoubleValue.field("amount", ModGameRules.GOLDEN_HOOK_EXPERIENCE_BONUS).forGetter(ExperienceBonusAbility::experienceBonus)
     ).apply(instance, ExperienceBonusAbility::new));
 
     public static StreamCodec<ByteBuf, ExperienceBonusAbility> STREAM_CODEC = StreamCodec.composite(

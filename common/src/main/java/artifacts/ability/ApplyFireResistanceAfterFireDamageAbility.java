@@ -18,8 +18,8 @@ import net.minecraft.world.entity.player.Player;
 public record ApplyFireResistanceAfterFireDamageAbility(IntegerValue fireResistanceDuration, IntegerValue cooldown) implements ArtifactAbility {
 
     public static final MapCodec<ApplyFireResistanceAfterFireDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field(ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_DURATION).forGetter(ApplyFireResistanceAfterFireDamageAbility::fireResistanceDuration),
-            IntegerValue.field(ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_COOLDOWN).forGetter(ApplyFireResistanceAfterFireDamageAbility::cooldown)
+            IntegerValue.field("duration", ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_DURATION).forGetter(ApplyFireResistanceAfterFireDamageAbility::fireResistanceDuration),
+            IntegerValue.field("cooldown", ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_COOLDOWN).forGetter(ApplyFireResistanceAfterFireDamageAbility::cooldown)
     ).apply(instance, ApplyFireResistanceAfterFireDamageAbility::new));
 
     public static final StreamCodec<ByteBuf, ApplyFireResistanceAfterFireDamageAbility> STREAM_CODEC = StreamCodec.composite(

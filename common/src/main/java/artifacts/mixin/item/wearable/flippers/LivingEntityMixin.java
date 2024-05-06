@@ -1,6 +1,5 @@
-package artifacts.fabric.mixin.item.wearable.flippers;
+package artifacts.mixin.item.wearable.flippers;
 
-import artifacts.ability.SwimSpeedAbility;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
 import net.minecraft.world.entity.LivingEntity;

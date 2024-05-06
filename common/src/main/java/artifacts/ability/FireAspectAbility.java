@@ -16,7 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 public record FireAspectAbility(IntegerValue fireDuration) implements ArtifactAbility {
 
     public static MapCodec<FireAspectAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field(ModGameRules.FIRE_GAUNTLET_FIRE_DURATION).forGetter(FireAspectAbility::fireDuration)
+            IntegerValue.field("amount", ModGameRules.FIRE_GAUNTLET_FIRE_DURATION).forGetter(FireAspectAbility::fireDuration)
     ).apply(instance, FireAspectAbility::new));
 
     public static StreamCodec<ByteBuf, FireAspectAbility> STREAM_CODEC = StreamCodec.composite(

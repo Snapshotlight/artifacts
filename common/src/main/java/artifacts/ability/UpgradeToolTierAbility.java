@@ -25,7 +25,7 @@ import java.util.Optional;
 public record UpgradeToolTierAbility(IntegerValue tierLevel) implements ArtifactAbility {
 
     public static final MapCodec<UpgradeToolTierAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field(ModGameRules.DIGGING_CLAWS_TOOL_TIER).forGetter(UpgradeToolTierAbility::tierLevel)
+            IntegerValue.field("tier", ModGameRules.DIGGING_CLAWS_TOOL_TIER).forGetter(UpgradeToolTierAbility::tierLevel)
     ).apply(instance, UpgradeToolTierAbility::new));
 
     public static final StreamCodec<ByteBuf, UpgradeToolTierAbility> STREAM_CODEC = StreamCodec.composite(

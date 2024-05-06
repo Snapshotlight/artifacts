@@ -7,7 +7,6 @@
   "mixins": [
     "compat.origins.ConditionFactoryAccessor",
     "config.ClientConfigMixin",
-    "item.umbrella.LivingEntityMixin",
     "item.wearable.ItemStackMixin",
     "item.wearable.LivingEntitiesMixin",
     "item.wearable.LivingEntityMixin",
@@ -15,10 +14,8 @@
     "item.wearable.PowderSnowBlockMixin",
     "item.wearable.WearableArtifactItemMixin",
     "item.wearable.bunnyhoppers.LivingEntityMixin",
-    "item.wearable.cloudinabottle.LivingEntityMixin",
     "item.wearable.diggingclaws.PlayerMixin",
     "item.wearable.drinkinghat.LivingEntityMixin",
-    "item.wearable.flippers.LivingEntityMixin",
     "item.wearable.goldenhook.LivingEntityMixin",
     "item.wearable.kittyslippers.HurtByTargetGoalMixin",
     "item.wearable.kittyslippers.NearestAttackableTargetGoalMixin",

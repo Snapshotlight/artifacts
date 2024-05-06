@@ -21,8 +21,8 @@ public class SetAttackersOnFireAbility extends RetaliationAbility {
 
     public static final MapCodec<SetAttackersOnFireAbility> CODEC = RecordCodecBuilder.mapCodec(
             instance -> codecStart(instance, ModGameRules.FLAME_PENDANT_STRIKE_CHANCE, ModGameRules.FLAME_PENDANT_COOLDOWN)
-                    .and(IntegerValue.field(ModGameRules.FLAME_PENDANT_FIRE_DURATION).forGetter(SetAttackersOnFireAbility::fireDuration))
-                    .and(BooleanValue.field(ModGameRules.FLAME_PENDANT_DO_GRANT_FIRE_RESISTANCE, "grants_fire_resistance").forGetter(SetAttackersOnFireAbility::grantsFireResistance))
+                    .and(IntegerValue.field("duration", ModGameRules.FLAME_PENDANT_FIRE_DURATION).forGetter(SetAttackersOnFireAbility::fireDuration))
+                    .and(BooleanValue.field("grants_fire_resistance", ModGameRules.FLAME_PENDANT_DO_GRANT_FIRE_RESISTANCE).forGetter(SetAttackersOnFireAbility::grantsFireResistance))
                     .apply(instance, SetAttackersOnFireAbility::new)
     );
 

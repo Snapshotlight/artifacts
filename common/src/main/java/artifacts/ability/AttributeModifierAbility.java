@@ -4,6 +4,7 @@ import artifacts.ability.value.DoubleValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
 import artifacts.util.ModCodecs;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -13,7 +14,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -22,17 +22,29 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
-public class AttributeModifierAbility implements ArtifactAbility {
+public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, UUID modifierId, String name) implements ArtifactAbility {
 
     private static final List<ModGameRules.DoubleGameRule> AMOUNT_GAME_RULES = List.of(
+            ModGameRules.BUNNY_HOPPERS_JUMP_STRENGTH_BONUS,
+            ModGameRules.BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS,
+            ModGameRules.CLOUD_IN_A_BOTTLE_SAFE_FALL_DISTANCE_BONUS,
             ModGameRules.CRYSTAL_HEART_HEALTH_BONUS,
+            ModGameRules.DIGGING_CLAWS_BLOCK_BREAK_SPEED_BONUS,
             ModGameRules.FERAL_CLAWS_ATTACK_SPEED_BONUS,
-            ModGameRules.PLASTIC_DRINKING_HAT_DRINKING_DURATION_MULTIPLIER,
-            ModGameRules.FLIPPERS_SWIM_SPEED_BONUS,
-            ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS
+            ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS,
+            ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE
+    );
+
+    private static final List<Holder<Attribute>> CUSTOM_TOOLTIP_ATTRIBUTES = List.of(
+            Attributes.ATTACK_DAMAGE,
+            Attributes.ATTACK_SPEED,
+            Attributes.BLOCK_BREAK_SPEED,
+            Attributes.JUMP_STRENGTH,
+            Attributes.KNOCKBACK_RESISTANCE,
+            Attributes.MAX_HEALTH,
+            Attributes.SAFE_FALL_DISTANCE
     );
 
     private static final StringRepresentable.StringRepresentableCodec<ModGameRules.DoubleGameRule> AMOUNT_CODEC = new StringRepresentable.StringRepresentableCodec<>(
@@ -42,70 +54,47 @@ public class AttributeModifierAbility implements ArtifactAbility {
     );
 
     public static final MapCodec<AttributeModifierAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BuiltInRegistries.ATTRIBUTE.holderByNameCodec().fieldOf("attribute").forGetter(AttributeModifierAbility::getAttribute),
+            BuiltInRegistries.ATTRIBUTE.holderByNameCodec().fieldOf("attribute").forGetter(AttributeModifierAbility::attribute),
             ModCodecs.xorAlternative(AMOUNT_CODEC.stable().flatXmap(
                     DataResult::success,
                     value -> value instanceof ModGameRules.DoubleGameRule gameRule
                             ? DataResult.success(gameRule)
                             : DataResult.error(() -> "Not a game rule")
             ), DoubleValue.codec(100, 1, 1)).fieldOf("amount").forGetter(AttributeModifierAbility::amount),
-            ResourceLocation.CODEC.fieldOf("id").forGetter(ability -> new ResourceLocation(ability.modifierName))
-    ).apply(instance, AttributeModifierAbility::new));
+            AttributeModifier.Operation.CODEC.optionalFieldOf("operation", AttributeModifier.Operation.ADD_VALUE).forGetter(AttributeModifierAbility::operation),
+            Codec.STRING.fieldOf("id").forGetter(AttributeModifierAbility::name)
+    ).apply(instance, AttributeModifierAbility::create));
 
     @SuppressWarnings("SuspiciousMethodCalls")
     public static final StreamCodec<ByteBuf, AttributeModifierAbility> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.idMapper(BuiltInRegistries.ATTRIBUTE.asHolderIdMap()),
-            AttributeModifierAbility::getAttribute,
+            AttributeModifierAbility::attribute,
             ByteBufCodecs.BOOL.dispatch(
                     AMOUNT_GAME_RULES::contains,
                     b -> b ? ByteBufCodecs.idMapper(AMOUNT_GAME_RULES::get, AMOUNT_GAME_RULES::indexOf) : DoubleValue.streamCodec()
             ),
             AttributeModifierAbility::amount,
-            ResourceLocation.STREAM_CODEC,
-            ability -> new ResourceLocation(ability.modifierName),
-            AttributeModifierAbility::new
+            AttributeModifier.Operation.STREAM_CODEC,
+            AttributeModifierAbility::operation,
+            ByteBufCodecs.STRING_UTF8,
+            AttributeModifierAbility::name,
+            AttributeModifierAbility::create
     );
 
-    private final Holder<Attribute> attribute;
-    private final DoubleValue amount;
-    private final AttributeModifier.Operation operation;
-    private final UUID modifierId;
-    private final String modifierName;
-
-    public AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue amount, ResourceLocation id) {
-        this(attribute, amount, AttributeModifier.Operation.ADD_VALUE, id);
+    public static AttributeModifierAbility create(Holder<Attribute> attribute, DoubleValue amount, String name) {
+        return create(attribute, amount, AttributeModifier.Operation.ADD_VALUE, name);
     }
 
-    public AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, ResourceLocation id) {
-        this.attribute = attribute;
-        this.amount = amount;
-        this.operation = operation;
-        this.modifierId = UUID.nameUUIDFromBytes(id.toString().getBytes());
-        this.modifierName = id.toString();
+    public static AttributeModifierAbility create(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, String name) {
+        return new AttributeModifierAbility(attribute, amount, operation, UUID.nameUUIDFromBytes(name.getBytes()), name);
     }
 
-    protected AttributeModifier createModifier() {
-        return new AttributeModifier(modifierId, modifierName, amount().get(), getOperation());
+    public AttributeModifier createModifier() {
+        return new AttributeModifier(modifierId(), name(), amount().get(), operation());
     }
 
-    public Holder<Attribute> getAttribute() {
-        return attribute;
-    }
-
-    protected UUID getModifierId() {
-        return modifierId;
-    }
-
-    public DoubleValue amount() {
-        return amount;
-    }
-
-    public AttributeModifier.Operation getOperation() {
-        return operation;
-    }
-
-    protected void onAttributeUpdated(LivingEntity entity) {
-        if (getAttribute() == Attributes.MAX_HEALTH && entity.getHealth() > entity.getMaxHealth()) {
+    private void onAttributeUpdated(LivingEntity entity) {
+        if (attribute() == Attributes.MAX_HEALTH && entity.getHealth() > entity.getMaxHealth()) {
             entity.setHealth(entity.getMaxHealth());
         }
     }
@@ -122,9 +111,9 @@ public class AttributeModifierAbility implements ArtifactAbility {
 
     @Override
     public void onEquip(LivingEntity entity, boolean isActive) {
-        AttributeInstance attributeInstance = entity.getAttribute(getAttribute());
+        AttributeInstance attributeInstance = entity.getAttribute(attribute());
         if (attributeInstance != null) {
-            attributeInstance.removeModifier(getModifierId());
+            attributeInstance.removeModifier(modifierId());
             AttributeModifier attributeModifier = createModifier();
             if (isActive) {
                 attributeInstance.addTransientModifier(attributeModifier);
@@ -135,20 +124,20 @@ public class AttributeModifierAbility implements ArtifactAbility {
 
     @Override
     public void onUnequip(LivingEntity entity, boolean wasActive) {
-        AttributeInstance attributeInstance = entity.getAttribute(getAttribute());
+        AttributeInstance attributeInstance = entity.getAttribute(attribute());
         if (attributeInstance != null && wasActive) {
-            attributeInstance.removeModifier(getModifierId());
+            attributeInstance.removeModifier(modifierId());
             onAttributeUpdated(entity);
         }
     }
 
     @Override
     public void wornTick(LivingEntity entity, boolean isOnCooldown, boolean isActive) {
-        AttributeInstance attributeInstance = entity.getAttribute(getAttribute());
+        AttributeInstance attributeInstance = entity.getAttribute(attribute());
         if (attributeInstance != null) {
-            AttributeModifier existingModifier = attributeInstance.getModifier(getModifierId());
+            AttributeModifier existingModifier = attributeInstance.getModifier(modifierId());
             if (existingModifier == null || !amount().fuzzyEquals(existingModifier.amount())) {
-                attributeInstance.removeModifier(getModifierId());
+                attributeInstance.removeModifier(modifierId());
                 if (isActive) {
                     attributeInstance.addTransientModifier(createModifier());
                 }
@@ -159,19 +148,11 @@ public class AttributeModifierAbility implements ArtifactAbility {
 
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AttributeModifierAbility that = (AttributeModifierAbility) o;
-        return getAttribute().equals(that.getAttribute()) && amount.equals(that.amount) && getOperation() == that.getOperation() && modifierName.equals(that.modifierName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getAttribute(), amount, getOperation(), modifierName);
+        for (Holder<Attribute> attribute : CUSTOM_TOOLTIP_ATTRIBUTES) {
+            if (attribute.isBound() && attribute.value() == attribute().value()) {
+                //noinspection ConstantConditions
+                tooltip.add(tooltipLine(BuiltInRegistries.ATTRIBUTE.getKey(attribute.value()).getPath()));
+            }
+        }
     }
 }

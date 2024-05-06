@@ -2,6 +2,7 @@ package artifacts.fabric.mixin.item.wearable;
 
 import artifacts.ability.ApplyHasteAfterEatingAbility;
 import artifacts.ability.GrowPlantsAfterEatingAbility;
+import artifacts.event.ArtifactEvents;
 import artifacts.item.WearableArtifactItem;
 import dev.emi.trinkets.api.TrinketInventory;
 import dev.emi.trinkets.api.TrinketsApi;
@@ -27,6 +28,7 @@ public abstract class LivingEntityMixin {
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
+        ArtifactEvents.livingUpdate(entity);
         TrinketsApi.getTrinketComponent(entity).ifPresent(component -> {
             for (Map<String, TrinketInventory> group : component.getInventory().values()) {
                 for (TrinketInventory inventory : group.values()) {

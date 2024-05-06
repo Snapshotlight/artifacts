@@ -1,6 +1,5 @@
 package artifacts.fabric.mixin.item.wearable.diggingclaws;
 
-import artifacts.ability.DigSpeedAbility;
 import artifacts.ability.UpgradeToolTierAbility;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.world.entity.EntityType;
@@ -22,16 +21,5 @@ public abstract class PlayerMixin extends LivingEntity {
     @ModifyReturnValue(method = "hasCorrectToolForDrops", at = @At("RETURN"))
     private boolean increaseBaseToolTier(boolean original, BlockState state) {
         return original || UpgradeToolTierAbility.canHarvestWithTier(this, state);
-    }
-
-    /**
-     * This is identical to the forge version but might not be ideal
-     * It adds the speed after the vanilla method does all the calculations on the base modifier such as haste and underwater
-     */
-    // TODO: identical artifacts-forge behaviour but could do this on the speed multiplier instead of end result
-    @SuppressWarnings("ConstantConditions")
-    @ModifyReturnValue(method = "getDestroySpeed", at = @At("RETURN"))
-    private float increaseMiningSpeed(float original, BlockState state) {
-        return original + DigSpeedAbility.getSpeedBonus((Player) (Object) this, state);
     }
 }

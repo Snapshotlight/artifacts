@@ -20,7 +20,6 @@ public class ArtifactCooldownOverlayRenderer {
             return;
         }
 
-        // TODO test this
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
             int y = guiGraphics.guiHeight() - 16 - 3;
             int cooldownOverlayOffset = Artifacts.CONFIG.client.cooldownOverlayOffset;

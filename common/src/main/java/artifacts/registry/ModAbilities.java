@@ -34,7 +34,6 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<BonusInvincibilityTicksAbility>> BONUS_INVINCIBILITY_TICKS = register("bonus_invincibility_ticks", BonusInvincibilityTicksAbility.CODEC, BonusInvincibilityTicksAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> CANCEL_FALL_DAMAGE = register("cancel_fall_damage", SimpleAbility.cancelFallDamage());
     public static final RegistrySupplier<Type<CustomTooltipAbility>> CUSTOM_TOOLTIP = register("custom_tooltip", CustomTooltipAbility.CODEC, CustomTooltipAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<DigSpeedAbility>> DIG_SPEED = register("dig_speed", DigSpeedAbility.CODEC, DigSpeedAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<ExperienceBonusAbility>> EXPERIENCE_BONUS = register("experience_bonus", ExperienceBonusAbility.CODEC, ExperienceBonusAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<DoubleJumpAbility>> DOUBLE_JUMP = register("double_jump", DoubleJumpAbility.CODEC, DoubleJumpAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<FartAbility>> FART = register("fart", FartAbility.CODEC, FartAbility.STREAM_CODEC);
@@ -42,7 +41,6 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<GrowPlantsAfterEatingAbility>> GROW_PLANTS_AFTER_EATING = register("grow_plants_after_eating", GrowPlantsAfterEatingAbility.CODEC, GrowPlantsAfterEatingAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<IncreaseEnchantmentLevelAbility>> INCREASE_ENCHANTMENT_LEVEL = register("increase_enchantment_level", IncreaseEnchantmentLevelAbility.CODEC, IncreaseEnchantmentLevelAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<InvisibilityAbility>> INVISIBILITY = register("invisibility", InvisibilityAbility.CODEC, InvisibilityAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<JumpBoostAbility>> JUMP_BOOST = register("jump_boost", JumpBoostAbility.CODEC, JumpBoostAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<KnockbackAbility>> KNOCKBACK = register("knockback", KnockbackAbility.CODEC, KnockbackAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> LIGHTNING_IMMUNITY = register("lightning_immunity", SimpleAbility.lightningImmunity());
     public static final RegistrySupplier<Type<LimitedWaterBreathingAbility>> LIMITED_WATER_BREATHING = register("limited_water_breathing", LimitedWaterBreathingAbility.CODEC, LimitedWaterBreathingAbility.STREAM_CODEC);

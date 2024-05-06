@@ -48,16 +48,12 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
 
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack slotStack, ItemStack holdingStack, Slot slot, ClickAction clickAction, Player player, SlotAccess slotAccess) {
-        if (isCosmetic(slotStack)) { // Revert to default behavior if tooltip is not shown
-            return super.overrideOtherStackedOnMe(slotStack, holdingStack, slot, clickAction, player, slotAccess);
-        }
-
-        if (clickAction == ClickAction.SECONDARY && holdingStack.isEmpty()) {
+        if (!isCosmetic(slotStack) && clickAction == ClickAction.SECONDARY && holdingStack.isEmpty()) {
             CosmeticsHelper.toggleCosmetics(slotStack);
             return true;
         }
 
-        return false;
+        return super.overrideOtherStackedOnMe(slotStack, holdingStack, slot, clickAction, player, slotAccess);
     }
 
     @Override
@@ -74,7 +70,6 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
                                 .withStyle(ChatFormatting.ITALIC)
                 );
             }
-
         }
         super.addTooltip(stack, tooltip, player);
     }

@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.Block;
 public record ReduceIceSlipperinessAbility(DoubleValue slipperinessReduction) implements ArtifactAbility {
 
     public static final MapCodec<ReduceIceSlipperinessAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.field(ModGameRules.SNOWSHOES_SLIPPERINESS_REDUCTION).forGetter(ReduceIceSlipperinessAbility::slipperinessReduction)
+            DoubleValue.field("amount", ModGameRules.SNOWSHOES_SLIPPERINESS_REDUCTION).forGetter(ReduceIceSlipperinessAbility::slipperinessReduction)
     ).apply(instance, ReduceIceSlipperinessAbility::new));
 
     public static final StreamCodec<ByteBuf, ReduceIceSlipperinessAbility> STREAM_CODEC = StreamCodec.composite(

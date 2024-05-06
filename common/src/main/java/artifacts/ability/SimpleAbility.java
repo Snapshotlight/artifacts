@@ -19,7 +19,7 @@ public record SimpleAbility(Supplier<Type<SimpleAbility>> type, BooleanValue ena
 
     private static MapCodec<SimpleAbility> codec(Supplier<Type<SimpleAbility>> type, ModGameRules.BooleanGameRule enabled) {
         return RecordCodecBuilder.mapCodec(instance -> instance.group(
-                BooleanValue.field(enabled, "enabled").forGetter(SimpleAbility::enabled)
+                BooleanValue.enabledField(enabled).forGetter(SimpleAbility::enabled)
         ).apply(instance, value -> new SimpleAbility(type, value)));
     }
 

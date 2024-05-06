@@ -31,8 +31,6 @@ public interface PlatformHelper {
     @Nullable
     SwimData getSwimData(LivingEntity entity);
 
-    ArtifactAbility getFlippersSwimAbility();
-
     boolean isEyeInWater(Player player);
 
     boolean isVisibleOnHand(LivingEntity entity, InteractionHand hand, WearableArtifactItem item);

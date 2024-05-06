@@ -18,7 +18,7 @@ import java.util.UUID;
 public record SprintingStepHeightAbility(BooleanValue enabled) implements ArtifactAbility {
 
     public static final MapCodec<SprintingStepHeightAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.field(ModGameRules.RUNNING_SHOES_DO_INCREASE_STEP_HEIGHT, "enabled").forGetter(SprintingStepHeightAbility::enabled)
+            BooleanValue.enabledField(ModGameRules.RUNNING_SHOES_DO_INCREASE_STEP_HEIGHT).forGetter(SprintingStepHeightAbility::enabled)
     ).apply(instance, SprintingStepHeightAbility::new));
 
     public static final StreamCodec<ByteBuf, SprintingStepHeightAbility> STREAM_CODEC = StreamCodec.composite(

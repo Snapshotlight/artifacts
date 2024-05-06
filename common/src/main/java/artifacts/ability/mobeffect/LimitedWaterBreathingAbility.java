@@ -23,8 +23,8 @@ import java.util.Objects;
 public class LimitedWaterBreathingAbility extends MobEffectAbility {
 
     public static final MapCodec<LimitedWaterBreathingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field(ModGameRules.SNORKEL_WATER_BREATHING_DURATION).forGetter(LimitedWaterBreathingAbility::maxDuration),
-            BooleanValue.field(ModGameRules.SNORKEL_IS_INFINITE).forGetter(LimitedWaterBreathingAbility::isInfinite)
+            IntegerValue.field("duration", ModGameRules.SNORKEL_WATER_BREATHING_DURATION).forGetter(LimitedWaterBreathingAbility::maxDuration),
+            BooleanValue.field("infinite", ModGameRules.SNORKEL_IS_INFINITE).forGetter(LimitedWaterBreathingAbility::isInfinite)
     ).apply(instance, LimitedWaterBreathingAbility::new));
 
     public static final StreamCodec<ByteBuf, LimitedWaterBreathingAbility> STREAM_CODEC = StreamCodec.composite(

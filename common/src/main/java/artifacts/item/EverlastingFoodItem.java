@@ -42,7 +42,6 @@ public class EverlastingFoodItem extends ArtifactItem {
         return stack;
     }
 
-    // TODO test this
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (!isEnabled.get()) {

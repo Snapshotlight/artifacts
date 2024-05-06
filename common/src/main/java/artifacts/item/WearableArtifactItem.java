@@ -2,6 +2,7 @@ package artifacts.item;
 
 import artifacts.ability.ArtifactAbility;
 import artifacts.registry.ModDataComponents;
+import artifacts.util.AbilityHelper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -45,18 +46,11 @@ public class WearableArtifactItem extends ArtifactItem {
         this.equipSoundPitch = equipSoundPitch;
     }
 
-    public static List<ArtifactAbility> getAbilities(ItemStack stack) {
-        if (stack.has(ModDataComponents.ABILITIES.get())) {
-            return stack.get(ModDataComponents.ABILITIES.get());
-        }
-        return List.of();
-    }
-
     public void onEquip(LivingEntity entity, ItemStack stack) {
         if (entity.level().isClientSide()) {
             return;
         }
-        for (ArtifactAbility ability : getAbilities(stack)) {
+        for (ArtifactAbility ability : AbilityHelper.getAbilities(stack)) {
             ability.onEquip(entity, ability.isActive(entity));
         }
     }
@@ -65,7 +59,7 @@ public class WearableArtifactItem extends ArtifactItem {
         if (entity.level().isClientSide()) {
             return;
         }
-        for (ArtifactAbility ability : getAbilities(stack)) {
+        for (ArtifactAbility ability : AbilityHelper.getAbilities(stack)) {
             ability.onUnequip(entity, ability.isActive(entity));
         }
     }
@@ -74,7 +68,7 @@ public class WearableArtifactItem extends ArtifactItem {
         if (entity.level().isClientSide() || entity.isSpectator()) {
             return;
         }
-        for (ArtifactAbility ability : getAbilities(stack)) {
+        for (ArtifactAbility ability : AbilityHelper.getAbilities(stack)) {
             boolean isActive = ability.isActive(entity);
             boolean isOnCooldown = entity instanceof Player player && player.getCooldowns().isOnCooldown(this);
             ability.wornTick(entity, isOnCooldown, isActive);
@@ -83,7 +77,7 @@ public class WearableArtifactItem extends ArtifactItem {
 
     @Override
     public final boolean isCosmetic(ItemStack stack) {
-        for (ArtifactAbility ability : getAbilities(stack)) {
+        for (ArtifactAbility ability : AbilityHelper.getAbilities(stack)) {
             if (ability.isNonCosmetic()) {
                 return false;
             }
@@ -101,7 +95,7 @@ public class WearableArtifactItem extends ArtifactItem {
 
     @Override
     protected void addEffectsTooltip(ItemStack stack, List<MutableComponent> tooltip, @Nullable Player player) {
-        for (ArtifactAbility ability : getAbilities(stack)) {
+        for (ArtifactAbility ability : AbilityHelper.getAbilities(stack)) {
             ability.addTooltipIfNonCosmetic(tooltip, player);
         }
     }

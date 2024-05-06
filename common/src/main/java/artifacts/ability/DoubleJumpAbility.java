@@ -14,16 +14,15 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 public record DoubleJumpAbility(BooleanValue enabled, DoubleValue sprintHorizontalVelocity, DoubleValue sprintVerticalVelocity) implements ArtifactAbility {
 
     public static final MapCodec<DoubleJumpAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.field(ModGameRules.CLOUD_IN_A_BOTTLE_ENABLED).forGetter(DoubleJumpAbility::enabled),
-            DoubleValue.field(ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_HORIZONTAL_VELOCITY).forGetter(DoubleJumpAbility::sprintHorizontalVelocity),
-            DoubleValue.field(ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY).forGetter(DoubleJumpAbility::sprintVerticalVelocity)
+            BooleanValue.enabledField(ModGameRules.CLOUD_IN_A_BOTTLE_ENABLED).forGetter(DoubleJumpAbility::enabled),
+            DoubleValue.field("sprint_jump_horizontal_velocity", ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_HORIZONTAL_VELOCITY).forGetter(DoubleJumpAbility::sprintHorizontalVelocity),
+            DoubleValue.field("sprint_jump_vertical_velocity", ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY).forGetter(DoubleJumpAbility::sprintVerticalVelocity)
     ).apply(instance, DoubleJumpAbility::new));
 
     public static final StreamCodec<ByteBuf, DoubleJumpAbility> STREAM_CODEC = StreamCodec.composite(
@@ -84,14 +83,6 @@ public record DoubleJumpAbility(BooleanValue enabled, DoubleValue sprintHorizont
         } else {
             player.playSound(SoundEvents.WOOL_FALL, 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
         }
-    }
-
-    // TODO replace with attribute ability
-    public static float getReducedFallDistance(LivingEntity entity, float distance) {
-        if (AbilityHelper.hasAbilityActive(ModAbilities.DOUBLE_JUMP.get(), entity)) {
-            return Math.max(0, distance - 3);
-        }
-        return distance;
     }
 
     @Override

@@ -17,7 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 public record KnockbackAbility(DoubleValue strength) implements ArtifactAbility {
 
     public static final MapCodec<KnockbackAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.field(ModGameRules.POCKET_PISTON_KNOCKBACK_STRENGTH).forGetter(KnockbackAbility::strength)
+            DoubleValue.field("amount", ModGameRules.POCKET_PISTON_KNOCKBACK_STRENGTH).forGetter(KnockbackAbility::strength)
     ).apply(instance, KnockbackAbility::new));
 
     public static final StreamCodec<ByteBuf, KnockbackAbility> STREAM_CODEC = StreamCodec.composite(

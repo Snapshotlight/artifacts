@@ -14,7 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class MountSpeedAbility extends MobEffectAbility {
 
     public static final MapCodec<MountSpeedAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field(ModGameRules.COWBOY_HAT_SPEED_LEVEL).forGetter(MountSpeedAbility::level)
+            IntegerValue.field("level", ModGameRules.COWBOY_HAT_SPEED_LEVEL).forGetter(MountSpeedAbility::level)
     ).apply(instance, MountSpeedAbility::new));
 
     public static final StreamCodec<ByteBuf, MountSpeedAbility> STREAM_CODEC = StreamCodec.composite(

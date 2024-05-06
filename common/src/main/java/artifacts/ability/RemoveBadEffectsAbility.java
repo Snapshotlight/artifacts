@@ -20,8 +20,8 @@ import java.util.Map;
 public record RemoveBadEffectsAbility(BooleanValue enabled, IntegerValue maxEffectDuration) implements ArtifactAbility {
 
     public static final MapCodec<RemoveBadEffectsAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.field(ModGameRules.ANTIDOTE_VESSEL_ENABLED).forGetter(RemoveBadEffectsAbility::enabled),
-            IntegerValue.field(ModGameRules.ANTIDOTE_VESSEL_MAX_EFFECT_DURATION).forGetter(RemoveBadEffectsAbility::maxEffectDuration)
+            BooleanValue.enabledField(ModGameRules.ANTIDOTE_VESSEL_ENABLED).forGetter(RemoveBadEffectsAbility::enabled),
+            IntegerValue.field("duration", ModGameRules.ANTIDOTE_VESSEL_MAX_EFFECT_DURATION).forGetter(RemoveBadEffectsAbility::maxEffectDuration)
     ).apply(instance, RemoveBadEffectsAbility::new));
 
     public static final StreamCodec<ByteBuf, RemoveBadEffectsAbility> STREAM_CODEC = StreamCodec.composite(

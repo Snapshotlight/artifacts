@@ -20,7 +20,7 @@ import java.util.List;
 public record AttractItemsAbility(BooleanValue enabled) implements ArtifactAbility {
 
     public static final MapCodec<AttractItemsAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.field(ModGameRules.UNIVERSAL_ATTRACTOR_ENABLED).forGetter(AttractItemsAbility::enabled)
+            BooleanValue.enabledField(ModGameRules.UNIVERSAL_ATTRACTOR_ENABLED).forGetter(AttractItemsAbility::enabled)
     ).apply(instance, AttractItemsAbility::new));
 
     public static final StreamCodec<ByteBuf, AttractItemsAbility> STREAM_CODEC = StreamCodec.composite(

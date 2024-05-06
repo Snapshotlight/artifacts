@@ -28,10 +28,10 @@ import java.util.List;
 public record TeleportOnDeathAbility(DoubleValue teleportationChance, IntegerValue healthRestored, IntegerValue cooldown, BooleanValue consumedOnUse) implements ArtifactAbility {
 
     public static final MapCodec<TeleportOnDeathAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.field(ModGameRules.CHORUS_TOTEM_TELEPORTATION_CHANCE).forGetter(TeleportOnDeathAbility::teleportationChance),
-            IntegerValue.field(ModGameRules.CHORUS_TOTEM_HEALTH_RESTORED).forGetter(TeleportOnDeathAbility::healthRestored),
-            IntegerValue.field(ModGameRules.CHORUS_TOTEM_COOLDOWN).forGetter(TeleportOnDeathAbility::cooldown),
-            BooleanValue.field(ModGameRules.CHORUS_TOTEM_DO_CONSUME_ON_USE).forGetter(TeleportOnDeathAbility::consumedOnUse)
+            DoubleValue.field("teleportation_chance", ModGameRules.CHORUS_TOTEM_TELEPORTATION_CHANCE).forGetter(TeleportOnDeathAbility::teleportationChance),
+            IntegerValue.field("health_restored", ModGameRules.CHORUS_TOTEM_HEALTH_RESTORED).forGetter(TeleportOnDeathAbility::healthRestored),
+            IntegerValue.field("cooldown", ModGameRules.CHORUS_TOTEM_COOLDOWN).forGetter(TeleportOnDeathAbility::cooldown),
+            BooleanValue.field("consume", ModGameRules.CHORUS_TOTEM_DO_CONSUME_ON_USE).forGetter(TeleportOnDeathAbility::consumedOnUse)
     ).apply(instance, TeleportOnDeathAbility::new));
 
     public static final StreamCodec<ByteBuf, TeleportOnDeathAbility> STREAM_CODEC = StreamCodec.composite(

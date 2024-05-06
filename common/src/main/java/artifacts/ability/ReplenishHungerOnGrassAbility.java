@@ -17,8 +17,8 @@ import net.minecraft.world.entity.LivingEntity;
 public record ReplenishHungerOnGrassAbility(BooleanValue enabled, IntegerValue replenishingDuration) implements ArtifactAbility {
 
     public static final MapCodec<ReplenishHungerOnGrassAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.field(ModGameRules.ROOTED_BOOTS_ENABLED).forGetter(ReplenishHungerOnGrassAbility::enabled),
-            IntegerValue.field(ModGameRules.ROOTED_BOOTS_HUNGER_REPLENISHING_DURATION).forGetter(ReplenishHungerOnGrassAbility::replenishingDuration)
+            BooleanValue.enabledField(ModGameRules.ROOTED_BOOTS_ENABLED).forGetter(ReplenishHungerOnGrassAbility::enabled),
+            IntegerValue.field("duration", ModGameRules.ROOTED_BOOTS_HUNGER_REPLENISHING_DURATION).forGetter(ReplenishHungerOnGrassAbility::replenishingDuration)
     ).apply(instance, ReplenishHungerOnGrassAbility::new));
 
     public static final StreamCodec<ByteBuf, ReplenishHungerOnGrassAbility> STREAM_CODEC = StreamCodec.composite(

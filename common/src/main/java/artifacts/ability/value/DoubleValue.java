@@ -1,8 +1,6 @@
 package artifacts.ability.value;
 
 import artifacts.registry.ModGameRules;
-import com.google.common.base.CaseFormat;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import io.netty.buffer.ByteBuf;
@@ -14,24 +12,8 @@ import java.util.function.Supplier;
 
 public interface DoubleValue extends Supplier<Double> {
 
-    static Pair<MapCodec<DoubleValue>, StreamCodec<ByteBuf, DoubleValue>> codecs(ModGameRules.DoubleGameRule gameRule) {
-        return Pair.of(field(gameRule, getFieldName(gameRule)), defaultStreamCodec(gameRule));
-    }
-
-    static Pair<MapCodec<DoubleValue>, StreamCodec<ByteBuf, DoubleValue>> codecs(ModGameRules.DoubleGameRule gameRule, String fieldName) {
-        return Pair.of(field(gameRule, fieldName), defaultStreamCodec(gameRule));
-    }
-
-    static MapCodec<DoubleValue> field(ModGameRules.DoubleGameRule gameRule) {
-        return field(gameRule, getFieldName(gameRule));
-    }
-
-    static MapCodec<DoubleValue> field(ModGameRules.DoubleGameRule gameRule, String fieldName) {
+    static MapCodec<DoubleValue> field(String fieldName, ModGameRules.DoubleGameRule gameRule) {
         return codec(gameRule.integerGameRule().max(), gameRule.integerGameRule().multiplier(), gameRule.factor()).optionalFieldOf(fieldName, gameRule);
-    }
-
-    static String getFieldName(ModGameRules.DoubleGameRule gameRule) {
-        return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, ModGameRules.DOUBLE_VALUES.inverse().get(gameRule).split("\\.")[2]);
     }
 
     static Codec<DoubleValue> codec(int max, int multiplier, double factor) {

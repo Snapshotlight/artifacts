@@ -19,9 +19,9 @@ import java.util.List;
 public record AbsorbDamageAbility(DoubleValue absorptionRatio, IntegerValue maxHealingPerHit, DoubleValue absorptionChance) implements ArtifactAbility {
 
     public static final MapCodec<AbsorbDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.field(ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_RATIO).forGetter(AbsorbDamageAbility::absorptionRatio),
-            IntegerValue.field(ModGameRules.VAMPIRIC_GLOVE_MAX_HEALING_PER_HIT).forGetter(AbsorbDamageAbility::maxHealingPerHit),
-            DoubleValue.field(ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_CHANCE).forGetter(AbsorbDamageAbility::absorptionChance)
+            DoubleValue.field("absorption_ratio", ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_RATIO).forGetter(AbsorbDamageAbility::absorptionRatio),
+            IntegerValue.field("max_healing_per_hit", ModGameRules.VAMPIRIC_GLOVE_MAX_HEALING_PER_HIT).forGetter(AbsorbDamageAbility::maxHealingPerHit),
+            DoubleValue.field("chance", ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_CHANCE).forGetter(AbsorbDamageAbility::absorptionChance)
     ).apply(instance, AbsorbDamageAbility::new));
 
     public static final StreamCodec<ByteBuf, AbsorbDamageAbility> STREAM_CODEC = StreamCodec.composite(

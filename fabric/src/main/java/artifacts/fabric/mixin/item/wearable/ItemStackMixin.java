@@ -39,17 +39,17 @@ public class ItemStackMixin {
         AbilityHelper.getAbilities(ModAbilities.ATTRIBUTE_MODIFIER.get(), stack).forEach(ability -> {
             double amount = ability.amount().get();
 
-            if (ability.getOperation() == AttributeModifier.Operation.ADD_VALUE) {
-                if (ability.getAttribute().equals(Attributes.KNOCKBACK_RESISTANCE)) {
+            if (ability.operation() == AttributeModifier.Operation.ADD_VALUE) {
+                if (ability.attribute().equals(Attributes.KNOCKBACK_RESISTANCE)) {
                     amount *= 10;
                 }
             } else {
                 amount *= 100;
             }
 
-            Component text = Component.translatable(ability.getAttribute().getDescriptionId());
+            Component text = Component.translatable(ability.attribute().getDescriptionId());
             if (amount > 0) {
-                tooltip.add(Component.translatable("attribute.modifier.plus." + ability.getOperation().toValue(),
+                tooltip.add(Component.translatable("attribute.modifier.plus." + ability.operation().toValue(),
                         ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(amount), text).withStyle(ChatFormatting.BLUE));
             }
         });

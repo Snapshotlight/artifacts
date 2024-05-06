@@ -17,9 +17,9 @@ import net.minecraft.world.entity.LivingEntity;
 public record ApplySpeedAfterDamageAbility(IntegerValue speedLevel, IntegerValue speedDuration, IntegerValue cooldown) implements ArtifactAbility {
 
     public static final MapCodec<ApplySpeedAfterDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field(ModGameRules.PANIC_NECKLACE_SPEED_LEVEL).forGetter(ApplySpeedAfterDamageAbility::speedLevel),
-            IntegerValue.field(ModGameRules.PANIC_NECKLACE_SPEED_DURATION).forGetter(ApplySpeedAfterDamageAbility::speedDuration),
-            IntegerValue.field(ModGameRules.PANIC_NECKLACE_COOLDOWN).forGetter(ApplySpeedAfterDamageAbility::cooldown)
+            IntegerValue.field("level", ModGameRules.PANIC_NECKLACE_SPEED_LEVEL).forGetter(ApplySpeedAfterDamageAbility::speedLevel),
+            IntegerValue.field("duration", ModGameRules.PANIC_NECKLACE_SPEED_DURATION).forGetter(ApplySpeedAfterDamageAbility::speedDuration),
+            IntegerValue.field("cooldown", ModGameRules.PANIC_NECKLACE_COOLDOWN).forGetter(ApplySpeedAfterDamageAbility::cooldown)
     ).apply(instance, ApplySpeedAfterDamageAbility::new));
 
     public static final StreamCodec<ByteBuf, ApplySpeedAfterDamageAbility> STREAM_CODEC = StreamCodec.composite(

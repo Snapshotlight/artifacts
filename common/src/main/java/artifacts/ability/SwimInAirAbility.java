@@ -22,8 +22,8 @@ import java.util.List;
 public record SwimInAirAbility(IntegerValue flightDuration, IntegerValue rechargeDuration) implements ArtifactAbility {
 
     public static final MapCodec<SwimInAirAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field(ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION).forGetter(SwimInAirAbility::flightDuration),
-            IntegerValue.field(ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION).forGetter(SwimInAirAbility::rechargeDuration)
+            IntegerValue.field("flight_duration", ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION).forGetter(SwimInAirAbility::flightDuration),
+            IntegerValue.field("recharge_duration", ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION).forGetter(SwimInAirAbility::rechargeDuration)
     ).apply(instance, SwimInAirAbility::new));
 
     public static final StreamCodec<ByteBuf, SwimInAirAbility> STREAM_CODEC = StreamCodec.composite(

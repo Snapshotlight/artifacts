@@ -12,7 +12,7 @@ import net.minecraft.network.codec.StreamCodec;
 public record FartAbility(DoubleValue fartChance) implements ArtifactAbility {
 
     public static final MapCodec<FartAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.field(ModGameRules.WHOOPEE_CUSHION_FART_CHANCE).forGetter(FartAbility::fartChance)
+            DoubleValue.field("chance", ModGameRules.WHOOPEE_CUSHION_FART_CHANCE).forGetter(FartAbility::fartChance)
     ).apply(instance, FartAbility::new));
 
     public static final StreamCodec<ByteBuf, FartAbility> STREAM_CODEC = StreamCodec.composite(

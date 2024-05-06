@@ -40,8 +40,8 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
         AbilityHelper.getAbilities(ModAbilities.ATTRIBUTE_MODIFIER.get(), stack).forEach(ability -> {
             double amount = ability.amount().get();
 
-            if (ability.getOperation() == AttributeModifier.Operation.ADD_VALUE) {
-                if (ability.getAttribute().equals(Attributes.KNOCKBACK_RESISTANCE)) {
+            if (ability.operation() == AttributeModifier.Operation.ADD_VALUE) {
+                if (ability.attribute().equals(Attributes.KNOCKBACK_RESISTANCE)) {
                     amount *= 10;
                 }
             } else {
@@ -49,9 +49,9 @@ public abstract class WearableArtifactItemMixin extends ArtifactItem {
             }
 
             tooltipList.add((Component.translatable(
-                    "attribute.modifier.plus." + ability.getOperation().id(),
+                    "attribute.modifier.plus." + ability.operation().id(),
                     ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT.format(amount),
-                    Component.translatable(ability.getAttribute().value().getDescriptionId())))
+                    Component.translatable(ability.attribute().value().getDescriptionId())))
                     .withStyle(ChatFormatting.BLUE));
         });
     }

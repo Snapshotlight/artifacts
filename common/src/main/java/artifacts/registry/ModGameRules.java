@@ -1,7 +1,6 @@
 package artifacts.registry;
 
 import artifacts.Artifacts;
-import artifacts.ability.UpgradeToolTierAbility;
 import artifacts.ability.value.BooleanValue;
 import artifacts.ability.value.DoubleValue;
 import artifacts.ability.value.IntegerValue;
@@ -40,7 +39,7 @@ public class ModGameRules {
             SCARF_OF_INVISIBILITY_ENABLED = booleanGameRule(ModItems.SCARF_OF_INVISIBILITY, "enabled"),
             UNIVERSAL_ATTRACTOR_ENABLED = booleanGameRule(ModItems.UNIVERSAL_ATTRACTOR, "enabled"),
 
-            BUNNY_HOPPERS_DO_CANCEL_FALL_DAMAGE = booleanGameRule(ModItems.BUNNY_HOPPERS, "doCancelFallDamage"),
+            BUNNY_HOPPERS_DO_CANCEL_FALL_DAMAGE = booleanGameRule(ModItems.BUNNY_HOPPERS, "doCancelFallDamage", false),
             CHORUS_TOTEM_DO_CONSUME_ON_USE = booleanGameRule(ModItems.CHORUS_TOTEM, "doConsumeOnUse"),
             FLAME_PENDANT_DO_GRANT_FIRE_RESISTANCE = booleanGameRule(ModItems.FLAME_PENDANT, "doGrantFireResistance"),
             ROOTED_BOOTS_DO_GROW_PLANTS_AFTER_EATING = booleanGameRule(ModItems.ROOTED_BOOTS, "doGrowPlantsAfterEating"),
@@ -85,17 +84,19 @@ public class ModGameRules {
             SNORKEL_WATER_BREATHING_DURATION = durationSeconds(ModItems.SNORKEL, "waterBreathingDuration", 15),
             THORN_PENDANT_COOLDOWN = durationSeconds(ModItems.THORN_PENDANT, "cooldown", 0),
 
-            BUNNY_HOPPERS_JUMP_BOOST_LEVEL = mobEffectLevel(ModItems.BUNNY_HOPPERS, "jumpBoostLevel", 2),
             COWBOY_HAT_SPEED_LEVEL = mobEffectLevel(ModItems.COWBOY_HAT, "speedLevel", 2),
             ONION_RING_HASTE_LEVEL = mobEffectLevel(ModItems.ONION_RING, "hasteLevel", 2),
             PANIC_NECKLACE_SPEED_LEVEL = mobEffectLevel(ModItems.PANIC_NECKLACE, "speedLevel", 1);
 
     public static final DoubleGameRule
+            BUNNY_HOPPERS_JUMP_STRENGTH_BONUS = doubleGameRule(ModItems.BUNNY_HOPPERS, "jumpStrengthBonus", 20, 100),
+            BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS = doubleGameRule(ModItems.BUNNY_HOPPERS, "safeFallDistanceBonus", 10, 1),
             CHORUS_TOTEM_TELEPORTATION_CHANCE = percentage(ModItems.CHORUS_TOTEM, "teleportationChance", 100),
             CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY = doubleGameRule(ModItems.CLOUD_IN_A_BOTTLE, "sprintJumpVerticalVelocity", 50, 100 * 100, 100),
             CLOUD_IN_A_BOTTLE_SPRINT_JUMP_HORIZONTAL_VELOCITY = doubleGameRule(ModItems.CLOUD_IN_A_BOTTLE, "sprintJumpHorizontalVelocity", 50, 100 * 100, 100),
+            CLOUD_IN_A_BOTTLE_SAFE_FALL_DISTANCE_BONUS = doubleGameRule(ModItems.CLOUD_IN_A_BOTTLE, "safeFallDistanceBonus", 3, 1),
             CRYSTAL_HEART_HEALTH_BONUS = doubleGameRule(ModItems.CRYSTAL_HEART, "healthBonus", 10, 100, 1),
-            DIGGING_CLAWS_DIG_SPEED_BONUS = doubleGameRule(ModItems.DIGGING_CLAWS, "digSpeedBonus", 32, 10),
+            DIGGING_CLAWS_BLOCK_BREAK_SPEED_BONUS = doubleGameRule(ModItems.DIGGING_CLAWS, "blockBreakSpeedBonus", 30, 100),
             FERAL_CLAWS_ATTACK_SPEED_BONUS = percentage(ModItems.FERAL_CLAWS, "attackSpeedBonus", 40),
             FLAME_PENDANT_STRIKE_CHANCE = percentage(ModItems.FLAME_PENDANT, "strikeChance", 40),
             FLIPPERS_SWIM_SPEED_BONUS = doubleGameRule(ModItems.FLIPPERS, "swimSpeedBonus", 100, 100 * 100, 100),

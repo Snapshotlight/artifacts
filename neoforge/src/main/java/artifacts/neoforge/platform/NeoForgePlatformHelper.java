@@ -1,8 +1,5 @@
 package artifacts.neoforge.platform;
 
-import artifacts.Artifacts;
-import artifacts.ability.ArtifactAbility;
-import artifacts.ability.AttributeModifierAbility;
 import artifacts.client.item.renderer.ArtifactRenderer;
 import artifacts.component.AbilityToggles;
 import artifacts.component.SwimData;
@@ -10,7 +7,6 @@ import artifacts.item.WearableArtifactItem;
 import artifacts.neoforge.integration.CosmeticArmorCompat;
 import artifacts.neoforge.registry.ModAttachmentTypes;
 import artifacts.platform.PlatformHelper;
-import artifacts.registry.ModGameRules;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -94,15 +90,6 @@ public class NeoForgePlatformHelper implements PlatformHelper {
     @Override
     public SwimData getSwimData(LivingEntity entity) {
         return entity.getData(ModAttachmentTypes.SWIM_DATA);
-    }
-
-    @Override
-    public ArtifactAbility getFlippersSwimAbility() {
-        return new AttributeModifierAbility(
-                NeoForgeMod.SWIM_SPEED,
-                ModGameRules.FLIPPERS_SWIM_SPEED_BONUS,
-                Artifacts.id("flippers/swim_speed_bonus")
-        );
     }
 
     @Override

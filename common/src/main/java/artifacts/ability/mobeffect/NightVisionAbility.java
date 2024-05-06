@@ -17,7 +17,7 @@ import java.util.Objects;
 public class NightVisionAbility extends MobEffectAbility {
 
     public static final MapCodec<NightVisionAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.field(ModGameRules.NIGHT_VISION_GOGGLES_STRENGTH).forGetter(NightVisionAbility::strength)
+            DoubleValue.field("strength", ModGameRules.NIGHT_VISION_GOGGLES_STRENGTH).forGetter(NightVisionAbility::strength)
     ).apply(instance, NightVisionAbility::new));
 
     public static final StreamCodec<ByteBuf, NightVisionAbility> STREAM_CODEC = StreamCodec.composite(

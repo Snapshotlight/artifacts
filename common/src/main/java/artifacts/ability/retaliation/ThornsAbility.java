@@ -15,8 +15,8 @@ public class ThornsAbility extends RetaliationAbility {
 
     public static final MapCodec<ThornsAbility> CODEC = RecordCodecBuilder.mapCodec(instance ->
             codecStart(instance, ModGameRules.THORN_PENDANT_STRIKE_CHANCE, ModGameRules.THORN_PENDANT_COOLDOWN)
-                    .and(IntegerValue.field(ModGameRules.THORN_PENDANT_MIN_DAMAGE).forGetter(ThornsAbility::minDamage))
-                    .and(IntegerValue.field(ModGameRules.THORN_PENDANT_MAX_DAMAGE).forGetter(ThornsAbility::maxDamage))
+                    .and(IntegerValue.field("min_damage", ModGameRules.THORN_PENDANT_MIN_DAMAGE).forGetter(ThornsAbility::minDamage))
+                    .and(IntegerValue.field("max_damage", ModGameRules.THORN_PENDANT_MAX_DAMAGE).forGetter(ThornsAbility::maxDamage))
                     .apply(instance, ThornsAbility::new)
     );
 

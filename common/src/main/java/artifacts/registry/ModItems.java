@@ -9,7 +9,6 @@ import artifacts.ability.retaliation.ThornsAbility;
 import artifacts.item.EverlastingFoodItem;
 import artifacts.item.UmbrellaItem;
 import artifacts.item.WearableArtifactItem;
-import artifacts.platform.PlatformServices;
 import dev.architectury.core.item.ArchitecturySpawnEggItem;
 import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -109,7 +108,8 @@ public class ModItems {
     // belt
     public static RegistrySupplier<WearableArtifactItem> CLOUD_IN_A_BOTTLE = register("cloud_in_a_bottle", () -> new WearableArtifactItem(
             SoundEvents.BOTTLE_FILL_DRAGONBREATH,
-            DoubleJumpAbility.createDefaultInstance()
+            DoubleJumpAbility.createDefaultInstance(),
+            AttributeModifierAbility.create(Attributes.SAFE_FALL_DISTANCE, ModGameRules.CLOUD_IN_A_BOTTLE_SAFE_FALL_DISTANCE_BONUS, Artifacts.id("cloud_in_a_bottle/safe_fall_distance").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> OBSIDIAN_SKULL = register("obsidian_skull", () ->  new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_IRON::value,
@@ -126,9 +126,7 @@ public class ModItems {
     ));
     public static RegistrySupplier<WearableArtifactItem> CRYSTAL_HEART = register("crystal_heart", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_DIAMOND::value,
-            CustomTooltipAbility.attributeTooltip("max_health"),
-            new AttributeModifierAbility(Attributes.MAX_HEALTH, ModGameRules.CRYSTAL_HEART_HEALTH_BONUS, Artifacts.id("crystal_heart/health_bonus")
-    )
+            AttributeModifierAbility.create(Attributes.MAX_HEALTH, ModGameRules.CRYSTAL_HEART_HEALTH_BONUS, Artifacts.id("crystal_heart/health_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> HELIUM_FLAMINGO = register("helium_flamingo", () -> new WearableArtifactItem(
             new Item.Properties(),
@@ -142,18 +140,15 @@ public class ModItems {
     // hands
     public static RegistrySupplier<WearableArtifactItem> DIGGING_CLAWS = register("digging_claws", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_NETHERITE::value,
-            DigSpeedAbility.createDefaultInstance(),
+            AttributeModifierAbility.create(Attributes.BLOCK_BREAK_SPEED, ModGameRules.DIGGING_CLAWS_BLOCK_BREAK_SPEED_BONUS, Artifacts.id("digging_claws/block_break_speed_bonus").toString()),
             UpgradeToolTierAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> FERAL_CLAWS = register("feral_claws", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_NETHERITE::value,
-            CustomTooltipAbility.attributeTooltip("attack_speed"),
-            new AttributeModifierAbility(Attributes.ATTACK_SPEED, ModGameRules.FERAL_CLAWS_ATTACK_SPEED_BONUS, Artifacts.id("feral_claws/attack_speed_bonus")
-    )
+            AttributeModifierAbility.create(Attributes.ATTACK_SPEED, ModGameRules.FERAL_CLAWS_ATTACK_SPEED_BONUS, Artifacts.id("feral_claws/attack_speed_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> POWER_GLOVE = register("power_glove", () -> new WearableArtifactItem(
-            CustomTooltipAbility.attributeTooltip("attack_damage"),
-            new AttributeModifierAbility(Attributes.ATTACK_DAMAGE, ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS, Artifacts.id("power_glove/attack_damage_bonus"))
+            AttributeModifierAbility.create(Attributes.ATTACK_DAMAGE, ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS, Artifacts.id("power_glove/attack_damage_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> FIRE_GAUNTLET = register("fire_gauntlet", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_IRON::value,
@@ -184,7 +179,8 @@ public class ModItems {
             ArtifactAbility.createDefaultInstance(SimpleAbility.sprintOnWater().getFirst())
     ));
     public static RegistrySupplier<WearableArtifactItem> BUNNY_HOPPERS = register("bunny_hoppers", () -> new WearableArtifactItem(
-            JumpBoostAbility.createDefaultInstance(),
+            AttributeModifierAbility.create(Attributes.JUMP_STRENGTH, ModGameRules.BUNNY_HOPPERS_JUMP_STRENGTH_BONUS, Artifacts.id("bunny_hoppers/jump_strength").toString()),
+            AttributeModifierAbility.create(Attributes.SAFE_FALL_DISTANCE, ModGameRules.BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS, Artifacts.id("bunny_hoppers/safe_fall_distance").toString()),
             ArtifactAbility.createDefaultInstance(SimpleAbility.cancelFallDamage().getFirst()),
             new HurtSoundAbility(SoundEvents.RABBIT_HURT)
     ));
@@ -202,12 +198,10 @@ public class ModItems {
             ReduceIceSlipperinessAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> STEADFAST_SPIKES = register("steadfast_spikes", () -> new WearableArtifactItem(
-            CustomTooltipAbility.attributeTooltip("knockback_resistance"),
-            new AttributeModifierAbility(Attributes.KNOCKBACK_RESISTANCE, ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE, Artifacts.id("steadfast_spikes/knockback_resistance"))
+            AttributeModifierAbility.create(Attributes.KNOCKBACK_RESISTANCE, ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE, Artifacts.id("steadfast_spikes/knockback_resistance").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> FLIPPERS = register("flippers", () -> new WearableArtifactItem(
-            CustomTooltipAbility.attributeTooltip("swim_speed"),
-            PlatformServices.platformHelper.getFlippersSwimAbility()
+            SwimSpeedAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> ROOTED_BOOTS = register("rooted_boots", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_LEATHER::value,

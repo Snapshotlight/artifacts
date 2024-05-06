@@ -15,7 +15,7 @@ import net.minecraft.world.effect.MobEffects;
 public class InvisibilityAbility extends MobEffectAbility {
 
     public static final MapCodec<InvisibilityAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.field(ModGameRules.SCARF_OF_INVISIBILITY_ENABLED).forGetter(InvisibilityAbility::enabled)
+            BooleanValue.enabledField(ModGameRules.SCARF_OF_INVISIBILITY_ENABLED).forGetter(InvisibilityAbility::enabled)
     ).apply(instance, InvisibilityAbility::new));
 
     public static final StreamCodec<ByteBuf, InvisibilityAbility> STREAM_CODEC = StreamCodec.composite(

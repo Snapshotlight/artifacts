@@ -11,7 +11,7 @@ import net.minecraft.network.codec.StreamCodec;
 public record SwimSpeedAbility(DoubleValue swimSpeedBonus) implements ArtifactAbility {
 
     public static final MapCodec<SwimSpeedAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.field(ModGameRules.FLIPPERS_SWIM_SPEED_BONUS).forGetter(SwimSpeedAbility::swimSpeedBonus)
+            DoubleValue.field("amount", ModGameRules.FLIPPERS_SWIM_SPEED_BONUS).forGetter(SwimSpeedAbility::swimSpeedBonus)
     ).apply(instance, SwimSpeedAbility::new));
 
     public static final StreamCodec<ByteBuf, SwimSpeedAbility> STREAM_CODEC = StreamCodec.composite(

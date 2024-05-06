@@ -16,8 +16,8 @@ import net.minecraft.world.food.FoodProperties;
 public record ApplyHasteAfterEatingAbility(IntegerValue durationPerFoodPoint, IntegerValue hasteLevel) implements ArtifactAbility {
 
     public static final MapCodec<ApplyHasteAfterEatingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field(ModGameRules.ONION_RING_HASTE_DURATION_PER_FOOD_POINT).forGetter(ApplyHasteAfterEatingAbility::durationPerFoodPoint),
-            IntegerValue.field(ModGameRules.ONION_RING_HASTE_LEVEL).forGetter(ApplyHasteAfterEatingAbility::hasteLevel)
+            IntegerValue.field("duration", ModGameRules.ONION_RING_HASTE_DURATION_PER_FOOD_POINT).forGetter(ApplyHasteAfterEatingAbility::durationPerFoodPoint),
+            IntegerValue.field("level", ModGameRules.ONION_RING_HASTE_LEVEL).forGetter(ApplyHasteAfterEatingAbility::hasteLevel)
     ).apply(instance, ApplyHasteAfterEatingAbility::new));
 
     public static final StreamCodec<ByteBuf, ApplyHasteAfterEatingAbility> STREAM_CODEC = StreamCodec.composite(

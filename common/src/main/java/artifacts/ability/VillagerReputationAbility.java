@@ -11,7 +11,7 @@ import net.minecraft.network.codec.StreamCodec;
 public record VillagerReputationAbility(IntegerValue reputationBonus) implements ArtifactAbility {
 
     public static final MapCodec<VillagerReputationAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field(ModGameRules.VILLAGER_HAT_REPUTATION_BONUS).forGetter(VillagerReputationAbility::reputationBonus)
+            IntegerValue.field("amount" , ModGameRules.VILLAGER_HAT_REPUTATION_BONUS).forGetter(VillagerReputationAbility::reputationBonus)
     ).apply(instance, VillagerReputationAbility::new));
 
     public static final StreamCodec<ByteBuf, VillagerReputationAbility> STREAM_CODEC = StreamCodec.composite(

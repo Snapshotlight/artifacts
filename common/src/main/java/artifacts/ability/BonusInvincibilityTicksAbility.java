@@ -11,8 +11,8 @@ import net.minecraft.network.codec.StreamCodec;
 public record BonusInvincibilityTicksAbility(IntegerValue bonusTicks, IntegerValue cooldown) implements ArtifactAbility {
 
     public static final MapCodec<BonusInvincibilityTicksAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field(ModGameRules.CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS).forGetter(BonusInvincibilityTicksAbility::bonusTicks),
-            IntegerValue.field(ModGameRules.CROSS_NECKLACE_COOLDOWN).forGetter(BonusInvincibilityTicksAbility::cooldown)
+            IntegerValue.field("amount", ModGameRules.CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS).forGetter(BonusInvincibilityTicksAbility::bonusTicks),
+            IntegerValue.field("cooldown", ModGameRules.CROSS_NECKLACE_COOLDOWN).forGetter(BonusInvincibilityTicksAbility::cooldown)
     ).apply(instance, BonusInvincibilityTicksAbility::new));
 
     public static final StreamCodec<ByteBuf, BonusInvincibilityTicksAbility> STREAM_CODEC = StreamCodec.composite(
