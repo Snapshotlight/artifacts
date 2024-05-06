@@ -12,6 +12,6 @@ public class PlayerMixin {
 
     @ModifyReturnValue(method = "createAttributes", at = @At(value = "RETURN"))
     private static AttributeSupplier.Builder createAttributes(AttributeSupplier.Builder original) {
-        return original.add(ModAttributes.VILLAGER_REPUTATION, 0);
+        return original.add(ModAttributes.VILLAGER_REPUTATION);
     }
 }

@@ -5,12 +5,14 @@ import artifacts.component.AbilityToggles;
 import artifacts.event.ArtifactEvents;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
+import artifacts.registry.ModAttributes;
 import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.UseAnim;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.*;
@@ -58,7 +60,7 @@ public class ArtifactEventsNeoForge {
     }
 
     private static void onDrinkingHatItemUse(LivingEntityUseItemEvent.Start event) {
-        event.setDuration(ReduceEatingDurationAbility.getDrinkingHatUseDuration(event.getEntity(), event.getItem().getUseAnimation(), event.getDuration()));
+        event.setDuration(ArtifactEvents.modifyUseDuration(event.getDuration(), event.getItem(), event.getEntity()));
     }
 
     private static void onGoldenHookExperienceDrop(LivingExperienceDropEvent event) {

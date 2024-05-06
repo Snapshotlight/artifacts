@@ -27,6 +27,7 @@ import java.util.UUID;
 
 public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, UUID modifierId, String name) implements ArtifactAbility {
 
+    // TODO allow any double game rule
     private static final List<ModGameRules.DoubleGameRule> AMOUNT_GAME_RULES = List.of(
             ModGameRules.BUNNY_HOPPERS_JUMP_STRENGTH_BONUS,
             ModGameRules.BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS,
@@ -36,7 +37,11 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
             ModGameRules.FERAL_CLAWS_ATTACK_SPEED_BONUS,
             ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS,
             ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE,
-            ModGameRules.VILLAGER_HAT_REPUTATION_BONUS
+            ModGameRules.VILLAGER_HAT_REPUTATION_BONUS,
+            ModGameRules.NOVELTY_DRINKING_HAT_DRINKING_SPEED_BONUS,
+            ModGameRules.NOVELTY_DRINKING_HAT_EATING_SPEED_BONUS,
+            ModGameRules.PLASTIC_DRINKING_HAT_DRINKING_SPEED_BONUS,
+            ModGameRules.PLASTIC_DRINKING_HAT_EATING_SPEED_BONUS
     );
 
     private static final List<Holder<Attribute>> CUSTOM_TOOLTIP_ATTRIBUTES = List.of(
@@ -47,7 +52,9 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
             Attributes.KNOCKBACK_RESISTANCE,
             Attributes.MAX_HEALTH,
             Attributes.SAFE_FALL_DISTANCE,
-            ModAttributes.VILLAGER_REPUTATION
+            ModAttributes.VILLAGER_REPUTATION,
+            ModAttributes.DRINKING_SPEED,
+            ModAttributes.EATING_SPEED
     );
 
     private static final StringRepresentable.StringRepresentableCodec<ModGameRules.DoubleGameRule> AMOUNT_CODEC = new StringRepresentable.StringRepresentableCodec<>(

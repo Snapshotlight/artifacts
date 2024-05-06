@@ -6,6 +6,7 @@ import artifacts.ability.retaliation.RetaliationAbility;
 import artifacts.item.UmbrellaItem;
 import artifacts.mixin.accessors.MobAccessor;
 import artifacts.registry.ModAbilities;
+import artifacts.registry.ModAttributes;
 import artifacts.registry.ModGameRules;
 import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
@@ -30,6 +31,7 @@ import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
@@ -163,5 +165,17 @@ public class ArtifactEvents {
             amount++;
         }
         ExperienceOrb.award(level, position, amount);
+    }
+
+    public static int modifyUseDuration(int originalDuration, ItemStack item, LivingEntity entity) {
+        if (originalDuration <= 0) {
+            return originalDuration;
+        }
+        if (item.getUseAnimation() == UseAnim.EAT) {
+            return (int) Math.max(1, Math.round(originalDuration / entity.getAttributeValue(ModAttributes.EATING_SPEED)));
+        } else if (item.getUseAnimation() == UseAnim.DRINK) {
+            return (int) Math.max(1, Math.round(originalDuration / entity.getAttributeValue(ModAttributes.DRINKING_SPEED)));
+        }
+        return originalDuration;
     }
 }

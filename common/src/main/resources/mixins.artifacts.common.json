@@ -6,6 +6,7 @@
   "mixins": [
     "accessors.LivingEntityAccessor",
     "accessors.MobAccessor",
+    "attribute.LivingEntityMixin",
     "attribute.PlayerMixin",
     "debug.TagLoaderMixin",
     "gamerule.BooleanValueInvoker",
