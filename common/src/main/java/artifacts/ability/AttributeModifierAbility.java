@@ -2,6 +2,7 @@ package artifacts.ability;
 
 import artifacts.ability.value.DoubleValue;
 import artifacts.registry.ModAbilities;
+import artifacts.registry.ModAttributes;
 import artifacts.registry.ModGameRules;
 import artifacts.util.ModCodecs;
 import com.mojang.serialization.Codec;
@@ -34,7 +35,8 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
             ModGameRules.DIGGING_CLAWS_BLOCK_BREAK_SPEED_BONUS,
             ModGameRules.FERAL_CLAWS_ATTACK_SPEED_BONUS,
             ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS,
-            ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE
+            ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE,
+            ModGameRules.VILLAGER_HAT_REPUTATION_BONUS
     );
 
     private static final List<Holder<Attribute>> CUSTOM_TOOLTIP_ATTRIBUTES = List.of(
@@ -44,7 +46,8 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
             Attributes.JUMP_STRENGTH,
             Attributes.KNOCKBACK_RESISTANCE,
             Attributes.MAX_HEALTH,
-            Attributes.SAFE_FALL_DISTANCE
+            Attributes.SAFE_FALL_DISTANCE,
+            ModAttributes.VILLAGER_REPUTATION
     );
 
     private static final StringRepresentable.StringRepresentableCodec<ModGameRules.DoubleGameRule> AMOUNT_CODEC = new StringRepresentable.StringRepresentableCodec<>(

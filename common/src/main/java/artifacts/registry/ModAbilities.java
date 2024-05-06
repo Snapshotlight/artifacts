@@ -65,7 +65,6 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<TeleportOnDeathAbility>> TELEPORT_ON_DEATH = register("teleport_on_death", TeleportOnDeathAbility.CODEC, TeleportOnDeathAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<ThornsAbility>> THORNS = register("thorns", ThornsAbility.CODEC, ThornsAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<UpgradeToolTierAbility>> UPGRADE_TOOL_TIER = register("upgrade_tool_tier", UpgradeToolTierAbility.CODEC, UpgradeToolTierAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<VillagerReputationAbility>> VILLAGER_REPUTATION = register("villager_reputation", VillagerReputationAbility.CODEC, VillagerReputationAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> WALK_ON_POWDER_SNOW = register("walk_on_powdered_snow", SimpleAbility.walkOnPowderSnow());
 
     public static void register() {
