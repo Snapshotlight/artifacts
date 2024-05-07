@@ -1,7 +1,9 @@
 package artifacts.registry;
 
 import artifacts.Artifacts;
+import artifacts.platform.PlatformServices;
 import dev.architectury.registry.registries.DeferredRegister;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
@@ -25,6 +27,7 @@ public class ModAttributes {
     public static final RegistrySupplier<Attribute> EATING_SPEED = addGenericAttribute("eating_speed", 1, 1, Double.MAX_VALUE);
     public static final RegistrySupplier<Attribute> MAX_ATTACK_DAMAGE_ABSORBED = addGenericAttribute("max_attack_damage_absorbed", 0, 0, Double.MAX_VALUE);
     public static final RegistrySupplier<Attribute> SLIP_RESISTANCE = addGenericAttribute("slip_resistance", 0, 0, 1);
+    public static final Holder<Attribute> SWIM_SPEED = PlatformServices.platformHelper.getSwimSpeedAttribute();
 
     public static RegistrySupplier<Attribute> addPlayerAttribute(String name, double d, double min, double max) {
         String id = "artifacts.player." + name;

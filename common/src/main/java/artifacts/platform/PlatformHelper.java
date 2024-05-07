@@ -1,12 +1,13 @@
 package artifacts.platform;
 
-import artifacts.ability.ArtifactAbility;
 import artifacts.client.item.renderer.ArtifactRenderer;
 import artifacts.component.AbilityToggles;
 import artifacts.component.SwimData;
 import artifacts.item.WearableArtifactItem;
+import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,6 +31,8 @@ public interface PlatformHelper {
 
     @Nullable
     SwimData getSwimData(LivingEntity entity);
+
+    Holder<Attribute> getSwimSpeedAttribute();
 
     boolean isEyeInWater(Player player);
 

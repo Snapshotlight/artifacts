@@ -19,7 +19,6 @@
     "item.wearable.charmofsinking.EnchantmentHelperMixin",
     "item.wearable.chorustotem.LivingEntityMixin",
     "item.wearable.crossnecklace.LivingEntityMixin",
-    "item.wearable.flippers.LivingEntityMixin",
     "item.wearable.villagerhat.VillagerMixin",
     "item.wearable.whoopeecushion.EntityMixin"
   ],

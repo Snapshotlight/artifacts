@@ -1,7 +1,6 @@
-package artifacts.mixin.item.wearable.flippers;
+package artifacts.fabric.mixin.attribute.swimspeed;
 
-import artifacts.registry.ModAbilities;
-import artifacts.util.AbilityHelper;
+import artifacts.registry.ModAttributes;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -31,9 +30,6 @@ public abstract class LivingEntityMixin {
     @Unique
     private double getIncreasedSwimSpeed(double speed) {
         // noinspection ConstantConditions
-        double swimSpeedBonus = AbilityHelper.sumDouble(
-                ModAbilities.SWIM_SPEED.get(), (LivingEntity) (Object) this, ability -> ability.swimSpeedBonus().get(), false
-        );
-        return speed * (1 + swimSpeedBonus);
+        return speed * ((LivingEntity) (Object) this).getAttributeValue(ModAttributes.SWIM_SPEED);
     }
 }

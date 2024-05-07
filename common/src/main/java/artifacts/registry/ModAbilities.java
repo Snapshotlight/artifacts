@@ -56,7 +56,6 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<SprintingStepHeightAbility>> SPRINTING_STEP_HEIGHT = register("sprinting_step_height", SprintingStepHeightAbility.CODEC, SprintingStepHeightAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<StrikeAttackersWithLightningAbility>> STRIKE_ATTACKERS_WITH_LIGHTNING = register("strike_attackers_with_lightning", StrikeAttackersWithLightningAbility.CODEC, StrikeAttackersWithLightningAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SwimInAirAbility>> SWIM_IN_AIR = register("swim_in_air", SwimInAirAbility.CODEC, SwimInAirAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<SwimSpeedAbility>> SWIM_SPEED = register("swim_speed", SwimSpeedAbility.CODEC, SwimSpeedAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<TeleportOnDeathAbility>> TELEPORT_ON_DEATH = register("teleport_on_death", TeleportOnDeathAbility.CODEC, TeleportOnDeathAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<ThornsAbility>> THORNS = register("thorns", ThornsAbility.CODEC, ThornsAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<UpgradeToolTierAbility>> UPGRADE_TOOL_TIER = register("upgrade_tool_tier", UpgradeToolTierAbility.CODEC, UpgradeToolTierAbility.STREAM_CODEC);

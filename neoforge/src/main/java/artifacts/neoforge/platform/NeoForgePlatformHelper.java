@@ -11,8 +11,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -90,6 +92,11 @@ public class NeoForgePlatformHelper implements PlatformHelper {
     @Override
     public SwimData getSwimData(LivingEntity entity) {
         return entity.getData(ModAttachmentTypes.SWIM_DATA);
+    }
+
+    @Override
+    public Holder<Attribute> getSwimSpeedAttribute() {
+        return NeoForgeMod.SWIM_SPEED;
     }
 
     @Override

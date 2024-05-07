@@ -22,16 +22,17 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, UUID modifierId, String name) implements ArtifactAbility {
 
-    private static final List<Holder<Attribute>> CUSTOM_TOOLTIP_ATTRIBUTES;
+    private static final Set<Holder<Attribute>> CUSTOM_TOOLTIP_ATTRIBUTES;
 
     static {
-        CUSTOM_TOOLTIP_ATTRIBUTES = new ArrayList<>();
+        CUSTOM_TOOLTIP_ATTRIBUTES = new HashSet<>();
         CUSTOM_TOOLTIP_ATTRIBUTES.addAll(ModAttributes.PLAYER_ATTRIBUTES);
         CUSTOM_TOOLTIP_ATTRIBUTES.addAll(ModAttributes.GENERIC_ATTRIBUTES);
         CUSTOM_TOOLTIP_ATTRIBUTES.addAll(List.of(
@@ -148,10 +149,15 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
 
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
+        if (attribute.value() == ModAttributes.SWIM_SPEED.value()) {
+            tooltip.add(tooltipLine("artifacts.generic.swim_speed"));
+            return;
+        }
         for (Holder<Attribute> attribute : CUSTOM_TOOLTIP_ATTRIBUTES) {
             if (attribute.isBound() && attribute.value() == attribute().value()) {
                 //noinspection ConstantConditions
                 tooltip.add(tooltipLine(BuiltInRegistries.ATTRIBUTE.getKey(attribute.value()).getPath()));
+                return;
             }
         }
     }

@@ -207,7 +207,7 @@ public class ModItems {
             AttributeModifierAbility.create(Attributes.KNOCKBACK_RESISTANCE, ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE, Artifacts.id("steadfast_spikes/knockback_resistance_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> FLIPPERS = register("flippers", () -> new WearableArtifactItem(
-            SwimSpeedAbility.createDefaultInstance()
+            AttributeModifierAbility.create(ModAttributes.SWIM_SPEED, ModGameRules.FLIPPERS_SWIM_SPEED_BONUS, Artifacts.id("flippers/swim_speed_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> ROOTED_BOOTS = register("rooted_boots", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_LEATHER::value,

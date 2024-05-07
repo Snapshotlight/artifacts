@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "plugin": "artifacts.fabric.ArtifactsMixinPlugin",
   "mixins": [
+    "attribute.swimspeed.LivingEntityMixin",
     "compat.origins.ConditionFactoryAccessor",
     "config.ClientConfigMixin",
     "item.wearable.ItemStackMixin",

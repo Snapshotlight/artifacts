@@ -4,6 +4,7 @@ import artifacts.client.item.renderer.ArtifactRenderer;
 import artifacts.component.AbilityToggles;
 import artifacts.component.SwimData;
 import artifacts.fabric.client.CosmeticsHelper;
+import artifacts.fabric.registry.ModAttributesFabric;
 import artifacts.fabric.registry.ModComponents;
 import artifacts.fabric.trinket.TrinketsHelper;
 import artifacts.item.WearableArtifactItem;
@@ -18,10 +19,12 @@ import dev.emi.trinkets.api.client.TrinketRenderer;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.Holder;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -85,6 +88,11 @@ public class FabricPlatformHelper implements PlatformHelper {
     @Override
     public SwimData getSwimData(LivingEntity entity) {
         return ModComponents.SWIM_DATA.getNullable(entity);
+    }
+
+    @Override
+    public Holder<Attribute> getSwimSpeedAttribute() {
+        return ModAttributesFabric.SWIM_SPEED;
     }
 
     @Override
