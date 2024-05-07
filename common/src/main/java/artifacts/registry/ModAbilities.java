@@ -39,7 +39,6 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<CustomTooltipAbility>> CUSTOM_TOOLTIP = register("custom_tooltip", CustomTooltipAbility.CODEC, CustomTooltipAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<DoubleJumpAbility>> DOUBLE_JUMP = register("double_jump", DoubleJumpAbility.CODEC, DoubleJumpAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<FartAbility>> FART = register("fart", FartAbility.CODEC, FartAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<FireAspectAbility>> FIRE_ASPECT = register("fire_aspect", FireAspectAbility.CODEC, FireAspectAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<GrowPlantsAfterEatingAbility>> GROW_PLANTS_AFTER_EATING = register("grow_plants_after_eating", GrowPlantsAfterEatingAbility.CODEC, GrowPlantsAfterEatingAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<IncreaseEnchantmentLevelAbility>> INCREASE_ENCHANTMENT_LEVEL = register("increase_enchantment_level", IncreaseEnchantmentLevelAbility.CODEC, IncreaseEnchantmentLevelAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<InvisibilityAbility>> INVISIBILITY = register("invisibility", InvisibilityAbility.CODEC, InvisibilityAbility.STREAM_CODEC);

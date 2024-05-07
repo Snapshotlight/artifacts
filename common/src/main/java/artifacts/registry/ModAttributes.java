@@ -19,6 +19,7 @@ public class ModAttributes {
     public static final RegistrySupplier<Attribute> ENTITY_EXPERIENCE = addPlayerAttribute("entity_experience", 1, 0, 64);
     public static final RegistrySupplier<Attribute> VILLAGER_REPUTATION = addPlayerAttribute("villager_reputation", 0, 0, 1024);
 
+    public static final RegistrySupplier<Attribute> ATTACK_BURNING_DURATION = addGenericAttribute("attack_burning_duration", 0, 0, 64);
     public static final RegistrySupplier<Attribute> DRINKING_SPEED = addGenericAttribute("drinking_speed", 1, 1, Double.MAX_VALUE);
     public static final RegistrySupplier<Attribute> EATING_SPEED = addGenericAttribute("eating_speed", 1, 1, Double.MAX_VALUE);
 

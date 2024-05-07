@@ -1,7 +1,10 @@
 package artifacts.event;
 
 import artifacts.Artifacts;
-import artifacts.ability.*;
+import artifacts.ability.ApplySpeedAfterDamageAbility;
+import artifacts.ability.ArtifactAbility;
+import artifacts.ability.AttractItemsAbility;
+import artifacts.ability.SwimInAirAbility;
 import artifacts.ability.retaliation.RetaliationAbility;
 import artifacts.item.UmbrellaItem;
 import artifacts.mixin.accessors.MobAccessor;
@@ -10,6 +13,7 @@ import artifacts.registry.ModAttributes;
 import artifacts.registry.ModGameRules;
 import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
+import artifacts.util.DamageSourceHelper;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.PlayerEvent;
@@ -57,7 +61,7 @@ public class ArtifactEvents {
     public static void register() {
         PlayerEvent.DROP_ITEM.register(AttractItemsAbility::onItemToss);
         EntityEvent.LIVING_HURT.register(ApplySpeedAfterDamageAbility::onLivingHurt);
-        EntityEvent.LIVING_HURT.register(FireAspectAbility::onLivingHurt);
+        EntityEvent.LIVING_HURT.register(ArtifactEvents::onAttackBurningLivingHurt);
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onPendantLivingHurt);
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onLightningHurt);
         EntityEvent.ADD.register(ArtifactEvents::onEntityJoinWorld);
@@ -86,6 +90,15 @@ public class ArtifactEvents {
                 gravity.removeModifier(UMBRELLA_SLOW_FALLING.id());
             }
         }
+    }
+
+    public static EventResult onAttackBurningLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {
+        LivingEntity attacker = DamageSourceHelper.getAttacker(damageSource);
+        if (attacker != null && DamageSourceHelper.isMeleeAttack(damageSource) && !entity.fireImmune()) {
+            int duration = (int) attacker.getAttributeValue(ModAttributes.ATTACK_BURNING_DURATION);
+            entity.igniteForSeconds(duration);
+        }
+        return EventResult.pass();
     }
 
     private static EventResult onPendantLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {

@@ -157,7 +157,7 @@ public class ModItems {
     ));
     public static RegistrySupplier<WearableArtifactItem> FIRE_GAUNTLET = register("fire_gauntlet", () -> new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_IRON::value,
-            FireAspectAbility.createDefaultInstance()
+            AttributeModifierAbility.create(ModAttributes.ATTACK_BURNING_DURATION, ModGameRules.FIRE_GAUNTLET_FIRE_DURATION, Artifacts.id("fire_gauntlet/attack_burning_duration_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> POCKET_PISTON = register("pocket_piston", () -> new WearableArtifactItem(
             SoundEvents.PISTON_EXTEND,
