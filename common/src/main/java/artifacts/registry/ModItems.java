@@ -201,7 +201,7 @@ public class ModItems {
     ));
     public static RegistrySupplier<WearableArtifactItem> SNOWSHOES = register("snowshoes", () -> new WearableArtifactItem(
             ArtifactAbility.createDefaultInstance(SimpleAbility.walkOnPowderSnow().getFirst()),
-            ReduceIceSlipperinessAbility.createDefaultInstance()
+            AttributeModifierAbility.create(ModAttributes.SLIP_RESISTANCE, ModGameRules.SNOWSHOES_SLIPPERINESS_REDUCTION, Artifacts.id("snowshoes/slip_resistance_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> STEADFAST_SPIKES = register("steadfast_spikes", () -> new WearableArtifactItem(
             AttributeModifierAbility.create(Attributes.KNOCKBACK_RESISTANCE, ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE, Artifacts.id("steadfast_spikes/knockback_resistance_bonus").toString())

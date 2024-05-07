@@ -1,6 +1,6 @@
 package artifacts.fabric.mixin.item.wearable.snowshoes;
 
-import artifacts.ability.ReduceIceSlipperinessAbility;
+import artifacts.event.ArtifactEvents;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.entity.Entity;
@@ -22,6 +22,6 @@ public abstract class LivingEntityMixin extends Entity {
     @SuppressWarnings("ConstantConditions")
     @WrapOperation(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;getFriction()F"))
     public float travel(Block block, Operation<Float> original) {
-        return ReduceIceSlipperinessAbility.getModifiedFriction(original.call(block), (LivingEntity) (Object) this, block);
+        return ArtifactEvents.getModifiedFriction(original.call(block), (LivingEntity) (Object) this, block);
     }
 }

@@ -24,6 +24,7 @@ public class ModAttributes {
     public static final RegistrySupplier<Attribute> DRINKING_SPEED = addGenericAttribute("drinking_speed", 1, 1, Double.MAX_VALUE);
     public static final RegistrySupplier<Attribute> EATING_SPEED = addGenericAttribute("eating_speed", 1, 1, Double.MAX_VALUE);
     public static final RegistrySupplier<Attribute> MAX_ATTACK_DAMAGE_ABSORBED = addGenericAttribute("max_attack_damage_absorbed", 0, 0, Double.MAX_VALUE);
+    public static final RegistrySupplier<Attribute> SLIP_RESISTANCE = addGenericAttribute("slip_resistance", 0, 0, 1);
 
     public static RegistrySupplier<Attribute> addPlayerAttribute(String name, double d, double min, double max) {
         String id = "artifacts.player." + name;

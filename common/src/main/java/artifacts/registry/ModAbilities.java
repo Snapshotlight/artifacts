@@ -45,7 +45,6 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<HurtSoundAbility>> MODIFY_HURT_SOUND = register("modify_hurt_sound", HurtSoundAbility.CODEC, HurtSoundAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<MountSpeedAbility>> MOUNT_SPEED = register("mount_speed", MountSpeedAbility.CODEC, MountSpeedAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<NightVisionAbility>> NIGHT_VISION = register("night_vision", NightVisionAbility.CODEC, NightVisionAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<ReduceIceSlipperinessAbility>> REDUCE_ICE_SLIPPERINESS = register("reduce_ice_slipperiness", ReduceIceSlipperinessAbility.CODEC, ReduceIceSlipperinessAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<RemoveBadEffectsAbility>> REMOVE_BAD_EFFECTS = register("remove_bad_effects", RemoveBadEffectsAbility.CODEC, RemoveBadEffectsAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<ReplenishHungerOnGrassAbility>> REPLENISH_HUNGER_ON_GRASS = register("replenish_hunger_on_grass", ReplenishHungerOnGrassAbility.CODEC, ReplenishHungerOnGrassAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> SCARE_CREEPERS = register("scare_creepers", SimpleAbility.scareCreepers());

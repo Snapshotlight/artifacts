@@ -20,6 +20,7 @@ import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.event.events.common.TickEvent;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -214,5 +215,15 @@ public class ArtifactEvents {
                 attacker.heal(damageAbsorbed);
             }
         }
+    }
+
+    public static float getModifiedFriction(float friction, LivingEntity entity, Block block) {
+        if (ModTags.isInTag(block, BlockTags.ICE)
+                && friction > 0.6F
+        ) {
+            double slipperinessReduction = entity.getAttributeValue(ModAttributes.SLIP_RESISTANCE);
+            return Mth.lerp(((float) slipperinessReduction), friction, 0.6F);
+        }
+        return friction;
     }
 }
