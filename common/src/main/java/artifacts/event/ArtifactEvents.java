@@ -178,4 +178,14 @@ public class ArtifactEvents {
         }
         return originalDuration;
     }
+
+    public static int modifyExperience(int originalXp, LivingEntity entity, Player attacker) {
+        if (attacker == null || entity instanceof Player || originalXp <= 0) {
+            return originalXp;
+        }
+
+        double multiplier = attacker.getAttributeValue(ModAttributes.ENTITY_EXPERIENCE);
+        int droppedXp = (int) Math.round(originalXp * multiplier);
+        return Math.max(0, droppedXp);
+    }
 }

@@ -22,45 +22,33 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, UUID modifierId, String name) implements ArtifactAbility {
 
-    // TODO allow any double game rule
-    private static final List<ModGameRules.DoubleGameRule> AMOUNT_GAME_RULES = List.of(
-            ModGameRules.BUNNY_HOPPERS_JUMP_STRENGTH_BONUS,
-            ModGameRules.BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS,
-            ModGameRules.CLOUD_IN_A_BOTTLE_SAFE_FALL_DISTANCE_BONUS,
-            ModGameRules.CRYSTAL_HEART_HEALTH_BONUS,
-            ModGameRules.DIGGING_CLAWS_BLOCK_BREAK_SPEED_BONUS,
-            ModGameRules.FERAL_CLAWS_ATTACK_SPEED_BONUS,
-            ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS,
-            ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE,
-            ModGameRules.VILLAGER_HAT_REPUTATION_BONUS,
-            ModGameRules.NOVELTY_DRINKING_HAT_DRINKING_SPEED_BONUS,
-            ModGameRules.NOVELTY_DRINKING_HAT_EATING_SPEED_BONUS,
-            ModGameRules.PLASTIC_DRINKING_HAT_DRINKING_SPEED_BONUS,
-            ModGameRules.PLASTIC_DRINKING_HAT_EATING_SPEED_BONUS
-    );
+    private static final List<Holder<Attribute>> CUSTOM_TOOLTIP_ATTRIBUTES;
 
-    private static final List<Holder<Attribute>> CUSTOM_TOOLTIP_ATTRIBUTES = List.of(
-            Attributes.ATTACK_DAMAGE,
-            Attributes.ATTACK_SPEED,
-            Attributes.BLOCK_BREAK_SPEED,
-            Attributes.JUMP_STRENGTH,
-            Attributes.KNOCKBACK_RESISTANCE,
-            Attributes.MAX_HEALTH,
-            Attributes.SAFE_FALL_DISTANCE,
-            ModAttributes.VILLAGER_REPUTATION,
-            ModAttributes.DRINKING_SPEED,
-            ModAttributes.EATING_SPEED
-    );
+    static {
+        CUSTOM_TOOLTIP_ATTRIBUTES = new ArrayList<>();
+        CUSTOM_TOOLTIP_ATTRIBUTES.addAll(ModAttributes.PLAYER_ATTRIBUTES);
+        CUSTOM_TOOLTIP_ATTRIBUTES.addAll(ModAttributes.GENERIC_ATTRIBUTES);
+        CUSTOM_TOOLTIP_ATTRIBUTES.addAll(List.of(
+                Attributes.ATTACK_DAMAGE,
+                Attributes.ATTACK_SPEED,
+                Attributes.BLOCK_BREAK_SPEED,
+                Attributes.JUMP_STRENGTH,
+                Attributes.KNOCKBACK_RESISTANCE,
+                Attributes.MAX_HEALTH,
+                Attributes.SAFE_FALL_DISTANCE
+        ));
+    }
 
     private static final StringRepresentable.StringRepresentableCodec<ModGameRules.DoubleGameRule> AMOUNT_CODEC = new StringRepresentable.StringRepresentableCodec<>(
-            AMOUNT_GAME_RULES.toArray(ModGameRules.DoubleGameRule[]::new),
+            ModGameRules.DOUBLE_VALUES_LIST.toArray(ModGameRules.DoubleGameRule[]::new),
             ModGameRules.DOUBLE_VALUES::get,
-            AMOUNT_GAME_RULES::indexOf
+            ModGameRules.DOUBLE_VALUES_LIST::indexOf
     );
 
     public static final MapCodec<AttributeModifierAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -80,8 +68,8 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
             ByteBufCodecs.idMapper(BuiltInRegistries.ATTRIBUTE.asHolderIdMap()),
             AttributeModifierAbility::attribute,
             ByteBufCodecs.BOOL.dispatch(
-                    AMOUNT_GAME_RULES::contains,
-                    b -> b ? ByteBufCodecs.idMapper(AMOUNT_GAME_RULES::get, AMOUNT_GAME_RULES::indexOf) : DoubleValue.streamCodec()
+                    ModGameRules.DOUBLE_VALUES_LIST::contains,
+                    b -> b ? ByteBufCodecs.idMapper(ModGameRules.DOUBLE_VALUES_LIST::get, ModGameRules.DOUBLE_VALUES_LIST::indexOf) : DoubleValue.streamCodec()
             ),
             AttributeModifierAbility::amount,
             AttributeModifier.Operation.STREAM_CODEC,

@@ -18,6 +18,8 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.GameRules;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class ModGameRules {
@@ -25,6 +27,8 @@ public class ModGameRules {
     public static final BiMap<String, BooleanGameRule> BOOLEAN_VALUES = HashBiMap.create();
     public static final BiMap<String, IntegerGameRule> INTEGER_VALUES = HashBiMap.create();
     public static final BiMap<String, DoubleGameRule> DOUBLE_VALUES = HashBiMap.create();
+
+    public static final List<DoubleGameRule> DOUBLE_VALUES_LIST = new ArrayList<>();
 
     public static final BooleanGameRule
             ANTIDOTE_VESSEL_ENABLED = booleanGameRule(ModItems.ANTIDOTE_VESSEL, "enabled"),
@@ -99,7 +103,7 @@ public class ModGameRules {
             FERAL_CLAWS_ATTACK_SPEED_BONUS = percentage(ModItems.FERAL_CLAWS, "attackSpeedBonus", 40),
             FLAME_PENDANT_STRIKE_CHANCE = percentage(ModItems.FLAME_PENDANT, "strikeChance", 40),
             FLIPPERS_SWIM_SPEED_BONUS = doubleGameRule(ModItems.FLIPPERS, "swimSpeedBonus", 100, 100 * 100, 100),
-            GOLDEN_HOOK_EXPERIENCE_BONUS = doubleGameRule(ModItems.GOLDEN_HOOK, "experienceBonus", 75, 10 * 100, 100),
+            GOLDEN_HOOK_ENTITY_EXPERIENCE_BONUS = doubleGameRule(ModItems.GOLDEN_HOOK, "entityExperienceBonus", 50, 10 * 100, 100),
             NIGHT_VISION_GOGGLES_STRENGTH = percentage(ModItems.NIGHT_VISION_GOGGLES, "strength", 25),
             NOVELTY_DRINKING_HAT_DRINKING_SPEED_BONUS = doubleGameRule(ModItems.NOVELTY_DRINKING_HAT, "drinkingSpeedBonus", 150, 100),
             NOVELTY_DRINKING_HAT_EATING_SPEED_BONUS = doubleGameRule(ModItems.NOVELTY_DRINKING_HAT, "eatingSpeedBonus", 50, 100),
@@ -179,6 +183,7 @@ public class ModGameRules {
     private static DoubleGameRule doubleGameRule(RegistrySupplier<? extends Item> item, String key, int defaultValue, int maxValue, double factor) {
         DoubleGameRule gameRule = new DoubleGameRule(integerGameRule(item, key, defaultValue, maxValue), factor);
         DOUBLE_VALUES.put(createName(item, key), gameRule);
+        DOUBLE_VALUES_LIST.add(gameRule);
         return gameRule;
     }
 

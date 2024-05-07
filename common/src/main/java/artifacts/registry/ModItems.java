@@ -2,7 +2,10 @@ package artifacts.registry;
 
 import artifacts.Artifacts;
 import artifacts.ability.*;
-import artifacts.ability.mobeffect.*;
+import artifacts.ability.mobeffect.InvisibilityAbility;
+import artifacts.ability.mobeffect.LimitedWaterBreathingAbility;
+import artifacts.ability.mobeffect.MountSpeedAbility;
+import artifacts.ability.mobeffect.NightVisionAbility;
 import artifacts.ability.retaliation.SetAttackersOnFireAbility;
 import artifacts.ability.retaliation.StrikeAttackersWithLightningAbility;
 import artifacts.ability.retaliation.ThornsAbility;
@@ -14,7 +17,9 @@ import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
@@ -44,14 +49,14 @@ public class ModItems {
     // head
     public static RegistrySupplier<WearableArtifactItem> PLASTIC_DRINKING_HAT = register("plastic_drinking_hat", () -> new WearableArtifactItem(
             SoundEvents.BOTTLE_FILL,
-            AttributeModifierAbility.create(ModAttributes.DRINKING_SPEED, ModGameRules.PLASTIC_DRINKING_HAT_DRINKING_SPEED_BONUS, Artifacts.id("plastic_drinking_hat/drinking_speed").toString()),
-            AttributeModifierAbility.create(ModAttributes.EATING_SPEED, ModGameRules.PLASTIC_DRINKING_HAT_EATING_SPEED_BONUS, Artifacts.id("plastic_drinking_hat/eating_speed").toString())
+            AttributeModifierAbility.create(ModAttributes.DRINKING_SPEED, ModGameRules.PLASTIC_DRINKING_HAT_DRINKING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, Artifacts.id("plastic_drinking_hat/drinking_speed").toString()),
+            AttributeModifierAbility.create(ModAttributes.EATING_SPEED, ModGameRules.PLASTIC_DRINKING_HAT_EATING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, Artifacts.id("plastic_drinking_hat/eating_speed").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> NOVELTY_DRINKING_HAT = register("novelty_drinking_hat", () -> new WearableArtifactItem(
             SoundEvents.BOTTLE_FILL,
             new CustomTooltipAbility("artifacts.tooltip.item.novelty_drinking_hat"),
-            AttributeModifierAbility.create(ModAttributes.DRINKING_SPEED, ModGameRules.NOVELTY_DRINKING_HAT_DRINKING_SPEED_BONUS, Artifacts.id("novelty_drinking_hat/drinking_speed").toString()),
-            AttributeModifierAbility.create(ModAttributes.EATING_SPEED, ModGameRules.NOVELTY_DRINKING_HAT_EATING_SPEED_BONUS, Artifacts.id("novelty_drinking_hat/eating_speed").toString())
+            AttributeModifierAbility.create(ModAttributes.DRINKING_SPEED, ModGameRules.NOVELTY_DRINKING_HAT_DRINKING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, Artifacts.id("novelty_drinking_hat/drinking_speed").toString()),
+            AttributeModifierAbility.create(ModAttributes.EATING_SPEED, ModGameRules.NOVELTY_DRINKING_HAT_EATING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, Artifacts.id("novelty_drinking_hat/eating_speed").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> SNORKEL = register("snorkel", () -> new WearableArtifactItem(
             LimitedWaterBreathingAbility.createDefaultInstance()
@@ -162,7 +167,7 @@ public class ModItems {
             AbsorbDamageAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> GOLDEN_HOOK = register("golden_hook", () -> new WearableArtifactItem(
-            ExperienceBonusAbility.createDefaultInstance(),
+            AttributeModifierAbility.create(ModAttributes.ENTITY_EXPERIENCE, ModGameRules.GOLDEN_HOOK_ENTITY_EXPERIENCE_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, new ResourceLocation("golden_hook/entity_experience").toString()),
             MakePiglinsNeutralAbility.INSTANCE
     ));
     public static RegistrySupplier<WearableArtifactItem> ONION_RING = register("onion_ring", () -> new WearableArtifactItem(

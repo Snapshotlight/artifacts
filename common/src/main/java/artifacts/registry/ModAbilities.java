@@ -2,7 +2,10 @@ package artifacts.registry;
 
 import artifacts.Artifacts;
 import artifacts.ability.*;
-import artifacts.ability.mobeffect.*;
+import artifacts.ability.mobeffect.InvisibilityAbility;
+import artifacts.ability.mobeffect.LimitedWaterBreathingAbility;
+import artifacts.ability.mobeffect.MountSpeedAbility;
+import artifacts.ability.mobeffect.NightVisionAbility;
 import artifacts.ability.retaliation.SetAttackersOnFireAbility;
 import artifacts.ability.retaliation.StrikeAttackersWithLightningAbility;
 import artifacts.ability.retaliation.ThornsAbility;
@@ -34,7 +37,6 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<BonusInvincibilityTicksAbility>> BONUS_INVINCIBILITY_TICKS = register("bonus_invincibility_ticks", BonusInvincibilityTicksAbility.CODEC, BonusInvincibilityTicksAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> CANCEL_FALL_DAMAGE = register("cancel_fall_damage", SimpleAbility.cancelFallDamage());
     public static final RegistrySupplier<Type<CustomTooltipAbility>> CUSTOM_TOOLTIP = register("custom_tooltip", CustomTooltipAbility.CODEC, CustomTooltipAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<ExperienceBonusAbility>> EXPERIENCE_BONUS = register("experience_bonus", ExperienceBonusAbility.CODEC, ExperienceBonusAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<DoubleJumpAbility>> DOUBLE_JUMP = register("double_jump", DoubleJumpAbility.CODEC, DoubleJumpAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<FartAbility>> FART = register("fart", FartAbility.CODEC, FartAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<FireAspectAbility>> FIRE_ASPECT = register("fire_aspect", FireAspectAbility.CODEC, FireAspectAbility.STREAM_CODEC);
