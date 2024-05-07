@@ -200,4 +200,19 @@ public class ArtifactEvents {
         int droppedXp = (int) Math.round(originalXp * multiplier);
         return Math.max(0, droppedXp);
     }
+
+    public static void absorbDamage(LivingEntity entity, DamageSource damageSource, float amount) {
+        LivingEntity attacker = DamageSourceHelper.getAttacker(damageSource);
+        if (attacker != null && DamageSourceHelper.isMeleeAttack(damageSource)) {
+            double absorptionRatio = attacker.getAttributeValue(ModAttributes.ATTACK_DAMAGE_ABSORPTION);
+            double maxHealthAbsorbed = attacker.getAttributeValue(ModAttributes.MAX_ATTACK_DAMAGE_ABSORBED);
+
+            float damageDealt = Math.min(amount, entity.getHealth());
+            float damageAbsorbed = (float) Math.min(maxHealthAbsorbed, absorptionRatio * damageDealt);
+
+            if (damageAbsorbed > 0) {
+                attacker.heal(damageAbsorbed);
+            }
+        }
+    }
 }

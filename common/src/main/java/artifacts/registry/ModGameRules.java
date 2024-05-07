@@ -60,7 +60,6 @@ public class ModGameRules {
             DIGGING_CLAWS_TOOL_TIER = integerGameRule(ModItems.DIGGING_CLAWS, "toolTier", 2, 5),
             THORN_PENDANT_MAX_DAMAGE = integerGameRule(ModItems.THORN_PENDANT, "maxDamage", 6),
             THORN_PENDANT_MIN_DAMAGE = integerGameRule(ModItems.THORN_PENDANT, "minDamage", 2),
-            VAMPIRIC_GLOVE_MAX_HEALING_PER_HIT = integerGameRule(ModItems.VAMPIRIC_GLOVE, "maxHealingPerHit", 6),
 
             ANGLERS_HAT_LUCK_OF_THE_SEA_LEVEL_BONUS = enchantmentBonus(ModItems.ANGLERS_HAT, "luckOfTheSeaLevelBonus"),
             ANGLERS_HAT_LURE_LEVEL_BONUS = enchantmentBonus(ModItems.ANGLERS_HAT, "lureLevelBonus"),
@@ -116,8 +115,8 @@ public class ModGameRules {
             STEADFAST_SPIKES_KNOCKBACK_RESISTANCE = doubleGameRule(ModItems.STEADFAST_SPIKES, "knockbackResistance", 10, 10, 10),
             SNOWSHOES_SLIPPERINESS_REDUCTION = percentage(ModItems.SNOWSHOES, "slipperinessReduction", 100),
             THORN_PENDANT_STRIKE_CHANCE = percentage(ModItems.THORN_PENDANT, "strikeChance", 50),
-            VAMPIRIC_GLOVE_ABSORPTION_CHANCE = percentage(ModItems.VAMPIRIC_GLOVE, "absorptionChance", 100),
             VAMPIRIC_GLOVE_ABSORPTION_RATIO = doubleGameRule(ModItems.VAMPIRIC_GLOVE, "absorptionRatio", 20, 100),
+            VAMPIRIC_GLOVE_MAX_HEALING_PER_HIT = doubleGameRule(ModItems.VAMPIRIC_GLOVE, "maxHealingPerHit", 6, 1),
             VILLAGER_HAT_REPUTATION_BONUS = doubleGameRule(ModItems.VILLAGER_HAT, "reputationBonus", 75, 1),
             WHOOPEE_CUSHION_FART_CHANCE = percentage(ModItems.WHOOPEE_CUSHION, "fartChance", 12);
 

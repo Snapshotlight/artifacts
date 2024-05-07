@@ -20,8 +20,10 @@ public class ModAttributes {
     public static final RegistrySupplier<Attribute> VILLAGER_REPUTATION = addPlayerAttribute("villager_reputation", 0, 0, 1024);
 
     public static final RegistrySupplier<Attribute> ATTACK_BURNING_DURATION = addGenericAttribute("attack_burning_duration", 0, 0, 64);
+    public static final RegistrySupplier<Attribute> ATTACK_DAMAGE_ABSORPTION = addGenericAttribute("attack_damage_absorption", 0, 0, 64);
     public static final RegistrySupplier<Attribute> DRINKING_SPEED = addGenericAttribute("drinking_speed", 1, 1, Double.MAX_VALUE);
     public static final RegistrySupplier<Attribute> EATING_SPEED = addGenericAttribute("eating_speed", 1, 1, Double.MAX_VALUE);
+    public static final RegistrySupplier<Attribute> MAX_ATTACK_DAMAGE_ABSORBED = addGenericAttribute("max_attack_damage_absorbed", 0, 0, Double.MAX_VALUE);
 
     public static RegistrySupplier<Attribute> addPlayerAttribute(String name, double d, double min, double max) {
         String id = "artifacts.player." + name;

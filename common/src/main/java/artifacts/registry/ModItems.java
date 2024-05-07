@@ -164,7 +164,8 @@ public class ModItems {
             AttributeModifierAbility.create(Attributes.ATTACK_KNOCKBACK, ModGameRules.POCKET_PISTON_ATTACK_KNOCKBACK_BONUS, Artifacts.id("pocket_piston/attack_knockback_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> VAMPIRIC_GLOVE = register("vampiric_glove", () -> new WearableArtifactItem(
-            AbsorbDamageAbility.createDefaultInstance()
+            AttributeModifierAbility.create(ModAttributes.ATTACK_DAMAGE_ABSORPTION, ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_RATIO, Artifacts.id("vampiric_glove/attack_damage_absorption_bonus").toString()),
+            AttributeModifierAbility.create(ModAttributes.MAX_ATTACK_DAMAGE_ABSORBED, ModGameRules.VAMPIRIC_GLOVE_MAX_HEALING_PER_HIT, Artifacts.id("vampiric_glove/max_attack_damage_absorbed_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> GOLDEN_HOOK = register("golden_hook", () -> new WearableArtifactItem(
             AttributeModifierAbility.create(ModAttributes.ENTITY_EXPERIENCE, ModGameRules.GOLDEN_HOOK_ENTITY_EXPERIENCE_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, new ResourceLocation("golden_hook/entity_experience_bonus").toString()),

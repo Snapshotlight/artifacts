@@ -1,20 +1,9 @@
 package artifacts.util;
 
-import artifacts.ability.AbsorbDamageAbility;
-import artifacts.ability.value.BooleanValue;
-import artifacts.ability.value.DoubleValue;
-import artifacts.ability.value.IntegerValue;
-import artifacts.registry.ModGameRules;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-
-import java.util.function.Function;
 
 public class ModCodecs {
 

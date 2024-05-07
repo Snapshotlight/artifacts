@@ -44,6 +44,7 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
                 Attributes.MAX_HEALTH,
                 Attributes.SAFE_FALL_DISTANCE
         ));
+        CUSTOM_TOOLTIP_ATTRIBUTES.remove(ModAttributes.MAX_ATTACK_DAMAGE_ABSORBED);
     }
 
     private static final StringRepresentable.StringRepresentableCodec<ModGameRules.DoubleGameRule> AMOUNT_CODEC = new StringRepresentable.StringRepresentableCodec<>(
