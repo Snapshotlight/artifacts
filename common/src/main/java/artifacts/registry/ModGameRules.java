@@ -109,7 +109,7 @@ public class ModGameRules {
             NOVELTY_DRINKING_HAT_EATING_SPEED_BONUS = doubleGameRule(ModItems.NOVELTY_DRINKING_HAT, "eatingSpeedBonus", 50, 100),
             PLASTIC_DRINKING_HAT_DRINKING_SPEED_BONUS = doubleGameRule(ModItems.PLASTIC_DRINKING_HAT, "drinkingSpeedBonus", 150, 100),
             PLASTIC_DRINKING_HAT_EATING_SPEED_BONUS = doubleGameRule(ModItems.PLASTIC_DRINKING_HAT, "eatingSpeedBonus", 50, 100),
-            POCKET_PISTON_KNOCKBACK_STRENGTH = doubleGameRule(ModItems.POCKET_PISTON, "knockbackStrength", 15, 10),
+            POCKET_PISTON_ATTACK_KNOCKBACK_BONUS = doubleGameRule(ModItems.POCKET_PISTON, "attackKnockbackBonus", 75, 100),
             POWER_GLOVE_ATTACK_DAMAGE_BONUS = doubleGameRule(ModItems.POWER_GLOVE, "attackDamageBonus", 4, 1),
             RUNNING_SHOES_SPEED_BONUS = doubleGameRule(ModItems.RUNNING_SHOES, "speedBonus", 40, 100 * 100, 100),
             SHOCK_PENDANT_STRIKE_CHANCE = percentage(ModItems.SHOCK_PENDANT, "strikeChance", 25),

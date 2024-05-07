@@ -58,7 +58,6 @@ public class ArtifactEvents {
         PlayerEvent.DROP_ITEM.register(AttractItemsAbility::onItemToss);
         EntityEvent.LIVING_HURT.register(ApplySpeedAfterDamageAbility::onLivingHurt);
         EntityEvent.LIVING_HURT.register(FireAspectAbility::onLivingHurt);
-        EntityEvent.LIVING_HURT.register(KnockbackAbility::onLivingHurt);
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onPendantLivingHurt);
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onLightningHurt);
         EntityEvent.ADD.register(ArtifactEvents::onEntityJoinWorld);

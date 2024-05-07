@@ -36,6 +36,7 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
         CUSTOM_TOOLTIP_ATTRIBUTES.addAll(ModAttributes.GENERIC_ATTRIBUTES);
         CUSTOM_TOOLTIP_ATTRIBUTES.addAll(List.of(
                 Attributes.ATTACK_DAMAGE,
+                Attributes.ATTACK_KNOCKBACK,
                 Attributes.ATTACK_SPEED,
                 Attributes.BLOCK_BREAK_SPEED,
                 Attributes.JUMP_STRENGTH,

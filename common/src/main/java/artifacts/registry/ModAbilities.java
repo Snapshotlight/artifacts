@@ -43,7 +43,6 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<GrowPlantsAfterEatingAbility>> GROW_PLANTS_AFTER_EATING = register("grow_plants_after_eating", GrowPlantsAfterEatingAbility.CODEC, GrowPlantsAfterEatingAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<IncreaseEnchantmentLevelAbility>> INCREASE_ENCHANTMENT_LEVEL = register("increase_enchantment_level", IncreaseEnchantmentLevelAbility.CODEC, IncreaseEnchantmentLevelAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<InvisibilityAbility>> INVISIBILITY = register("invisibility", InvisibilityAbility.CODEC, InvisibilityAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<KnockbackAbility>> KNOCKBACK = register("knockback", KnockbackAbility.CODEC, KnockbackAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> LIGHTNING_IMMUNITY = register("lightning_immunity", SimpleAbility.lightningImmunity());
     public static final RegistrySupplier<Type<LimitedWaterBreathingAbility>> LIMITED_WATER_BREATHING = register("limited_water_breathing", LimitedWaterBreathingAbility.CODEC, LimitedWaterBreathingAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<MakePiglinsNeutralAbility>> MAKE_PIGLINS_NEUTRAL = register("make_piglins_neutral", MakePiglinsNeutralAbility.CODEC, MakePiglinsNeutralAbility.STREAM_CODEC);

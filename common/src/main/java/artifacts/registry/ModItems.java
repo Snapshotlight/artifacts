@@ -49,14 +49,14 @@ public class ModItems {
     // head
     public static RegistrySupplier<WearableArtifactItem> PLASTIC_DRINKING_HAT = register("plastic_drinking_hat", () -> new WearableArtifactItem(
             SoundEvents.BOTTLE_FILL,
-            AttributeModifierAbility.create(ModAttributes.DRINKING_SPEED, ModGameRules.PLASTIC_DRINKING_HAT_DRINKING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, Artifacts.id("plastic_drinking_hat/drinking_speed").toString()),
-            AttributeModifierAbility.create(ModAttributes.EATING_SPEED, ModGameRules.PLASTIC_DRINKING_HAT_EATING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, Artifacts.id("plastic_drinking_hat/eating_speed").toString())
+            AttributeModifierAbility.create(ModAttributes.DRINKING_SPEED, ModGameRules.PLASTIC_DRINKING_HAT_DRINKING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, Artifacts.id("plastic_drinking_hat/drinking_speed_bonus").toString()),
+            AttributeModifierAbility.create(ModAttributes.EATING_SPEED, ModGameRules.PLASTIC_DRINKING_HAT_EATING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, Artifacts.id("plastic_drinking_hat/eating_speed_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> NOVELTY_DRINKING_HAT = register("novelty_drinking_hat", () -> new WearableArtifactItem(
             SoundEvents.BOTTLE_FILL,
             new CustomTooltipAbility("artifacts.tooltip.item.novelty_drinking_hat"),
-            AttributeModifierAbility.create(ModAttributes.DRINKING_SPEED, ModGameRules.NOVELTY_DRINKING_HAT_DRINKING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, Artifacts.id("novelty_drinking_hat/drinking_speed").toString()),
-            AttributeModifierAbility.create(ModAttributes.EATING_SPEED, ModGameRules.NOVELTY_DRINKING_HAT_EATING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, Artifacts.id("novelty_drinking_hat/eating_speed").toString())
+            AttributeModifierAbility.create(ModAttributes.DRINKING_SPEED, ModGameRules.NOVELTY_DRINKING_HAT_DRINKING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, Artifacts.id("novelty_drinking_hat/drinking_speed_bonus").toString()),
+            AttributeModifierAbility.create(ModAttributes.EATING_SPEED, ModGameRules.NOVELTY_DRINKING_HAT_EATING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, Artifacts.id("novelty_drinking_hat/eating_speed_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> SNORKEL = register("snorkel", () -> new WearableArtifactItem(
             LimitedWaterBreathingAbility.createDefaultInstance()
@@ -65,7 +65,7 @@ public class ModItems {
             NightVisionAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> VILLAGER_HAT = register("villager_hat", () -> new WearableArtifactItem(
-            AttributeModifierAbility.create(ModAttributes.VILLAGER_REPUTATION, ModGameRules.VILLAGER_HAT_REPUTATION_BONUS, Artifacts.id("villager_hat/villager_reputation").toString())
+            AttributeModifierAbility.create(ModAttributes.VILLAGER_REPUTATION, ModGameRules.VILLAGER_HAT_REPUTATION_BONUS, Artifacts.id("villager_hat/villager_reputation_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> SUPERSTITIOUS_HAT = register("superstitious_hat", () -> new WearableArtifactItem(
             IncreaseEnchantmentLevelAbility.looting()
@@ -114,7 +114,7 @@ public class ModItems {
     public static RegistrySupplier<WearableArtifactItem> CLOUD_IN_A_BOTTLE = register("cloud_in_a_bottle", () -> new WearableArtifactItem(
             SoundEvents.BOTTLE_FILL_DRAGONBREATH,
             DoubleJumpAbility.createDefaultInstance(),
-            AttributeModifierAbility.create(Attributes.SAFE_FALL_DISTANCE, ModGameRules.CLOUD_IN_A_BOTTLE_SAFE_FALL_DISTANCE_BONUS, Artifacts.id("cloud_in_a_bottle/safe_fall_distance").toString())
+            AttributeModifierAbility.create(Attributes.SAFE_FALL_DISTANCE, ModGameRules.CLOUD_IN_A_BOTTLE_SAFE_FALL_DISTANCE_BONUS, Artifacts.id("cloud_in_a_bottle/safe_fall_distance_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> OBSIDIAN_SKULL = register("obsidian_skull", () ->  new WearableArtifactItem(
             SoundEvents.ARMOR_EQUIP_IRON::value,
@@ -161,13 +161,13 @@ public class ModItems {
     ));
     public static RegistrySupplier<WearableArtifactItem> POCKET_PISTON = register("pocket_piston", () -> new WearableArtifactItem(
             SoundEvents.PISTON_EXTEND,
-            KnockbackAbility.createDefaultInstance()
+            AttributeModifierAbility.create(Attributes.ATTACK_KNOCKBACK, ModGameRules.POCKET_PISTON_ATTACK_KNOCKBACK_BONUS, Artifacts.id("pocket_piston/attack_knockback_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> VAMPIRIC_GLOVE = register("vampiric_glove", () -> new WearableArtifactItem(
             AbsorbDamageAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> GOLDEN_HOOK = register("golden_hook", () -> new WearableArtifactItem(
-            AttributeModifierAbility.create(ModAttributes.ENTITY_EXPERIENCE, ModGameRules.GOLDEN_HOOK_ENTITY_EXPERIENCE_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, new ResourceLocation("golden_hook/entity_experience").toString()),
+            AttributeModifierAbility.create(ModAttributes.ENTITY_EXPERIENCE, ModGameRules.GOLDEN_HOOK_ENTITY_EXPERIENCE_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE, new ResourceLocation("golden_hook/entity_experience_bonus").toString()),
             MakePiglinsNeutralAbility.INSTANCE
     ));
     public static RegistrySupplier<WearableArtifactItem> ONION_RING = register("onion_ring", () -> new WearableArtifactItem(
@@ -184,8 +184,8 @@ public class ModItems {
             ArtifactAbility.createDefaultInstance(SimpleAbility.sprintOnWater().getFirst())
     ));
     public static RegistrySupplier<WearableArtifactItem> BUNNY_HOPPERS = register("bunny_hoppers", () -> new WearableArtifactItem(
-            AttributeModifierAbility.create(Attributes.JUMP_STRENGTH, ModGameRules.BUNNY_HOPPERS_JUMP_STRENGTH_BONUS, Artifacts.id("bunny_hoppers/jump_strength").toString()),
-            AttributeModifierAbility.create(Attributes.SAFE_FALL_DISTANCE, ModGameRules.BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS, Artifacts.id("bunny_hoppers/safe_fall_distance").toString()),
+            AttributeModifierAbility.create(Attributes.JUMP_STRENGTH, ModGameRules.BUNNY_HOPPERS_JUMP_STRENGTH_BONUS, Artifacts.id("bunny_hoppers/jump_strength_bonus").toString()),
+            AttributeModifierAbility.create(Attributes.SAFE_FALL_DISTANCE, ModGameRules.BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS, Artifacts.id("bunny_hoppers/safe_fall_distance_bonus").toString()),
             ArtifactAbility.createDefaultInstance(SimpleAbility.cancelFallDamage().getFirst()),
             new HurtSoundAbility(SoundEvents.RABBIT_HURT)
     ));
@@ -203,7 +203,7 @@ public class ModItems {
             ReduceIceSlipperinessAbility.createDefaultInstance()
     ));
     public static RegistrySupplier<WearableArtifactItem> STEADFAST_SPIKES = register("steadfast_spikes", () -> new WearableArtifactItem(
-            AttributeModifierAbility.create(Attributes.KNOCKBACK_RESISTANCE, ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE, Artifacts.id("steadfast_spikes/knockback_resistance").toString())
+            AttributeModifierAbility.create(Attributes.KNOCKBACK_RESISTANCE, ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE, Artifacts.id("steadfast_spikes/knockback_resistance_bonus").toString())
     ));
     public static RegistrySupplier<WearableArtifactItem> FLIPPERS = register("flippers", () -> new WearableArtifactItem(
             SwimSpeedAbility.createDefaultInstance()
