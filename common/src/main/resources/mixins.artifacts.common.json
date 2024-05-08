@@ -4,6 +4,7 @@
   "package": "artifacts.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ability.LivingEntityMixin",
     "accessors.LivingEntityAccessor",
     "accessors.MobAccessor",
     "attribute.LivingEntityMixin",
@@ -11,6 +12,7 @@
     "debug.TagLoaderMixin",
     "gamerule.BooleanValueInvoker",
     "gamerule.IntegerValueInvoker",
+    "item.ItemStackMixin",
     "item.hurtsound.LivingEntityMixin",
     "item.umbrella.EntityMixin",
     "item.wearable.NaturalSpawnerMixin",

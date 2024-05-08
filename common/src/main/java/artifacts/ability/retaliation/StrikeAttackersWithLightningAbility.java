@@ -1,6 +1,5 @@
 package artifacts.ability.retaliation;
 
-import artifacts.ability.ArtifactAbility;
 import artifacts.ability.value.DoubleValue;
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
@@ -33,10 +32,6 @@ public class StrikeAttackersWithLightningAbility extends RetaliationAbility {
 
     public StrikeAttackersWithLightningAbility(DoubleValue strikeChance, IntegerValue cooldown) {
         super(strikeChance, cooldown);
-    }
-
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
     }
 
     @Override

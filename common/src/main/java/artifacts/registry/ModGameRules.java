@@ -222,10 +222,6 @@ public class ModGameRules {
             return value;
         }
 
-        public GameRules.Key<GameRules.BooleanValue> getKey() {
-            return key;
-        }
-
         private void update(MinecraftServer server) {
             update(server.getGameRules().getBoolean(key));
         }
@@ -264,10 +260,6 @@ public class ModGameRules {
 
         public int multiplier() {
             return multiplier;
-        }
-
-        public GameRules.Key<GameRules.IntegerValue> getKey() {
-            return key;
         }
 
         private void update(MinecraftServer server) {

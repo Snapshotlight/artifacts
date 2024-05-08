@@ -1,16 +1,15 @@
 package artifacts.ability.mobeffect;
 
-import artifacts.ability.ArtifactAbility;
 import artifacts.ability.value.BooleanValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
-import artifacts.util.ModCodecs;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.effect.MobEffects;
+
+import java.util.Objects;
 
 public class InvisibilityAbility extends MobEffectAbility {
 
@@ -31,10 +30,6 @@ public class InvisibilityAbility extends MobEffectAbility {
         this.enabled = enabled;
     }
 
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
-
     public BooleanValue enabled() {
         return enabled;
     }
@@ -42,5 +37,19 @@ public class InvisibilityAbility extends MobEffectAbility {
     @Override
     public Type<?> getType() {
         return ModAbilities.INVISIBILITY.get();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        InvisibilityAbility that = (InvisibilityAbility) o;
+        return enabled().equals(that.enabled());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), enabled());
     }
 }

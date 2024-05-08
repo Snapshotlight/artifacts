@@ -1,6 +1,5 @@
 package artifacts.ability.mobeffect;
 
-import artifacts.ability.ArtifactAbility;
 import artifacts.ability.value.BooleanValue;
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
@@ -42,10 +41,6 @@ public class LimitedWaterBreathingAbility extends MobEffectAbility {
         super(MobEffects.WATER_BREATHING);
         this.duration = duration;
         this.isInfinite = isInfinite;
-    }
-
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
     }
 
     private IntegerValue maxDuration() {

@@ -35,10 +35,6 @@ public record AttractItemsAbility(BooleanValue enabled) implements ArtifactAbili
         }
         return EventResult.pass();
     }
-
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
     
     @Override
     public Type<?> getType() {

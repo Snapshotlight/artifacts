@@ -34,10 +34,6 @@ public record UpgradeToolTierAbility(IntegerValue tierLevel) implements Artifact
             UpgradeToolTierAbility::new
     );
 
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
-
     public static boolean canHarvestWithTier(LivingEntity entity, BlockState state) {
         if (state.is(ModTags.MINEABLE_WITH_DIGGING_CLAWS)) {
             Optional<Tier> tier = getTier(AbilityHelper.maxInt(
@@ -84,10 +80,6 @@ public record UpgradeToolTierAbility(IntegerValue tierLevel) implements Artifact
             return i >= 2;
         }
         return true;
-    }
-
-    public int getToolTier() {
-        return ModGameRules.DIGGING_CLAWS_TOOL_TIER.get();
     }
 
     @Override

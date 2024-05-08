@@ -83,6 +83,7 @@
   "artifacts.tooltip.ability.thorns": "Has a chance to damage attackers",
   "artifacts.tooltip.ability.upgrade_tool_tier": "Increases the wearer's base mining level to %s",
   "artifacts.tooltip.ability.walk_on_powdered_snow": "Allows the wearer to walk on Powder Snow",
+  "artifacts.tooltip.attribute_modifiers": "When equipped:",
   "artifacts.tooltip.cosmetic": "Cosmetic",
   "artifacts.tooltip.cosmetics_disabled": "Cosmetics disabled (right-click to toggle)",
   "artifacts.tooltip.cosmetics_enabled": "Cosmetics enabled (right-click to toggle)",

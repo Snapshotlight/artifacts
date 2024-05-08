@@ -29,10 +29,6 @@ public record ReplenishHungerOnGrassAbility(BooleanValue enabled, IntegerValue r
             ReplenishHungerOnGrassAbility::new
     );
 
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
-
     @Override
     public Type<?> getType() {
         return ModAbilities.REPLENISH_HUNGER_ON_GRASS.get();

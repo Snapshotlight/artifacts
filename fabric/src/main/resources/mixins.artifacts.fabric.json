@@ -8,7 +8,6 @@
     "attribute.swimspeed.LivingEntityMixin",
     "compat.origins.ConditionFactoryAccessor",
     "config.ClientConfigMixin",
-    "item.wearable.ItemStackMixin",
     "item.wearable.LivingEntitiesMixin",
     "item.wearable.LivingEntityMixin",
     "item.wearable.PiglinAiMixin",

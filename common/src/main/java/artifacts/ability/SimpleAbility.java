@@ -11,6 +11,7 @@ import net.minecraft.network.codec.StreamCodec;
 
 import java.util.function.Supplier;
 
+@SuppressWarnings({"Convert2MethodRef", "FunctionalExpressionCanBeFolded"})
 public record SimpleAbility(Supplier<Type<SimpleAbility>> type, BooleanValue enabled) implements ArtifactAbility {
 
     private static Pair<MapCodec<SimpleAbility>, StreamCodec<ByteBuf, SimpleAbility>> codecs(Supplier<Type<SimpleAbility>> type, ModGameRules.BooleanGameRule enabled) {
@@ -42,30 +43,30 @@ public record SimpleAbility(Supplier<Type<SimpleAbility>> type, BooleanValue ena
     }
 
     public static Pair<MapCodec<SimpleAbility>, StreamCodec<ByteBuf, SimpleAbility>> cancelFallDamage() {
-        return codecs(ModAbilities.CANCEL_FALL_DAMAGE, ModGameRules.BUNNY_HOPPERS_DO_CANCEL_FALL_DAMAGE);
+        return codecs(() -> ModAbilities.CANCEL_FALL_DAMAGE.get(), ModGameRules.BUNNY_HOPPERS_DO_CANCEL_FALL_DAMAGE);
     }
 
     public static Pair<MapCodec<SimpleAbility>, StreamCodec<ByteBuf, SimpleAbility>> sprintOnWater() {
-        return codecs(ModAbilities.SPRINT_ON_WATER, ModGameRules.AQUA_DASHERS_ENABLED);
+        return codecs(() -> ModAbilities.SPRINT_ON_WATER.get(), ModGameRules.AQUA_DASHERS_ENABLED);
     }
 
     public static Pair<MapCodec<SimpleAbility>, StreamCodec<ByteBuf, SimpleAbility>> sinking() {
-        return codecs(ModAbilities.SINKING, ModGameRules.CHARM_OF_SINKING_ENABLED);
+        return codecs(() -> ModAbilities.SINKING.get(), ModGameRules.CHARM_OF_SINKING_ENABLED);
     }
 
     public static Pair<MapCodec<SimpleAbility>, StreamCodec<ByteBuf, SimpleAbility>> smeltOres() {
-        return codecs(ModAbilities.SMELT_ORES, ModGameRules.PICKAXE_HEATER_ENABLED);
+        return codecs(() -> ModAbilities.SMELT_ORES.get(), ModGameRules.PICKAXE_HEATER_ENABLED);
     }
 
     public static Pair<MapCodec<SimpleAbility>, StreamCodec<ByteBuf, SimpleAbility>> scareCreepers() {
-        return codecs(ModAbilities.SCARE_CREEPERS, ModGameRules.KITTY_SLIPPERS_ENABLED);
+        return codecs(() -> ModAbilities.SCARE_CREEPERS.get(), ModGameRules.KITTY_SLIPPERS_ENABLED);
     }
 
     public static Pair<MapCodec<SimpleAbility>, StreamCodec<ByteBuf, SimpleAbility>> walkOnPowderSnow() {
-        return codecs(ModAbilities.WALK_ON_POWDER_SNOW, ModGameRules.SNOWSHOES_ALLOW_WALKING_ON_POWDER_SNOW);
+        return codecs(() -> ModAbilities.WALK_ON_POWDER_SNOW.get(), ModGameRules.SNOWSHOES_ALLOW_WALKING_ON_POWDER_SNOW);
     }
 
     public static Pair<MapCodec<SimpleAbility>, StreamCodec<ByteBuf, SimpleAbility>> lightningImmunity() {
-        return codecs(ModAbilities.LIGHTNING_IMMUNITY, ModGameRules.SHOCK_PENDANT_DO_CANCEL_LIGHTNING_DAMAGE);
+        return codecs(() -> ModAbilities.LIGHTNING_IMMUNITY.get(), ModGameRules.SHOCK_PENDANT_DO_CANCEL_LIGHTNING_DAMAGE);
     }
 }

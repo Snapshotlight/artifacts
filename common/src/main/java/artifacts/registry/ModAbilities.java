@@ -62,7 +62,7 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<SimpleAbility>> WALK_ON_POWDER_SNOW = register("walk_on_powdered_snow", SimpleAbility.walkOnPowderSnow());
 
     public static void register() {
-
+        // no-op
     }
 
     public static <T extends ArtifactAbility> RegistrySupplier<Type<T>> register(String name, MapCodec<T> codec, StreamCodec<ByteBuf, T> streamCodec) {

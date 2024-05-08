@@ -1,6 +1,5 @@
 package artifacts.ability.mobeffect;
 
-import artifacts.ability.ArtifactAbility;
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
@@ -25,10 +24,6 @@ public class MountSpeedAbility extends MobEffectAbility {
 
     public MountSpeedAbility(IntegerValue speedLevel) {
         super(MobEffects.MOVEMENT_SPEED, speedLevel);
-    }
-
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
     }
 
     @Override

@@ -5,6 +5,7 @@ import artifacts.component.AbilityToggles;
 import artifacts.component.SwimData;
 import artifacts.item.WearableArtifactItem;
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -13,6 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -33,6 +35,8 @@ public interface PlatformHelper {
     SwimData getSwimData(LivingEntity entity);
 
     Holder<Attribute> getSwimSpeedAttribute();
+
+    void addCosmeticToggleTooltip(List<MutableComponent> tooltip, ItemStack stack);
 
     boolean isEyeInWater(Player player);
 

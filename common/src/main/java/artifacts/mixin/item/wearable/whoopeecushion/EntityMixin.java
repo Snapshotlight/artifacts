@@ -1,6 +1,5 @@
 package artifacts.mixin.item.wearable.whoopeecushion;
 
-import artifacts.ability.FartAbility;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModSoundEvents;
 import artifacts.util.AbilityHelper;

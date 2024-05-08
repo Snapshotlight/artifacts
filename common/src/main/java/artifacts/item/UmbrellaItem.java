@@ -11,23 +11,23 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class UmbrellaItem extends ArtifactItem {
 
     public UmbrellaItem() {
+        super(new Properties());
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
     }
 
     @Override
-    public boolean isCosmetic(ItemStack stack) {
+    public boolean isCosmetic() {
         return !ModGameRules.UMBRELLA_IS_GLIDER.get() && !ModGameRules.UMBRELLA_IS_SHIELD.get();
     }
 
     @Override
-    protected void addEffectsTooltip(ItemStack stack, List<MutableComponent> tooltip, @Nullable Player player) {
+    protected void addEffectsTooltip(List<MutableComponent> tooltip) {
         if (ModGameRules.UMBRELLA_IS_GLIDER.get()) {
             tooltip.add(tooltipLine("glider"));
         }

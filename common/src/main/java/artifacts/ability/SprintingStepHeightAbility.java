@@ -29,10 +29,6 @@ public record SprintingStepHeightAbility(BooleanValue enabled) implements Artifa
 
     private static final AttributeModifier STEP_HEIGHT_BONUS = new AttributeModifier(UUID.fromString("4a312f09-78e0-4f3a-95c2-07ed63212472"), "artifacts:running_shoes_step_height", 0.5, AttributeModifier.Operation.ADD_VALUE);
 
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
-
     @Override
     public Type<?> getType() {
         return ModAbilities.SPRINTING_STEP_HEIGHT.get();

@@ -13,20 +13,14 @@ import java.util.Objects;
 public abstract class MobEffectAbility implements ArtifactAbility {
 
     private final Holder<MobEffect> mobEffect;
-    private final int duration;
     protected final IntegerValue level;
 
-    public MobEffectAbility(Holder<MobEffect> mobEffect) {
+    protected MobEffectAbility(Holder<MobEffect> mobEffect) {
         this(mobEffect, new IntegerValue.Constant(1));
     }
 
-    public MobEffectAbility(Holder<MobEffect> mobEffect, IntegerValue level) {
-        this(mobEffect, level, 40);
-    }
-
-    private MobEffectAbility(Holder<MobEffect> mobEffect, IntegerValue level, int duration) {
+    protected MobEffectAbility(Holder<MobEffect> mobEffect, IntegerValue level) {
         this.mobEffect = mobEffect;
-        this.duration = duration;
         this.level = level;
     }
 
@@ -39,7 +33,7 @@ public abstract class MobEffectAbility implements ArtifactAbility {
     }
 
     protected int getDuration(LivingEntity entity) {
-        return duration;
+        return 40;
     }
 
     @Nullable
@@ -93,11 +87,11 @@ public abstract class MobEffectAbility implements ArtifactAbility {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MobEffectAbility that = (MobEffectAbility) o;
-        return duration == that.duration && mobEffect.equals(that.mobEffect) && level.equals(that.level);
+        return mobEffect.equals(that.mobEffect) && level.equals(that.level);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mobEffect, duration, level);
+        return Objects.hash(mobEffect, level);
     }
 }

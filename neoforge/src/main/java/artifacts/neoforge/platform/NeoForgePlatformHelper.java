@@ -12,6 +12,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -29,6 +30,7 @@ import top.theillusivec4.curios.api.client.ICurioRenderer;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,10 +43,16 @@ public class NeoForgePlatformHelper implements PlatformHelper {
 
     @Override
     public Stream<ItemStack> findAllEquippedBy(LivingEntity entity, Predicate<ItemStack> predicate) {
-        return CuriosApi.getCuriosInventory(entity)
+        List<ItemStack> armor = new ArrayList<>(4);
+        for (ItemStack stack : entity.getArmorAndBodyArmorSlots()) {
+            if (predicate.test(stack)) {
+                armor.add(stack);
+            }
+        }
+        return Stream.concat(CuriosApi.getCuriosInventory(entity)
                 .map(inv -> inv.findCurios(predicate))
                 .orElse(List.of()).stream()
-                .map(SlotResult::stack);
+                .map(SlotResult::stack), armor.stream());
     }
 
     @Override
@@ -58,6 +66,11 @@ public class NeoForgePlatformHelper implements PlatformHelper {
                         init = f.apply(item, init);
                     }
                 }
+            }
+        }
+        for (ItemStack item : entity.getArmorAndBodyArmorSlots()) {
+            if (!item.isEmpty()) {
+                init = f.apply(item, init);
             }
         }
         return init;
@@ -97,6 +110,11 @@ public class NeoForgePlatformHelper implements PlatformHelper {
     @Override
     public Holder<Attribute> getSwimSpeedAttribute() {
         return NeoForgeMod.SWIM_SPEED;
+    }
+
+    @Override
+    public void addCosmeticToggleTooltip(List<MutableComponent> tooltip, ItemStack stack) {
+
     }
 
     @Override

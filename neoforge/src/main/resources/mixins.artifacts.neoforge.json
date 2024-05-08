@@ -5,7 +5,6 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "item.umbrella.UmbrellaItemMixin",
-    "item.wearable.WearableArtifactItemMixin",
     "item.wearable.snowshoes.LivingEntityMixin"
   ],
   "injectors": {

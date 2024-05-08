@@ -9,8 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.entity.player.Player;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -37,7 +35,7 @@ public record CustomTooltipAbility(String name) implements ArtifactAbility {
     }
 
     @Override
-    public void addTooltipIfNonCosmetic(List<MutableComponent> tooltip, @Nullable Player player) {
+    public void addTooltipIfNonCosmetic(List<MutableComponent> tooltip) {
         tooltip.add(Component.translatable(name));
     }
 }

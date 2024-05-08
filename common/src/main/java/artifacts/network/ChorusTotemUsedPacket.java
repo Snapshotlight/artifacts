@@ -15,9 +15,9 @@ import net.minecraft.world.item.ItemStack;
 
 public record ChorusTotemUsedPacket() implements CustomPacketPayload {
 
-    public static Type<ChorusTotemUsedPacket> TYPE = new Type<>(Artifacts.id("chorus_totem_used"));
+    public static final Type<ChorusTotemUsedPacket> TYPE = new Type<>(Artifacts.id("chorus_totem_used"));
 
-    public static StreamCodec<FriendlyByteBuf, ChorusTotemUsedPacket> CODEC = StreamCodec.unit(new ChorusTotemUsedPacket());
+    public static final StreamCodec<FriendlyByteBuf, ChorusTotemUsedPacket> CODEC = StreamCodec.unit(new ChorusTotemUsedPacket());
 
     void apply(NetworkManager.PacketContext context) {
         Player player = context.getPlayer();

@@ -1,6 +1,5 @@
 package artifacts.ability.retaliation;
 
-import artifacts.ability.ArtifactAbility;
 import artifacts.ability.value.BooleanValue;
 import artifacts.ability.value.DoubleValue;
 import artifacts.ability.value.IntegerValue;
@@ -45,10 +44,6 @@ public class SetAttackersOnFireAbility extends RetaliationAbility {
         super(strikeChance, cooldown);
         this.fireDuration = fireDuration;
         this.grantsFireResistance = grantsFireResistance;
-    }
-
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
     }
 
     public IntegerValue fireDuration() {

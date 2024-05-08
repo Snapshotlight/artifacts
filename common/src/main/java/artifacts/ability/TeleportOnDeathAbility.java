@@ -46,10 +46,6 @@ public record TeleportOnDeathAbility(DoubleValue teleportationChance, IntegerVal
             TeleportOnDeathAbility::new
     );
 
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
-
     public static ItemStack findTotem(LivingEntity entity) {
         for (InteractionHand hand : InteractionHand.values()) {
             ItemStack handItem = entity.getItemInHand(hand);

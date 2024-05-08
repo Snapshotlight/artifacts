@@ -17,6 +17,6 @@ public class ModAttachmentTypes {
             AttachmentType.builder(SwimData::new).build()
     );
     public static final Supplier<AttachmentType<AbilityToggles>> ABILITY_TOGGLES = ATTACHMENT_TYPES.register("ability_toggles", () ->
-            AttachmentType.builder(() -> new AbilityToggles()).serialize(AbilityToggles.CODEC).copyOnDeath().build()
+            AttachmentType.builder((Supplier<AbilityToggles>) AbilityToggles::new).serialize(AbilityToggles.CODEC).copyOnDeath().build()
     );
 }

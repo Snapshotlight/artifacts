@@ -24,10 +24,6 @@ public record RegistrySupplier<T>(dev.architectury.registry.registries.RegistryS
         return supplier.get();
     }
 
-    public ResourceLocation getId() {
-        return supplier.getId();
-    }
-
     @Override
     public T value() {
         return supplier().value();
@@ -58,6 +54,7 @@ public record RegistrySupplier<T>(dev.architectury.registry.registries.RegistryS
         return supplier().is(tagKey);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean is(Holder<T> holder) {
         return supplier().is(holder);

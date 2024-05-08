@@ -12,18 +12,12 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 
 import java.util.function.Supplier;
 
-public class ConfigValueChance implements LootItemCondition {
+public record ConfigValueChance(ChanceConfig chanceConfig) implements LootItemCondition {
 
     public static final MapCodec<ConfigValueChance> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(ChanceConfig.CODEC.fieldOf("config").forGetter(c -> c.chanceConfig))
                     .apply(instance, ConfigValueChance::new)
     );
-
-    private final ChanceConfig chanceConfig;
-
-    private ConfigValueChance(ChanceConfig chanceConfig) {
-        this.chanceConfig = chanceConfig;
-    }
 
     @Override
     public LootItemConditionType getType() {

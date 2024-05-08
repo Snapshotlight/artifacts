@@ -23,10 +23,6 @@ public record BonusInvincibilityTicksAbility(IntegerValue bonusTicks, IntegerVal
             BonusInvincibilityTicksAbility::new
     );
 
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
-
     @Override
     public Type<?> getType() {
         return ModAbilities.BONUS_INVINCIBILITY_TICKS.get();

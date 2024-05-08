@@ -15,7 +15,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -33,10 +32,6 @@ public record SwimInAirAbility(IntegerValue flightDuration, IntegerValue recharg
             SwimInAirAbility::rechargeDuration,
             SwimInAirAbility::new
     );
-
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
 
     public static void onHeliumFlamingoTick(Player player) {
         SwimData swimData = PlatformServices.platformHelper.getSwimData(player);
@@ -94,7 +89,7 @@ public record SwimInAirAbility(IntegerValue flightDuration, IntegerValue recharg
     }
 
     @Override
-    public void addToggleKeyTooltip(List<MutableComponent> tooltip, @Nullable Player player) {
+    public void addToggleKeyTooltip(List<MutableComponent> tooltip) {
         tooltip.add(tooltipLine("keymapping", ModKeyMappings.getHeliumFlamingoKey().getTranslatedKeyMessage()));
     }
 }

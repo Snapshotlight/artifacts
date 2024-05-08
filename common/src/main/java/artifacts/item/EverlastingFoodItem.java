@@ -23,7 +23,7 @@ public class EverlastingFoodItem extends ArtifactItem {
     }
 
     @Override
-    public boolean isCosmetic(ItemStack stack) {
+    public boolean isCosmetic() {
         return !isEnabled.get();
     }
 
@@ -36,7 +36,9 @@ public class EverlastingFoodItem extends ArtifactItem {
     public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity entity) {
         if (stack.has(DataComponents.FOOD)) {
             entity.eat(world, stack.copy());
-            addCooldown(entity, eatingCooldown.get());
+            if (eatingCooldown.get() > 0 && !entity.level().isClientSide() && entity instanceof Player player) {
+                player.getCooldowns().addCooldown(this, eatingCooldown.get());
+            }
         }
 
         return stack;

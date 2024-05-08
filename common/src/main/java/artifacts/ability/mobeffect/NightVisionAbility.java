@@ -1,6 +1,5 @@
 package artifacts.ability.mobeffect;
 
-import artifacts.ability.ArtifactAbility;
 import artifacts.ability.value.DoubleValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
@@ -31,10 +30,6 @@ public class NightVisionAbility extends MobEffectAbility {
     public NightVisionAbility(DoubleValue strength) {
         super(MobEffects.NIGHT_VISION);
         this.strength = strength;
-    }
-
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
     }
 
     public DoubleValue strength() {

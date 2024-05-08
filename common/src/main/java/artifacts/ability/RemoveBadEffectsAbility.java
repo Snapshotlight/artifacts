@@ -32,10 +32,6 @@ public record RemoveBadEffectsAbility(BooleanValue enabled, IntegerValue maxEffe
             RemoveBadEffectsAbility::new
     );
 
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
-
     @Override
     public Type<?> getType() {
         return ModAbilities.REMOVE_BAD_EFFECTS.get();

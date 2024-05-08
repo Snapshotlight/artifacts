@@ -47,10 +47,6 @@ public record ApplySpeedAfterDamageAbility(IntegerValue speedLevel, IntegerValue
         return EventResult.pass();
     }
 
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
-
     @Override
     public Type<?> getType() {
         return ModAbilities.APPLY_SPEED_AFTER_DAMAGE.get();

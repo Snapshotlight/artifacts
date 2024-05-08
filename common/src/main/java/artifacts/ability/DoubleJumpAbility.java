@@ -35,9 +35,6 @@ public record DoubleJumpAbility(BooleanValue enabled, DoubleValue sprintHorizont
             DoubleJumpAbility::new
     );
 
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
 
     public static void jump(Player player) {
         player.fallDistance = 0;

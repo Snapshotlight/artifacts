@@ -37,10 +37,6 @@ public record ApplyHasteAfterEatingAbility(IntegerValue durationPerFoodPoint, In
         }
     }
 
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
-
     @Override
     public Type<?> getType() {
         return ModAbilities.APPLY_HASTE_AFTER_EATING.get();

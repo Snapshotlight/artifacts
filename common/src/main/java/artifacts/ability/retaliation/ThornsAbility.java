@@ -1,6 +1,5 @@
 package artifacts.ability.retaliation;
 
-import artifacts.ability.ArtifactAbility;
 import artifacts.ability.value.DoubleValue;
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
@@ -39,10 +38,6 @@ public class ThornsAbility extends RetaliationAbility {
         super(strikeChance, cooldown);
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
-    }
-
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
     }
 
     public IntegerValue minDamage() {

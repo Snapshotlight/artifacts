@@ -7,6 +7,7 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 import org.spongepowered.asm.mixin.Mixin;
 
+@SuppressWarnings("CanBeFinal")
 @Mixin(ModConfig.Client.class)
 public abstract class ClientConfigMixin implements ConfigData, ClientConfigFabric {
 

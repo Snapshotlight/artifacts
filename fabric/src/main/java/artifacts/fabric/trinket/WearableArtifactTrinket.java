@@ -8,27 +8,7 @@ import dev.emi.trinkets.api.TrinketEnums;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-public class WearableArtifactTrinket implements Trinket {
-
-    private final WearableArtifactItem item;
-
-    public WearableArtifactTrinket(WearableArtifactItem item) {
-        this.item = item;
-    }
-
-    @Override
-    public void onEquip(ItemStack stack, SlotReference slot, LivingEntity entity) {
-        if (!entity.level().isClientSide()) {
-            item.onEquip(entity, stack);
-        }
-    }
-
-    @Override
-    public void onUnequip(ItemStack stack, SlotReference slot, LivingEntity entity) {
-        if (!entity.level().isClientSide()) {
-            item.onUnequip(entity, stack);
-        }
-    }
+public record WearableArtifactTrinket(WearableArtifactItem item) implements Trinket {
 
     @Override
     public TrinketEnums.DropRule getDropRule(ItemStack stack, SlotReference slot, LivingEntity entity) {

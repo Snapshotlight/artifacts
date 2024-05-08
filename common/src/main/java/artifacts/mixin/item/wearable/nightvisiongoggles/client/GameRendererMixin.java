@@ -1,6 +1,5 @@
 package artifacts.mixin.item.wearable.nightvisiongoggles.client;
 
-import artifacts.ability.mobeffect.NightVisionAbility;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;

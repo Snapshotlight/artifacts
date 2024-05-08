@@ -79,6 +79,15 @@ public class AbilityHelper {
                 .map(ability -> (T) ability);
     }
 
+    public static boolean isCosmetic(ItemStack stack) {
+        for (ArtifactAbility ability : AbilityHelper.getAbilities(stack)) {
+            if (ability.isNonCosmetic()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static int getEnchantmentSum(Enchantment enchantment, LivingEntity entity) {
         return sumInt(ModAbilities.INCREASE_ENCHANTMENT_LEVEL.get(), entity, ability ->
                 ability.enchantment() == enchantment ? ability.getAmount() : 0, false
@@ -89,16 +98,8 @@ public class AbilityHelper {
         return reduce(type, entity, skipItemsOnCooldown, 0, (ability, i) -> i + f.apply(ability));
     }
 
-    public static <A extends ArtifactAbility> double sumDouble(ArtifactAbility.Type<A> type, LivingEntity entity, Function<A, Double> f, boolean skipItemsOnCooldown) {
-        return reduce(type, entity, skipItemsOnCooldown, 0D, (ability, i) -> i + f.apply(ability));
-    }
-
     public static <A extends ArtifactAbility> double maxDouble(ArtifactAbility.Type<A> type, LivingEntity entity, Function<A, Double> f, boolean skipItemsOnCooldown) {
         return reduce(type, entity, skipItemsOnCooldown, 0D, (ability, d) -> Math.max(d, f.apply(ability)));
-    }
-
-    public static <A extends ArtifactAbility> double minDouble(ArtifactAbility.Type<A> type, LivingEntity entity, double init, Function<A, Double> f, boolean skipItemsOnCooldown) {
-        return reduce(type, entity, skipItemsOnCooldown, init, (ability, d) -> Math.min(d, f.apply(ability)));
     }
 
     public static <A extends ArtifactAbility> int maxInt(ArtifactAbility.Type<A> type, LivingEntity entity, Function<A, Integer> f, boolean skipItemsOnCooldown) {

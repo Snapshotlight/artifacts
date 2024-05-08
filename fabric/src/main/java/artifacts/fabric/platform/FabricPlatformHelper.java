@@ -1,8 +1,10 @@
 package artifacts.fabric.platform;
 
+import artifacts.Artifacts;
 import artifacts.client.item.renderer.ArtifactRenderer;
 import artifacts.component.AbilityToggles;
 import artifacts.component.SwimData;
+import artifacts.fabric.ArtifactsFabric;
 import artifacts.fabric.client.CosmeticsHelper;
 import artifacts.fabric.registry.ModAttributesFabric;
 import artifacts.fabric.registry.ModComponents;
@@ -17,9 +19,12 @@ import dev.emi.trinkets.api.TrinketInventory;
 import dev.emi.trinkets.api.TrinketsApi;
 import dev.emi.trinkets.api.client.TrinketRenderer;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.InteractionHand;
@@ -30,6 +35,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -41,7 +48,13 @@ public class FabricPlatformHelper implements PlatformHelper {
 
     @Override
     public Stream<ItemStack> findAllEquippedBy(LivingEntity entity, Predicate<ItemStack> predicate) {
-        return TrinketsHelper.findAllEquippedBy(entity).filter(predicate);
+        List<ItemStack> armor = new ArrayList<>(4);
+        for (ItemStack stack : entity.getArmorAndBodyArmorSlots()) {
+            if (predicate.test(stack)) {
+                armor.add(stack);
+            }
+        }
+        return Stream.concat(TrinketsHelper.findAllEquippedBy(entity).filter(predicate), armor.stream());
     }
 
     @Override
@@ -52,11 +65,16 @@ public class FabricPlatformHelper implements PlatformHelper {
                 for (TrinketInventory inventory : map.values()) {
                     for (int i = 0; i < inventory.getContainerSize(); i++) {
                         ItemStack item = inventory.getItem(i);
-                        if (!item.isEmpty() && item.getItem() instanceof WearableArtifactItem) {
+                        if (!item.isEmpty()) {
                             init = f.apply(item, init);
                         }
                     }
                 }
+            }
+        }
+        for (ItemStack item : entity.getArmorAndBodyArmorSlots()) {
+            if (!item.isEmpty()) {
+                init = f.apply(item, init);
             }
         }
         return init;
@@ -93,6 +111,21 @@ public class FabricPlatformHelper implements PlatformHelper {
     @Override
     public Holder<Attribute> getSwimSpeedAttribute() {
         return ModAttributesFabric.SWIM_SPEED;
+    }
+
+    @Override
+    public void addCosmeticToggleTooltip(List<MutableComponent> tooltip, ItemStack stack) {
+        if (CosmeticsHelper.areCosmeticsToggledOffByPlayer(stack)) {
+            tooltip.add(
+                    Component.translatable("%s.tooltip.cosmetics_disabled".formatted(Artifacts.MOD_ID))
+                            .withStyle(ChatFormatting.ITALIC)
+            );
+        } else if (ArtifactsFabric.getClientConfig().alwaysShowCosmeticsToggleTooltip()) {
+            tooltip.add(
+                    Component.translatable("%s.tooltip.cosmetics_enabled".formatted(Artifacts.MOD_ID))
+                            .withStyle(ChatFormatting.ITALIC)
+            );
+        }
     }
 
     @Override

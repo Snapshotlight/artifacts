@@ -27,10 +27,6 @@ public record GrowPlantsAfterEatingAbility(BooleanValue enabled) implements Arti
             GrowPlantsAfterEatingAbility::new
     );
 
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
-
     @Override
     public Type<?> getType() {
         return ModAbilities.GROW_PLANTS_AFTER_EATING.get();

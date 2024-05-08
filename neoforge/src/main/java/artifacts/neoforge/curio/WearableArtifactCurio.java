@@ -1,6 +1,5 @@
 package artifacts.neoforge.curio;
 
-import artifacts.ability.IncreaseEnchantmentLevelAbility;
 import artifacts.item.WearableArtifactItem;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
@@ -15,28 +14,7 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-public class WearableArtifactCurio implements ICurioItem {
-
-    private final WearableArtifactItem item;
-
-    public WearableArtifactCurio(WearableArtifactItem item) {
-        this.item = item;
-    }
-
-    @Override
-    public final void curioTick(SlotContext slotContext, ItemStack stack) {
-        item.wornTick(slotContext.entity(), stack);
-    }
-
-    @Override
-    public void onEquip(SlotContext slotContext, ItemStack originalStack, ItemStack stack) {
-        item.onEquip(slotContext.entity(), stack);
-    }
-
-    @Override
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        item.onUnequip(slotContext.entity(), stack);
-    }
+public record WearableArtifactCurio(WearableArtifactItem item) implements ICurioItem {
 
     @Override
     public ICurio.DropRule getDropRule(SlotContext slotContext, DamageSource source, int lootingLevel, boolean recentlyHit, ItemStack stack) {
@@ -47,7 +25,7 @@ public class WearableArtifactCurio implements ICurioItem {
     }
 
     @Override
-    public final ICurio.SoundInfo getEquipSound(SlotContext slotContext, ItemStack stack) {
+    public ICurio.SoundInfo getEquipSound(SlotContext slotContext, ItemStack stack) {
         return new ICurio.SoundInfo(item.getEquipSound(), 1, item.getEquipSoundPitch());
     }
 

@@ -6,7 +6,6 @@ import artifacts.registry.ModGameRules;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
 public record FartAbility(DoubleValue fartChance) implements ArtifactAbility {
@@ -20,10 +19,6 @@ public record FartAbility(DoubleValue fartChance) implements ArtifactAbility {
             FartAbility::fartChance,
             FartAbility::new
     );
-
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
 
     @Override
     public Type<?> getType() {

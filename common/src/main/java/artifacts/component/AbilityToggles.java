@@ -15,7 +15,7 @@ import java.util.*;
 
 public class AbilityToggles {
 
-    public static Codec<AbilityToggles> CODEC = ResourceLocation.CODEC.listOf().xmap(
+    public static final Codec<AbilityToggles> CODEC = ResourceLocation.CODEC.listOf().xmap(
             list -> {
                 Set<ArtifactAbility.Type<?>> toggles = new HashSet<>();
                 for (ResourceLocation id : list) {
@@ -50,9 +50,6 @@ public class AbilityToggles {
     public void toggle(ArtifactAbility.Type<?> type, LivingEntity entity) {
         if (toggles.contains(type)) {
             toggles.remove(type);
-            if (!entity.level().isClientSide()) {
-                AbilityHelper.forEach(type, entity, ability -> ability.onEquip(entity, ability.isEnabled()));
-            }
         } else {
             toggles.add(type);
             if (!entity.level().isClientSide()) {

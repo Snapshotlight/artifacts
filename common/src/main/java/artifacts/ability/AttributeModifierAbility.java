@@ -61,7 +61,7 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
                     value -> value instanceof ModGameRules.DoubleGameRule gameRule
                             ? DataResult.success(gameRule)
                             : DataResult.error(() -> "Not a game rule")
-            ), DoubleValue.codec(100, 1, 1)).fieldOf("amount").forGetter(AttributeModifierAbility::amount),
+            ), DoubleValue.codec()).fieldOf("amount").forGetter(AttributeModifierAbility::amount),
             AttributeModifier.Operation.CODEC.optionalFieldOf("operation", AttributeModifier.Operation.ADD_VALUE).forGetter(AttributeModifierAbility::operation),
             Codec.STRING.fieldOf("id").forGetter(AttributeModifierAbility::name)
     ).apply(instance, AttributeModifierAbility::create));
@@ -81,10 +81,6 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
             AttributeModifierAbility::name,
             AttributeModifierAbility::create
     );
-
-    public static AttributeModifierAbility create(Holder<Attribute> attribute, DoubleValue amount, String name) {
-        return create(attribute, amount, AttributeModifier.Operation.ADD_VALUE, name);
-    }
 
     public static AttributeModifierAbility create(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, String name) {
         return new AttributeModifierAbility(attribute, amount, operation, UUID.nameUUIDFromBytes(name.getBytes()), name);
@@ -108,19 +104,6 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
     @Override
     public boolean isNonCosmetic() {
         return !amount().fuzzyEquals(0);
-    }
-
-    @Override
-    public void onEquip(LivingEntity entity, boolean isActive) {
-        AttributeInstance attributeInstance = entity.getAttribute(attribute());
-        if (attributeInstance != null) {
-            attributeInstance.removeModifier(modifierId());
-            AttributeModifier attributeModifier = createModifier();
-            if (isActive) {
-                attributeInstance.addTransientModifier(attributeModifier);
-            }
-            onAttributeUpdated(entity);
-        }
     }
 
     @Override

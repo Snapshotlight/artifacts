@@ -1,6 +1,5 @@
 package artifacts.fabric.trinket;
 
-import artifacts.item.WearableArtifactItem;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.util.Tuple;
@@ -17,7 +16,6 @@ public class TrinketsHelper {
                 .map(TrinketComponent::getAllEquipped)
                 .orElse(List.of())
                 .stream()
-                .map(Tuple::getB)
-                .filter(stack -> stack.getItem() instanceof WearableArtifactItem);
+                .map(Tuple::getB);
     }
 }

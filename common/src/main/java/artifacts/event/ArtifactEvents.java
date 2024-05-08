@@ -8,10 +8,8 @@ import artifacts.ability.SwimInAirAbility;
 import artifacts.ability.retaliation.RetaliationAbility;
 import artifacts.item.UmbrellaItem;
 import artifacts.mixin.accessors.MobAccessor;
-import artifacts.registry.ModAbilities;
-import artifacts.registry.ModAttributes;
-import artifacts.registry.ModGameRules;
-import artifacts.registry.ModTags;
+import artifacts.platform.PlatformServices;
+import artifacts.registry.*;
 import artifacts.util.AbilityHelper;
 import artifacts.util.DamageSourceHelper;
 import dev.architectury.event.EventResult;
@@ -46,6 +44,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -69,8 +68,44 @@ public class ArtifactEvents {
         TickEvent.PLAYER_PRE.register(SwimInAirAbility::onHeliumFlamingoTick);
     }
 
+    // TODO call this on fabric side
+    public static void onItemChanged(LivingEntity entity, ItemStack oldStack, ItemStack newStack) {
+        if (entity.level().isClientSide()) {
+            return;
+        }
+        List<ArtifactAbility> oldAbilities = oldStack.get(ModDataComponents.ABILITIES.get());
+        List<ArtifactAbility> newAbilities = newStack.get(ModDataComponents.ABILITIES.get());
+        if (oldAbilities == null || oldAbilities.equals(newAbilities)) {
+            return;
+        } else if (newAbilities == null) {
+            newAbilities = List.of();
+        }
+
+        for (ArtifactAbility ability : oldAbilities) {
+            if (!newAbilities.contains(ability)) {
+                boolean wasActive = ability.isEnabled() && AbilityHelper.isToggledOn(ability.getType(), entity);
+                ability.onUnequip(entity, wasActive);
+            }
+        }
+    }
+
     public static void livingUpdate(LivingEntity entity) {
+        onItemTick(entity);
         onUmbrellaLivingUpdate(entity);
+    }
+
+    public static void onItemTick(LivingEntity entity) {
+        if (entity.level().isClientSide()) {
+            return;
+        }
+        PlatformServices.platformHelper.findAllEquippedBy(entity, stack -> stack.has(ModDataComponents.ABILITIES.get()))
+                .forEach(stack -> {
+                    for (ArtifactAbility ability : AbilityHelper.getAbilities(stack)) {
+                        boolean isActive = ability.isActive(entity);
+                        boolean isOnCooldown = entity instanceof Player player && player.getCooldowns().isOnCooldown(stack.getItem());
+                        ability.wornTick(entity, isOnCooldown, isActive);
+                    }
+                });
     }
 
     private static void onUmbrellaLivingUpdate(LivingEntity entity) {

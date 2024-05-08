@@ -1,7 +1,6 @@
 package artifacts.ability;
 
 import artifacts.registry.ModAbilities;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;

@@ -13,15 +13,19 @@ import java.util.function.Supplier;
 public interface DoubleValue extends Supplier<Double> {
 
     static MapCodec<DoubleValue> field(String fieldName, ModGameRules.DoubleGameRule gameRule) {
-        return codec(gameRule.integerGameRule().max(), gameRule.integerGameRule().multiplier(), gameRule.factor()).optionalFieldOf(fieldName, gameRule);
+        return intCodec(gameRule.integerGameRule().max(), gameRule.integerGameRule().multiplier(), gameRule.factor()).optionalFieldOf(fieldName, gameRule);
     }
 
-    static Codec<DoubleValue> codec(int max, int multiplier, double factor) {
+    static Codec<DoubleValue> intCodec(int max, int multiplier, double factor) {
         return ExtraCodecs.intRange(0, max)
                 .xmap(i -> i * multiplier, i -> i / multiplier)
                 .xmap(Integer::doubleValue, Double::intValue)
                 .xmap(d -> d / factor, d -> d * factor)
                 .xmap(DoubleValue.Constant::new, Supplier::get);
+    }
+
+    static Codec<DoubleValue> codec() {
+        return Codec.DOUBLE.xmap(DoubleValue.Constant::new, Supplier::get);
     }
 
     static StreamCodec<ByteBuf, DoubleValue> defaultStreamCodec(ModGameRules.DoubleGameRule gameRule) {

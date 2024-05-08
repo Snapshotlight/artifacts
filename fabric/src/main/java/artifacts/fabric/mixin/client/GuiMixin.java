@@ -1,7 +1,7 @@
 package artifacts.fabric.mixin.client;
 
 import artifacts.Artifacts;
-import artifacts.item.WearableArtifactItem;
+import artifacts.registry.ModDataComponents;
 import dev.emi.trinkets.api.TrinketInventory;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.client.Minecraft;
@@ -58,7 +58,7 @@ public abstract class GuiMixin {
                 for (TrinketInventory inventory : map.values()) {
                     for (int i = 0; i < inventory.getContainerSize(); i++) {
                         ItemStack stack = inventory.getItem(i);
-                        if (!stack.isEmpty() && stack.getItem() instanceof WearableArtifactItem && player.getCooldowns().isOnCooldown(stack.getItem())) {
+                        if (!stack.isEmpty() && stack.has(ModDataComponents.ABILITIES.get()) && player.getCooldowns().isOnCooldown(stack.getItem())) {
                             int x = start + step * k++;
                             guiGraphics.renderItem(player, stack, x, y, k + 1);
                             guiGraphics.renderItemDecorations(minecraft.font, stack, x, y);

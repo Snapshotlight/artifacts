@@ -45,10 +45,6 @@ public record ApplyFireResistanceAfterFireDamageAbility(IntegerValue fireResista
         }
     }
 
-    public static ArtifactAbility createDefaultInstance() {
-        return ArtifactAbility.createDefaultInstance(CODEC);
-    }
-
     @Override
     public Type<?> getType() {
         return ModAbilities.APPLY_FIRE_RESISTANCE_AFTER_FIRE_DAMAGE.get();
