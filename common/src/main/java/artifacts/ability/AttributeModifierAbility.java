@@ -123,7 +123,7 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
             if (existingModifier == null || !amount().fuzzyEquals(existingModifier.amount())) {
                 attributeInstance.removeModifier(modifierId());
                 if (isActive) {
-                    attributeInstance.addTransientModifier(createModifier());
+                    attributeInstance.addPermanentModifier(createModifier());
                 }
                 onAttributeUpdated(entity);
             }
