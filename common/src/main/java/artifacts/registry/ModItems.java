@@ -4,7 +4,6 @@ import artifacts.Artifacts;
 import artifacts.ability.*;
 import artifacts.ability.mobeffect.GenericMobEffectAbility;
 import artifacts.ability.mobeffect.LimitedWaterBreathingAbility;
-import artifacts.ability.mobeffect.MountSpeedAbility;
 import artifacts.ability.mobeffect.NightVisionAbility;
 import artifacts.ability.retaliation.SetAttackersOnFireAbility;
 import artifacts.ability.retaliation.StrikeAttackersWithLightningAbility;
@@ -75,7 +74,7 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> COWBOY_HAT = wearableItem("cowboy_hat", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_LEATHER)
-            .addAbility(MountSpeedAbility.CODEC)
+            .addAttributeModifier(ModAttributes.MOUNT_SPEED, ModGameRules.COWBOY_HAT_MOUNT_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
     );
     public static final RegistrySupplier<WearableArtifactItem> ANGLERS_HAT = wearableItem("anglers_hat", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_LEATHER)

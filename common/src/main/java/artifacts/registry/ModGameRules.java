@@ -85,7 +85,6 @@ public class ModGameRules {
             SNORKEL_WATER_BREATHING_DURATION = durationSeconds(ModItems.SNORKEL, "waterBreathingDuration", 15),
             THORN_PENDANT_COOLDOWN = durationSeconds(ModItems.THORN_PENDANT, "cooldown", 0),
 
-            COWBOY_HAT_SPEED_LEVEL = mobEffectLevel(ModItems.COWBOY_HAT, "speedLevel", 2),
             ONION_RING_HASTE_LEVEL = mobEffectLevel(ModItems.ONION_RING, "hasteLevel", 2),
             PANIC_NECKLACE_SPEED_LEVEL = mobEffectLevel(ModItems.PANIC_NECKLACE, "speedLevel", 1);
 
@@ -96,6 +95,7 @@ public class ModGameRules {
             CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY = doubleGameRule(ModItems.CLOUD_IN_A_BOTTLE, "sprintJumpVerticalVelocity", 50, 100 * 100, 100),
             CLOUD_IN_A_BOTTLE_SPRINT_JUMP_HORIZONTAL_VELOCITY = doubleGameRule(ModItems.CLOUD_IN_A_BOTTLE, "sprintJumpHorizontalVelocity", 50, 100 * 100, 100),
             CLOUD_IN_A_BOTTLE_SAFE_FALL_DISTANCE_BONUS = doubleGameRule(ModItems.CLOUD_IN_A_BOTTLE, "safeFallDistanceBonus", 3, 1),
+            COWBOY_HAT_MOUNT_SPEED_BONUS = doubleGameRule(ModItems.COWBOY_HAT, "mountSpeedBonus", 40, 100),
             CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS = doubleGameRule(ModItems.CROSS_NECKLACE, "bonusInvincibilityTicks", 20, 1),
             CRYSTAL_HEART_HEALTH_BONUS = doubleGameRule(ModItems.CRYSTAL_HEART, "healthBonus", 10, 100, 1),
             DIGGING_CLAWS_BLOCK_BREAK_SPEED_BONUS = doubleGameRule(ModItems.DIGGING_CLAWS, "blockBreakSpeedBonus", 30, 100),

@@ -49,11 +49,13 @@ import java.util.function.Predicate;
 public class ArtifactEvents {
 
     private static final AttributeModifier UMBRELLA_SLOW_FALLING = new AttributeModifier(
-            UUID.fromString("a7a25453-2065-4a96-bc83-df600e13f390"),
+            UUID.nameUUIDFromBytes("artifacts:umbrella_slow_falling".getBytes()),
             "artifacts:umbrella_slow_falling",
             -0.875,
             AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
     );
+
+    private static final UUID MOUNT_SPEED_UUID = UUID.nameUUIDFromBytes("artifacts:mount_speed".getBytes());
 
     public static void register() {
         PlayerEvent.DROP_ITEM.register(AttractItemsAbility::onItemToss);
@@ -64,6 +66,12 @@ public class ArtifactEvents {
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onLightningHurt);
         EntityEvent.ADD.register(ArtifactEvents::onEntityJoinWorld);
         TickEvent.PLAYER_PRE.register(SwimInAirAbility::onHeliumFlamingoTick);
+    }
+
+    public static void livingUpdate(LivingEntity entity) {
+        onItemTick(entity);
+        onUmbrellaLivingUpdate(entity);
+        onEntityMountedTick(entity);
     }
 
     // TODO call this on fabric side
@@ -85,11 +93,6 @@ public class ArtifactEvents {
                 ability.onUnequip(entity, wasActive);
             }
         }
-    }
-
-    public static void livingUpdate(LivingEntity entity) {
-        onItemTick(entity);
-        onUmbrellaLivingUpdate(entity);
     }
 
     public static void onItemTick(LivingEntity entity) {
@@ -123,6 +126,23 @@ public class ArtifactEvents {
             } else if (gravity.hasModifier(UMBRELLA_SLOW_FALLING)) {
                 gravity.removeModifier(UMBRELLA_SLOW_FALLING.id());
             }
+        }
+    }
+
+    private static void onEntityMountedTick(LivingEntity entity) {
+        AttributeInstance movementSpeed = entity.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (movementSpeed == null) {
+            return;
+        }
+        LivingEntity passenger = entity.getControllingPassenger();
+        if (passenger != null) {
+            double amount = passenger.getAttributeValue(ModAttributes.MOUNT_SPEED) - 1;
+            AttributeModifier modifier = movementSpeed.getModifier(MOUNT_SPEED_UUID);
+            if (modifier == null || modifier.amount() != amount) {
+                movementSpeed.addOrUpdateTransientModifier(new AttributeModifier(MOUNT_SPEED_UUID, "artifacts:mount_speed", amount, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            }
+        } else {
+            movementSpeed.removeModifier(MOUNT_SPEED_UUID);
         }
     }
 
