@@ -12,6 +12,8 @@ import java.util.function.Supplier;
 
 public interface BooleanValue extends Supplier<Boolean> {
 
+    BooleanValue TRUE = new Constant(true);
+
     static MapCodec<BooleanValue> enabledField(ModGameRules.BooleanGameRule gameRule) {
         return field("enabled", gameRule);
     }
@@ -21,6 +23,10 @@ public interface BooleanValue extends Supplier<Boolean> {
                         ? DataResult.error(() -> "Cannot convert game rule to constant")
                         : DataResult.success(value.get()))
                 .optionalFieldOf(fieldName, gameRule);
+    }
+
+    static Codec<BooleanValue> codec() {
+        return Codec.BOOL.xmap(Constant::new, Supplier::get);
     }
 
     static StreamCodec<ByteBuf, BooleanValue> defaultStreamCodec(ModGameRules.BooleanGameRule gameRule) {

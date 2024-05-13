@@ -29,7 +29,6 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow
     protected abstract ItemStack getItemBySlot(EquipmentSlot slot);
 
-    // TODO fix this
     @Inject(method = "handleEquipmentChanges", at = @At("HEAD"))
     private void handleEquipmentChanges(Map<EquipmentSlot, ItemStack> map, CallbackInfo info) {
         for (EquipmentSlot slot : map.keySet()) {

@@ -24,16 +24,28 @@ public abstract class MobEffectAbility implements ArtifactAbility {
         this.level = level;
     }
 
-    public IntegerValue level() {
+    public Holder<MobEffect> getMobEffect() {
+        return mobEffect;
+    }
+
+    public IntegerValue getLevel() {
         return level;
     }
 
-    private int getAmplifier() {
-        return this.level().get() - 1;
+    public int getAmplifier() {
+        return this.getLevel().get() - 1;
     }
 
-    protected int getDuration(LivingEntity entity) {
-        return 40;
+    public int getDuration() {
+        return 20;
+    }
+
+    public boolean isInfinite() {
+        return true;
+    }
+
+    protected int getAdditionalDuration(LivingEntity target) {
+        return 0;
     }
 
     @Nullable
@@ -67,7 +79,7 @@ public abstract class MobEffectAbility implements ArtifactAbility {
         if (!entity.level().isClientSide() && isActive && shouldApplyMobEffect(entity)) {
             LivingEntity target = getTarget(entity);
             if (target != null && entity.tickCount % getUpdateInterval() == 0) {
-                target.addEffect(new MobEffectInstance(mobEffect, getDuration(target) - 1, getAmplifier(), false, shouldShowParticles(), shouldShowIcon()));
+                target.addEffect(new MobEffectInstance(getMobEffect(), getDuration() + getAdditionalDuration(target) + 19, getAmplifier(), false, shouldShowParticles(), shouldShowIcon()));
             }
         }
     }
@@ -75,9 +87,9 @@ public abstract class MobEffectAbility implements ArtifactAbility {
     @Override
     public void onUnequip(LivingEntity entity, boolean wasActive) {
         if (!entity.level().isClientSide() && getTarget(entity) == entity && wasActive) {
-            MobEffectInstance effectInstance = entity.getEffect(mobEffect);
-            if (effectInstance != null && effectInstance.getAmplifier() == getAmplifier() && !effectInstance.isVisible() && effectInstance.getDuration() < getDuration(entity)) {
-                entity.removeEffect(mobEffect);
+            MobEffectInstance effectInstance = entity.getEffect(getMobEffect());
+            if (effectInstance != null && effectInstance.getAmplifier() == getAmplifier() && !effectInstance.isVisible() && effectInstance.getDuration() < getDuration() + 19) {
+                entity.removeEffect(getMobEffect());
             }
         }
     }
@@ -87,7 +99,7 @@ public abstract class MobEffectAbility implements ArtifactAbility {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MobEffectAbility that = (MobEffectAbility) o;
-        return mobEffect.equals(that.mobEffect) && level.equals(that.level);
+        return mobEffect.equals(that.getMobEffect()) && level.equals(that.level);
     }
 
     @Override

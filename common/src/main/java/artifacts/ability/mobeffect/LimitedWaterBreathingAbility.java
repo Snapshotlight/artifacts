@@ -23,14 +23,14 @@ public class LimitedWaterBreathingAbility extends MobEffectAbility {
 
     public static final MapCodec<LimitedWaterBreathingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             IntegerValue.field("duration", ModGameRules.SNORKEL_WATER_BREATHING_DURATION).forGetter(LimitedWaterBreathingAbility::maxDuration),
-            BooleanValue.field("infinite", ModGameRules.SNORKEL_IS_INFINITE).forGetter(LimitedWaterBreathingAbility::isInfinite)
+            BooleanValue.field("infinite", ModGameRules.SNORKEL_IS_INFINITE).forGetter(ability -> ability.isInfinite)
     ).apply(instance, LimitedWaterBreathingAbility::new));
 
     public static final StreamCodec<ByteBuf, LimitedWaterBreathingAbility> STREAM_CODEC = StreamCodec.composite(
             IntegerValue.defaultStreamCodec(ModGameRules.SNORKEL_WATER_BREATHING_DURATION),
             LimitedWaterBreathingAbility::maxDuration,
             BooleanValue.defaultStreamCodec(ModGameRules.SNORKEL_IS_INFINITE),
-            LimitedWaterBreathingAbility::isInfinite,
+            ability -> ability.isInfinite,
             LimitedWaterBreathingAbility::new
     );
 
@@ -47,8 +47,8 @@ public class LimitedWaterBreathingAbility extends MobEffectAbility {
         return duration;
     }
 
-    private BooleanValue isInfinite() {
-        return isInfinite;
+    public boolean isInfinite() {
+        return isInfinite.get();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class LimitedWaterBreathingAbility extends MobEffectAbility {
 
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        if (isInfinite().get()) {
+        if (isInfinite()) {
             tooltip.add(tooltipLine("infinite"));
         } else {
             tooltip.add(tooltipLine("limited"));
@@ -66,26 +66,29 @@ public class LimitedWaterBreathingAbility extends MobEffectAbility {
     }
 
     @Override
-    protected int getDuration(LivingEntity entity) {
-        int duration = maxDuration().get();
-        if (!isInfinite().get()
-                && entity instanceof Player
-                && entity.getItemBySlot(EquipmentSlot.HEAD).is(Items.TURTLE_HELMET)
-                && !entity.isEyeInFluid(FluidTags.WATER)
+    public int getDuration() {
+        return maxDuration().get();
+    }
+
+    protected int getAdditionalDuration(LivingEntity target) {
+        if (!isInfinite()
+                && target instanceof Player
+                && target.getItemBySlot(EquipmentSlot.HEAD).is(Items.TURTLE_HELMET)
+                && !target.isEyeInFluid(FluidTags.WATER)
         ) {
-            duration += 200;
+            return  200;
         }
-        return duration + 19;
+        return 0;
     }
 
     @Override
     protected boolean shouldShowIcon() {
-        return !isInfinite().get();
+        return !isInfinite();
     }
 
     @Override
     public boolean shouldApplyMobEffect(LivingEntity entity) {
-        return isInfinite().get() || !entity.isEyeInFluid(FluidTags.WATER);
+        return isInfinite() || !entity.isEyeInFluid(FluidTags.WATER);
     }
 
     @Override

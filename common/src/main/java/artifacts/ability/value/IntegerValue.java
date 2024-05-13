@@ -12,6 +12,9 @@ import java.util.function.Supplier;
 
 public interface IntegerValue extends Supplier<Integer> {
 
+    IntegerValue ZERO = new IntegerValue.Constant(0);
+    IntegerValue ONE = new IntegerValue.Constant(1);
+
     static MapCodec<IntegerValue> field(String fieldName, ModGameRules.IntegerGameRule gameRule) {
         return codec(gameRule.max(), gameRule.multiplier()).optionalFieldOf(fieldName, gameRule);
     }

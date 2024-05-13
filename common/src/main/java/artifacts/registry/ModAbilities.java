@@ -2,7 +2,7 @@ package artifacts.registry;
 
 import artifacts.Artifacts;
 import artifacts.ability.*;
-import artifacts.ability.mobeffect.InvisibilityAbility;
+import artifacts.ability.mobeffect.GenericMobEffectAbility;
 import artifacts.ability.mobeffect.LimitedWaterBreathingAbility;
 import artifacts.ability.mobeffect.MountSpeedAbility;
 import artifacts.ability.mobeffect.NightVisionAbility;
@@ -38,10 +38,10 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<FartAbility>> FART = register("fart", FartAbility.CODEC, FartAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<GrowPlantsAfterEatingAbility>> GROW_PLANTS_AFTER_EATING = register("grow_plants_after_eating", GrowPlantsAfterEatingAbility.CODEC, GrowPlantsAfterEatingAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<IncreaseEnchantmentLevelAbility>> INCREASE_ENCHANTMENT_LEVEL = register("increase_enchantment_level", IncreaseEnchantmentLevelAbility.CODEC, IncreaseEnchantmentLevelAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<InvisibilityAbility>> INVISIBILITY = register("invisibility", InvisibilityAbility.CODEC, InvisibilityAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> LIGHTNING_IMMUNITY = register("lightning_immunity", SimpleAbility.lightningImmunity());
     public static final RegistrySupplier<Type<LimitedWaterBreathingAbility>> LIMITED_WATER_BREATHING = register("limited_water_breathing", LimitedWaterBreathingAbility.CODEC, LimitedWaterBreathingAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<MakePiglinsNeutralAbility>> MAKE_PIGLINS_NEUTRAL = register("make_piglins_neutral", MakePiglinsNeutralAbility.CODEC, MakePiglinsNeutralAbility.STREAM_CODEC);
+    public static final RegistrySupplier<Type<GenericMobEffectAbility>> MOB_EFFECT = register("mob_effect", GenericMobEffectAbility.CODEC, GenericMobEffectAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<HurtSoundAbility>> MODIFY_HURT_SOUND = register("modify_hurt_sound", HurtSoundAbility.CODEC, HurtSoundAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<MountSpeedAbility>> MOUNT_SPEED = register("mount_speed", MountSpeedAbility.CODEC, MountSpeedAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<NightVisionAbility>> NIGHT_VISION = register("night_vision", NightVisionAbility.CODEC, NightVisionAbility.STREAM_CODEC);

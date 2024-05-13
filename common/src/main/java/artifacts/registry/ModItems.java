@@ -2,13 +2,14 @@ package artifacts.registry;
 
 import artifacts.Artifacts;
 import artifacts.ability.*;
-import artifacts.ability.mobeffect.InvisibilityAbility;
+import artifacts.ability.mobeffect.GenericMobEffectAbility;
 import artifacts.ability.mobeffect.LimitedWaterBreathingAbility;
 import artifacts.ability.mobeffect.MountSpeedAbility;
 import artifacts.ability.mobeffect.NightVisionAbility;
 import artifacts.ability.retaliation.SetAttackersOnFireAbility;
 import artifacts.ability.retaliation.StrikeAttackersWithLightningAbility;
 import artifacts.ability.retaliation.ThornsAbility;
+import artifacts.ability.value.IntegerValue;
 import artifacts.item.EverlastingFoodItem;
 import artifacts.item.UmbrellaItem;
 import artifacts.item.WearableArtifactItem;
@@ -18,6 +19,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.FoodProperties;
@@ -85,7 +87,7 @@ public class ModItems {
             .addAbility(IncreaseEnchantmentLevelAbility.fortune())
     );
     public static final RegistrySupplier<WearableArtifactItem> SCARF_OF_INVISIBILITY = wearableItem("scarf_of_invisibility", builder -> builder
-            .addAbility(InvisibilityAbility.CODEC)
+            .addAbility(new GenericMobEffectAbility(MobEffects.INVISIBILITY, IntegerValue.ONE, ModGameRules.SCARF_OF_INVISIBILITY_ENABLED))
     );
     public static final RegistrySupplier<WearableArtifactItem> CROSS_NECKLACE = wearableItem("cross_necklace", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_DIAMOND)
