@@ -3,10 +3,7 @@ package artifacts.ability;
 import artifacts.ability.value.DoubleValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModAttributes;
-import artifacts.registry.ModGameRules;
-import artifacts.util.ModCodecs;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
@@ -15,7 +12,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -48,33 +44,18 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
         CUSTOM_TOOLTIP_ATTRIBUTES.remove(ModAttributes.MAX_ATTACK_DAMAGE_ABSORBED);
     }
 
-    private static final StringRepresentable.StringRepresentableCodec<ModGameRules.DoubleGameRule> AMOUNT_CODEC = new StringRepresentable.StringRepresentableCodec<>(
-            ModGameRules.DOUBLE_VALUES_LIST.toArray(ModGameRules.DoubleGameRule[]::new),
-            ModGameRules.DOUBLE_VALUES::get,
-            ModGameRules.DOUBLE_VALUES_LIST::indexOf
-    );
-
     public static final MapCodec<AttributeModifierAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.ATTRIBUTE.holderByNameCodec().fieldOf("attribute").forGetter(AttributeModifierAbility::attribute),
-            ModCodecs.xorAlternative(AMOUNT_CODEC.stable().flatXmap(
-                    DataResult::success,
-                    value -> value instanceof ModGameRules.DoubleGameRule gameRule
-                            ? DataResult.success(gameRule)
-                            : DataResult.error(() -> "Not a game rule")
-            ), DoubleValue.codec()).fieldOf("amount").forGetter(AttributeModifierAbility::amount),
+            DoubleValue.codec().fieldOf("amount").forGetter(AttributeModifierAbility::amount),
             AttributeModifier.Operation.CODEC.optionalFieldOf("operation", AttributeModifier.Operation.ADD_VALUE).forGetter(AttributeModifierAbility::operation),
             Codec.STRING.fieldOf("id").forGetter(AttributeModifierAbility::name),
             Codec.BOOL.optionalFieldOf("ignore_cooldown", true).forGetter(AttributeModifierAbility::ignoreCooldown)
     ).apply(instance, AttributeModifierAbility::create));
 
-    @SuppressWarnings("SuspiciousMethodCalls")
     public static final StreamCodec<ByteBuf, AttributeModifierAbility> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.idMapper(BuiltInRegistries.ATTRIBUTE.asHolderIdMap()),
             AttributeModifierAbility::attribute,
-            ByteBufCodecs.BOOL.dispatch(
-                    ModGameRules.DOUBLE_VALUES_LIST::contains,
-                    b -> b ? ByteBufCodecs.idMapper(ModGameRules.DOUBLE_VALUES_LIST::get, ModGameRules.DOUBLE_VALUES_LIST::indexOf) : DoubleValue.streamCodec()
-            ),
+            DoubleValue.streamCodec(),
             AttributeModifierAbility::amount,
             AttributeModifier.Operation.STREAM_CODEC,
             AttributeModifierAbility::operation,

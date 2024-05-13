@@ -9,6 +9,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.StringRepresentable;
 
 import java.util.function.Supplier;
 
@@ -17,8 +18,14 @@ public interface IntegerValue extends Supplier<Integer> {
     IntegerValue ZERO = new IntegerValue.Constant(0);
     IntegerValue ONE = new IntegerValue.Constant(1);
 
+    Codec<ModGameRules.IntegerGameRule> GAMERULE_CODEC = new StringRepresentable.StringRepresentableCodec<>(
+            ModGameRules.INTEGER_VALUES_LIST.toArray(ModGameRules.IntegerGameRule[]::new),
+            ModGameRules.INTEGER_VALUES::get,
+            ModGameRules.INTEGER_VALUES_LIST::indexOf
+    );
+
     static Codec<IntegerValue> codec() {
-        return ModCodecs.xorAlternative(ModGameRules.INTEGER_CODEC.flatXmap(
+        return ModCodecs.xorAlternative(GAMERULE_CODEC.flatXmap(
                 DataResult::success,
                 value -> value instanceof ModGameRules.IntegerGameRule gameRule
                         ? DataResult.success(gameRule)
@@ -30,11 +37,10 @@ public interface IntegerValue extends Supplier<Integer> {
     static StreamCodec<ByteBuf, IntegerValue> streamCodec() {
         return ByteBufCodecs.BOOL.dispatch(
                 ModGameRules.INTEGER_VALUES_LIST::contains,
-                b -> b ? ByteBufCodecs.idMapper(ModGameRules.INTEGER_VALUES_LIST::get, ModGameRules.INTEGER_VALUES_LIST::indexOf) : IntegerValue.constantStreamCodec()
+                b -> b ? ByteBufCodecs.idMapper(ModGameRules.INTEGER_VALUES_LIST::get, ModGameRules.INTEGER_VALUES_LIST::indexOf) : constantStreamCodec()
         );
     }
 
-    // TODO use gameRuleOrConstant
     static MapCodec<IntegerValue> field(String fieldName, ModGameRules.IntegerGameRule gameRule) {
         return constantCodec(gameRule.max(), gameRule.multiplier()).optionalFieldOf(fieldName, gameRule);
     }

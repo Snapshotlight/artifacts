@@ -11,7 +11,6 @@ import artifacts.network.IntegerGameRuleChangedPacket;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.mojang.serialization.Codec;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,12 +30,6 @@ public class ModGameRules {
 
     public static final List<DoubleGameRule> DOUBLE_VALUES_LIST = new ArrayList<>();
     public static final List<IntegerGameRule> INTEGER_VALUES_LIST = new ArrayList<>();
-
-    public static final Codec<IntegerGameRule> INTEGER_CODEC = new StringRepresentable.StringRepresentableCodec<>(
-            ModGameRules.INTEGER_VALUES_LIST.toArray(ModGameRules.IntegerGameRule[]::new),
-            ModGameRules.INTEGER_VALUES::get,
-            ModGameRules.INTEGER_VALUES_LIST::indexOf
-    ).stable();
 
     public static final BooleanGameRule
             ANTIDOTE_VESSEL_ENABLED = booleanGameRule(ModItems.ANTIDOTE_VESSEL, "enabled"),
