@@ -1,9 +1,12 @@
 package artifacts.item;
 
+import artifacts.registry.ModAbilities;
 import artifacts.registry.ModGameRules;
+import artifacts.util.AbilityHelper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
@@ -54,6 +57,21 @@ public class UmbrellaItem extends ArtifactItem {
         }
         player.startUsingItem(hand);
         return InteractionResultHolder.consume(stack);
+    }
+
+    public static void onLivingUpdate(LivingEntity entity) {
+        if (UmbrellaItem.shouldGlide(entity)) {
+            entity.fallDistance = 0;
+        }
+    }
+
+    public static boolean shouldGlide(LivingEntity entity) {
+        boolean isInWater = entity.isInWater() && !AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), entity);
+        return ModGameRules.UMBRELLA_IS_GLIDER.get()
+                && !entity.onGround() && !isInWater
+                && entity.getDeltaMovement().y < 0
+                && !entity.hasEffect(MobEffects.SLOW_FALLING)
+                && UmbrellaItem.isHoldingUmbrellaUpright(entity);
     }
 
     public static boolean isHoldingUmbrellaUpright(LivingEntity entity, InteractionHand hand) {

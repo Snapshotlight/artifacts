@@ -3,10 +3,14 @@ package artifacts.event;
 import artifacts.Artifacts;
 import artifacts.ability.*;
 import artifacts.ability.retaliation.RetaliationAbility;
+import artifacts.attribute.DynamicAttributeModifier;
 import artifacts.item.UmbrellaItem;
 import artifacts.mixin.accessors.MobAccessor;
 import artifacts.platform.PlatformServices;
-import artifacts.registry.*;
+import artifacts.registry.ModAbilities;
+import artifacts.registry.ModAttributes;
+import artifacts.registry.ModDataComponents;
+import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
 import artifacts.util.DamageSourceHelper;
 import dev.architectury.event.EventResult;
@@ -22,11 +26,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -43,19 +43,9 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Predicate;
 
 public class ArtifactEvents {
-
-    private static final AttributeModifier UMBRELLA_SLOW_FALLING = new AttributeModifier(
-            UUID.nameUUIDFromBytes("artifacts:umbrella_slow_falling".getBytes()),
-            "artifacts:umbrella_slow_falling",
-            -0.875,
-            AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-    );
-
-    private static final UUID MOUNT_SPEED_UUID = UUID.nameUUIDFromBytes("artifacts:mount_speed".getBytes());
 
     public static void register() {
         PlayerEvent.DROP_ITEM.register(AttractItemsAbility::onItemToss);
@@ -70,8 +60,8 @@ public class ArtifactEvents {
 
     public static void livingUpdate(LivingEntity entity) {
         onItemTick(entity);
-        onUmbrellaLivingUpdate(entity);
-        onEntityMountedTick(entity);
+        UmbrellaItem.onLivingUpdate(entity);
+        DynamicAttributeModifier.tickModifiers(entity);
     }
 
     // TODO call this on fabric side
@@ -107,43 +97,6 @@ public class ArtifactEvents {
                         ability.wornTick(entity, isOnCooldown, isActive);
                     }
                 });
-    }
-
-    private static void onUmbrellaLivingUpdate(LivingEntity entity) {
-        AttributeInstance gravity = entity.getAttribute(Attributes.GRAVITY);
-        if (gravity != null) {
-            boolean isInWater = entity.isInWater() && !AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), entity);
-            if (ModGameRules.UMBRELLA_IS_GLIDER.get()
-                    && !entity.onGround() && !isInWater
-                    && entity.getDeltaMovement().y < 0
-                    && !entity.hasEffect(MobEffects.SLOW_FALLING)
-                    && UmbrellaItem.isHoldingUmbrellaUpright(entity)
-            ) {
-                if (!gravity.hasModifier(UMBRELLA_SLOW_FALLING)) {
-                    gravity.addTransientModifier(UMBRELLA_SLOW_FALLING);
-                }
-                entity.fallDistance = 0;
-            } else if (gravity.hasModifier(UMBRELLA_SLOW_FALLING)) {
-                gravity.removeModifier(UMBRELLA_SLOW_FALLING.id());
-            }
-        }
-    }
-
-    private static void onEntityMountedTick(LivingEntity entity) {
-        AttributeInstance movementSpeed = entity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (movementSpeed == null) {
-            return;
-        }
-        LivingEntity passenger = entity.getControllingPassenger();
-        if (passenger != null) {
-            double amount = passenger.getAttributeValue(ModAttributes.MOUNT_SPEED) - 1;
-            AttributeModifier modifier = movementSpeed.getModifier(MOUNT_SPEED_UUID);
-            if (modifier == null || modifier.amount() != amount) {
-                movementSpeed.addOrUpdateTransientModifier(new AttributeModifier(MOUNT_SPEED_UUID, "artifacts:mount_speed", amount, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-            }
-        } else {
-            movementSpeed.removeModifier(MOUNT_SPEED_UUID);
-        }
     }
 
     public static EventResult onAttackBurningLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {

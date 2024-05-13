@@ -50,8 +50,6 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<SimpleAbility>> SINKING = register("sinking", SimpleAbility.sinking());
     public static final RegistrySupplier<Type<SimpleAbility>> SMELT_ORES = register("smelt_ores", SimpleAbility.smeltOres());
     public static final RegistrySupplier<Type<SimpleAbility>> SPRINT_ON_WATER = register("sprint_on_water", SimpleAbility.sprintOnWater());
-    public static final RegistrySupplier<Type<SprintingSpeedAbility>> SPRINTING_SPEED = register("sprinting_speed", SprintingSpeedAbility.CODEC, SprintingSpeedAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<SprintingStepHeightAbility>> SPRINTING_STEP_HEIGHT = register("sprinting_step_height", SprintingStepHeightAbility.CODEC, SprintingStepHeightAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<StrikeAttackersWithLightningAbility>> STRIKE_ATTACKERS_WITH_LIGHTNING = register("strike_attackers_with_lightning", StrikeAttackersWithLightningAbility.CODEC, StrikeAttackersWithLightningAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SwimInAirAbility>> SWIM_IN_AIR = register("swim_in_air", SwimInAirAbility.CODEC, SwimInAirAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<TeleportOnDeathAbility>> TELEPORT_ON_DEATH = register("teleport_on_death", TeleportOnDeathAbility.CODEC, TeleportOnDeathAbility.STREAM_CODEC);

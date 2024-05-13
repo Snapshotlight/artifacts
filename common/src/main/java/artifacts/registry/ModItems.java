@@ -198,8 +198,8 @@ public class ModItems {
             .addAbility(new HurtSoundAbility(SoundEvents.CAT_HURT))
     );
     public static final RegistrySupplier<WearableArtifactItem> RUNNING_SHOES = wearableItem("running_shoes", builder -> builder
-            .addAbility(SprintingSpeedAbility.INSTANCE)
-            .addAbility(SprintingStepHeightAbility.CODEC)
+            .addAttributeModifier(ModAttributes.SPRINTING_SPEED, ModGameRules.RUNNING_SHOES_SPRINTING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            .addAttributeModifier(ModAttributes.SPRINTING_STEP_HEIGHT, ModGameRules.RUNNING_SHOES_SPRINTING_STEP_HEIGHT_BONUS)
     );
     public static final RegistrySupplier<WearableArtifactItem> SNOWSHOES = wearableItem("snowshoes", builder -> builder
             .addAbility(SimpleAbility.walkOnPowderSnow().getFirst())

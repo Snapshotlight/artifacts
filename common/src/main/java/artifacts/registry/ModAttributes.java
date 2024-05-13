@@ -29,6 +29,8 @@ public class ModAttributes {
     public static final RegistrySupplier<Attribute> MOUNT_SPEED = addGenericAttribute("mount_speed", 1, 1, 1024);
     public static final RegistrySupplier<Attribute> MAX_ATTACK_DAMAGE_ABSORBED = addGenericAttribute("max_attack_damage_absorbed", 0, 0, Double.MAX_VALUE);
     public static final RegistrySupplier<Attribute> SLIP_RESISTANCE = addGenericAttribute("slip_resistance", 0, 0, 1);
+    public static final RegistrySupplier<Attribute> SPRINTING_SPEED = addGenericAttribute("sprinting_speed", 1, 1, 1024);
+    public static final RegistrySupplier<Attribute> SPRINTING_STEP_HEIGHT = addGenericAttribute("sprinting_step_height", 0, 0, 8);
     public static final Holder<Attribute> SWIM_SPEED = PlatformServices.platformHelper.getSwimSpeedAttribute();
 
     public static RegistrySupplier<Attribute> addPlayerAttribute(String name, double d, double min, double max) {
