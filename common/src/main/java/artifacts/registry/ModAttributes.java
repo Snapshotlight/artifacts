@@ -32,14 +32,14 @@ public class ModAttributes {
     public static final Holder<Attribute> SWIM_SPEED = PlatformServices.platformHelper.getSwimSpeedAttribute();
 
     public static RegistrySupplier<Attribute> addPlayerAttribute(String name, double d, double min, double max) {
-        String id = "artifacts.player." + name;
+        String id = "player." + name;
         RegistrySupplier<Attribute> attribute = register(id, d, min, max);
         PLAYER_ATTRIBUTES.add(attribute);
         return attribute;
     }
 
     public static RegistrySupplier<Attribute> addGenericAttribute(String name, double d, double min, double max) {
-        String id = "artifacts.generic." + name;
+        String id = "generic." + name;
         RegistrySupplier<Attribute> attribute = register(id, d, min, max);
         GENERIC_ATTRIBUTES.add(attribute);
         return attribute;

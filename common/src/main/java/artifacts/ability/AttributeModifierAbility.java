@@ -125,10 +125,6 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
 
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        if (attribute.value() == ModAttributes.SWIM_SPEED.value()) {
-            tooltip.add(tooltipLine("artifacts.generic.swim_speed"));
-            return;
-        }
         for (Holder<Attribute> attribute : CUSTOM_TOOLTIP_ATTRIBUTES) {
             if (attribute.isBound() && attribute.value() == attribute().value()) {
                 //noinspection ConstantConditions
