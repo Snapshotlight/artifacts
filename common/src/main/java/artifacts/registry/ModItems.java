@@ -147,7 +147,7 @@ public class ModItems {
     // hands
     public static final RegistrySupplier<WearableArtifactItem> DIGGING_CLAWS = wearableItem("digging_claws", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_NETHERITE)
-            .addAttributeModifier(Attributes.BLOCK_BREAK_SPEED, ModGameRules.DIGGING_CLAWS_BLOCK_BREAK_SPEED_BONUS)
+            .addAttributeModifier(Attributes.BLOCK_BREAK_SPEED, ModGameRules.DIGGING_CLAWS_BLOCK_BREAK_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             .addAbility(UpgradeToolTierAbility.CODEC)
     );
     public static final RegistrySupplier<WearableArtifactItem> FERAL_CLAWS = wearableItem("feral_claws", builder -> builder
@@ -187,7 +187,7 @@ public class ModItems {
             .addAbility(SimpleAbility.sprintOnWater())
     );
     public static final RegistrySupplier<WearableArtifactItem> BUNNY_HOPPERS = wearableItem("bunny_hoppers", builder -> builder
-            .addAttributeModifier(Attributes.JUMP_STRENGTH, ModGameRules.BUNNY_HOPPERS_JUMP_STRENGTH_BONUS)
+            .addAttributeModifier(Attributes.JUMP_STRENGTH, ModGameRules.BUNNY_HOPPERS_JUMP_STRENGTH_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, ModGameRules.BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS)
             .addAbility(SimpleAbility.cancelFallDamage())
             .addAbility(new HurtSoundAbility(SoundEvents.RABBIT_HURT))
@@ -209,7 +209,7 @@ public class ModItems {
             .addAttributeModifier(Attributes.KNOCKBACK_RESISTANCE, ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE)
     );
     public static final RegistrySupplier<WearableArtifactItem> FLIPPERS = wearableItem("flippers", builder -> builder
-            .addAttributeModifier(ModAttributes.SWIM_SPEED, ModGameRules.FLIPPERS_SWIM_SPEED_BONUS)
+            .addAttributeModifier(ModAttributes.SWIM_SPEED, ModGameRules.FLIPPERS_SWIM_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
     );
     public static final RegistrySupplier<WearableArtifactItem> ROOTED_BOOTS = wearableItem("rooted_boots", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_LEATHER)

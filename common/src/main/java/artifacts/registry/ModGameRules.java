@@ -88,7 +88,7 @@ public class ModGameRules {
             PANIC_NECKLACE_SPEED_LEVEL = mobEffectLevel(ModItems.PANIC_NECKLACE, "speedLevel", 1);
 
     public static final DoubleGameRule
-            BUNNY_HOPPERS_JUMP_STRENGTH_BONUS = doubleGameRule(ModItems.BUNNY_HOPPERS, "jumpStrengthBonus", 20, 100),
+            BUNNY_HOPPERS_JUMP_STRENGTH_BONUS = doubleGameRule(ModItems.BUNNY_HOPPERS, "jumpStrengthBonus", 40, 100),
             BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS = doubleGameRule(ModItems.BUNNY_HOPPERS, "safeFallDistanceBonus", 10, 1),
             CHORUS_TOTEM_TELEPORTATION_CHANCE = percentage(ModItems.CHORUS_TOTEM, "teleportationChance", 100),
             CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY = doubleGameRule(ModItems.CLOUD_IN_A_BOTTLE, "sprintJumpVerticalVelocity", 50, 100 * 100, 100),
@@ -101,7 +101,7 @@ public class ModGameRules {
             FERAL_CLAWS_ATTACK_SPEED_BONUS = percentage(ModItems.FERAL_CLAWS, "attackSpeedBonus", 40),
             FIRE_GAUNTLET_FIRE_DURATION = doubleGameRule(ModItems.FIRE_GAUNTLET, "fireDuration", 8, 1),
             FLAME_PENDANT_STRIKE_CHANCE = percentage(ModItems.FLAME_PENDANT, "strikeChance", 40),
-            FLIPPERS_SWIM_SPEED_BONUS = doubleGameRule(ModItems.FLIPPERS, "swimSpeedBonus", 100, 100 * 100, 100),
+            FLIPPERS_SWIM_SPEED_BONUS = doubleGameRule(ModItems.FLIPPERS, "swimSpeedBonus", 70, 100),
             GOLDEN_HOOK_ENTITY_EXPERIENCE_BONUS = doubleGameRule(ModItems.GOLDEN_HOOK, "entityExperienceBonus", 50, 10 * 100, 100),
             NIGHT_VISION_GOGGLES_STRENGTH = percentage(ModItems.NIGHT_VISION_GOGGLES, "strength", 25),
             NOVELTY_DRINKING_HAT_DRINKING_SPEED_BONUS = doubleGameRule(ModItems.NOVELTY_DRINKING_HAT, "drinkingSpeedBonus", 150, 100),
