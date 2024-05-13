@@ -152,7 +152,7 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> FERAL_CLAWS = wearableItem("feral_claws", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_NETHERITE)
-            .addAttributeModifier(Attributes.ATTACK_SPEED, ModGameRules.FERAL_CLAWS_ATTACK_SPEED_BONUS)
+            .addAttributeModifier(Attributes.ATTACK_SPEED, ModGameRules.FERAL_CLAWS_ATTACK_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
     );
     public static final RegistrySupplier<WearableArtifactItem> POWER_GLOVE = wearableItem("power_glove", builder -> builder
             .addAttributeModifier(Attributes.ATTACK_DAMAGE, ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS)
