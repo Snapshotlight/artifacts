@@ -5,7 +5,7 @@ import com.mojang.serialization.MapCodec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
-public record MakePiglinsNeutralAbility() implements ArtifactAbility {
+public record MakePiglinsNeutralAbility() implements TooltiplessAbility {
 
     public static final MakePiglinsNeutralAbility INSTANCE = new MakePiglinsNeutralAbility();
 
@@ -19,11 +19,6 @@ public record MakePiglinsNeutralAbility() implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
         return true;
     }
 }

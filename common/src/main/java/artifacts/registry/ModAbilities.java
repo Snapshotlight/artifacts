@@ -26,12 +26,12 @@ public class ModAbilities {
             .syncToClients()
             .build();
 
+    public static final RegistrySupplier<Type<ApplyCooldownAfterDamageAbility>> APPLY_COOLDOWN_AFTER_DAMAGE = register("apply_cooldown_after_damage", ApplyCooldownAfterDamageAbility.CODEC, ApplyCooldownAfterDamageAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<ApplyFireResistanceAfterFireDamageAbility>> APPLY_FIRE_RESISTANCE_AFTER_FIRE_DAMAGE = register("apply_fire_resistance_after_fire_damage", ApplyFireResistanceAfterFireDamageAbility.CODEC, ApplyFireResistanceAfterFireDamageAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<ApplyHasteAfterEatingAbility>> APPLY_HASTE_AFTER_EATING = register("apply_haste_after_eating", ApplyHasteAfterEatingAbility.CODEC, ApplyHasteAfterEatingAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<ApplySpeedAfterDamageAbility>> APPLY_SPEED_AFTER_DAMAGE = register("apply_speed_after_damage", ApplySpeedAfterDamageAbility.CODEC, ApplySpeedAfterDamageAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<AttractItemsAbility>> ATTRACT_ITEMS = register("attract_items", AttractItemsAbility.CODEC, AttractItemsAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<AttributeModifierAbility>> ATTRIBUTE_MODIFIER = register("attribute_modifier", AttributeModifierAbility.CODEC, AttributeModifierAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<BonusInvincibilityTicksAbility>> BONUS_INVINCIBILITY_TICKS = register("bonus_invincibility_ticks", BonusInvincibilityTicksAbility.CODEC, BonusInvincibilityTicksAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> CANCEL_FALL_DAMAGE = register("cancel_fall_damage", SimpleAbility.cancelFallDamage());
     public static final RegistrySupplier<Type<CustomTooltipAbility>> CUSTOM_TOOLTIP = register("custom_tooltip", CustomTooltipAbility.CODEC, CustomTooltipAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<DoubleJumpAbility>> DOUBLE_JUMP = register("double_jump", DoubleJumpAbility.CODEC, DoubleJumpAbility.STREAM_CODEC);

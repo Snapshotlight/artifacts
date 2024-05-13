@@ -27,6 +27,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -91,8 +92,8 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> CROSS_NECKLACE = wearableItem("cross_necklace", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_DIAMOND)
-            .addAbility(MakePiglinsNeutralAbility.INSTANCE)
-            .addAbility(BonusInvincibilityTicksAbility.CODEC)
+            .addAbility(new ApplyCooldownAfterDamageAbility(ModGameRules.CROSS_NECKLACE_COOLDOWN, Optional.empty()))
+            .addAttributeModifier(ModAttributes.INVINCIBILITY_TICKS, ModGameRules.CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS, AttributeModifier.Operation.ADD_VALUE, false)
     );
     public static final RegistrySupplier<WearableArtifactItem> PANIC_NECKLACE = wearableItem("panic_necklace", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_DIAMOND)

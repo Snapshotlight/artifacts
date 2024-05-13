@@ -11,6 +11,7 @@ import artifacts.network.IntegerGameRuleChangedPacket;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.mojang.serialization.Codec;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,6 +30,13 @@ public class ModGameRules {
     public static final BiMap<String, DoubleGameRule> DOUBLE_VALUES = HashBiMap.create();
 
     public static final List<DoubleGameRule> DOUBLE_VALUES_LIST = new ArrayList<>();
+    public static final List<IntegerGameRule> INTEGER_VALUES_LIST = new ArrayList<>();
+
+    public static final Codec<IntegerGameRule> INTEGER_CODEC = new StringRepresentable.StringRepresentableCodec<>(
+            ModGameRules.INTEGER_VALUES_LIST.toArray(ModGameRules.IntegerGameRule[]::new),
+            ModGameRules.INTEGER_VALUES::get,
+            ModGameRules.INTEGER_VALUES_LIST::indexOf
+    ).stable();
 
     public static final BooleanGameRule
             ANTIDOTE_VESSEL_ENABLED = booleanGameRule(ModItems.ANTIDOTE_VESSEL, "enabled"),
@@ -55,7 +63,6 @@ public class ModGameRules {
             UMBRELLA_IS_GLIDER = booleanGameRule(ModItems.UMBRELLA, "isGlider");
 
     public static final IntegerGameRule
-            CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS = integerGameRule(ModItems.CROSS_NECKLACE, "bonusInvincibilityTicks", 20, 60 * 20),
             CHORUS_TOTEM_HEALTH_RESTORED = integerGameRule(ModItems.CHORUS_TOTEM, "healthRestored", 10),
             DIGGING_CLAWS_TOOL_TIER = integerGameRule(ModItems.DIGGING_CLAWS, "toolTier", 2, 5),
             THORN_PENDANT_MAX_DAMAGE = integerGameRule(ModItems.THORN_PENDANT, "maxDamage", 6),
@@ -96,6 +103,7 @@ public class ModGameRules {
             CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY = doubleGameRule(ModItems.CLOUD_IN_A_BOTTLE, "sprintJumpVerticalVelocity", 50, 100 * 100, 100),
             CLOUD_IN_A_BOTTLE_SPRINT_JUMP_HORIZONTAL_VELOCITY = doubleGameRule(ModItems.CLOUD_IN_A_BOTTLE, "sprintJumpHorizontalVelocity", 50, 100 * 100, 100),
             CLOUD_IN_A_BOTTLE_SAFE_FALL_DISTANCE_BONUS = doubleGameRule(ModItems.CLOUD_IN_A_BOTTLE, "safeFallDistanceBonus", 3, 1),
+            CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS = doubleGameRule(ModItems.CROSS_NECKLACE, "bonusInvincibilityTicks", 20, 1),
             CRYSTAL_HEART_HEALTH_BONUS = doubleGameRule(ModItems.CRYSTAL_HEART, "healthBonus", 10, 100, 1),
             DIGGING_CLAWS_BLOCK_BREAK_SPEED_BONUS = doubleGameRule(ModItems.DIGGING_CLAWS, "blockBreakSpeedBonus", 30, 100),
             FERAL_CLAWS_ATTACK_SPEED_BONUS = percentage(ModItems.FERAL_CLAWS, "attackSpeedBonus", 40),
@@ -180,7 +188,7 @@ public class ModGameRules {
     }
 
     private static DoubleGameRule doubleGameRule(RegistrySupplier<? extends Item> item, String key, int defaultValue, int maxValue, double factor) {
-        DoubleGameRule gameRule = new DoubleGameRule(integerGameRule(item, key, defaultValue, maxValue), factor);
+        DoubleGameRule gameRule = new DoubleGameRule(integerGameRule(item, key, defaultValue, maxValue, 1), factor);
         DOUBLE_VALUES.put(createName(item, key), gameRule);
         DOUBLE_VALUES_LIST.add(gameRule);
         return gameRule;

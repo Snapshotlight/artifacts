@@ -9,7 +9,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.sounds.SoundEvent;
 
-public record HurtSoundAbility(SoundEvent soundEvent) implements ArtifactAbility {
+public record HurtSoundAbility(SoundEvent soundEvent) implements TooltiplessAbility {
 
     public static final MapCodec<HurtSoundAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.SOUND_EVENT.byNameCodec().fieldOf("sound").forGetter(HurtSoundAbility::soundEvent)
@@ -28,11 +28,6 @@ public record HurtSoundAbility(SoundEvent soundEvent) implements ArtifactAbility
 
     @Override
     public boolean isNonCosmetic() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
         return true;
     }
 }

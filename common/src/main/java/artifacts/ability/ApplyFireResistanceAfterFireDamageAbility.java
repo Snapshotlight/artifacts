@@ -15,6 +15,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
+// TODO applyEffectAfterDamageAbility
 public record ApplyFireResistanceAfterFireDamageAbility(IntegerValue fireResistanceDuration, IntegerValue cooldown) implements ArtifactAbility {
 
     public static final MapCodec<ApplyFireResistanceAfterFireDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

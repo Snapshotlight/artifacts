@@ -40,7 +40,7 @@ public record IncreaseEnchantmentLevelAbility(Enchantment enchantment, IntegerVa
                     value -> value instanceof ModGameRules.IntegerGameRule gameRule
                             ? DataResult.success(gameRule)
                             : DataResult.error(() -> "Not a game rule")
-            ), IntegerValue.codec(100, 1)).fieldOf("level").forGetter(IncreaseEnchantmentLevelAbility::amount)
+            ), IntegerValue.constantCodec(100, 1)).fieldOf("level").forGetter(IncreaseEnchantmentLevelAbility::amount)
     ).apply(instance, IncreaseEnchantmentLevelAbility::new));
 
     @SuppressWarnings("SuspiciousMethodCalls")
@@ -49,7 +49,7 @@ public record IncreaseEnchantmentLevelAbility(Enchantment enchantment, IntegerVa
             IncreaseEnchantmentLevelAbility::enchantment,
             ByteBufCodecs.BOOL.dispatch(
                     LEVEL_GAME_RULES::contains,
-                    b -> b ? ByteBufCodecs.idMapper(LEVEL_GAME_RULES::get, LEVEL_GAME_RULES::indexOf) : IntegerValue.streamCodec()
+                    b -> b ? ByteBufCodecs.idMapper(LEVEL_GAME_RULES::get, LEVEL_GAME_RULES::indexOf) : IntegerValue.constantStreamCodec()
             ),
             IncreaseEnchantmentLevelAbility::amount,
             IncreaseEnchantmentLevelAbility::new

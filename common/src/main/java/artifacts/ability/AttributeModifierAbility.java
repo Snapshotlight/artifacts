@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, UUID modifierId, String name) implements ArtifactAbility {
+public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, UUID modifierId, String name, boolean ignoreCooldown) implements ArtifactAbility {
 
     private static final Set<Holder<Attribute>> CUSTOM_TOOLTIP_ATTRIBUTES;
 
@@ -63,7 +63,8 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
                             : DataResult.error(() -> "Not a game rule")
             ), DoubleValue.codec()).fieldOf("amount").forGetter(AttributeModifierAbility::amount),
             AttributeModifier.Operation.CODEC.optionalFieldOf("operation", AttributeModifier.Operation.ADD_VALUE).forGetter(AttributeModifierAbility::operation),
-            Codec.STRING.fieldOf("id").forGetter(AttributeModifierAbility::name)
+            Codec.STRING.fieldOf("id").forGetter(AttributeModifierAbility::name),
+            Codec.BOOL.optionalFieldOf("ignore_cooldown", true).forGetter(AttributeModifierAbility::ignoreCooldown)
     ).apply(instance, AttributeModifierAbility::create));
 
     @SuppressWarnings("SuspiciousMethodCalls")
@@ -79,11 +80,17 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
             AttributeModifierAbility::operation,
             ByteBufCodecs.STRING_UTF8,
             AttributeModifierAbility::name,
+            ByteBufCodecs.BOOL,
+            AttributeModifierAbility::ignoreCooldown,
             AttributeModifierAbility::create
     );
 
     public static AttributeModifierAbility create(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, String name) {
-        return new AttributeModifierAbility(attribute, amount, operation, UUID.nameUUIDFromBytes(name.getBytes()), name);
+        return create(attribute, amount, operation, name, true);
+    }
+
+    public static AttributeModifierAbility create(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, String name, boolean ignoreCooldowns) {
+        return new AttributeModifierAbility(attribute, amount, operation, UUID.nameUUIDFromBytes(name.getBytes()), name, ignoreCooldowns);
     }
 
     public AttributeModifier createModifier() {
@@ -118,13 +125,18 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
     @Override
     public void wornTick(LivingEntity entity, boolean isOnCooldown, boolean isActive) {
         AttributeInstance attributeInstance = entity.getAttribute(attribute());
-        if (attributeInstance != null) {
-            AttributeModifier existingModifier = attributeInstance.getModifier(modifierId());
+        if (attributeInstance == null) {
+            return;
+        }
+        AttributeModifier existingModifier = attributeInstance.getModifier(modifierId());
+        if (!ignoreCooldown() && isOnCooldown) {
+            if (isActive) {
+                onUnequip(entity, true);
+            }
+        } else {
             if (existingModifier == null || !amount().fuzzyEquals(existingModifier.amount())) {
                 attributeInstance.removeModifier(modifierId());
-                if (isActive) {
-                    attributeInstance.addPermanentModifier(createModifier());
-                }
+                attributeInstance.addPermanentModifier(createModifier());
                 onAttributeUpdated(entity);
             }
         }

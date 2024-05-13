@@ -1,10 +1,7 @@
 package artifacts.event;
 
 import artifacts.Artifacts;
-import artifacts.ability.ApplySpeedAfterDamageAbility;
-import artifacts.ability.ArtifactAbility;
-import artifacts.ability.AttractItemsAbility;
-import artifacts.ability.SwimInAirAbility;
+import artifacts.ability.*;
 import artifacts.ability.retaliation.RetaliationAbility;
 import artifacts.item.UmbrellaItem;
 import artifacts.mixin.accessors.MobAccessor;
@@ -60,6 +57,7 @@ public class ArtifactEvents {
 
     public static void register() {
         PlayerEvent.DROP_ITEM.register(AttractItemsAbility::onItemToss);
+        EntityEvent.LIVING_HURT.register(ApplyCooldownAfterDamageAbility::onLivingHurt);
         EntityEvent.LIVING_HURT.register(ApplySpeedAfterDamageAbility::onLivingHurt);
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onAttackBurningLivingHurt);
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onPendantLivingHurt);

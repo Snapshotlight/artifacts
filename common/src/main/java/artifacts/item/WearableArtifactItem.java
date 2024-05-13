@@ -13,6 +13,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvent;
@@ -72,7 +73,7 @@ public class WearableArtifactItem extends Item {
         }
 
         public Builder equipSound(SoundEvent equipSound) {
-            return equipSound(Holder.direct(equipSound));
+            return equipSound(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(equipSound));
         }
 
         public Builder equipSound(Holder<SoundEvent> equipSound) {
@@ -90,7 +91,11 @@ public class WearableArtifactItem extends Item {
         }
 
         public Builder addAttributeModifier(Holder<Attribute> attribute, ModGameRules.DoubleGameRule amount, AttributeModifier.Operation operation) {
-            return addAbility(AttributeModifierAbility.create(attribute, amount, operation, Artifacts.id(itemName + '/' + attribute.unwrapKey().orElseThrow().location().getPath()).toString()));
+            return addAttributeModifier(attribute, amount, operation, true);
+        }
+
+        public Builder addAttributeModifier(Holder<Attribute> attribute, ModGameRules.DoubleGameRule amount, AttributeModifier.Operation operation, boolean ignoreCooldown) {
+            return addAbility(AttributeModifierAbility.create(attribute, amount, operation, Artifacts.id(itemName + '/' + attribute.unwrapKey().orElseThrow().location().getPath()).toString(), ignoreCooldown));
         }
 
         public Builder addAbility(Pair<MapCodec<SimpleAbility>, ?> pair) {

@@ -4,8 +4,21 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.core.Registry;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 
 public class ModCodecs {
+
+    public static <T> StreamCodec<ByteBuf, TagKey<T>> tagKeyStreamCodec(ResourceKey<? extends Registry<T>> registry) {
+        return ResourceLocation.STREAM_CODEC.map(
+                id -> TagKey.create(registry, id),
+                TagKey::location
+        );
+    }
 
     public static <T> Codec<T> xorAlternative(final Codec<T> codec, final Codec<T> alternative) {
         return new XorAlternativeCodec<>(codec, alternative);

@@ -19,6 +19,7 @@ public class ModAttributes {
     public static final List<RegistrySupplier<Attribute>> GENERIC_ATTRIBUTES = new ArrayList<>();
 
     public static final RegistrySupplier<Attribute> ENTITY_EXPERIENCE = addPlayerAttribute("entity_experience", 1, 0, 64);
+    public static final RegistrySupplier<Attribute> INVINCIBILITY_TICKS = addPlayerAttribute("invincibility_ticks", 0, 0, 20 * 60);
     public static final RegistrySupplier<Attribute> VILLAGER_REPUTATION = addPlayerAttribute("villager_reputation", 0, 0, 1024);
 
     public static final RegistrySupplier<Attribute> ATTACK_BURNING_DURATION = addGenericAttribute("attack_burning_duration", 0, 0, 64);
