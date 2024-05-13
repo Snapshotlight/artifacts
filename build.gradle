@@ -84,6 +84,7 @@ allprojects {
             url "https://maven.ladysnake.org/releases"
             content {
                 includeGroupByRegex "dev.onyxstudios.*"
+                includeGroupByRegex "org.ladysnake.*"
             }
         }
         maven {

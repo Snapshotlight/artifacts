@@ -36,6 +36,10 @@ public interface PlatformHelper {
 
     Holder<Attribute> getSwimSpeedAttribute();
 
+    void processWearableArtifactBuilder(WearableArtifactItem.Builder builder);
+
+    void registerAdditionalDataComponents();
+
     void addCosmeticToggleTooltip(List<MutableComponent> tooltip, ItemStack stack);
 
     boolean isEyeInWater(Player player);

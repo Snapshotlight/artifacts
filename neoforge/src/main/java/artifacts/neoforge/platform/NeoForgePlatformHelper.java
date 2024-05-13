@@ -113,6 +113,16 @@ public class NeoForgePlatformHelper implements PlatformHelper {
     }
 
     @Override
+    public void processWearableArtifactBuilder(WearableArtifactItem.Builder builder) {
+
+    }
+
+    @Override
+    public void registerAdditionalDataComponents() {
+
+    }
+
+    @Override
     public void addCosmeticToggleTooltip(List<MutableComponent> tooltip, ItemStack stack) {
 
     }

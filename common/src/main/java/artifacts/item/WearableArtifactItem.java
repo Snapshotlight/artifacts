@@ -27,6 +27,7 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class WearableArtifactItem extends Item {
 
@@ -66,7 +67,7 @@ public class WearableArtifactItem extends Item {
         private Holder<SoundEvent> equipSound = SoundEvents.ARMOR_EQUIP_GENERIC;
         private float equipSoundPitch = 1;
         private final List<ArtifactAbility> abilities = new ArrayList<>();
-        private Item.Properties properties = new Item.Properties();
+        private final Item.Properties properties = new Item.Properties();
 
         public Builder(String itemName) {
             this.itemName = itemName;
@@ -111,8 +112,8 @@ public class WearableArtifactItem extends Item {
             return this;
         }
 
-        public Builder properties(Item.Properties properties) {
-            this.properties = properties;
+        public Builder properties(Consumer<Properties> consumer) {
+            consumer.accept(this.properties);
             return this;
         }
 

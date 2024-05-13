@@ -2,6 +2,7 @@ package artifacts.registry;
 
 import artifacts.Artifacts;
 import artifacts.ability.ArtifactAbility;
+import artifacts.platform.PlatformServices;
 import dev.architectury.registry.registries.DeferredRegister;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.component.DataComponentType;
@@ -22,4 +23,8 @@ public class ModDataComponents {
                     .build()
     ));
 
+    public static void register() {
+        PlatformServices.platformHelper.registerAdditionalDataComponents();
+        DATA_COMPONENT_TYPES.register();
+    }
 }

@@ -12,6 +12,7 @@ import artifacts.ability.value.IntegerValue;
 import artifacts.item.EverlastingFoodItem;
 import artifacts.item.UmbrellaItem;
 import artifacts.item.WearableArtifactItem;
+import artifacts.platform.PlatformServices;
 import dev.architectury.core.item.ArchitecturySpawnEggItem;
 import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -174,7 +175,7 @@ public class ModItems {
             .addAbility(MakePiglinsNeutralAbility.INSTANCE)
     );
     public static final RegistrySupplier<WearableArtifactItem> ONION_RING = wearableItem("onion_ring", builder -> builder
-            .properties(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).build()))
+            .properties(properties -> properties.food(new FoodProperties.Builder().nutrition(2).build()))
             .addAbility(ApplyHasteAfterEatingAbility.CODEC)
     );
     public static final RegistrySupplier<WearableArtifactItem> PICKAXE_HEATER = wearableItem("pickaxe_heater", builder -> builder
@@ -227,6 +228,7 @@ public class ModItems {
         return register(name, () -> {
             var builder = new WearableArtifactItem.Builder(name);
             consumer.accept(builder);
+            PlatformServices.platformHelper.processWearableArtifactBuilder(builder);
             return builder.build();
         });
     }

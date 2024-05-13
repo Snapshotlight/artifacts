@@ -44,6 +44,7 @@ public class Artifacts {
         NetworkHandler.register();
 
         ModAttributes.ATTRIBUTES.register();
+        ModDataComponents.DATA_COMPONENT_TYPES.register();
         ModSoundEvents.SOUND_EVENTS.register();
         ModLootConditions.LOOT_CONDITIONS.register();
         ModLootFunctions.LOOT_FUNCTIONS.register();
@@ -52,7 +53,6 @@ public class Artifacts {
         ModItems.ITEMS.register();
         ModEntityTypes.ENTITY_TYPES.register();
         ModFeatures.FEATURES.register();
-        ModDataComponents.DATA_COMPONENT_TYPES.register();
         ModAbilities.register();
 
         EntityAttributeRegistry.register(ModEntityTypes.MIMIC, MimicEntity::createMobAttributes);

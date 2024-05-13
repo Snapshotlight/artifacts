@@ -8,6 +8,7 @@ import artifacts.fabric.ArtifactsFabric;
 import artifacts.fabric.client.CosmeticsHelper;
 import artifacts.fabric.registry.ModAttributesFabric;
 import artifacts.fabric.registry.ModComponents;
+import artifacts.fabric.registry.ModDataComponentsFabric;
 import artifacts.fabric.trinket.TrinketsHelper;
 import artifacts.item.WearableArtifactItem;
 import artifacts.platform.PlatformHelper;
@@ -111,6 +112,16 @@ public class FabricPlatformHelper implements PlatformHelper {
     @Override
     public Holder<Attribute> getSwimSpeedAttribute() {
         return ModAttributesFabric.SWIM_SPEED;
+    }
+
+    @Override
+    public void processWearableArtifactBuilder(WearableArtifactItem.Builder builder) {
+        builder.properties(properties -> properties.component(ModDataComponentsFabric.COSMETICS_ENABLED.get(), true));
+    }
+
+    @Override
+    public void registerAdditionalDataComponents() {
+        ModDataComponentsFabric.register();
     }
 
     @Override
