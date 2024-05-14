@@ -16,7 +16,10 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.food.FoodProperties;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.entity.living.*;
+import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
+import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -26,7 +29,6 @@ public class ArtifactEventsNeoForge {
 
     public static void register() {
         NeoForge.EVENT_BUS.addListener(EventPriority.LOW, ArtifactEventsNeoForge::onLivingDamage);
-        NeoForge.EVENT_BUS.addListener(EventPriority.HIGH, ArtifactEventsNeoForge::onLivingFall);
         NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onLivingUpdate);
         NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onDrinkingHatItemUse);
         NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onGoldenHookExperienceDrop);
@@ -51,12 +53,6 @@ public class ArtifactEventsNeoForge {
     private static void onLivingDamage(LivingDamageEvent event) {
         ArtifactEvents.absorbDamage(event.getEntity(), event.getSource(), event.getAmount());
         ApplyFireResistanceAfterFireDamageAbility.onLivingDamage(event.getEntity(), event.getSource(), event.getAmount());
-    }
-
-    private static void onLivingFall(LivingFallEvent event) {
-        if (AbilityHelper.hasAbilityActive(ModAbilities.CANCEL_FALL_DAMAGE.get(), event.getEntity())) {
-            event.setDamageMultiplier(0);
-        }
     }
 
     private static void onLivingUpdate(EntityTickEvent.Pre event) {

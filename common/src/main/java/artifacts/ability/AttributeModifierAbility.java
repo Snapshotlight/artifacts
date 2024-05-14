@@ -39,14 +39,15 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
                 Attributes.JUMP_STRENGTH,
                 Attributes.KNOCKBACK_RESISTANCE,
                 Attributes.MAX_HEALTH,
-                Attributes.SAFE_FALL_DISTANCE
+                Attributes.SAFE_FALL_DISTANCE,
+                Attributes.FALL_DAMAGE_MULTIPLIER
         ));
         CUSTOM_TOOLTIP_ATTRIBUTES.remove(ModAttributes.MAX_ATTACK_DAMAGE_ABSORBED);
     }
 
     public static final MapCodec<AttributeModifierAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.ATTRIBUTE.holderByNameCodec().fieldOf("attribute").forGetter(AttributeModifierAbility::attribute),
-            DoubleValue.codec(100).fieldOf("amount").forGetter(AttributeModifierAbility::amount),
+            DoubleValue.codec(Integer.MIN_VALUE, Integer.MAX_VALUE, 100).fieldOf("amount").forGetter(AttributeModifierAbility::amount),
             AttributeModifier.Operation.CODEC.optionalFieldOf("operation", AttributeModifier.Operation.ADD_VALUE).forGetter(AttributeModifierAbility::operation),
             Codec.STRING.fieldOf("id").forGetter(AttributeModifierAbility::name),
             Codec.BOOL.optionalFieldOf("ignore_cooldown", true).forGetter(AttributeModifierAbility::ignoreCooldown)

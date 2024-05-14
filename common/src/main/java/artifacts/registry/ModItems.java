@@ -228,8 +228,8 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> BUNNY_HOPPERS = wearableItem("bunny_hoppers", builder -> builder
             .addAttributeModifier(Attributes.JUMP_STRENGTH, ModGameRules.BUNNY_HOPPERS_JUMP_STRENGTH_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            .addAttributeModifier(Attributes.FALL_DAMAGE_MULTIPLIER, ModGameRules.BUNNY_HOPPERS_FALL_DAMAGE_MULTIPLIER, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, ModGameRules.BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS, AttributeModifier.Operation.ADD_VALUE, 1)
-            .addAbility(new SimpleAbility(ModAbilities.CANCEL_FALL_DAMAGE, ModGameRules.BUNNY_HOPPERS_DO_CANCEL_FALL_DAMAGE))
             .addAbility(new HurtSoundAbility(SoundEvents.RABBIT_HURT))
     );
     public static final RegistrySupplier<WearableArtifactItem> KITTY_SLIPPERS = wearableItem("kitty_slippers", builder -> builder

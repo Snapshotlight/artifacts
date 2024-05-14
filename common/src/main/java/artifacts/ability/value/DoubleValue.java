@@ -29,18 +29,21 @@ public interface DoubleValue extends Supplier<Double> {
     }
 
     static Codec<DoubleValue> codec(int max, double factor) {
-        return ModCodecs.xorAlternative(IntegerValue.GAMERULE_CODEC.flatXmap(
-                gameRule -> DataResult.success(new GameRuleValue(gameRule, max, factor)),
-                value -> value instanceof GameRuleValue gameRule
-                        ? DataResult.success(gameRule.gameRule())
-                        : DataResult.error(() -> "Not a game rule")
-        ), Constant.codec(max, factor));
+        return codec(0, max, factor);
     }
 
-    @SuppressWarnings("SuspiciousMethodCalls")
+    static Codec<DoubleValue> codec(int min, int max, double factor) {
+        return ModCodecs.xorAlternative(GameRuleValue.CODEC.flatXmap(
+                DataResult::success,
+                value -> value instanceof GameRuleValue gameRule
+                        ? DataResult.success(gameRule)
+                        : DataResult.error(() -> "Not a game rule")
+        ), Constant.codec(min, max, factor));
+    }
+
     static StreamCodec<ByteBuf, DoubleValue> streamCodec() {
         return ByteBufCodecs.BOOL.dispatch(
-                ModGameRules.INTEGER_GAME_RULES::contains,
+                value -> value instanceof GameRuleValue,
                 b -> b ? GameRuleValue.STREAM_CODEC : Constant.STREAM_CODEC
         );
     }
@@ -53,18 +56,19 @@ public interface DoubleValue extends Supplier<Double> {
 
         static StreamCodec<ByteBuf, DoubleValue> STREAM_CODEC =  ByteBufCodecs.DOUBLE.map(Constant::new, Supplier::get);
 
-        static Codec<DoubleValue> codec(int max, double factor) {
-            if (max == Integer.MAX_VALUE) {
+        static Codec<DoubleValue> codec(int min, int max, double factor) {
+            if (max == Integer.MAX_VALUE && min == 0) {
                 return ModCodecs.doubleNonNegative().xmap(Constant::new, Supplier::get);
             }
-            return ModCodecs.doubleRange(max / factor).xmap(Constant::new, Supplier::get);
+            return ModCodecs.doubleRange(min / factor, max / factor).xmap(Constant::new, Supplier::get);
         }
     }
 
-    record GameRuleValue(ModGameRules.IntegerGameRule gameRule, int max, double factor) implements DoubleValue {
+    record GameRuleValue(ModGameRules.IntegerGameRule gameRule, int min, int max, double factor) implements DoubleValue {
 
         public static Codec<GameRuleValue> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 IntegerValue.GAMERULE_CODEC.fieldOf("gamerule").forGetter(GameRuleValue::gameRule),
+                Codec.INT.fieldOf("min").forGetter(GameRuleValue::min),
                 Codec.INT.fieldOf("max").forGetter(GameRuleValue::max),
                 Codec.DOUBLE.fieldOf("factor").forGetter(GameRuleValue::factor)
         ).apply(instance, GameRuleValue::new));
@@ -72,6 +76,8 @@ public interface DoubleValue extends Supplier<Double> {
         public static StreamCodec<ByteBuf, GameRuleValue> STREAM_CODEC = StreamCodec.composite(
                 ByteBufCodecs.idMapper(ModGameRules.INTEGER_GAME_RULES::get, ModGameRules.INTEGER_GAME_RULES::indexOf),
                 GameRuleValue::gameRule,
+                ByteBufCodecs.INT,
+                GameRuleValue::min,
                 ByteBufCodecs.INT,
                 GameRuleValue::max,
                 ByteBufCodecs.DOUBLE,
@@ -81,11 +87,7 @@ public interface DoubleValue extends Supplier<Double> {
 
         @Override
         public Double get() {
-            return Math.min(max, Math.max(0, gameRule.get())) / factor;
-        }
-
-        public static GameRuleValue of(ModGameRules.IntegerGameRule gameRule, int max, double factor) {
-            return new GameRuleValue(gameRule, max, factor);
+            return Math.min(max, Math.max(min, gameRule.get())) / factor;
         }
     }
 }

@@ -13,7 +13,6 @@ import net.minecraft.util.StringRepresentable;
 
 import java.util.function.Supplier;
 
-// TODO remove game rule implements
 public interface IntegerValue extends Supplier<Integer> {
 
     IntegerValue ZERO = new Constant(0);
@@ -53,7 +52,6 @@ public interface IntegerValue extends Supplier<Integer> {
     static StreamCodec<ByteBuf, IntegerValue> streamCodec() {
         return ByteBufCodecs.BOOL.dispatch(
                 value -> value instanceof GameRuleValue,
-                // TODO why does this work? isn't a cast needed here?
                 b -> b ? GameRuleValue.STREAM_CODEC : Constant.STREAM_CODEC
         );
     }

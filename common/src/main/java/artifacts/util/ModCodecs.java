@@ -13,12 +13,12 @@ import net.minecraft.tags.TagKey;
 
 public class ModCodecs {
 
-    public static Codec<Double> doubleRange(double max) {
+    public static Codec<Double> doubleRange(double min, double max) {
         return Codec.DOUBLE.validate(d -> {
-            if (d >= 0 && d <= max + 1e10-5) {
+            if (d >= min - 1e10-5 && d <= max + 1e10-5) {
                 return DataResult.success(d);
             } else {
-                return DataResult.error(() -> "Value must be within range [0;" + max + "]: " + d);
+                return DataResult.error(() -> "Value must be within range [" + min + ";" + max + "]: " + d);
             }
         });
     }

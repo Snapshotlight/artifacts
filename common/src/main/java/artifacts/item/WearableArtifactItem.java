@@ -96,7 +96,7 @@ public class WearableArtifactItem extends Item {
         }
 
         public Builder addAttributeModifier(Holder<Attribute> attribute, ModGameRules.IntegerGameRule amount, AttributeModifier.Operation operation, int factor, boolean ignoreCooldown) {
-            DoubleValue amountValue = DoubleValue.GameRuleValue.of(amount, Integer.MAX_VALUE, factor);
+            DoubleValue amountValue = amount.asDoubleValue(Integer.MIN_VALUE, Integer.MAX_VALUE, factor);
             return addAbility(AttributeModifierAbility.create(attribute, amountValue, operation, Artifacts.id(itemName + '/' + attribute.unwrapKey().orElseThrow().location().getPath()).toString(), ignoreCooldown));
         }
 

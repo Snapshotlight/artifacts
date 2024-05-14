@@ -43,7 +43,6 @@ public class ModGameRules {
             SCARF_OF_INVISIBILITY_ENABLED = booleanGameRule(ModItems.SCARF_OF_INVISIBILITY, "enabled"),
             UNIVERSAL_ATTRACTOR_ENABLED = booleanGameRule(ModItems.UNIVERSAL_ATTRACTOR, "enabled"),
 
-            BUNNY_HOPPERS_DO_CANCEL_FALL_DAMAGE = booleanGameRule(ModItems.BUNNY_HOPPERS, "doCancelFallDamage", false),
             CHORUS_TOTEM_DO_CONSUME_ON_USE = booleanGameRule(ModItems.CHORUS_TOTEM, "doConsumeOnUse"),
             FLAME_PENDANT_DO_GRANT_FIRE_RESISTANCE = booleanGameRule(ModItems.FLAME_PENDANT, "doGrantFireResistance"),
             ROOTED_BOOTS_DO_GROW_PLANTS_AFTER_EATING = booleanGameRule(ModItems.ROOTED_BOOTS, "doGrowPlantsAfterEating"),
@@ -57,6 +56,7 @@ public class ModGameRules {
             ANGLERS_HAT_LUCK_OF_THE_SEA_LEVEL_BONUS = integerGameRule(ModItems.ANGLERS_HAT, "luckOfTheSeaLevelBonus", 1),
             ANGLERS_HAT_LURE_LEVEL_BONUS = integerGameRule(ModItems.ANGLERS_HAT, "lureLevelBonus", 1),
             ANTIDOTE_VESSEL_MAX_EFFECT_DURATION = integerGameRule(ModItems.ANTIDOTE_VESSEL, "maxEffectDuration", 5),
+            BUNNY_HOPPERS_FALL_DAMAGE_MULTIPLIER = integerGameRule(ModItems.BUNNY_HOPPERS, "fallDamageMultiplier", 0),
             BUNNY_HOPPERS_JUMP_STRENGTH_BONUS = integerGameRule(ModItems.BUNNY_HOPPERS, "jumpStrengthBonus", 40),
             BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS = integerGameRule(ModItems.BUNNY_HOPPERS, "safeFallDistanceBonus", 10),
             CHORUS_TOTEM_HEALTH_RESTORED = integerGameRule(ModItems.CHORUS_TOTEM, "healthRestored", 10),
@@ -207,7 +207,7 @@ public class ModGameRules {
 
         @Override
         public Integer get() {
-            return Math.max(0, value);
+            return value;
         }
 
         private void update(MinecraftServer server) {
@@ -244,7 +244,11 @@ public class ModGameRules {
         }
 
         public DoubleValue asDoubleValue(int max, double factor) {
-            return new DoubleValue.GameRuleValue(this, max, factor);
+            return asDoubleValue(0, max, factor);
+        }
+
+        public DoubleValue asDoubleValue(int min, int max, double factor) {
+            return new DoubleValue.GameRuleValue(this, min, max, factor);
         }
     }
 }
