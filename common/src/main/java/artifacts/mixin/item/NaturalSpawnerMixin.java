@@ -1,4 +1,4 @@
-package artifacts.mixin.item.wearable;
+package artifacts.mixin.item;
 
 import artifacts.Artifacts;
 import artifacts.platform.PlatformServices;

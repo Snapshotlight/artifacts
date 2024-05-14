@@ -1,4 +1,4 @@
-package artifacts.mixin.item.wearable.charmofsinking;
+package artifacts.mixin.ability.sinking;
 
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;

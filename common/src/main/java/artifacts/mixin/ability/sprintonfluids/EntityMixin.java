@@ -1,4 +1,4 @@
-package artifacts.mixin.item.wearable.aquadashers;
+package artifacts.mixin.ability.sprintonfluids;
 
 import artifacts.component.SwimData;
 import artifacts.platform.PlatformServices;
@@ -91,7 +91,7 @@ public abstract class EntityMixin {
         }
         SwimData swimData = PlatformServices.platformHelper.getSwimData(entity);
         return swimData != null
-                && AbilityHelper.hasAbilityActive(ModAbilities.SPRINT_ON_WATER.get(), entity)
+                && AbilityHelper.hasAbilityActive(ModAbilities.SPRINT_ON_FLUIDS.get(), entity)
                 && entity.isSprinting()
                 && !swimData.isWet();
     }

@@ -1,4 +1,4 @@
-package artifacts.mixin.item.wearable.pocketpiston.client;
+package artifacts.mixin.item.pocketpiston.client;
 
 import artifacts.extensions.pocketpiston.LivingEntityExtensions;
 import net.minecraft.client.Minecraft;

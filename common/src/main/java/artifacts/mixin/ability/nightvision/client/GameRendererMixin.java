@@ -1,4 +1,4 @@
-package artifacts.mixin.item.wearable.nightvisiongoggles.client;
+package artifacts.mixin.ability.nightvision.client;
 
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;

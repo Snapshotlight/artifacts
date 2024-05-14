@@ -1,4 +1,4 @@
-package artifacts.mixin.item.wearable.crossnecklace;
+package artifacts.mixin.attribute.invincibilityticks;
 
 import artifacts.registry.ModAttributes;
 import net.minecraft.world.damagesource.DamageSource;

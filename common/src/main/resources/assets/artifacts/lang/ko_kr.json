@@ -62,7 +62,7 @@
   "artifacts.tooltip.ability.set_attackers_on_fire.strike_chance": "약간의 확률로 적에게 불을 붙입니다",
   "artifacts.tooltip.ability.sinking": "물 속에서의 저항이 없어지며 자유롭게 다닙니다",
   "artifacts.tooltip.ability.smelt_ores": "채굴한 광물을 자동으로 재련합니다",
-  "artifacts.tooltip.ability.sprint_on_water": "액체 위에서 달릴 수 있습니다",
+  "artifacts.tooltip.ability.sprint_on_fluids": "액체 위에서 달릴 수 있습니다",
   "artifacts.tooltip.ability.strike_attackers_with_lightning": "피격 시 일정 확률로 적에게 번개가 내리칩니다 ",
   "artifacts.tooltip.ability.swim_in_air.keymapping": "공중에서 %s 을 눌러 비행을 시작하세요 ",
   "artifacts.tooltip.ability.swim_in_air.swimming": "제한 시간 동안 플라밍고 비행을 할 수 있습니다",

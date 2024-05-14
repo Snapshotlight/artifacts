@@ -56,7 +56,7 @@ public class SwimEvents {
     }
 
     private static boolean canCollideWithFluid(LivingEntity entity) {
-        return AbilityHelper.hasAbilityActive(ModAbilities.SPRINT_ON_WATER.get(), entity)
+        return AbilityHelper.hasAbilityActive(ModAbilities.SPRINT_ON_FLUIDS.get(), entity)
                 && entity.isSprinting()
                 && !entity.isUsingItem()
                 && !entity.isCrouching();

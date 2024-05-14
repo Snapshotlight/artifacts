@@ -62,7 +62,7 @@
   "artifacts.tooltip.ability.set_attackers_on_fire.strike_chance": "Might set attackers aflame",
   "artifacts.tooltip.ability.sinking": "Allows ye to walk under the seas",
   "artifacts.tooltip.ability.smelt_ores": "Turns mined ore into metal straightaway",
-  "artifacts.tooltip.ability.sprint_on_water": "Allows ye to walk over the seas",
+  "artifacts.tooltip.ability.sprint_on_fluids": "Allows ye to walk over the seas",
   "artifacts.tooltip.ability.strike_attackers_with_lightning": "Has a chance to strike attackers with the Flash o' the Skies",
   "artifacts.tooltip.ability.swim_in_air.keymapping": "Hoist %s while in th' skies to start swimmin'",
   "artifacts.tooltip.ability.swim_in_air.swimming": "Allows ye to swim in th' skies for a short time",

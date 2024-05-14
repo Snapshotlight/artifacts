@@ -1,4 +1,4 @@
-package artifacts.mixin.item.wearable.chorustotem;
+package artifacts.mixin.ability.teleportondeath;
 
 import artifacts.ability.TeleportOnDeathAbility;
 import artifacts.network.ChorusTotemUsedPacket;

@@ -37,7 +37,7 @@
   "artifacts.tooltip.ability.scare_creepers": "Os Creepers evitam o usuário",
   "artifacts.tooltip.ability.set_attackers_on_fire.strike_chance": "Tem chance de incendiar inimigo",
   "artifacts.tooltip.ability.sinking": "O usuário pode se mover livremente na água",
-  "artifacts.tooltip.ability.sprint_on_water": "Permite que o usuário ande sobre fluidos enquanto corre",
+  "artifacts.tooltip.ability.sprint_on_fluids": "Permite que o usuário ande sobre fluidos enquanto corre",
   "artifacts.tooltip.ability.strike_attackers_with_lightning": "Tem chance de atingir o inimigo com raios",
   "artifacts.tooltip.ability.swim_in_air.keymapping": "Pressione %s no ar para começar a nadar",
   "artifacts.tooltip.ability.swim_in_air.swimming": "Permite que o usuário nade no ar por um período limitado de tempo.",

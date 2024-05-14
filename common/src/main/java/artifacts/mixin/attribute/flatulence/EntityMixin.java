@@ -1,4 +1,4 @@
-package artifacts.mixin.item.wearable.whoopeecushion;
+package artifacts.mixin.attribute.flatulence;
 
 import artifacts.registry.ModAttributes;
 import artifacts.registry.ModSoundEvents;

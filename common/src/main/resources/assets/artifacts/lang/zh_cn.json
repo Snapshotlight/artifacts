@@ -62,7 +62,7 @@
   "artifacts.tooltip.ability.set_attackers_on_fire.strike_chance": "有几率点燃攻击者",
   "artifacts.tooltip.ability.sinking": "允许装备者在水中自由移动",
   "artifacts.tooltip.ability.smelt_ores": "自动冶炼挖掘下的矿物",
-  "artifacts.tooltip.ability.sprint_on_water": "允许装备者疾跑时在水面上行走",
+  "artifacts.tooltip.ability.sprint_on_fluids": "允许装备者疾跑时在水面上行走",
   "artifacts.tooltip.ability.strike_attackers_with_lightning": "有几率雷击进攻者",
   "artifacts.tooltip.ability.swim_in_air.keymapping": "在空中按住 %s 以游泳",
   "artifacts.tooltip.ability.swim_in_air.swimming": "允许装备者短暂地在空中游泳",

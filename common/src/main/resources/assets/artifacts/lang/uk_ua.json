@@ -50,7 +50,7 @@
   "artifacts.tooltip.ability.set_attackers_on_fire.fire_resistance": "Надає вогнестійкість після підпалювання нападника",
   "artifacts.tooltip.ability.set_attackers_on_fire.strike_chance": "Має шанс підпалити нападників",
   "artifacts.tooltip.ability.sinking": "Дозволяє носію вільно пересуватися у воді",
-  "artifacts.tooltip.ability.sprint_on_water": "Дозволяє носію ходити по рідинах під час бігу",
+  "artifacts.tooltip.ability.sprint_on_fluids": "Дозволяє носію ходити по рідинах під час бігу",
   "artifacts.tooltip.ability.strike_attackers_with_lightning": "Має шанс вразити нападників блискавкою",
   "artifacts.tooltip.ability.swim_in_air.keymapping": "Натисніть %s, перебуваючи в повітрі, щоб почати плавати",
   "artifacts.tooltip.ability.swim_in_air.swimming": "Дозволяє носієві плавати в повітрі протягом обмеженого проміжку часу.",

@@ -50,7 +50,7 @@
   "artifacts.tooltip.ability.set_attackers_on_fire.fire_resistance": "Fornisce resistenza al fuoco dopo aver incendiato un attaccante",
   "artifacts.tooltip.ability.set_attackers_on_fire.strike_chance": "Ha una probabilità di incendiare gli attaccanti",
   "artifacts.tooltip.ability.sinking": "Permette di muoversi liberamente sott'acqua",
-  "artifacts.tooltip.ability.sprint_on_water": "Mentre corri, puoi camminare sui liquidi",
+  "artifacts.tooltip.ability.sprint_on_fluids": "Mentre corri, puoi camminare sui liquidi",
   "artifacts.tooltip.ability.strike_attackers_with_lightning": "Ha una probabilità di folgorare gli attaccanti",
   "artifacts.tooltip.ability.swim_in_air.keymapping": "Premi %s mentre sei in aria per iniziare a nuotare",
   "artifacts.tooltip.ability.swim_in_air.swimming": "Permette di nuotare in aria per un breve periodo di tempo.",

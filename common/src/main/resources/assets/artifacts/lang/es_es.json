@@ -50,7 +50,7 @@
   "artifacts.tooltip.ability.set_attackers_on_fire.fire_resistance": "Te da resistencia al fuego cuando prendes fuego al que atacas",
   "artifacts.tooltip.ability.set_attackers_on_fire.strike_chance": "Cuando un mob te ataca, es probable que se prenda fuego.",
   "artifacts.tooltip.ability.sinking": "Podrás moverte libremente por el agua.",
-  "artifacts.tooltip.ability.sprint_on_water": "Permite al portador correr sobre fluidos.",
+  "artifacts.tooltip.ability.sprint_on_fluids": "Permite al portador correr sobre fluidos.",
   "artifacts.tooltip.ability.strike_attackers_with_lightning": "Cuando un mob te ataca, es probable que le caiga un rayo.",
   "artifacts.tooltip.ability.swim_in_air.keymapping": "Presiona %s en el aire para nadar.",
   "artifacts.tooltip.ability.swim_in_air.swimming": "Permite al usuario nadar en el aire por un periodo limitado de tiempo.",

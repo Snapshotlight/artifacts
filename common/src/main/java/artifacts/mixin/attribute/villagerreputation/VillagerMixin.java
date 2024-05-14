@@ -1,4 +1,4 @@
-package artifacts.mixin.item.wearable.villagerhat;
+package artifacts.mixin.attribute.villagerreputation;
 
 import artifacts.registry.ModAttributes;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;

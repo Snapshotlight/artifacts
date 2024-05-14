@@ -1,4 +1,4 @@
-package artifacts.mixin.item.wearable.anglershat;
+package artifacts.mixin.ability.fishing;
 
 import artifacts.util.AbilityHelper;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;

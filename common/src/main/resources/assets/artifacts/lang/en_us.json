@@ -64,7 +64,7 @@
   "artifacts.tooltip.ability.set_attackers_on_fire.strike_chance": "Has a chance to light attackers on fire",
   "artifacts.tooltip.ability.sinking": "Allows the wearer to move freely in water",
   "artifacts.tooltip.ability.smelt_ores": "Automatically smelts mined ores",
-  "artifacts.tooltip.ability.sprint_on_water": "Allows the wearer to walk on fluids while sprinting",
+  "artifacts.tooltip.ability.sprint_on_fluids": "Allows the wearer to walk on fluids while sprinting",
   "artifacts.tooltip.ability.strike_attackers_with_lightning": "Has a chance to strike attackers with lightning",
   "artifacts.tooltip.ability.swim_in_air.keymapping": "Press %s while in the air to start swimming",
   "artifacts.tooltip.ability.swim_in_air.swimming": "Allows the wearer to swim in the air for a limited period of time",

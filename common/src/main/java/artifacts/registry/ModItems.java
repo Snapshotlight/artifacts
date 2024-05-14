@@ -224,7 +224,7 @@ public class ModItems {
 
     // feet
     public static final RegistrySupplier<WearableArtifactItem> AQUA_DASHERS = wearableItem("aqua_dashers", builder -> builder
-            .addAbility(new SimpleAbility(ModAbilities.SPRINT_ON_WATER, ModGameRules.AQUA_DASHERS_ENABLED))
+            .addAbility(new SimpleAbility(ModAbilities.SPRINT_ON_FLUIDS, ModGameRules.AQUA_DASHERS_ENABLED))
     );
     public static final RegistrySupplier<WearableArtifactItem> BUNNY_HOPPERS = wearableItem("bunny_hoppers", builder -> builder
             .addAttributeModifier(Attributes.JUMP_STRENGTH, ModGameRules.BUNNY_HOPPERS_JUMP_STRENGTH_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)

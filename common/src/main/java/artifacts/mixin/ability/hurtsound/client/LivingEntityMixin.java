@@ -1,4 +1,4 @@
-package artifacts.mixin.item.hurtsound.client;
+package artifacts.mixin.ability.hurtsound.client;
 
 import artifacts.event.ArtifactEvents;
 import net.minecraft.world.damagesource.DamageSource;

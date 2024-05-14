@@ -50,7 +50,7 @@
   "artifacts.tooltip.ability.set_attackers_on_fire.fire_resistance": "攻撃者に火をつけた後、火炎耐性を与える",
   "artifacts.tooltip.ability.set_attackers_on_fire.strike_chance": "攻撃者に火をつけるチャンスがある",
   "artifacts.tooltip.ability.sinking": "着用者が水中で自由に動けるようにする",
-  "artifacts.tooltip.ability.sprint_on_water": "着用者はダッシュ中に液体の上を歩くことができる",
+  "artifacts.tooltip.ability.sprint_on_fluids": "着用者はダッシュ中に液体の上を歩くことができる",
   "artifacts.tooltip.ability.strike_attackers_with_lightning": "雷で攻撃者を攻撃するチャンスがある",
   "artifacts.tooltip.ability.swim_in_air.keymapping": "空中で %s を押すと泳げる",
   "artifacts.tooltip.ability.swim_in_air.swimming": "着用者は一定時間空中を泳ぐことができる。",
