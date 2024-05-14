@@ -5,7 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ability.LivingEntityMixin",
-    "ability.fishing.FishingRodItemMixin",
+    "ability.enchantment.FishingRodItemMixin",
     "ability.hurtsound.LivingEntityMixin",
     "ability.sinking.EnchantmentHelperMixin",
     "ability.sprintonfluids.EntityMixin",

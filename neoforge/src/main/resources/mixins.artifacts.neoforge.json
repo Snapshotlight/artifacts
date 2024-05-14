@@ -4,8 +4,8 @@
   "package": "artifacts.neoforge.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "item.umbrella.UmbrellaItemMixin",
-    "item.wearable.snowshoes.LivingEntityMixin"
+    "ability.slipresistance.LivingEntityMixin",
+    "item.UmbrellaItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

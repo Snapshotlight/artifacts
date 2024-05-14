@@ -5,30 +5,29 @@
   "compatibilityLevel": "JAVA_21",
   "plugin": "artifacts.fabric.ArtifactsMixinPlugin",
   "mixins": [
+    "ability.LivingEntitiesMixin",
+    "ability.applyeffectaftereating.LivingEntityMixin",
+    "ability.enchantment.ApplyBonusCountMixin",
+    "ability.enchantment.EnchantmentHelperMixin",
+    "ability.makepiglinsneutral.PiglinAiMixin",
+    "ability.scarecreepers.HurtByTargetGoalMixin",
+    "ability.scarecreepers.NearestAttackableTargetGoalMixin",
+    "ability.smeltores.LootTableMixin",
+    "ability.upgradetooltier.PlayerMixin",
+    "ability.walkonpowdersnow.PowderSnowBlockMixin",
+    "attribute.eatingspeed.LivingEntityMixin",
+    "attribute.entityexperience.LivingEntityMixin",
+    "attribute.slipresistance.LivingEntityMixin",
     "attribute.swimspeed.LivingEntityMixin",
     "compat.origins.ConditionFactoryAccessor",
     "config.ClientConfigMixin",
-    "item.wearable.LivingEntitiesMixin",
-    "item.wearable.LivingEntityMixin",
-    "item.wearable.PiglinAiMixin",
-    "item.wearable.PowderSnowBlockMixin",
-    "item.wearable.WearableArtifactItemMixin",
-    "item.wearable.bunnyhoppers.LivingEntityMixin",
-    "item.wearable.diggingclaws.PlayerMixin",
-    "item.wearable.drinkinghat.LivingEntityMixin",
-    "item.wearable.goldenhook.LivingEntityMixin",
-    "item.wearable.kittyslippers.HurtByTargetGoalMixin",
-    "item.wearable.kittyslippers.NearestAttackableTargetGoalMixin",
-    "item.wearable.luckyscarf.ApplyBonusCountMixin",
-    "item.wearable.pickaxeheater.LootTableMixin",
-    "item.wearable.snowshoes.LivingEntityMixin",
-    "item.wearable.superstitioushat.EnchantmentHelperMixin"
+    "item.WearableArtifactItemMixin"
   ],
   "client": [
+    "ability.swiminair.client.GuiMixin",
     "client.GuiMixin",
     "client.PlayerRendererMixin",
-    "item.umbrella.client.LivingEntityRendererMixin",
-    "item.wearable.heliumflamingo.client.GuiMixin"
+    "item.umbrella.client.LivingEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
