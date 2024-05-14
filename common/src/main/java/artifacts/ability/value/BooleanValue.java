@@ -15,12 +15,17 @@ import java.util.function.Supplier;
 public interface BooleanValue extends Supplier<Boolean> {
 
     BooleanValue TRUE = new Constant(true);
+    BooleanValue FALSE = new Constant(false);
 
     Codec<ModGameRules.BooleanGameRule> GAMERULE_CODEC = new StringRepresentable.StringRepresentableCodec<>(
-            ModGameRules.BOOLEAN_VALUES_LIST.toArray(ModGameRules.BooleanGameRule[]::new),
+            ModGameRules.BOOLEAN_GAME_RULES.toArray(ModGameRules.BooleanGameRule[]::new),
             ModGameRules.BOOLEAN_VALUES::get,
-            ModGameRules.BOOLEAN_VALUES_LIST::indexOf
+            ModGameRules.BOOLEAN_GAME_RULES::indexOf
     );
+
+    static MapCodec<BooleanValue> enabledField() {
+        return codec().optionalFieldOf("enabled", TRUE);
+    }
 
     static Codec<BooleanValue> codec() {
         return ModCodecs.xorAlternative(GAMERULE_CODEC.flatXmap(
@@ -28,44 +33,21 @@ public interface BooleanValue extends Supplier<Boolean> {
                 value -> value instanceof ModGameRules.BooleanGameRule gameRule
                         ? DataResult.success(gameRule)
                         : DataResult.error(() -> "Not a game rule")
-        ), BooleanValue.constantCodec());
+        ), Constant.CODEC);
     }
 
     @SuppressWarnings("SuspiciousMethodCalls")
     static StreamCodec<ByteBuf, BooleanValue> streamCodec() {
         return ByteBufCodecs.BOOL.dispatch(
-                ModGameRules.BOOLEAN_VALUES_LIST::contains,
-                b -> b ? ByteBufCodecs.idMapper(ModGameRules.BOOLEAN_VALUES_LIST::get, ModGameRules.BOOLEAN_VALUES_LIST::indexOf) : constantStreamCodec()
+                ModGameRules.BOOLEAN_GAME_RULES::contains,
+                b -> b ? ByteBufCodecs.idMapper(ModGameRules.BOOLEAN_GAME_RULES::get, ModGameRules.BOOLEAN_GAME_RULES::indexOf) : Constant.STREAM_CODEC
         );
-    }
-
-    static MapCodec<BooleanValue> enabledField(ModGameRules.BooleanGameRule gameRule) {
-        return field("enabled", gameRule);
-    }
-
-    static MapCodec<BooleanValue> field(String fieldName, ModGameRules.BooleanGameRule gameRule) {
-        return Codec.BOOL.<BooleanValue>flatXmap(bool -> DataResult.success(new Constant(bool)), value -> value == gameRule
-                        ? DataResult.error(() -> "Cannot convert game rule to constant")
-                        : DataResult.success(value.get()))
-                .optionalFieldOf(fieldName, gameRule);
-    }
-
-    static Codec<BooleanValue> constantCodec() {
-        return Codec.BOOL.xmap(Constant::new, Supplier::get);
-    }
-
-    static StreamCodec<ByteBuf, BooleanValue> defaultStreamCodec(ModGameRules.BooleanGameRule gameRule) {
-        return ByteBufCodecs.BOOL.dispatch(
-                value -> value == gameRule,
-                b -> b ? StreamCodec.unit(gameRule) : constantStreamCodec()
-        );
-    }
-
-    static StreamCodec<ByteBuf, BooleanValue> constantStreamCodec() {
-        return ByteBufCodecs.BOOL.map(BooleanValue.Constant::new, Supplier::get);
     }
 
     record Constant(Boolean get) implements BooleanValue {
+
+        public static Codec<BooleanValue> CODEC = Codec.BOOL.xmap(Constant::new, Supplier::get);
+        public static StreamCodec<ByteBuf, BooleanValue> STREAM_CODEC = ByteBufCodecs.BOOL.map(BooleanValue.Constant::new, Supplier::get);
 
     }
 }

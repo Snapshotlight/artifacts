@@ -21,7 +21,7 @@ import java.util.Optional;
 public record ApplyCooldownAfterDamageAbility(IntegerValue cooldown, Optional<TagKey<DamageType>> tag) implements TooltiplessAbility {
 
     public static final MapCodec<ApplyCooldownAfterDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.codec().fieldOf("cooldown").forGetter(ApplyCooldownAfterDamageAbility::cooldown),
+            IntegerValue.durationSecondsCodec().fieldOf("cooldown").forGetter(ApplyCooldownAfterDamageAbility::cooldown),
             TagKey.codec(Registries.DAMAGE_TYPE).optionalFieldOf("tag").forGetter(ApplyCooldownAfterDamageAbility::tag)
     ).apply(instance, ApplyCooldownAfterDamageAbility::new));
 
@@ -33,6 +33,7 @@ public record ApplyCooldownAfterDamageAbility(IntegerValue cooldown, Optional<Ta
             ApplyCooldownAfterDamageAbility::new
     );
 
+    @SuppressWarnings("unused")
     public static EventResult onLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {
         AbilityHelper.applyCooldowns(ModAbilities.APPLY_COOLDOWN_AFTER_DAMAGE.get(), entity, ability -> {
             if (ability.tag().isEmpty() || damageSource.is(ability.tag().get())) {

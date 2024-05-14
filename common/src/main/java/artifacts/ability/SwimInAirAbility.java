@@ -4,7 +4,6 @@ import artifacts.ability.value.IntegerValue;
 import artifacts.component.SwimData;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import artifacts.registry.ModKeyMappings;
 import artifacts.registry.ModSoundEvents;
 import artifacts.util.AbilityHelper;
@@ -21,14 +20,14 @@ import java.util.List;
 public record SwimInAirAbility(IntegerValue flightDuration, IntegerValue rechargeDuration) implements ArtifactAbility {
 
     public static final MapCodec<SwimInAirAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field("flight_duration", ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION).forGetter(SwimInAirAbility::flightDuration),
-            IntegerValue.field("recharge_duration", ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION).forGetter(SwimInAirAbility::rechargeDuration)
+            IntegerValue.durationSecondsCodec().fieldOf("flight_duration").forGetter(SwimInAirAbility::flightDuration),
+            IntegerValue.durationSecondsCodec().fieldOf("recharge_duration").forGetter(SwimInAirAbility::rechargeDuration)
     ).apply(instance, SwimInAirAbility::new));
 
     public static final StreamCodec<ByteBuf, SwimInAirAbility> STREAM_CODEC = StreamCodec.composite(
-            IntegerValue.defaultStreamCodec(ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION),
+            IntegerValue.streamCodec(),
             SwimInAirAbility::flightDuration,
-            IntegerValue.defaultStreamCodec(ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION),
+            IntegerValue.streamCodec(),
             SwimInAirAbility::rechargeDuration,
             SwimInAirAbility::new
     );

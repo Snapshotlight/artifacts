@@ -2,7 +2,6 @@ package artifacts.ability.mobeffect;
 
 import artifacts.ability.value.DoubleValue;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
@@ -16,11 +15,11 @@ import java.util.Objects;
 public class NightVisionAbility extends MobEffectAbility {
 
     public static final MapCodec<NightVisionAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.field("strength", ModGameRules.NIGHT_VISION_GOGGLES_STRENGTH).forGetter(NightVisionAbility::strength)
+            DoubleValue.percentage().optionalFieldOf("strength", DoubleValue.ONE).forGetter(NightVisionAbility::strength)
     ).apply(instance, NightVisionAbility::new));
 
     public static final StreamCodec<ByteBuf, NightVisionAbility> STREAM_CODEC = StreamCodec.composite(
-            DoubleValue.defaultStreamCodec(ModGameRules.NIGHT_VISION_GOGGLES_STRENGTH),
+            DoubleValue.streamCodec(),
             NightVisionAbility::strength,
             NightVisionAbility::new
     );
@@ -48,7 +47,7 @@ public class NightVisionAbility extends MobEffectAbility {
 
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        if (ModGameRules.NIGHT_VISION_GOGGLES_STRENGTH.get() > 0.5) {
+        if (strength.get() > 0.5) {
             tooltip.add(tooltipLine("full"));
         } else {
             tooltip.add(tooltipLine("partial"));

@@ -4,7 +4,7 @@ import artifacts.registry.ModGameRules;
 import artifacts.util.ModCodecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -13,60 +13,83 @@ import net.minecraft.util.StringRepresentable;
 
 import java.util.function.Supplier;
 
+// TODO remove game rule implements
 public interface IntegerValue extends Supplier<Integer> {
 
-    IntegerValue ZERO = new IntegerValue.Constant(0);
-    IntegerValue ONE = new IntegerValue.Constant(1);
+    IntegerValue ZERO = new Constant(0);
+    IntegerValue ONE = new Constant(1);
 
     Codec<ModGameRules.IntegerGameRule> GAMERULE_CODEC = new StringRepresentable.StringRepresentableCodec<>(
-            ModGameRules.INTEGER_VALUES_LIST.toArray(ModGameRules.IntegerGameRule[]::new),
+            ModGameRules.INTEGER_GAME_RULES.toArray(ModGameRules.IntegerGameRule[]::new),
             ModGameRules.INTEGER_VALUES::get,
-            ModGameRules.INTEGER_VALUES_LIST::indexOf
+            ModGameRules.INTEGER_GAME_RULES::indexOf
     );
 
+    static Codec<IntegerValue> durationSecondsCodec() {
+        return codec(20 * 60 * 60, 20);
+    }
+
+    static Codec<IntegerValue> mobEffectLevelCodec() {
+        return codec(128);
+    }
+
     static Codec<IntegerValue> codec() {
-        return ModCodecs.xorAlternative(GAMERULE_CODEC.flatXmap(
+        return codec(Integer.MAX_VALUE);
+    }
+
+    static Codec<IntegerValue> codec(int max) {
+        return codec(max, 1);
+    }
+
+    static Codec<IntegerValue> codec(int max, int multiplier) {
+        return ModCodecs.xorAlternative(GameRuleValue.CODEC.flatXmap(
                 DataResult::success,
-                value -> value instanceof ModGameRules.IntegerGameRule gameRule
+                value -> value instanceof GameRuleValue gameRule
                         ? DataResult.success(gameRule)
                         : DataResult.error(() -> "Not a game rule")
-        ), IntegerValue.constantCodec());
+        ), Constant.codec(max, multiplier));
     }
 
-    @SuppressWarnings("SuspiciousMethodCalls")
     static StreamCodec<ByteBuf, IntegerValue> streamCodec() {
         return ByteBufCodecs.BOOL.dispatch(
-                ModGameRules.INTEGER_VALUES_LIST::contains,
-                b -> b ? ByteBufCodecs.idMapper(ModGameRules.INTEGER_VALUES_LIST::get, ModGameRules.INTEGER_VALUES_LIST::indexOf) : constantStreamCodec()
+                value -> value instanceof GameRuleValue,
+                // TODO why does this work? isn't a cast needed here?
+                b -> b ? GameRuleValue.STREAM_CODEC : Constant.STREAM_CODEC
         );
-    }
-
-    static MapCodec<IntegerValue> field(String fieldName, ModGameRules.IntegerGameRule gameRule) {
-        return constantCodec(gameRule.max(), gameRule.multiplier()).optionalFieldOf(fieldName, gameRule);
-    }
-
-    static Codec<IntegerValue> constantCodec(int max, int multiplier) {
-        return ExtraCodecs.intRange(0, max)
-                .xmap(i -> i * multiplier, i -> i / multiplier)
-                .xmap(IntegerValue.Constant::new, Supplier::get);
-    }
-
-    static Codec<IntegerValue> constantCodec() {
-        return Codec.INT.xmap(IntegerValue.Constant::new, Supplier::get);
-    }
-
-    static StreamCodec<ByteBuf, IntegerValue> defaultStreamCodec(ModGameRules.IntegerGameRule gameRule) {
-        return ByteBufCodecs.BOOL.dispatch(
-                value -> value == gameRule,
-                b -> b ? StreamCodec.unit(gameRule) : constantStreamCodec()
-        );
-    }
-
-    static StreamCodec<ByteBuf, IntegerValue> constantStreamCodec() {
-        return ByteBufCodecs.INT.map(IntegerValue.Constant::new, Supplier::get);
     }
 
     record Constant(Integer get) implements IntegerValue {
 
+        public static StreamCodec<ByteBuf, IntegerValue> STREAM_CODEC = ByteBufCodecs.INT.map(Constant::new, Supplier::get);
+
+        public static Codec<IntegerValue> codec(int max, int multiplier) {
+            return ExtraCodecs.intRange(0, max)
+                    .xmap(i -> i * multiplier, i -> i / multiplier)
+                    .xmap(Constant::new, Supplier::get);
+        }
+    }
+
+    record GameRuleValue(ModGameRules.IntegerGameRule gameRule, int max, int multiplier) implements IntegerValue {
+
+        public static final Codec<GameRuleValue> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                GAMERULE_CODEC.fieldOf("gamerule").forGetter(GameRuleValue::gameRule),
+                ExtraCodecs.POSITIVE_INT.optionalFieldOf("max", Integer.MAX_VALUE).forGetter(GameRuleValue::max),
+                ExtraCodecs.POSITIVE_INT.optionalFieldOf("multiplier", 1).forGetter(GameRuleValue::multiplier)
+        ).apply(instance, GameRuleValue::new));
+
+        public static final StreamCodec<ByteBuf, GameRuleValue> STREAM_CODEC = StreamCodec.composite(
+                ByteBufCodecs.idMapper(ModGameRules.INTEGER_GAME_RULES::get, ModGameRules.INTEGER_GAME_RULES::indexOf),
+                GameRuleValue::gameRule,
+                ByteBufCodecs.INT,
+                GameRuleValue::max,
+                ByteBufCodecs.INT,
+                GameRuleValue::multiplier,
+                GameRuleValue::new
+        );
+
+        @Override
+        public Integer get() {
+            return Math.min(max, Math.max(0, gameRule.get())) * multiplier;
+        }
     }
 }

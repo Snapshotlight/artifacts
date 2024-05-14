@@ -3,7 +3,6 @@ package artifacts.ability.mobeffect;
 import artifacts.ability.value.BooleanValue;
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
@@ -22,14 +21,14 @@ import java.util.Objects;
 public class LimitedWaterBreathingAbility extends MobEffectAbility {
 
     public static final MapCodec<LimitedWaterBreathingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field("duration", ModGameRules.SNORKEL_WATER_BREATHING_DURATION).forGetter(LimitedWaterBreathingAbility::maxDuration),
-            BooleanValue.field("infinite", ModGameRules.SNORKEL_IS_INFINITE).forGetter(ability -> ability.isInfinite)
+            IntegerValue.durationSecondsCodec().fieldOf("duration").forGetter(LimitedWaterBreathingAbility::maxDuration),
+            BooleanValue.codec().optionalFieldOf("infinite", BooleanValue.FALSE).forGetter(ability -> ability.isInfinite)
     ).apply(instance, LimitedWaterBreathingAbility::new));
 
     public static final StreamCodec<ByteBuf, LimitedWaterBreathingAbility> STREAM_CODEC = StreamCodec.composite(
-            IntegerValue.defaultStreamCodec(ModGameRules.SNORKEL_WATER_BREATHING_DURATION),
+            IntegerValue.streamCodec(),
             LimitedWaterBreathingAbility::maxDuration,
-            BooleanValue.defaultStreamCodec(ModGameRules.SNORKEL_IS_INFINITE),
+            BooleanValue.streamCodec(),
             ability -> ability.isInfinite,
             LimitedWaterBreathingAbility::new
     );

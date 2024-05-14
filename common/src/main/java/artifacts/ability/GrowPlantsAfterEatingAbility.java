@@ -2,7 +2,6 @@ package artifacts.ability;
 
 import artifacts.ability.value.BooleanValue;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
 import com.mojang.serialization.MapCodec;
@@ -15,14 +14,15 @@ import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+// TODO migrate to simpleAbility
 public record GrowPlantsAfterEatingAbility(BooleanValue enabled) implements ArtifactAbility {
 
     public static final MapCodec<GrowPlantsAfterEatingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.enabledField(ModGameRules.ROOTED_BOOTS_DO_GROW_PLANTS_AFTER_EATING).forGetter(GrowPlantsAfterEatingAbility::enabled)
+            BooleanValue.enabledField().forGetter(GrowPlantsAfterEatingAbility::enabled)
     ).apply(instance, GrowPlantsAfterEatingAbility::new));
 
     public static final StreamCodec<ByteBuf, GrowPlantsAfterEatingAbility> STREAM_CODEC = StreamCodec.composite(
-            BooleanValue.defaultStreamCodec(ModGameRules.ROOTED_BOOTS_DO_GROW_PLANTS_AFTER_EATING),
+            BooleanValue.streamCodec(),
             GrowPlantsAfterEatingAbility::enabled,
             GrowPlantsAfterEatingAbility::new
     );

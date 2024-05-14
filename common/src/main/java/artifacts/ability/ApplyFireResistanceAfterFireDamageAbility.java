@@ -2,7 +2,6 @@ package artifacts.ability;
 
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -15,18 +14,17 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
-// TODO applyEffectAfterDamageAbility
 public record ApplyFireResistanceAfterFireDamageAbility(IntegerValue fireResistanceDuration, IntegerValue cooldown) implements ArtifactAbility {
 
     public static final MapCodec<ApplyFireResistanceAfterFireDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field("duration", ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_DURATION).forGetter(ApplyFireResistanceAfterFireDamageAbility::fireResistanceDuration),
-            IntegerValue.field("cooldown", ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_COOLDOWN).forGetter(ApplyFireResistanceAfterFireDamageAbility::cooldown)
+            IntegerValue.durationSecondsCodec().fieldOf("duration").forGetter(ApplyFireResistanceAfterFireDamageAbility::fireResistanceDuration),
+            IntegerValue.durationSecondsCodec().fieldOf("cooldown").forGetter(ApplyFireResistanceAfterFireDamageAbility::cooldown)
     ).apply(instance, ApplyFireResistanceAfterFireDamageAbility::new));
 
     public static final StreamCodec<ByteBuf, ApplyFireResistanceAfterFireDamageAbility> STREAM_CODEC = StreamCodec.composite(
-            IntegerValue.defaultStreamCodec(ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_DURATION),
+            IntegerValue.streamCodec(),
             ApplyFireResistanceAfterFireDamageAbility::fireResistanceDuration,
-            IntegerValue.defaultStreamCodec(ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_COOLDOWN),
+            IntegerValue.streamCodec(),
             ApplyFireResistanceAfterFireDamageAbility::cooldown,
             ApplyFireResistanceAfterFireDamageAbility::new
     );

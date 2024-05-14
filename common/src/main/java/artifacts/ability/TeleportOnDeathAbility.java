@@ -5,7 +5,6 @@ import artifacts.ability.value.DoubleValue;
 import artifacts.ability.value.IntegerValue;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -28,20 +27,20 @@ import java.util.List;
 public record TeleportOnDeathAbility(DoubleValue teleportationChance, IntegerValue healthRestored, IntegerValue cooldown, BooleanValue consumedOnUse) implements ArtifactAbility {
 
     public static final MapCodec<TeleportOnDeathAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.field("teleportation_chance", ModGameRules.CHORUS_TOTEM_TELEPORTATION_CHANCE).forGetter(TeleportOnDeathAbility::teleportationChance),
-            IntegerValue.field("health_restored", ModGameRules.CHORUS_TOTEM_HEALTH_RESTORED).forGetter(TeleportOnDeathAbility::healthRestored),
-            IntegerValue.field("cooldown", ModGameRules.CHORUS_TOTEM_COOLDOWN).forGetter(TeleportOnDeathAbility::cooldown),
-            BooleanValue.field("consume", ModGameRules.CHORUS_TOTEM_DO_CONSUME_ON_USE).forGetter(TeleportOnDeathAbility::consumedOnUse)
+            DoubleValue.percentage().fieldOf("teleportation_chance").forGetter(TeleportOnDeathAbility::teleportationChance),
+            IntegerValue.codec().fieldOf("health_restored").forGetter(TeleportOnDeathAbility::healthRestored),
+            IntegerValue.durationSecondsCodec().optionalFieldOf("cooldown", IntegerValue.ZERO).forGetter(TeleportOnDeathAbility::cooldown),
+            BooleanValue.codec().optionalFieldOf("consume", BooleanValue.TRUE).forGetter(TeleportOnDeathAbility::consumedOnUse)
     ).apply(instance, TeleportOnDeathAbility::new));
 
     public static final StreamCodec<ByteBuf, TeleportOnDeathAbility> STREAM_CODEC = StreamCodec.composite(
-            DoubleValue.defaultStreamCodec(ModGameRules.CHORUS_TOTEM_TELEPORTATION_CHANCE),
+            DoubleValue.streamCodec(),
             TeleportOnDeathAbility::teleportationChance,
-            IntegerValue.defaultStreamCodec(ModGameRules.CHORUS_TOTEM_HEALTH_RESTORED),
+            IntegerValue.streamCodec(),
             TeleportOnDeathAbility::healthRestored,
-            IntegerValue.defaultStreamCodec(ModGameRules.CHORUS_TOTEM_COOLDOWN),
+            IntegerValue.streamCodec(),
             TeleportOnDeathAbility::cooldown,
-            BooleanValue.defaultStreamCodec(ModGameRules.CHORUS_TOTEM_DO_CONSUME_ON_USE),
+            BooleanValue.streamCodec(),
             TeleportOnDeathAbility::consumedOnUse,
             TeleportOnDeathAbility::new
     );

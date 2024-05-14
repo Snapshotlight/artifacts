@@ -4,7 +4,6 @@ import artifacts.ability.value.BooleanValue;
 import artifacts.ability.value.DoubleValue;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModAttributes;
-import artifacts.registry.ModGameRules;
 import artifacts.registry.ModSoundEvents;
 import artifacts.util.AbilityHelper;
 import com.mojang.serialization.MapCodec;
@@ -22,17 +21,17 @@ import net.minecraft.world.phys.Vec3;
 public record DoubleJumpAbility(BooleanValue enabled, DoubleValue sprintHorizontalVelocity, DoubleValue sprintVerticalVelocity) implements ArtifactAbility {
 
     public static final MapCodec<DoubleJumpAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.enabledField(ModGameRules.CLOUD_IN_A_BOTTLE_ENABLED).forGetter(DoubleJumpAbility::enabled),
-            DoubleValue.field("sprint_jump_horizontal_velocity", ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_HORIZONTAL_VELOCITY).forGetter(DoubleJumpAbility::sprintHorizontalVelocity),
-            DoubleValue.field("sprint_jump_vertical_velocity", ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY).forGetter(DoubleJumpAbility::sprintVerticalVelocity)
+            BooleanValue.enabledField().forGetter(DoubleJumpAbility::enabled),
+            DoubleValue.codec(100 * 100, 100).optionalFieldOf("sprint_jump_horizontal_velocity", DoubleValue.ZERO).forGetter(DoubleJumpAbility::sprintHorizontalVelocity),
+            DoubleValue.codec(100 * 100, 100).optionalFieldOf("sprint_jump_vertical_velocity", DoubleValue.ZERO).forGetter(DoubleJumpAbility::sprintVerticalVelocity)
     ).apply(instance, DoubleJumpAbility::new));
 
     public static final StreamCodec<ByteBuf, DoubleJumpAbility> STREAM_CODEC = StreamCodec.composite(
-            BooleanValue.defaultStreamCodec(ModGameRules.CLOUD_IN_A_BOTTLE_ENABLED),
+            BooleanValue.streamCodec(),
             DoubleJumpAbility::enabled,
-            DoubleValue.defaultStreamCodec(ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_HORIZONTAL_VELOCITY),
+            DoubleValue.streamCodec(),
             DoubleJumpAbility::sprintHorizontalVelocity,
-            DoubleValue.defaultStreamCodec(ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY),
+            DoubleValue.streamCodec(),
             DoubleJumpAbility::sprintVerticalVelocity,
             DoubleJumpAbility::new
     );

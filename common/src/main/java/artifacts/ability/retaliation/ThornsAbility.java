@@ -3,7 +3,6 @@ package artifacts.ability.retaliation;
 import artifacts.ability.value.DoubleValue;
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
@@ -12,21 +11,20 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class ThornsAbility extends RetaliationAbility {
 
-    public static final MapCodec<ThornsAbility> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            codecStart(instance, ModGameRules.THORN_PENDANT_STRIKE_CHANCE, ModGameRules.THORN_PENDANT_COOLDOWN)
-                    .and(IntegerValue.field("min_damage", ModGameRules.THORN_PENDANT_MIN_DAMAGE).forGetter(ThornsAbility::minDamage))
-                    .and(IntegerValue.field("max_damage", ModGameRules.THORN_PENDANT_MAX_DAMAGE).forGetter(ThornsAbility::maxDamage))
-                    .apply(instance, ThornsAbility::new)
+    public static final MapCodec<ThornsAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> codecStart(instance)
+            .and(IntegerValue.codec().fieldOf("min_damage").forGetter(ThornsAbility::minDamage))
+            .and(IntegerValue.codec().fieldOf("max_damage").forGetter(ThornsAbility::maxDamage))
+            .apply(instance, ThornsAbility::new)
     );
 
     public static final StreamCodec<ByteBuf, ThornsAbility> STREAM_CODEC = StreamCodec.composite(
-            DoubleValue.defaultStreamCodec(ModGameRules.THORN_PENDANT_STRIKE_CHANCE),
+            DoubleValue.streamCodec(),
             ThornsAbility::strikeChance,
-            IntegerValue.defaultStreamCodec(ModGameRules.THORN_PENDANT_COOLDOWN),
+            IntegerValue.streamCodec(),
             ThornsAbility::cooldown,
-            IntegerValue.defaultStreamCodec(ModGameRules.THORN_PENDANT_MIN_DAMAGE),
+            IntegerValue.streamCodec(),
             ThornsAbility::minDamage,
-            IntegerValue.defaultStreamCodec(ModGameRules.THORN_PENDANT_MAX_DAMAGE),
+            IntegerValue.streamCodec(),
             ThornsAbility::maxDamage,
             ThornsAbility::new
     );

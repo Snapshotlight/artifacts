@@ -4,7 +4,6 @@ import artifacts.ability.value.BooleanValue;
 import artifacts.ability.value.DoubleValue;
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
@@ -19,20 +18,20 @@ import java.util.List;
 public class SetAttackersOnFireAbility extends RetaliationAbility {
 
     public static final MapCodec<SetAttackersOnFireAbility> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> codecStart(instance, ModGameRules.FLAME_PENDANT_STRIKE_CHANCE, ModGameRules.FLAME_PENDANT_COOLDOWN)
-                    .and(IntegerValue.field("duration", ModGameRules.FLAME_PENDANT_FIRE_DURATION).forGetter(SetAttackersOnFireAbility::fireDuration))
-                    .and(BooleanValue.field("grants_fire_resistance", ModGameRules.FLAME_PENDANT_DO_GRANT_FIRE_RESISTANCE).forGetter(SetAttackersOnFireAbility::grantsFireResistance))
+            instance -> codecStart(instance)
+                    .and(IntegerValue.durationSecondsCodec().fieldOf("duration").forGetter(SetAttackersOnFireAbility::fireDuration))
+                    .and(BooleanValue.codec().optionalFieldOf("grants_fire_resistance", BooleanValue.TRUE).forGetter(SetAttackersOnFireAbility::grantsFireResistance))
                     .apply(instance, SetAttackersOnFireAbility::new)
     );
 
     public static final StreamCodec<ByteBuf, SetAttackersOnFireAbility> STREAM_CODEC = StreamCodec.composite(
-            DoubleValue.defaultStreamCodec(ModGameRules.FLAME_PENDANT_STRIKE_CHANCE),
+            DoubleValue.streamCodec(),
             SetAttackersOnFireAbility::strikeChance,
-            IntegerValue.defaultStreamCodec(ModGameRules.FLAME_PENDANT_COOLDOWN),
+            IntegerValue.streamCodec(),
             SetAttackersOnFireAbility::cooldown,
-            IntegerValue.defaultStreamCodec(ModGameRules.FLAME_PENDANT_FIRE_DURATION),
+            IntegerValue.streamCodec(),
             SetAttackersOnFireAbility::fireDuration,
-            BooleanValue.defaultStreamCodec(ModGameRules.FLAME_PENDANT_DO_GRANT_FIRE_RESISTANCE),
+            BooleanValue.streamCodec(),
             SetAttackersOnFireAbility::grantsFireResistance,
             SetAttackersOnFireAbility::new
     );
@@ -77,7 +76,7 @@ public class SetAttackersOnFireAbility extends RetaliationAbility {
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
         tooltip.add(tooltipLine("strike_chance"));
-        if (ModGameRules.FLAME_PENDANT_DO_GRANT_FIRE_RESISTANCE.get()) {
+        if (grantsFireResistance().get()) {
             tooltip.add(tooltipLine("fire_resistance"));
         }
     }

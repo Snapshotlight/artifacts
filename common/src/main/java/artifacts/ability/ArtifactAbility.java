@@ -11,8 +11,6 @@ import com.mojang.serialization.MapCodec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
@@ -42,10 +40,6 @@ public interface ArtifactAbility {
                     ability -> ModAbilities.REGISTRY.getId(ability.getType()),
                     id -> ModAbilities.REGISTRY.get(id).streamCodec()
             );
-
-    static <T> T createDefaultInstance(MapCodec<T> codec) {
-        return codec.codec().decode(NbtOps.INSTANCE, new CompoundTag()).getOrThrow().getFirst();
-    }
 
     Type<?> getType();
 

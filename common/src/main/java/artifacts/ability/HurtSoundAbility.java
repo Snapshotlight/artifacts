@@ -28,6 +28,6 @@ public record HurtSoundAbility(SoundEvent soundEvent) implements TooltiplessAbil
 
     @Override
     public boolean isNonCosmetic() {
-        return true;
+        return false;
     }
 }

@@ -3,7 +3,6 @@ package artifacts.ability.retaliation;
 import artifacts.ability.value.DoubleValue;
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
@@ -18,14 +17,13 @@ import net.minecraft.world.phys.Vec3;
 public class StrikeAttackersWithLightningAbility extends RetaliationAbility {
 
     public static final MapCodec<StrikeAttackersWithLightningAbility> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> codecStart(instance, ModGameRules.SHOCK_PENDANT_STRIKE_CHANCE, ModGameRules.SHOCK_PENDANT_COOLDOWN)
-                    .apply(instance, StrikeAttackersWithLightningAbility::new)
+            instance -> codecStart(instance).apply(instance, StrikeAttackersWithLightningAbility::new)
     );
 
     public static final StreamCodec<ByteBuf, StrikeAttackersWithLightningAbility> STREAM_CODEC = StreamCodec.composite(
-            DoubleValue.defaultStreamCodec(ModGameRules.SHOCK_PENDANT_STRIKE_CHANCE),
+            DoubleValue.streamCodec(),
             StrikeAttackersWithLightningAbility::strikeChance,
-            IntegerValue.defaultStreamCodec(ModGameRules.SHOCK_PENDANT_COOLDOWN),
+            IntegerValue.streamCodec(),
             StrikeAttackersWithLightningAbility::cooldown,
             StrikeAttackersWithLightningAbility::new
     );

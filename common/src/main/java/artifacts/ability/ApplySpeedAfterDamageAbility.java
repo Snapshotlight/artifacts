@@ -2,7 +2,6 @@ package artifacts.ability;
 
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -17,21 +16,22 @@ import net.minecraft.world.entity.LivingEntity;
 public record ApplySpeedAfterDamageAbility(IntegerValue speedLevel, IntegerValue speedDuration, IntegerValue cooldown) implements ArtifactAbility {
 
     public static final MapCodec<ApplySpeedAfterDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field("level", ModGameRules.PANIC_NECKLACE_SPEED_LEVEL).forGetter(ApplySpeedAfterDamageAbility::speedLevel),
-            IntegerValue.field("duration", ModGameRules.PANIC_NECKLACE_SPEED_DURATION).forGetter(ApplySpeedAfterDamageAbility::speedDuration),
-            IntegerValue.field("cooldown", ModGameRules.PANIC_NECKLACE_COOLDOWN).forGetter(ApplySpeedAfterDamageAbility::cooldown)
+            IntegerValue.mobEffectLevelCodec().optionalFieldOf("level", IntegerValue.ONE).forGetter(ApplySpeedAfterDamageAbility::speedLevel),
+            IntegerValue.durationSecondsCodec().fieldOf("duration").forGetter(ApplySpeedAfterDamageAbility::speedDuration),
+            IntegerValue.durationSecondsCodec().fieldOf("cooldown").forGetter(ApplySpeedAfterDamageAbility::cooldown)
     ).apply(instance, ApplySpeedAfterDamageAbility::new));
 
     public static final StreamCodec<ByteBuf, ApplySpeedAfterDamageAbility> STREAM_CODEC = StreamCodec.composite(
-            IntegerValue.defaultStreamCodec(ModGameRules.PANIC_NECKLACE_SPEED_LEVEL),
+            IntegerValue.streamCodec(),
             ApplySpeedAfterDamageAbility::speedLevel,
-            IntegerValue.defaultStreamCodec(ModGameRules.PANIC_NECKLACE_SPEED_DURATION),
+            IntegerValue.streamCodec(),
             ApplySpeedAfterDamageAbility::speedDuration,
-            IntegerValue.defaultStreamCodec(ModGameRules.PANIC_NECKLACE_COOLDOWN),
+            IntegerValue.streamCodec(),
             ApplySpeedAfterDamageAbility::cooldown,
             ApplySpeedAfterDamageAbility::new
     );
 
+    @SuppressWarnings("unused")
     public static EventResult onLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {
         if (!entity.level().isClientSide() && amount >= 1) {
             if (AbilityHelper.hasAbilityActive(ModAbilities.APPLY_SPEED_AFTER_DAMAGE.get(), entity, true)) {

@@ -2,7 +2,6 @@ package artifacts.ability;
 
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -16,14 +15,14 @@ import net.minecraft.world.food.FoodProperties;
 public record ApplyHasteAfterEatingAbility(IntegerValue durationPerFoodPoint, IntegerValue hasteLevel) implements ArtifactAbility {
 
     public static final MapCodec<ApplyHasteAfterEatingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field("duration", ModGameRules.ONION_RING_HASTE_DURATION_PER_FOOD_POINT).forGetter(ApplyHasteAfterEatingAbility::durationPerFoodPoint),
-            IntegerValue.field("level", ModGameRules.ONION_RING_HASTE_LEVEL).forGetter(ApplyHasteAfterEatingAbility::hasteLevel)
+            IntegerValue.durationSecondsCodec().fieldOf("duration").forGetter(ApplyHasteAfterEatingAbility::durationPerFoodPoint),
+            IntegerValue.mobEffectLevelCodec().optionalFieldOf("level", IntegerValue.ONE).forGetter(ApplyHasteAfterEatingAbility::hasteLevel)
     ).apply(instance, ApplyHasteAfterEatingAbility::new));
 
     public static final StreamCodec<ByteBuf, ApplyHasteAfterEatingAbility> STREAM_CODEC = StreamCodec.composite(
-            IntegerValue.defaultStreamCodec(ModGameRules.ONION_RING_HASTE_DURATION_PER_FOOD_POINT),
+            IntegerValue.streamCodec(),
             ApplyHasteAfterEatingAbility::durationPerFoodPoint,
-            IntegerValue.defaultStreamCodec(ModGameRules.ONION_RING_HASTE_LEVEL),
+            IntegerValue.streamCodec(),
             ApplyHasteAfterEatingAbility::hasteLevel,
             ApplyHasteAfterEatingAbility::new
     );

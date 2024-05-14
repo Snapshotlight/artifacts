@@ -2,7 +2,6 @@ package artifacts.ability;
 
 import artifacts.ability.value.BooleanValue;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -20,15 +19,16 @@ import java.util.List;
 public record AttractItemsAbility(BooleanValue enabled) implements ArtifactAbility {
 
     public static final MapCodec<AttractItemsAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.enabledField(ModGameRules.UNIVERSAL_ATTRACTOR_ENABLED).forGetter(AttractItemsAbility::enabled)
+            BooleanValue.enabledField().forGetter(AttractItemsAbility::enabled)
     ).apply(instance, AttractItemsAbility::new));
 
     public static final StreamCodec<ByteBuf, AttractItemsAbility> STREAM_CODEC = StreamCodec.composite(
-            BooleanValue.defaultStreamCodec(ModGameRules.UNIVERSAL_ATTRACTOR_ENABLED),
+            BooleanValue.streamCodec(),
             AttractItemsAbility::enabled,
             AttractItemsAbility::new
     );
 
+    @SuppressWarnings("unused")
     public static EventResult onItemToss(Player player, ItemEntity entity) {
         if (AbilityHelper.hasAbilityActive(ModAbilities.ATTRACT_ITEMS.get(), player, true)) {
             AbilityHelper.addCooldown(ModAbilities.ATTRACT_ITEMS.get(), player, 5 * 20);

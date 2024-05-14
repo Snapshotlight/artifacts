@@ -26,6 +26,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -62,16 +63,16 @@ public class ModItems {
             .addAttributeModifier(ModAttributes.EATING_SPEED, ModGameRules.NOVELTY_DRINKING_HAT_EATING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
     );
     public static final RegistrySupplier<WearableArtifactItem> SNORKEL = wearableItem("snorkel", builder -> builder
-            .addAbility(LimitedWaterBreathingAbility.CODEC)
+            .addAbility(new LimitedWaterBreathingAbility(ModGameRules.SNORKEL_WATER_BREATHING_DURATION.asDuration(), ModGameRules.SNORKEL_IS_INFINITE))
     );
     public static final RegistrySupplier<WearableArtifactItem> NIGHT_VISION_GOGGLES = wearableItem("night_vision_goggles", builder -> builder
-            .addAbility(NightVisionAbility.CODEC)
+            .addAbility(new NightVisionAbility(ModGameRules.NIGHT_VISION_GOGGLES_STRENGTH.asPercentage()))
     );
     public static final RegistrySupplier<WearableArtifactItem> VILLAGER_HAT = wearableItem("villager_hat", builder -> builder
-            .addAttributeModifier(ModAttributes.VILLAGER_REPUTATION, ModGameRules.VILLAGER_HAT_REPUTATION_BONUS)
+            .addAttributeModifier(ModAttributes.VILLAGER_REPUTATION, ModGameRules.VILLAGER_HAT_REPUTATION_BONUS, AttributeModifier.Operation.ADD_VALUE, 1)
     );
     public static final RegistrySupplier<WearableArtifactItem> SUPERSTITIOUS_HAT = wearableItem("superstitious_hat", builder -> builder
-            .addAbility(IncreaseEnchantmentLevelAbility.looting())
+            .increasesEnchantment(Enchantments.LOOTING, ModGameRules.SUPERSTITIOUS_HAT_LOOTING_LEVEL_BONUS)
     );
     public static final RegistrySupplier<WearableArtifactItem> COWBOY_HAT = wearableItem("cowboy_hat", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_LEATHER)
@@ -79,35 +80,52 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> ANGLERS_HAT = wearableItem("anglers_hat", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_LEATHER)
-            .addAbility(IncreaseEnchantmentLevelAbility.luckOfTheSea())
-            .addAbility(IncreaseEnchantmentLevelAbility.lure())
+            .increasesEnchantment(Enchantments.LUCK_OF_THE_SEA, ModGameRules.ANGLERS_HAT_LUCK_OF_THE_SEA_LEVEL_BONUS)
+            .increasesEnchantment(Enchantments.LURE, ModGameRules.ANGLERS_HAT_LURE_LEVEL_BONUS)
     );
 
     // necklace
     public static final RegistrySupplier<WearableArtifactItem> LUCKY_SCARF = wearableItem("lucky_scarf", builder -> builder
-            .addAbility(IncreaseEnchantmentLevelAbility.fortune())
+            .increasesEnchantment(Enchantments.FORTUNE, ModGameRules.LUCKY_SCARF_FORTUNE_BONUS)
     );
     public static final RegistrySupplier<WearableArtifactItem> SCARF_OF_INVISIBILITY = wearableItem("scarf_of_invisibility", builder -> builder
             .addAbility(new GenericMobEffectAbility(MobEffects.INVISIBILITY, IntegerValue.ONE, ModGameRules.SCARF_OF_INVISIBILITY_ENABLED))
     );
     public static final RegistrySupplier<WearableArtifactItem> CROSS_NECKLACE = wearableItem("cross_necklace", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_DIAMOND)
-            .addAbility(new ApplyCooldownAfterDamageAbility(ModGameRules.CROSS_NECKLACE_COOLDOWN, Optional.empty()))
-            .addAttributeModifier(ModAttributes.INVINCIBILITY_TICKS, ModGameRules.CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS, AttributeModifier.Operation.ADD_VALUE, false)
+            .addAbility(new ApplyCooldownAfterDamageAbility(ModGameRules.CROSS_NECKLACE_COOLDOWN.asDuration(), Optional.empty()))
+            .addAttributeModifier(ModAttributes.INVINCIBILITY_TICKS, ModGameRules.CROSS_NECKLACE_BONUS_INVINCIBILITY_TICKS, AttributeModifier.Operation.ADD_VALUE, 1, false)
     );
     public static final RegistrySupplier<WearableArtifactItem> PANIC_NECKLACE = wearableItem("panic_necklace", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_DIAMOND)
-            .addAbility(ApplySpeedAfterDamageAbility.CODEC)
+            .addAbility(new ApplySpeedAfterDamageAbility(
+                    ModGameRules.PANIC_NECKLACE_SPEED_LEVEL.asMobEffectLevel(),
+                    ModGameRules.PANIC_NECKLACE_SPEED_DURATION.asDuration(),
+                    ModGameRules.PANIC_NECKLACE_COOLDOWN.asDuration()
+            ))
     );
     public static final RegistrySupplier<WearableArtifactItem> SHOCK_PENDANT = wearableItem("shock_pendant", builder -> builder
-            .addAbility(StrikeAttackersWithLightningAbility.CODEC)
+            .addAbility(new StrikeAttackersWithLightningAbility(
+                    ModGameRules.SHOCK_PENDANT_STRIKE_CHANCE.asPercentage(),
+                    ModGameRules.SHOCK_PENDANT_COOLDOWN.asDuration()
+            ))
             .addAbility(new SimpleAbility(ModAbilities.LIGHTNING_IMMUNITY, ModGameRules.SHOCK_PENDANT_DO_CANCEL_LIGHTNING_DAMAGE))
     );
     public static final RegistrySupplier<WearableArtifactItem> FLAME_PENDANT = wearableItem("flame_pendant", builder -> builder
-            .addAbility(SetAttackersOnFireAbility.CODEC)
+            .addAbility(new SetAttackersOnFireAbility(
+                    ModGameRules.FLAME_PENDANT_STRIKE_CHANCE.asPercentage(),
+                    ModGameRules.FLAME_PENDANT_COOLDOWN.asDuration(),
+                    ModGameRules.FLAME_PENDANT_FIRE_DURATION.asDuration(),
+                    ModGameRules.FLAME_PENDANT_DO_GRANT_FIRE_RESISTANCE
+            ))
     );
     public static final RegistrySupplier<WearableArtifactItem> THORN_PENDANT = wearableItem("thorn_pendant", builder -> builder
-            .addAbility(ThornsAbility.CODEC)
+            .addAbility(new ThornsAbility(
+                    ModGameRules.THORN_PENDANT_STRIKE_CHANCE.asPercentage(),
+                    ModGameRules.THORN_PENDANT_COOLDOWN.asDuration(),
+                    ModGameRules.THORN_PENDANT_MIN_DAMAGE.asIntegerValue(),
+                    ModGameRules.THORN_PENDANT_MAX_DAMAGE.asIntegerValue()
+            ))
     );
     public static final RegistrySupplier<WearableArtifactItem> CHARM_OF_SINKING = wearableItem("charm_of_sinking", builder -> builder
             .addAbility(new SimpleAbility(ModAbilities.SINKING, ModGameRules.CHARM_OF_SINKING_ENABLED))
@@ -116,59 +134,77 @@ public class ModItems {
     // belt
     public static final RegistrySupplier<WearableArtifactItem> CLOUD_IN_A_BOTTLE = wearableItem("cloud_in_a_bottle", builder -> builder
             .equipSound(SoundEvents.BOTTLE_FILL_DRAGONBREATH)
-            .addAbility(DoubleJumpAbility.CODEC)
-            .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, ModGameRules.CLOUD_IN_A_BOTTLE_SAFE_FALL_DISTANCE_BONUS)
+            .addAbility(new DoubleJumpAbility(
+                    ModGameRules.CLOUD_IN_A_BOTTLE_ENABLED,
+                    ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_HORIZONTAL_VELOCITY.asDoubleValue(100 * 100, 100),
+                    ModGameRules.CLOUD_IN_A_BOTTLE_SPRINT_JUMP_VERTICAL_VELOCITY.asDoubleValue(100 * 100, 100)
+            ))
+            .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, ModGameRules.CLOUD_IN_A_BOTTLE_SAFE_FALL_DISTANCE_BONUS, AttributeModifier.Operation.ADD_VALUE, 1)
     );
     public static final RegistrySupplier<WearableArtifactItem> OBSIDIAN_SKULL = wearableItem("obsidian_skull", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_IRON)
-            .addAbility(ApplyFireResistanceAfterFireDamageAbility.CODEC)
+            .addAbility(new ApplyFireResistanceAfterFireDamageAbility(
+                    ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_DURATION.asDuration(),
+                    ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_COOLDOWN.asDuration()
+            ))
     );
     public static final RegistrySupplier<WearableArtifactItem> ANTIDOTE_VESSEL = wearableItem("antidote_vessel", builder -> builder
             .equipSound(SoundEvents.BOTTLE_FILL)
             .addAbility(MakePiglinsNeutralAbility.INSTANCE)
-            .addAbility(RemoveBadEffectsAbility.CODEC)
+            .addAbility(new RemoveBadEffectsAbility(
+                    ModGameRules.ANTIDOTE_VESSEL_ENABLED,
+                    ModGameRules.ANTIDOTE_VESSEL_MAX_EFFECT_DURATION.asDuration()
+            ))
     );
     public static final RegistrySupplier<WearableArtifactItem> UNIVERSAL_ATTRACTOR = wearableItem("universal_attractor", builder -> builder
             .addAbility(MakePiglinsNeutralAbility.INSTANCE)
-            .addAbility(AttractItemsAbility.CODEC)
+            .addAbility(new AttractItemsAbility(ModGameRules.UNIVERSAL_ATTRACTOR_ENABLED))
     );
     public static final RegistrySupplier<WearableArtifactItem> CRYSTAL_HEART = wearableItem("crystal_heart", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_DIAMOND)
-            .addAttributeModifier(Attributes.MAX_HEALTH, ModGameRules.CRYSTAL_HEART_HEALTH_BONUS)
+            .addAttributeModifier(Attributes.MAX_HEALTH, ModGameRules.CRYSTAL_HEART_HEALTH_BONUS, AttributeModifier.Operation.ADD_VALUE, 1)
     );
     public static final RegistrySupplier<WearableArtifactItem> HELIUM_FLAMINGO = wearableItem("helium_flamingo", builder -> builder
             .equipSound(ModSoundEvents.POP)
             .equipSoundPitch(0.7F)
-            .addAbility(SwimInAirAbility.CODEC)
+            .addAbility(new SwimInAirAbility(
+                    ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION.asDuration(),
+                    ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION.asDuration()
+            ))
     );
     public static final RegistrySupplier<WearableArtifactItem> CHORUS_TOTEM = wearableItem("chorus_totem", builder -> builder
-            .addAbility(TeleportOnDeathAbility.CODEC)
+            .addAbility(new TeleportOnDeathAbility(
+                    ModGameRules.CHORUS_TOTEM_TELEPORTATION_CHANCE.asPercentage(),
+                    ModGameRules.CHORUS_TOTEM_HEALTH_RESTORED.asIntegerValue(),
+                    ModGameRules.CHORUS_TOTEM_COOLDOWN.asDuration(),
+                    ModGameRules.CHORUS_TOTEM_DO_CONSUME_ON_USE
+            ))
     );
 
     // hands
     public static final RegistrySupplier<WearableArtifactItem> DIGGING_CLAWS = wearableItem("digging_claws", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_NETHERITE)
             .addAttributeModifier(Attributes.BLOCK_BREAK_SPEED, ModGameRules.DIGGING_CLAWS_BLOCK_BREAK_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-            .addAbility(UpgradeToolTierAbility.CODEC)
+            .addAbility(new UpgradeToolTierAbility(ModGameRules.DIGGING_CLAWS_TOOL_TIER.asIntegerValue()))
     );
     public static final RegistrySupplier<WearableArtifactItem> FERAL_CLAWS = wearableItem("feral_claws", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_NETHERITE)
             .addAttributeModifier(Attributes.ATTACK_SPEED, ModGameRules.FERAL_CLAWS_ATTACK_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
     );
     public static final RegistrySupplier<WearableArtifactItem> POWER_GLOVE = wearableItem("power_glove", builder -> builder
-            .addAttributeModifier(Attributes.ATTACK_DAMAGE, ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS)
+            .addAttributeModifier(Attributes.ATTACK_DAMAGE, ModGameRules.POWER_GLOVE_ATTACK_DAMAGE_BONUS, AttributeModifier.Operation.ADD_VALUE, 1)
     );
     public static final RegistrySupplier<WearableArtifactItem> FIRE_GAUNTLET = wearableItem("fire_gauntlet", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_IRON)
-            .addAttributeModifier(ModAttributes.ATTACK_BURNING_DURATION, ModGameRules.FIRE_GAUNTLET_FIRE_DURATION)
+            .addAttributeModifier(ModAttributes.ATTACK_BURNING_DURATION, ModGameRules.FIRE_GAUNTLET_FIRE_DURATION, AttributeModifier.Operation.ADD_VALUE, 1)
     );
     public static final RegistrySupplier<WearableArtifactItem> POCKET_PISTON = wearableItem("pocket_piston", builder -> builder
             .equipSound(SoundEvents.PISTON_EXTEND)
-            .addAttributeModifier(Attributes.ATTACK_KNOCKBACK, ModGameRules.POCKET_PISTON_ATTACK_KNOCKBACK_BONUS)
+            .addAttributeModifier(Attributes.ATTACK_KNOCKBACK, ModGameRules.POCKET_PISTON_ATTACK_KNOCKBACK_BONUS, AttributeModifier.Operation.ADD_VALUE)
     );
     public static final RegistrySupplier<WearableArtifactItem> VAMPIRIC_GLOVE = wearableItem("vampiric_glove", builder -> builder
-            .addAttributeModifier(ModAttributes.ATTACK_DAMAGE_ABSORPTION, ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_RATIO)
-            .addAttributeModifier(ModAttributes.MAX_ATTACK_DAMAGE_ABSORBED, ModGameRules.VAMPIRIC_GLOVE_MAX_HEALING_PER_HIT)
+            .addAttributeModifier(ModAttributes.ATTACK_DAMAGE_ABSORPTION, ModGameRules.VAMPIRIC_GLOVE_ABSORPTION_RATIO, AttributeModifier.Operation.ADD_VALUE)
+            .addAttributeModifier(ModAttributes.MAX_ATTACK_DAMAGE_ABSORBED, ModGameRules.VAMPIRIC_GLOVE_MAX_HEALING_PER_HIT, AttributeModifier.Operation.ADD_VALUE, 1)
     );
     public static final RegistrySupplier<WearableArtifactItem> GOLDEN_HOOK = wearableItem("golden_hook", builder -> builder
             .addAttributeModifier(ModAttributes.ENTITY_EXPERIENCE, ModGameRules.GOLDEN_HOOK_ENTITY_EXPERIENCE_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
@@ -176,7 +212,10 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> ONION_RING = wearableItem("onion_ring", builder -> builder
             .properties(properties -> properties.food(new FoodProperties.Builder().nutrition(2).build()))
-            .addAbility(ApplyHasteAfterEatingAbility.CODEC)
+            .addAbility(new ApplyHasteAfterEatingAbility(
+                    ModGameRules.ONION_RING_HASTE_DURATION_PER_FOOD_POINT.asDuration(),
+                    ModGameRules.ONION_RING_HASTE_LEVEL.asMobEffectLevel()
+            ))
     );
     public static final RegistrySupplier<WearableArtifactItem> PICKAXE_HEATER = wearableItem("pickaxe_heater", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_IRON)
@@ -189,7 +228,7 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> BUNNY_HOPPERS = wearableItem("bunny_hoppers", builder -> builder
             .addAttributeModifier(Attributes.JUMP_STRENGTH, ModGameRules.BUNNY_HOPPERS_JUMP_STRENGTH_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-            .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, ModGameRules.BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS)
+            .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, ModGameRules.BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS, AttributeModifier.Operation.ADD_VALUE, 1)
             .addAbility(new SimpleAbility(ModAbilities.CANCEL_FALL_DAMAGE, ModGameRules.BUNNY_HOPPERS_DO_CANCEL_FALL_DAMAGE))
             .addAbility(new HurtSoundAbility(SoundEvents.RABBIT_HURT))
     );
@@ -200,28 +239,31 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> RUNNING_SHOES = wearableItem("running_shoes", builder -> builder
             .addAttributeModifier(ModAttributes.SPRINTING_SPEED, ModGameRules.RUNNING_SHOES_SPRINTING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-            .addAttributeModifier(ModAttributes.SPRINTING_STEP_HEIGHT, ModGameRules.RUNNING_SHOES_SPRINTING_STEP_HEIGHT_BONUS)
+            .addAttributeModifier(ModAttributes.SPRINTING_STEP_HEIGHT, ModGameRules.RUNNING_SHOES_SPRINTING_STEP_HEIGHT_BONUS, AttributeModifier.Operation.ADD_VALUE)
     );
     public static final RegistrySupplier<WearableArtifactItem> SNOWSHOES = wearableItem("snowshoes", builder -> builder
             .addAbility(new SimpleAbility(ModAbilities.WALK_ON_POWDER_SNOW, ModGameRules.SNOWSHOES_ALLOW_WALKING_ON_POWDER_SNOW))
-            .addAttributeModifier(ModAttributes.SLIP_RESISTANCE, ModGameRules.SNOWSHOES_SLIPPERINESS_REDUCTION)
+            .addAttributeModifier(ModAttributes.SLIP_RESISTANCE, ModGameRules.SNOWSHOES_SLIPPERINESS_REDUCTION, AttributeModifier.Operation.ADD_VALUE)
     );
     public static final RegistrySupplier<WearableArtifactItem> STEADFAST_SPIKES = wearableItem("steadfast_spikes", builder -> builder
-            .addAttributeModifier(Attributes.KNOCKBACK_RESISTANCE, ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE)
+            .addAttributeModifier(Attributes.KNOCKBACK_RESISTANCE, ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE, AttributeModifier.Operation.ADD_VALUE, 10)
     );
     public static final RegistrySupplier<WearableArtifactItem> FLIPPERS = wearableItem("flippers", builder -> builder
             .addAttributeModifier(ModAttributes.SWIM_SPEED, ModGameRules.FLIPPERS_SWIM_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
     );
     public static final RegistrySupplier<WearableArtifactItem> ROOTED_BOOTS = wearableItem("rooted_boots", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_LEATHER)
-            .addAbility(ReplenishHungerOnGrassAbility.CODEC)
-            .addAbility(GrowPlantsAfterEatingAbility.CODEC)
+            .addAbility(new ReplenishHungerOnGrassAbility(
+                    ModGameRules.ROOTED_BOOTS_ENABLED,
+                    ModGameRules.ROOTED_BOOTS_HUNGER_REPLENISHING_DURATION.asDuration()
+            ))
+            .addAbility(new GrowPlantsAfterEatingAbility(ModGameRules.ROOTED_BOOTS_DO_GROW_PLANTS_AFTER_EATING))
     );
 
     // curio
     public static final RegistrySupplier<WearableArtifactItem> WHOOPEE_CUSHION = wearableItem("whoopee_cushion", builder -> builder
             .equipSound(ModSoundEvents.FART)
-            .addAttributeModifier(ModAttributes.FLATULENCE, ModGameRules.WHOOPEE_CUSHION_FART_CHANCE)
+            .addAttributeModifier(ModAttributes.FLATULENCE, ModGameRules.WHOOPEE_CUSHION_FART_CHANCE, AttributeModifier.Operation.ADD_VALUE)
     );
 
     private static RegistrySupplier<WearableArtifactItem> wearableItem(String name, Consumer<WearableArtifactItem.Builder> consumer) {

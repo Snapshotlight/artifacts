@@ -3,7 +3,6 @@ package artifacts.ability;
 import artifacts.Artifacts;
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
 import com.mojang.serialization.MapCodec;
@@ -25,11 +24,11 @@ import java.util.Optional;
 public record UpgradeToolTierAbility(IntegerValue tierLevel) implements ArtifactAbility {
 
     public static final MapCodec<UpgradeToolTierAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.field("tier", ModGameRules.DIGGING_CLAWS_TOOL_TIER).forGetter(UpgradeToolTierAbility::tierLevel)
+            IntegerValue.codec(5).fieldOf("tier").forGetter(UpgradeToolTierAbility::tierLevel)
     ).apply(instance, UpgradeToolTierAbility::new));
 
     public static final StreamCodec<ByteBuf, UpgradeToolTierAbility> STREAM_CODEC = StreamCodec.composite(
-            IntegerValue.defaultStreamCodec(ModGameRules.DIGGING_CLAWS_TOOL_TIER),
+            IntegerValue.streamCodec(),
             UpgradeToolTierAbility::tierLevel,
             UpgradeToolTierAbility::new
     );

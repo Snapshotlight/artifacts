@@ -3,7 +3,6 @@ package artifacts.ability.retaliation;
 import artifacts.ability.ArtifactAbility;
 import artifacts.ability.value.DoubleValue;
 import artifacts.ability.value.IntegerValue;
-import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
 import artifacts.util.DamageSourceHelper;
 import com.mojang.datafixers.Products;
@@ -18,10 +17,10 @@ public abstract class RetaliationAbility implements ArtifactAbility {
     private final DoubleValue strikeChance;
     private final IntegerValue cooldown;
 
-    protected static <T extends RetaliationAbility> Products.P2<RecordCodecBuilder.Mu<T>, DoubleValue, IntegerValue> codecStart(RecordCodecBuilder.Instance<T> instance, ModGameRules.DoubleGameRule strikeChance, ModGameRules.IntegerGameRule cooldown) {
+    protected static <T extends RetaliationAbility> Products.P2<RecordCodecBuilder.Mu<T>, DoubleValue, IntegerValue> codecStart(RecordCodecBuilder.Instance<T> instance) {
         return instance.group(
-                DoubleValue.field("strike_chance", strikeChance).forGetter(RetaliationAbility::strikeChance),
-                IntegerValue.field("cooldown", cooldown).forGetter(RetaliationAbility::cooldown)
+                DoubleValue.percentage().fieldOf("strike_chance").forGetter(RetaliationAbility::strikeChance),
+                IntegerValue.durationSecondsCodec().optionalFieldOf("cooldown", IntegerValue.ZERO).forGetter(RetaliationAbility::cooldown)
         );
     }
 
