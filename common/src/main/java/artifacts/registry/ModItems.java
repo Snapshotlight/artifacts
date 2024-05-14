@@ -130,6 +130,9 @@ public class ModItems {
     public static final RegistrySupplier<WearableArtifactItem> CHARM_OF_SINKING = wearableItem("charm_of_sinking", builder -> builder
             .addAbility(new SimpleAbility(ModAbilities.SINKING, ModGameRules.CHARM_OF_SINKING_ENABLED))
     );
+    public static final RegistrySupplier<WearableArtifactItem> CHARM_OF_SHRINKING = wearableItem("charm_of_shrinking", builder -> builder
+            .addAttributeModifier(Attributes.SCALE, ModGameRules.CHARM_OF_SHRINKING_SCALE_MODIFIER, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+    );
 
     // belt
     public static final RegistrySupplier<WearableArtifactItem> CLOUD_IN_A_BOTTLE = wearableItem("cloud_in_a_bottle", builder -> builder

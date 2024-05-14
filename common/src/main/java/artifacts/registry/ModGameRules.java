@@ -59,6 +59,7 @@ public class ModGameRules {
             BUNNY_HOPPERS_FALL_DAMAGE_MULTIPLIER = integerGameRule(ModItems.BUNNY_HOPPERS, "fallDamageMultiplier", 0),
             BUNNY_HOPPERS_JUMP_STRENGTH_BONUS = integerGameRule(ModItems.BUNNY_HOPPERS, "jumpStrengthBonus", 40),
             BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS = integerGameRule(ModItems.BUNNY_HOPPERS, "safeFallDistanceBonus", 10),
+            CHARM_OF_SHRINKING_SCALE_MODIFIER = integerGameRule(ModItems.CHARM_OF_SHRINKING, "scaleModifier", -50),
             CHORUS_TOTEM_HEALTH_RESTORED = integerGameRule(ModItems.CHORUS_TOTEM, "healthRestored", 10),
             CHORUS_TOTEM_COOLDOWN = integerGameRule(ModItems.CHORUS_TOTEM, "cooldown", 0),
             CHORUS_TOTEM_TELEPORTATION_CHANCE = integerGameRule(ModItems.CHORUS_TOTEM, "teleportationChance", 100),

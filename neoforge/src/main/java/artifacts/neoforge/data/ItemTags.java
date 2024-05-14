@@ -63,7 +63,8 @@ public class ItemTags extends ItemTagsProvider {
                 ModItems.SHOCK_PENDANT.get(),
                 ModItems.FLAME_PENDANT.get(),
                 ModItems.THORN_PENDANT.get(),
-                ModItems.CHARM_OF_SINKING.get()
+                ModItems.CHARM_OF_SINKING.get(),
+                ModItems.CHARM_OF_SHRINKING.get()
         );
         tag(HANDS).add(
                 ModItems.DIGGING_CLAWS.get(),

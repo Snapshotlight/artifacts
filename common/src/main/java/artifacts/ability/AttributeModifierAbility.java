@@ -40,7 +40,8 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
                 Attributes.KNOCKBACK_RESISTANCE,
                 Attributes.MAX_HEALTH,
                 Attributes.SAFE_FALL_DISTANCE,
-                Attributes.FALL_DAMAGE_MULTIPLIER
+                Attributes.FALL_DAMAGE_MULTIPLIER,
+                Attributes.SCALE
         ));
         CUSTOM_TOOLTIP_ATTRIBUTES.remove(ModAttributes.MAX_ATTACK_DAMAGE_ABSORBED);
     }
@@ -128,8 +129,10 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
         for (Holder<Attribute> attribute : CUSTOM_TOOLTIP_ATTRIBUTES) {
             if (attribute.isBound() && attribute.value() == attribute().value()) {
-                //noinspection ConstantConditions
-                tooltip.add(tooltipLine(BuiltInRegistries.ATTRIBUTE.getKey(attribute.value()).getPath()));
+                if ((attribute.equals(Attributes.SCALE) || attribute.equals(Attributes.FALL_DAMAGE_MULTIPLIER)) ^ amount.get() > 0) {
+                    //noinspection ConstantConditions
+                    tooltip.add(tooltipLine(BuiltInRegistries.ATTRIBUTE.getKey(attribute.value()).getPath()));
+                }
                 return;
             }
         }

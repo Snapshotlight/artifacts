@@ -26,6 +26,7 @@ public class ArtifactLayers {
             PANIC_NECKLACE = createLayerLocation("panic_necklace"),
             PENDANT = createLayerLocation("pendant"),
             CHARM_OF_SINKING = createLayerLocation("charm_of_sinking"),
+            CHARM_OF_SHRINKING = createLayerLocation("charm_of_shrinking"),
 
             CLOUD_IN_A_BOTTLE = createLayerLocation("cloud_in_a_bottle"),
             OBSIDIAN_SKULL = createLayerLocation("obsidian_skull"),
@@ -106,6 +107,7 @@ public class ArtifactLayers {
         EntityModelLayerRegistry.register(PANIC_NECKLACE, layer(NecklaceModel::createPanicNecklace, 64, 48));
         EntityModelLayerRegistry.register(PENDANT, layer(NecklaceModel::createPendant, 64, 48));
         EntityModelLayerRegistry.register(CHARM_OF_SINKING, layer(NecklaceModel::createCharmOfSinking, 64, 48));
+        EntityModelLayerRegistry.register(CHARM_OF_SHRINKING, layer(NecklaceModel::createCharmOfShrinking, 64, 48));
 
         EntityModelLayerRegistry.register(CLOUD_IN_A_BOTTLE, layer(BeltModel::createCloudInABottle, 32, 32));
         EntityModelLayerRegistry.register(OBSIDIAN_SKULL, layer(BeltModel::createObsidianSkull, 32, 32));

@@ -112,6 +112,20 @@ public class NecklaceModel extends HumanoidModel<LivingEntity> {
         return createCenteredNecklace(body);
     }
 
+    public static MeshDefinition createCharmOfShrinking() {
+        CubeListBuilder body = CubeListBuilder.create();
+
+        body.texOffs(52, 0);
+        body.addBox(-3F / 2, 4.5F, -5, 3, 2, 1);
+
+        body.texOffs(52, 3);
+        body.addBox(-1F / 2, 6.5F, -5, 1, 1, 1);
+
+
+
+        return createCenteredNecklace(body);
+    }
+
     public static MeshDefinition createPendant() {
         CubeListBuilder body = CubeListBuilder.create();
 

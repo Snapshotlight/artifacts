@@ -34,6 +34,7 @@ public class ArtifactRenderers {
         register(ModItems.FLAME_PENDANT.get(), () -> new GenericArtifactRenderer("flame_pendant", new NecklaceModel(bakeLayer(ArtifactLayers.PENDANT))));
         register(ModItems.THORN_PENDANT.get(), () -> new GenericArtifactRenderer("thorn_pendant", new NecklaceModel(bakeLayer(ArtifactLayers.PENDANT))));
         register(ModItems.CHARM_OF_SINKING.get(), () -> new GenericArtifactRenderer("charm_of_sinking", new NecklaceModel(bakeLayer(ArtifactLayers.CHARM_OF_SINKING))));
+        register(ModItems.CHARM_OF_SHRINKING.get(), () -> new GenericArtifactRenderer("charm_of_shrinking", new NecklaceModel(bakeLayer(ArtifactLayers.CHARM_OF_SHRINKING))));
 
         // belt
         register(ModItems.CLOUD_IN_A_BOTTLE.get(), () -> new BeltArtifactRenderer("cloud_in_a_bottle", BeltModel.createCloudInABottleModel()));
