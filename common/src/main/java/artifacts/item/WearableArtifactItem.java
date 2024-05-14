@@ -3,13 +3,11 @@ package artifacts.item;
 import artifacts.Artifacts;
 import artifacts.ability.ArtifactAbility;
 import artifacts.ability.AttributeModifierAbility;
-import artifacts.ability.SimpleAbility;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModDataComponents;
 import artifacts.registry.ModGameRules;
 import artifacts.registry.ModItems;
 import artifacts.util.AbilityHelper;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -97,10 +95,6 @@ public class WearableArtifactItem extends Item {
 
         public Builder addAttributeModifier(Holder<Attribute> attribute, ModGameRules.DoubleGameRule amount, AttributeModifier.Operation operation, boolean ignoreCooldown) {
             return addAbility(AttributeModifierAbility.create(attribute, amount, operation, Artifacts.id(itemName + '/' + attribute.unwrapKey().orElseThrow().location().getPath()).toString(), ignoreCooldown));
-        }
-
-        public Builder addAbility(Pair<MapCodec<SimpleAbility>, ?> pair) {
-            return addAbility(pair.getFirst());
         }
 
         public Builder addAbility(MapCodec<? extends ArtifactAbility> codec) {

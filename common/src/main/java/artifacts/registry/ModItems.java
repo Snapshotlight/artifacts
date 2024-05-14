@@ -101,7 +101,7 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> SHOCK_PENDANT = wearableItem("shock_pendant", builder -> builder
             .addAbility(StrikeAttackersWithLightningAbility.CODEC)
-            .addAbility(SimpleAbility.lightningImmunity())
+            .addAbility(new SimpleAbility(ModAbilities.LIGHTNING_IMMUNITY, ModGameRules.SHOCK_PENDANT_DO_CANCEL_LIGHTNING_DAMAGE))
     );
     public static final RegistrySupplier<WearableArtifactItem> FLAME_PENDANT = wearableItem("flame_pendant", builder -> builder
             .addAbility(SetAttackersOnFireAbility.CODEC)
@@ -110,7 +110,7 @@ public class ModItems {
             .addAbility(ThornsAbility.CODEC)
     );
     public static final RegistrySupplier<WearableArtifactItem> CHARM_OF_SINKING = wearableItem("charm_of_sinking", builder -> builder
-            .addAbility(SimpleAbility.sinking())
+            .addAbility(new SimpleAbility(ModAbilities.SINKING, ModGameRules.CHARM_OF_SINKING_ENABLED))
     );
 
     // belt
@@ -180,22 +180,22 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> PICKAXE_HEATER = wearableItem("pickaxe_heater", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_IRON)
-            .addAbility(SimpleAbility.smeltOres())
+            .addAbility(new SimpleAbility(ModAbilities.SMELT_ORES, ModGameRules.PICKAXE_HEATER_ENABLED))
     );
 
     // feet
     public static final RegistrySupplier<WearableArtifactItem> AQUA_DASHERS = wearableItem("aqua_dashers", builder -> builder
-            .addAbility(SimpleAbility.sprintOnWater())
+            .addAbility(new SimpleAbility(ModAbilities.SPRINT_ON_WATER, ModGameRules.AQUA_DASHERS_ENABLED))
     );
     public static final RegistrySupplier<WearableArtifactItem> BUNNY_HOPPERS = wearableItem("bunny_hoppers", builder -> builder
             .addAttributeModifier(Attributes.JUMP_STRENGTH, ModGameRules.BUNNY_HOPPERS_JUMP_STRENGTH_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, ModGameRules.BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS)
-            .addAbility(SimpleAbility.cancelFallDamage())
+            .addAbility(new SimpleAbility(ModAbilities.CANCEL_FALL_DAMAGE, ModGameRules.BUNNY_HOPPERS_DO_CANCEL_FALL_DAMAGE))
             .addAbility(new HurtSoundAbility(SoundEvents.RABBIT_HURT))
     );
     public static final RegistrySupplier<WearableArtifactItem> KITTY_SLIPPERS = wearableItem("kitty_slippers", builder -> builder
             .equipSound(SoundEvents.CAT_AMBIENT)
-            .addAbility(SimpleAbility.scareCreepers())
+            .addAbility(new SimpleAbility(ModAbilities.SCARE_CREEPERS, ModGameRules.KITTY_SLIPPERS_ENABLED))
             .addAbility(new HurtSoundAbility(SoundEvents.CAT_HURT))
     );
     public static final RegistrySupplier<WearableArtifactItem> RUNNING_SHOES = wearableItem("running_shoes", builder -> builder
@@ -203,7 +203,7 @@ public class ModItems {
             .addAttributeModifier(ModAttributes.SPRINTING_STEP_HEIGHT, ModGameRules.RUNNING_SHOES_SPRINTING_STEP_HEIGHT_BONUS)
     );
     public static final RegistrySupplier<WearableArtifactItem> SNOWSHOES = wearableItem("snowshoes", builder -> builder
-            .addAbility(SimpleAbility.walkOnPowderSnow().getFirst())
+            .addAbility(new SimpleAbility(ModAbilities.WALK_ON_POWDER_SNOW, ModGameRules.SNOWSHOES_ALLOW_WALKING_ON_POWDER_SNOW))
             .addAttributeModifier(ModAttributes.SLIP_RESISTANCE, ModGameRules.SNOWSHOES_SLIPPERINESS_REDUCTION)
     );
     public static final RegistrySupplier<WearableArtifactItem> STEADFAST_SPIKES = wearableItem("steadfast_spikes", builder -> builder

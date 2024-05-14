@@ -27,7 +27,7 @@ public class GenericMobEffectAbility extends MobEffectAbility {
     public static final MapCodec<GenericMobEffectAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("id").forGetter(GenericMobEffectAbility::getMobEffect),
             IntegerValue.constantCodec(127, 1).optionalFieldOf("level", IntegerValue.ONE).forGetter(GenericMobEffectAbility::getLevel),
-            BooleanValue.codec().optionalFieldOf("enabled", BooleanValue.TRUE).forGetter(ability -> ability.enabled)
+            BooleanValue.constantCodec().optionalFieldOf("enabled", BooleanValue.TRUE).forGetter(ability -> ability.enabled)
     ).apply(instance, GenericMobEffectAbility::new));
 
     public static final StreamCodec<ByteBuf, GenericMobEffectAbility> STREAM_CODEC = StreamCodec.composite(
@@ -35,7 +35,7 @@ public class GenericMobEffectAbility extends MobEffectAbility {
             GenericMobEffectAbility::getMobEffect,
             IntegerValue.constantStreamCodec(),
             GenericMobEffectAbility::getLevel,
-            BooleanValue.streamCodec(),
+            BooleanValue.constantStreamCodec(),
             ability -> ability.enabled,
             GenericMobEffectAbility::new
     );

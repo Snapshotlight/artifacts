@@ -28,8 +28,9 @@ public class ModGameRules {
     public static final BiMap<String, IntegerGameRule> INTEGER_VALUES = HashBiMap.create();
     public static final BiMap<String, DoubleGameRule> DOUBLE_VALUES = HashBiMap.create();
 
-    public static final List<DoubleGameRule> DOUBLE_VALUES_LIST = new ArrayList<>();
+    public static final List<BooleanGameRule> BOOLEAN_VALUES_LIST = new ArrayList<>();
     public static final List<IntegerGameRule> INTEGER_VALUES_LIST = new ArrayList<>();
+    public static final List<DoubleGameRule> DOUBLE_VALUES_LIST = new ArrayList<>();
 
     public static final BooleanGameRule
             ANTIDOTE_VESSEL_ENABLED = booleanGameRule(ModItems.ANTIDOTE_VESSEL, "enabled"),
