@@ -3,6 +3,7 @@ package artifacts.ability;
 import artifacts.ability.value.BooleanValue;
 import artifacts.ability.value.DoubleValue;
 import artifacts.registry.ModAbilities;
+import artifacts.registry.ModAttributes;
 import artifacts.registry.ModGameRules;
 import artifacts.registry.ModSoundEvents;
 import artifacts.util.AbilityHelper;
@@ -11,6 +12,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
@@ -75,10 +77,13 @@ public record DoubleJumpAbility(BooleanValue enabled, DoubleValue sprintHorizont
             player.causeFoodExhaustion(0.05F);
         }
 
-        if (AbilityHelper.hasAbilityActive(ModAbilities.FART.get(), player)) {
-            player.playSound(ModSoundEvents.FART.get(), 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
-        } else {
-            player.playSound(SoundEvents.WOOL_FALL, 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
+        if (player.level().isClientSide()) {
+            double chance = player.getAttributeValue(ModAttributes.FLATULENCE);
+            if (player.getRandom().nextFloat() < chance) {
+                player.level().playSound(null, player, ModSoundEvents.FART.get(), SoundSource.PLAYERS, 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
+            } else {
+                player.level().playSound(null, player, SoundEvents.WOOL_FALL, SoundSource.PLAYERS, 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
+            }
         }
     }
 

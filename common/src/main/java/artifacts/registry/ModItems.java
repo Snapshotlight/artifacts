@@ -221,7 +221,7 @@ public class ModItems {
     // curio
     public static final RegistrySupplier<WearableArtifactItem> WHOOPEE_CUSHION = wearableItem("whoopee_cushion", builder -> builder
             .equipSound(ModSoundEvents.FART)
-            .addAbility(FartAbility.CODEC)
+            .addAttributeModifier(ModAttributes.FLATULENCE, ModGameRules.WHOOPEE_CUSHION_FART_CHANCE)
     );
 
     private static RegistrySupplier<WearableArtifactItem> wearableItem(String name, Consumer<WearableArtifactItem.Builder> consumer) {
