@@ -246,10 +246,11 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> SNOWSHOES = wearableItem("snowshoes", builder -> builder
             .addAbility(new SimpleAbility(ModAbilities.WALK_ON_POWDER_SNOW, ModGameRules.SNOWSHOES_ALLOW_WALKING_ON_POWDER_SNOW))
-            .addAttributeModifier(ModAttributes.SLIP_RESISTANCE, ModGameRules.SNOWSHOES_SLIPPERINESS_REDUCTION, AttributeModifier.Operation.ADD_VALUE)
+            .addAttributeModifier(ModAttributes.MOVEMENT_SPEED_ON_SNOW, ModGameRules.SNOWSHOES_MOVEMENT_SPEED_ON_SNOW_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
     );
     public static final RegistrySupplier<WearableArtifactItem> STEADFAST_SPIKES = wearableItem("steadfast_spikes", builder -> builder
             .addAttributeModifier(Attributes.KNOCKBACK_RESISTANCE, ModGameRules.STEADFAST_SPIKES_KNOCKBACK_RESISTANCE, AttributeModifier.Operation.ADD_VALUE, 10)
+            .addAttributeModifier(ModAttributes.SLIP_RESISTANCE, ModGameRules.STEADFAST_SPIKES_SLIPPERINESS_REDUCTION, AttributeModifier.Operation.ADD_VALUE)
     );
     public static final RegistrySupplier<WearableArtifactItem> FLIPPERS = wearableItem("flippers", builder -> builder
             .addAttributeModifier(ModAttributes.SWIM_SPEED, ModGameRules.FLIPPERS_SWIM_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
