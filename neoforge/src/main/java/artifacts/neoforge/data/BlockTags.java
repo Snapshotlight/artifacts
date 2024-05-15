@@ -32,5 +32,6 @@ public class BlockTags extends BlockTagsProvider {
         }
 
         tag(ModTags.ROOTED_BOOTS_GRASS).addTag(net.minecraft.tags.BlockTags.ANIMALS_SPAWNABLE_ON);
+        tag(ModTags.SNOW_LAYERS).add(Blocks.SNOW);
     }
 }

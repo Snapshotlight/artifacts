@@ -16,6 +16,7 @@ public class ModTags {
     public static final TagKey<Block> MINEABLE_WITH_DIGGING_CLAWS = create(Registries.BLOCK, "mineable/digging_claws");
     public static final TagKey<Block> CAMPSITE_CHESTS = create(Registries.BLOCK, "campsite_chests");
     public static final TagKey<Block> ROOTED_BOOTS_GRASS = create(Registries.BLOCK, "rooted_boots_grass");
+    public static final TagKey<Block> SNOW_LAYERS = create(Registries.BLOCK, "snow_layers");
     public static final TagKey<MobEffect> ANTIDOTE_VESSEL_CANCELLABLE = create(Registries.MOB_EFFECT, "antidote_vessel_cancellable");
     public static final TagKey<EntityType<?>> CREEPERS = TagKey.create(Registries.ENTITY_TYPE, Artifacts.id("creepers"));
 

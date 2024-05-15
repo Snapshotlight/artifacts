@@ -10,6 +10,7 @@
     "ability.sinking.EnchantmentHelperMixin",
     "ability.sprintonfluids.EntityMixin",
     "ability.teleportondeath.LivingEntityMixin",
+    "accessors.EntityAccessor",
     "accessors.LivingEntityAccessor",
     "accessors.MobAccessor",
     "attribute.LivingEntityMixin",
