@@ -226,7 +226,8 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> ONION_RING = wearableItem("onion_ring", builder -> builder
             .properties(properties -> properties.food(new FoodProperties.Builder().nutrition(2).build()))
-            .addAbility(new ApplyHasteAfterEatingAbility(
+            .addAbility(new ApplyMobEffectAfterEatingAbility(
+                    MobEffects.DIG_SPEED,
                     ModGameRules.ONION_RING_HASTE_DURATION_PER_FOOD_POINT.asDuration(),
                     ModGameRules.ONION_RING_HASTE_LEVEL.asMobEffectLevel()
             ))

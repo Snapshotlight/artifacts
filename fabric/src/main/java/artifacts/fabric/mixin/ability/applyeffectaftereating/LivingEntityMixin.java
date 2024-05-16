@@ -1,7 +1,7 @@
 package artifacts.fabric.mixin.ability.applyeffectaftereating;
 
 import artifacts.ability.GrowPlantsAfterEatingAbility;
-import artifacts.ability.mobeffect.ApplyHasteAfterEatingAbility;
+import artifacts.ability.mobeffect.ApplyMobEffectAfterEatingAbility;
 import artifacts.event.ArtifactEvents;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,7 +32,7 @@ public abstract class LivingEntityMixin {
         FoodProperties properties = useItem.get(DataComponents.FOOD);
         if (properties != null) {
             LivingEntity entity = (LivingEntity) (Object) this;
-            ApplyHasteAfterEatingAbility.applyHasteEffect(entity, properties);
+            ApplyMobEffectAfterEatingAbility.applyEffects(entity, properties);
             GrowPlantsAfterEatingAbility.applyBoneMeal(entity, properties);
         }
     }

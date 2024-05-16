@@ -2,7 +2,7 @@ package artifacts.neoforge.event;
 
 import artifacts.ability.GrowPlantsAfterEatingAbility;
 import artifacts.ability.UpgradeToolTierAbility;
-import artifacts.ability.mobeffect.ApplyHasteAfterEatingAbility;
+import artifacts.ability.mobeffect.ApplyMobEffectAfterEatingAbility;
 import artifacts.component.AbilityToggles;
 import artifacts.event.ArtifactEvents;
 import artifacts.platform.PlatformServices;
@@ -95,7 +95,7 @@ public class ArtifactEventsNeoForge {
     private static void onFoodEaten(LivingEntityUseItemEvent.Finish event) {
         FoodProperties properties = event.getItem().getFoodProperties(event.getEntity());
         if (properties != null) {
-            ApplyHasteAfterEatingAbility.applyHasteEffect(event.getEntity(), properties);
+            ApplyMobEffectAfterEatingAbility.applyEffects(event.getEntity(), properties);
             GrowPlantsAfterEatingAbility.applyBoneMeal(event.getEntity(), properties);
         }
     }

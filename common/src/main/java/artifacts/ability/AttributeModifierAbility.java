@@ -26,13 +26,18 @@ import java.util.UUID;
 
 public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, UUID modifierId, String name, boolean ignoreCooldown) implements ArtifactAbility {
 
-    private static final Set<Holder<Attribute>> CUSTOM_TOOLTIP_ATTRIBUTES;
+    private static final Set<Holder<Attribute>> POSITIVE_ATTRIBUTES_WITH_TOOLTIP;
+    private static final Set<Holder<Attribute>> NEGATIVE_ATTRIBUTES_WITH_TOOLTIP = Set.of(
+            Attributes.SCALE,
+            Attributes.FALL_DAMAGE_MULTIPLIER
+    );
 
     static {
-        CUSTOM_TOOLTIP_ATTRIBUTES = new HashSet<>();
-        CUSTOM_TOOLTIP_ATTRIBUTES.addAll(ModAttributes.PLAYER_ATTRIBUTES);
-        CUSTOM_TOOLTIP_ATTRIBUTES.addAll(ModAttributes.GENERIC_ATTRIBUTES);
-        CUSTOM_TOOLTIP_ATTRIBUTES.addAll(List.of(
+        POSITIVE_ATTRIBUTES_WITH_TOOLTIP = new HashSet<>();
+        POSITIVE_ATTRIBUTES_WITH_TOOLTIP.addAll(ModAttributes.PLAYER_ATTRIBUTES);
+        POSITIVE_ATTRIBUTES_WITH_TOOLTIP.addAll(ModAttributes.GENERIC_ATTRIBUTES);
+        POSITIVE_ATTRIBUTES_WITH_TOOLTIP.add(ModAttributes.SWIM_SPEED);
+        POSITIVE_ATTRIBUTES_WITH_TOOLTIP.addAll(List.of(
                 Attributes.ATTACK_DAMAGE,
                 Attributes.ATTACK_KNOCKBACK,
                 Attributes.ATTACK_SPEED,
@@ -40,11 +45,9 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
                 Attributes.JUMP_STRENGTH,
                 Attributes.KNOCKBACK_RESISTANCE,
                 Attributes.MAX_HEALTH,
-                Attributes.SAFE_FALL_DISTANCE,
-                Attributes.FALL_DAMAGE_MULTIPLIER,
-                Attributes.SCALE
+                Attributes.SAFE_FALL_DISTANCE
         ));
-        CUSTOM_TOOLTIP_ATTRIBUTES.remove(ModAttributes.MAX_ATTACK_DAMAGE_ABSORBED);
+        POSITIVE_ATTRIBUTES_WITH_TOOLTIP.remove(ModAttributes.MAX_ATTACK_DAMAGE_ABSORBED);
     }
 
     public static final MapCodec<AttributeModifierAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -128,13 +131,22 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
 
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        for (Holder<Attribute> attribute : CUSTOM_TOOLTIP_ATTRIBUTES) {
-            if (attribute.isBound() && attribute.value() == attribute().value()) {
-                if ((attribute.equals(Attributes.SCALE) || attribute.equals(Attributes.FALL_DAMAGE_MULTIPLIER)) ^ amount.get() > 0) {
-                    //noinspection ConstantConditions
-                    tooltip.add(tooltipLine(BuiltInRegistries.ATTRIBUTE.getKey(attribute.value()).getPath()));
+        String attributeName = attribute().unwrapKey().orElseThrow().location().getPath();
+        if (attributeName.equals("swim_speed")) { // neoforge swim speed
+            attributeName = "generic.swim_speed";
+        }
+
+        if (amount().get() > 0) {
+            for (Holder<Attribute> attribute : POSITIVE_ATTRIBUTES_WITH_TOOLTIP) {
+                if (attribute.isBound() && attribute.value() == attribute().value()) {
+                    tooltip.add(tooltipLine(attributeName));
                 }
-                return;
+            }
+        } else {
+            for (Holder<Attribute> attribute : NEGATIVE_ATTRIBUTES_WITH_TOOLTIP) {
+                if (attribute.isBound() && attribute.value() == attribute().value()) {
+                    tooltip.add(tooltipLine(attributeName));
+                }
             }
         }
     }

@@ -90,7 +90,7 @@ public class ModGameRules {
             OBSIDIAN_SKULL_FIRE_RESISTANCE_COOLDOWN = integerGameRule(ModItems.OBSIDIAN_SKULL, "fireResistanceCooldown", 60),
             OBSIDIAN_SKULL_FIRE_RESISTANCE_DURATION = integerGameRule(ModItems.OBSIDIAN_SKULL, "fireResistanceDuration", 30),
             ONION_RING_HASTE_DURATION_PER_FOOD_POINT = integerGameRule(ModItems.ONION_RING, "hasteDurationPerFoodPoint", 6),
-            ONION_RING_HASTE_LEVEL = integerGameRule(ModItems.ONION_RING, "hasteLevel", 2),
+            ONION_RING_HASTE_LEVEL = integerGameRule(ModItems.ONION_RING, "level", 2),
             PANIC_NECKLACE_COOLDOWN = integerGameRule(ModItems.PANIC_NECKLACE, "cooldown", 0),
             PANIC_NECKLACE_SPEED_DURATION = integerGameRule(ModItems.PANIC_NECKLACE, "speedDuration", 8),
             PANIC_NECKLACE_SPEED_LEVEL = integerGameRule(ModItems.PANIC_NECKLACE, "speedLevel", 1),

@@ -49,6 +49,7 @@ public class ItemStackMixin {
             return;
         }
 
+        // noinspection ConstantConditions
         ItemStack stack = (ItemStack) (Object) this;
         if (stack.has(ModDataComponents.ABILITIES.get())) {
             List<MutableComponent> tooltip = new ArrayList<>();
@@ -63,6 +64,7 @@ public class ItemStackMixin {
 
     @Inject(method = "addAttributeTooltips", at = @At("TAIL"))
     private void addAttributeTooltips(Consumer<Component> consumer, @Nullable Player player, CallbackInfo info) {
+        // noinspection ConstantConditions
         ItemStack self = (ItemStack) (Object) this;
         ItemAttributeModifiers itemAttributeModifiers = self.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
         boolean hasSlotTooltip = false;
@@ -86,7 +88,8 @@ public class ItemStackMixin {
             }
             addAbilityAttributeTooltips(self, consumer);
         }
-        addWhenHurtTooltips(consumer);
+        addWhenHurtTooltips(consumer, self);
+        addPerFoodPointEatenTooltip(consumer, self);
     }
 
     @Unique
@@ -122,13 +125,11 @@ public class ItemStackMixin {
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Unique
-    private void addWhenHurtTooltips(Consumer<Component> tooltip) {
-        ItemStack self = (ItemStack) (Object) this;
+    private static void addWhenHurtTooltips(Consumer<Component> tooltip, ItemStack stack) {
         MutableBoolean flag = new MutableBoolean(false);
         List<TagKey<DamageType>> list = new ArrayList<>();
-        AbilityHelper.getAbilities(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE.get(), self).forEach(ability -> {
+        AbilityHelper.getAbilities(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE.get(), stack).forEach(ability -> {
             if (ability.tag().isEmpty()) {
                 flag.setTrue();
             } else if (!list.contains(ability.tag().get())) {
@@ -139,7 +140,7 @@ public class ItemStackMixin {
         if (flag.booleanValue()) {
             tooltip.accept(CommonComponents.EMPTY);
             tooltip.accept(Component.translatable("artifacts.tooltip.when_hurt").withStyle(ChatFormatting.GRAY));
-            addWhenHurtTooltip(tooltip, null);
+            addWhenHurtTooltip(tooltip, stack, null);
         }
         for (TagKey<DamageType> tag : list) {
             tooltip.accept(CommonComponents.EMPTY);
@@ -149,26 +150,35 @@ public class ItemStackMixin {
                             .replace("minecraft:", "")
                             .replace(':', '.')
             )).withStyle(ChatFormatting.GRAY));
-            addWhenHurtTooltip(tooltip, tag);
+            addWhenHurtTooltip(tooltip, stack, tag);
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Unique
-    private void addWhenHurtTooltip(Consumer<Component> tooltip, @Nullable TagKey<DamageType> tag) {
-        ItemStack self = (ItemStack) (Object) this;
-        AbilityHelper.getAbilities(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE.get(), self)
+    private static void addWhenHurtTooltip(Consumer<Component> tooltip, ItemStack stack, @Nullable TagKey<DamageType> tag) {
+        AbilityHelper.getAbilities(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE.get(), stack)
                 .forEach(ability -> {
                     if (ability.tag().isEmpty() && tag == null || ability.tag().isPresent() && ability.tag().get().equals(tag)) {
                         addMobEffectTooltip(tooltip, ability.mobEffect().value(), ability.duration().get(), ability.level().get(), false);
                     }
                 });
-        AbilityHelper.getAbilities(ModAbilities.APPLY_COOLDOWN_AFTER_DAMAGE.get(), self)
+        AbilityHelper.getAbilities(ModAbilities.APPLY_COOLDOWN_AFTER_DAMAGE.get(), stack)
                 .forEach(ability -> {
                     if (ability.tag().isEmpty() && tag == null || ability.tag().isPresent() && ability.tag().get().equals(tag)) {
                         tooltip.accept(Component.translatable("artifacts.tooltip.cooldown", formatDuration(ability.cooldown().get())).withStyle(ChatFormatting.GOLD));
                     }
                 });
+    }
+
+    @Unique
+    private static void addPerFoodPointEatenTooltip(Consumer<Component> tooltip, ItemStack stack) {
+        if (AbilityHelper.hasAbility(ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING.get(), stack)) {
+            tooltip.accept(CommonComponents.EMPTY);
+            tooltip.accept(Component.translatable("artifacts.tooltip.per_food_point_consumed").withStyle(ChatFormatting.GRAY));
+            AbilityHelper.getAbilities(ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING.get(), stack).forEach(ability ->
+                    addMobEffectTooltip(tooltip, ability.mobEffect().value(), ability.durationPerFoodPoint().get(), ability.level().get(), false)
+            );
+        }
     }
 
     @Unique
