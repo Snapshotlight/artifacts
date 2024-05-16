@@ -1,6 +1,5 @@
 package artifacts.fabric.mixin.ability;
 
-import artifacts.ability.ApplyFireResistanceAfterFireDamageAbility;
 import artifacts.event.ArtifactEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -26,8 +25,8 @@ public abstract class LivingEntitiesMixin extends Entity {
     @Inject(method = "actuallyHurt", allow = 1, at = @At(value = "JUMP", opcode = Opcodes.IFNE))
     private void onEntityDamaged(DamageSource source, float amount, CallbackInfo info) {
         if (!this.isInvulnerableTo(source)) {
-            ArtifactEvents.absorbDamage((LivingEntity) (Object) this, source, amount);
-            ApplyFireResistanceAfterFireDamageAbility.onLivingDamage((LivingEntity) (Object) this, source, amount);
+            LivingEntity self = (LivingEntity) (Object) this;
+            ArtifactEvents.onLivingDamaged(self, source, amount);
         }
     }
 }

@@ -1,5 +1,6 @@
-package artifacts.ability;
+package artifacts.ability.mobeffect;
 
+import artifacts.ability.ArtifactAbility;
 import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;

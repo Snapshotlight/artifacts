@@ -2,9 +2,7 @@ package artifacts.registry;
 
 import artifacts.Artifacts;
 import artifacts.ability.*;
-import artifacts.ability.mobeffect.GenericMobEffectAbility;
-import artifacts.ability.mobeffect.LimitedWaterBreathingAbility;
-import artifacts.ability.mobeffect.NightVisionAbility;
+import artifacts.ability.mobeffect.*;
 import artifacts.ability.retaliation.SetAttackersOnFireAbility;
 import artifacts.ability.retaliation.StrikeAttackersWithLightningAbility;
 import artifacts.ability.retaliation.ThornsAbility;
@@ -20,6 +18,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -99,10 +98,15 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> PANIC_NECKLACE = wearableItem("panic_necklace", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_DIAMOND)
-            .addAbility(new ApplySpeedAfterDamageAbility(
+            .addAbility(new ApplyMobEffectAfterDamageAbility(
+                    MobEffects.MOVEMENT_SPEED,
                     ModGameRules.PANIC_NECKLACE_SPEED_LEVEL.asMobEffectLevel(),
                     ModGameRules.PANIC_NECKLACE_SPEED_DURATION.asDuration(),
-                    ModGameRules.PANIC_NECKLACE_COOLDOWN.asDuration()
+                    Optional.empty()
+            ))
+            .addAbility(new ApplyCooldownAfterDamageAbility(
+                    ModGameRules.PANIC_NECKLACE_COOLDOWN.asDuration(),
+                    Optional.empty()
             ))
     );
     public static final RegistrySupplier<WearableArtifactItem> SHOCK_PENDANT = wearableItem("shock_pendant", builder -> builder
@@ -147,9 +151,15 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> OBSIDIAN_SKULL = wearableItem("obsidian_skull", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_IRON)
-            .addAbility(new ApplyFireResistanceAfterFireDamageAbility(
+            .addAbility(new ApplyMobEffectAfterDamageAbility(
+                    MobEffects.FIRE_RESISTANCE,
+                    IntegerValue.ONE,
                     ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_DURATION.asDuration(),
-                    ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_COOLDOWN.asDuration()
+                    Optional.of(DamageTypeTags.IS_FIRE)
+            ))
+            .addAbility(new ApplyCooldownAfterDamageAbility(
+                    ModGameRules.OBSIDIAN_SKULL_FIRE_RESISTANCE_COOLDOWN.asDuration(),
+                    Optional.of(DamageTypeTags.IS_FIRE)
             ))
     );
     public static final RegistrySupplier<WearableArtifactItem> ANTIDOTE_VESSEL = wearableItem("antidote_vessel", builder -> builder

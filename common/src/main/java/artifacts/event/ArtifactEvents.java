@@ -1,7 +1,11 @@
 package artifacts.event;
 
 import artifacts.Artifacts;
-import artifacts.ability.*;
+import artifacts.ability.ApplyCooldownAfterDamageAbility;
+import artifacts.ability.ArtifactAbility;
+import artifacts.ability.AttractItemsAbility;
+import artifacts.ability.SwimInAirAbility;
+import artifacts.ability.mobeffect.ApplyMobEffectAfterDamageAbility;
 import artifacts.ability.retaliation.RetaliationAbility;
 import artifacts.attribute.DynamicAttributeModifier;
 import artifacts.item.UmbrellaItem;
@@ -49,8 +53,6 @@ public class ArtifactEvents {
 
     public static void register() {
         PlayerEvent.DROP_ITEM.register(AttractItemsAbility::onItemToss);
-        EntityEvent.LIVING_HURT.register(ApplyCooldownAfterDamageAbility::onLivingHurt);
-        EntityEvent.LIVING_HURT.register(ApplySpeedAfterDamageAbility::onLivingHurt);
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onAttackBurningLivingHurt);
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onPendantLivingHurt);
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onLightningHurt);
@@ -62,6 +64,12 @@ public class ArtifactEvents {
         onItemTick(entity);
         UmbrellaItem.onLivingUpdate(entity);
         DynamicAttributeModifier.tickModifiers(entity);
+    }
+
+    public static void onLivingDamaged(LivingEntity entity, DamageSource source, float amount) {
+        ArtifactEvents.absorbDamage(entity, source, amount);
+        ApplyMobEffectAfterDamageAbility.onLivingDamaged(entity, source, amount);
+        ApplyCooldownAfterDamageAbility.onLivingDamaged(entity, source);
     }
 
     // TODO call this on fabric side

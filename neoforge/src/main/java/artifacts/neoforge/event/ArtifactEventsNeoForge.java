@@ -1,9 +1,8 @@
 package artifacts.neoforge.event;
 
-import artifacts.ability.ApplyFireResistanceAfterFireDamageAbility;
-import artifacts.ability.ApplyHasteAfterEatingAbility;
 import artifacts.ability.GrowPlantsAfterEatingAbility;
 import artifacts.ability.UpgradeToolTierAbility;
+import artifacts.ability.mobeffect.ApplyHasteAfterEatingAbility;
 import artifacts.component.AbilityToggles;
 import artifacts.event.ArtifactEvents;
 import artifacts.platform.PlatformServices;
@@ -51,8 +50,7 @@ public class ArtifactEventsNeoForge {
     }
 
     private static void onLivingDamage(LivingDamageEvent event) {
-        ArtifactEvents.absorbDamage(event.getEntity(), event.getSource(), event.getAmount());
-        ApplyFireResistanceAfterFireDamageAbility.onLivingDamage(event.getEntity(), event.getSource(), event.getAmount());
+        ArtifactEvents.onLivingDamaged(event.getEntity(), event.getSource(), event.getAmount());
     }
 
     private static void onLivingUpdate(EntityTickEvent.Pre event) {

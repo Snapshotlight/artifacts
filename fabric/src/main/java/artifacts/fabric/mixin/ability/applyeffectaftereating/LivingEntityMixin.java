@@ -1,7 +1,7 @@
 package artifacts.fabric.mixin.ability.applyeffectaftereating;
 
-import artifacts.ability.ApplyHasteAfterEatingAbility;
 import artifacts.ability.GrowPlantsAfterEatingAbility;
+import artifacts.ability.mobeffect.ApplyHasteAfterEatingAbility;
 import artifacts.event.ArtifactEvents;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.LivingEntity;
