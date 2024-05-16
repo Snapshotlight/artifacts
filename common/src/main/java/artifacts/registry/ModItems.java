@@ -58,7 +58,7 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> NOVELTY_DRINKING_HAT = wearableItem("novelty_drinking_hat", builder -> builder
             .equipSound(SoundEvents.BOTTLE_FILL)
-            .addAbility(new CustomTooltipAbility("artifacts.tooltip.item.novelty_drinking_hat"))
+            .addAbility(new CustomTooltipAbility(Component.translatable("artifacts.tooltip.item.novelty_drinking_hat")))
             .addAttributeModifier(ModAttributes.DRINKING_SPEED, ModGameRules.NOVELTY_DRINKING_HAT_DRINKING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             .addAttributeModifier(ModAttributes.EATING_SPEED, ModGameRules.NOVELTY_DRINKING_HAT_EATING_SPEED_BONUS, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
     );

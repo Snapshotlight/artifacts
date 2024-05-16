@@ -1,26 +1,26 @@
 package artifacts.ability;
 
 import artifacts.registry.ModAbilities;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
 import java.util.List;
 
-public record CustomTooltipAbility(String name) implements ArtifactAbility {
+public record CustomTooltipAbility(Component tooltip) implements ArtifactAbility {
 
     public static final MapCodec<CustomTooltipAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Codec.STRING.fieldOf("name").forGetter(CustomTooltipAbility::name)
+            ComponentSerialization.FLAT_CODEC.fieldOf("name").forGetter(CustomTooltipAbility::tooltip)
     ).apply(instance, CustomTooltipAbility::new));
 
     public static final StreamCodec<ByteBuf, CustomTooltipAbility> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.STRING_UTF8,
-            CustomTooltipAbility::name,
+            ByteBufCodecs.fromCodec(ComponentSerialization.CODEC),
+            CustomTooltipAbility::tooltip,
             CustomTooltipAbility::new
     );
 
@@ -36,6 +36,6 @@ public record CustomTooltipAbility(String name) implements ArtifactAbility {
 
     @Override
     public void addTooltipIfNonCosmetic(List<MutableComponent> tooltip) {
-        tooltip.add(Component.translatable(name));
+        tooltip.add(this.tooltip.copy());
     }
 }
