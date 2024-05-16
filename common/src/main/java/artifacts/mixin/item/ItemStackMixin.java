@@ -174,7 +174,7 @@ public class ItemStackMixin {
     private static void addPerFoodPointEatenTooltip(Consumer<Component> tooltip, ItemStack stack) {
         if (AbilityHelper.hasAbility(ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING.get(), stack)) {
             tooltip.accept(CommonComponents.EMPTY);
-            tooltip.accept(Component.translatable("artifacts.tooltip.per_food_point_consumed").withStyle(ChatFormatting.GRAY));
+            tooltip.accept(Component.translatable("artifacts.tooltip.per_food_point_restored").withStyle(ChatFormatting.GRAY));
             AbilityHelper.getAbilities(ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING.get(), stack).forEach(ability ->
                     addMobEffectTooltip(tooltip, ability.mobEffect().value(), ability.durationPerFoodPoint().get(), ability.level().get(), false)
             );

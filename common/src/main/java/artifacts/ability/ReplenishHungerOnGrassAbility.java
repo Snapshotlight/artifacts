@@ -1,5 +1,6 @@
 package artifacts.ability;
 
+import artifacts.ability.mobeffect.ApplyMobEffectAfterEatingAbility;
 import artifacts.ability.value.BooleanValue;
 import artifacts.ability.value.IntegerValue;
 import artifacts.network.PlaySoundAtPlayerPacket;
@@ -48,6 +49,7 @@ public record ReplenishHungerOnGrassAbility(BooleanValue enabled, IntegerValue r
                 && entity.getBlockStateOn().is(ModTags.ROOTED_BOOTS_GRASS)
         ) {
             player.getFoodData().eat(1, 0.5F);
+            ApplyMobEffectAfterEatingAbility.applyEffects(entity, 1);
             PlaySoundAtPlayerPacket.sendSound(player, BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.GENERIC_EAT), 0.5F, 0.8F + entity.getRandom().nextFloat() * 0.4F);
         }
     }

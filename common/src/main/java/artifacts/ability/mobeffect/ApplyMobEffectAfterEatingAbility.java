@@ -17,6 +17,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 
 import java.util.List;
@@ -40,10 +41,16 @@ public record ApplyMobEffectAfterEatingAbility(Holder<MobEffect> mobEffect, Inte
     );
 
     public static void applyEffects(LivingEntity entity, FoodProperties properties) {
-        if (properties.nutrition() > 0 && !properties.canAlwaysEat()) {
+        int foodPointsMissing = entity instanceof Player player ? 20 - player.getFoodData().getFoodLevel() : 20;
+        int foodPointsRestored = Math.min(properties.nutrition(), foodPointsMissing);
+        applyEffects(entity, foodPointsRestored);
+    }
+
+    public static void applyEffects(LivingEntity entity, int foodPointsRestored) {
+        if (foodPointsRestored > 0) {
             AbilityHelper.forEach(ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING.get(), entity, ability -> {
-                int duration = ability.durationPerFoodPoint().get() * properties.nutrition();
-                entity.addEffect((new MobEffectInstance(MobEffects.DIG_SPEED, duration, ability.level().get() - 1, false, false, true)));
+                int duration = ability.durationPerFoodPoint().get() * foodPointsRestored;
+                entity.addEffect((new MobEffectInstance(ability.mobEffect(), duration, ability.level().get() - 1, false, false, true)));
             });
         }
     }

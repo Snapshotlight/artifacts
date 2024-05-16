@@ -6,7 +6,7 @@
   "plugin": "artifacts.fabric.ArtifactsMixinPlugin",
   "mixins": [
     "ability.LivingEntitiesMixin",
-    "ability.applyeffectaftereating.LivingEntityMixin",
+    "ability.LivingEntityMixin",
     "ability.enchantment.ApplyBonusCountMixin",
     "ability.enchantment.EnchantmentHelperMixin",
     "ability.makepiglinsneutral.PiglinAiMixin",

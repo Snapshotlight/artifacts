@@ -1,8 +1,6 @@
 package artifacts.neoforge.event;
 
-import artifacts.ability.GrowPlantsAfterEatingAbility;
 import artifacts.ability.UpgradeToolTierAbility;
-import artifacts.ability.mobeffect.ApplyMobEffectAfterEatingAbility;
 import artifacts.component.AbilityToggles;
 import artifacts.event.ArtifactEvents;
 import artifacts.platform.PlatformServices;
@@ -12,7 +10,6 @@ import artifacts.util.AbilityHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.food.FoodProperties;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
@@ -33,7 +30,6 @@ public class ArtifactEventsNeoForge {
         NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onGoldenHookExperienceDrop);
         NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onKittySlippersChangeTarget);
         NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onDiggingClawsHarvestCheck);
-        NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onFoodEaten);
         NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onPlayerTick);
         NeoForge.EVENT_BUS.addListener(ArtifactEventsNeoForge::onCurioChanged);
     }
@@ -90,13 +86,5 @@ public class ArtifactEventsNeoForge {
 
     private static void onDiggingClawsHarvestCheck(PlayerEvent.HarvestCheck event) {
         event.setCanHarvest(event.canHarvest() || UpgradeToolTierAbility.canHarvestWithTier(event.getEntity(), event.getTargetBlock()));
-    }
-
-    private static void onFoodEaten(LivingEntityUseItemEvent.Finish event) {
-        FoodProperties properties = event.getItem().getFoodProperties(event.getEntity());
-        if (properties != null) {
-            ApplyMobEffectAfterEatingAbility.applyEffects(event.getEntity(), properties);
-            GrowPlantsAfterEatingAbility.applyBoneMeal(event.getEntity(), properties);
-        }
     }
 }
