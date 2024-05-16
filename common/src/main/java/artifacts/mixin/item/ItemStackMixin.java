@@ -3,22 +3,20 @@ package artifacts.mixin.item;
 import artifacts.Artifacts;
 import artifacts.ability.ArtifactAbility;
 import artifacts.ability.AttributeModifierAbility;
-import artifacts.ability.mobeffect.MobEffectAbility;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModDataComponents;
 import artifacts.util.AbilityHelper;
-import com.google.common.collect.Lists;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringUtil;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -84,17 +82,18 @@ public class ItemStackMixin {
                     || AbilityHelper.hasAbility(ModAbilities.LIMITED_WATER_BREATHING.get(), self)
             ) {
                 consumer.accept(CommonComponents.EMPTY);
-                consumer.accept(Component.translatable("artifacts.tooltip.when_equipped").withStyle(ChatFormatting.GRAY));
+                consumer.accept(Component.translatable("item.modifiers.body").withStyle(ChatFormatting.GRAY));
             }
             addAbilityAttributeTooltips(self, consumer);
         }
+        addWhenHurtTooltips(consumer);
     }
 
     @Unique
     private static void addAbilityAttributeTooltips(ItemStack stack, Consumer<Component> tooltip) {
         AbilityHelper.getAbilities(ModAbilities.ATTRIBUTE_MODIFIER.get(), stack).forEach(ability -> addAbilityAttributeTooltip(tooltip, ability));
-        AbilityHelper.getAbilities(ModAbilities.MOB_EFFECT.get(), stack).forEach(ability -> addAbilityMobEffectTooltip(tooltip, ability));
-        AbilityHelper.getAbilities(ModAbilities.LIMITED_WATER_BREATHING.get(), stack).forEach(ability -> addAbilityMobEffectTooltip(tooltip, ability));
+        AbilityHelper.getAbilities(ModAbilities.MOB_EFFECT.get(), stack).forEach(ability -> addMobEffectTooltip(tooltip, ability.getMobEffect().value(), ability.getDuration(), ability.getLevel().get(), ability.isInfinite()));
+        AbilityHelper.getAbilities(ModAbilities.LIMITED_WATER_BREATHING.get(), stack).forEach(ability -> addMobEffectTooltip(tooltip, ability.getMobEffect().value(), ability.getDuration(), ability.getLevel().get(), ability.isInfinite()));
     }
 
     @Unique
@@ -123,55 +122,74 @@ public class ItemStackMixin {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Unique
-    private static void addAbilityMobEffectTooltip(Consumer<Component> tooltip, MobEffectAbility ability) {
-        List<Pair<Holder<Attribute>, AttributeModifier>> list = Lists.newArrayList();
-
-        MutableComponent mutableComponent;
-
-        mutableComponent = Component.translatable(ability.getMobEffect().value().getDescriptionId());
-        ability.getMobEffect().value().createModifiers(ability.getAmplifier(), (arg, arg2) -> list.add(new Pair<>(arg, arg2)));
-        if (ability.getLevel().get() > 0) {
-            mutableComponent = Component.translatable("potion.withAmplifier", mutableComponent, Component.translatable("potion.potency." + ability.getAmplifier()));
-        }
-
-        if (!ability.isInfinite()) {
-            mutableComponent = Component.translatable("potion.withDuration", mutableComponent, formatDuration(ability));
-        }
-
-        tooltip.accept(Component.translatable("artifacts.tooltip.plus_mob_effect", mutableComponent).withStyle(ability.getMobEffect().value().getCategory().getTooltipFormatting()));
-
-        if (!list.isEmpty()) {
-            for (Pair<Holder<Attribute>, AttributeModifier> pair : list) {
-                AttributeModifier attributeModifier = pair.getSecond();
-                double d = attributeModifier.amount();
-                double e;
-                if (attributeModifier.operation() != AttributeModifier.Operation.ADD_MULTIPLIED_BASE && attributeModifier.operation() != AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL) {
-                    e = attributeModifier.amount();
-                } else {
-                    e = attributeModifier.amount() * 100.0;
-                }
-
-                if (d > 0.0) {
-                    tooltip.accept(Component.translatable("attribute.modifier.plus." + attributeModifier.operation().id(), ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT.format(e), Component.translatable(pair.getFirst().value().getDescriptionId())).withStyle(ChatFormatting.BLUE));
-                } else if (d < 0.0) {
-                    e *= -1.0;
-                    tooltip.accept(Component.translatable("attribute.modifier.take." + attributeModifier.operation().id(), ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT.format(e), Component.translatable(pair.getFirst().value().getDescriptionId())).withStyle(ChatFormatting.RED));
-                }
+    private void addWhenHurtTooltips(Consumer<Component> tooltip) {
+        ItemStack self = (ItemStack) (Object) this;
+        MutableBoolean flag = new MutableBoolean(false);
+        List<TagKey<DamageType>> list = new ArrayList<>();
+        AbilityHelper.getAbilities(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE.get(), self).forEach(ability -> {
+            if (ability.tag().isEmpty()) {
+                flag.setTrue();
+            } else if (!list.contains(ability.tag().get())) {
+                list.add(ability.tag().get());
             }
+        });
+
+        if (flag.booleanValue()) {
+            tooltip.accept(CommonComponents.EMPTY);
+            tooltip.accept(Component.translatable("artifacts.tooltip.when_hurt").withStyle(ChatFormatting.GRAY));
+            addWhenHurtTooltip(tooltip, null);
+        }
+        for (TagKey<DamageType> tag : list) {
+            tooltip.accept(CommonComponents.EMPTY);
+            tooltip.accept(Component.translatable("artifacts.tooltip.when_hurt.%s".formatted(
+                    tag.location()
+                            .toString()
+                            .replace("minecraft:", "")
+                            .replace(':', '.')
+            )).withStyle(ChatFormatting.GRAY));
+            addWhenHurtTooltip(tooltip, tag);
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Unique
-    private static MutableComponent formatDuration(MobEffectAbility ability) {
-        if (ability.isInfinite()) {
-            return Component.translatable("effect.duration.infinite");
-        } else {
-            float tickRate = 20;
-            if (Minecraft.getInstance() != null && Minecraft.getInstance().level != null) {
-                tickRate = Minecraft.getInstance().level.tickRateManager().tickrate();
-            }
-            return Component.literal(StringUtil.formatTickDuration(ability.getDuration(), tickRate));
+    private void addWhenHurtTooltip(Consumer<Component> tooltip, @Nullable TagKey<DamageType> tag) {
+        ItemStack self = (ItemStack) (Object) this;
+        AbilityHelper.getAbilities(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE.get(), self)
+                .forEach(ability -> {
+                    if (ability.tag().isEmpty() && tag == null || ability.tag().isPresent() && ability.tag().get().equals(tag)) {
+                        addMobEffectTooltip(tooltip, ability.mobEffect().value(), ability.duration().get(), ability.level().get(), false);
+                    }
+                });
+        AbilityHelper.getAbilities(ModAbilities.APPLY_COOLDOWN_AFTER_DAMAGE.get(), self)
+                .forEach(ability -> {
+                    if (ability.tag().isEmpty() && tag == null || ability.tag().isPresent() && ability.tag().get().equals(tag)) {
+                        tooltip.accept(Component.translatable("artifacts.tooltip.cooldown", formatDuration(ability.cooldown().get())).withStyle(ChatFormatting.GOLD));
+                    }
+                });
+    }
+
+    @Unique
+    private static void addMobEffectTooltip(Consumer<Component> tooltip, MobEffect mobEffect, int duration, int level, boolean isInfinite) {
+        MutableComponent mutableComponent;
+        mutableComponent = Component.translatable(mobEffect.getDescriptionId());
+        if (level > 1) {
+            mutableComponent = Component.translatable("potion.withAmplifier", mutableComponent, Component.translatable("potion.potency." + (level - 1)));
         }
+        if (!isInfinite) {
+            mutableComponent = Component.translatable("potion.withDuration", mutableComponent, formatDuration(duration));
+        }
+        tooltip.accept(Component.translatable("artifacts.tooltip.plus_mob_effect", mutableComponent).withStyle(mobEffect.getCategory().getTooltipFormatting()));
+    }
+
+    @Unique
+    private static MutableComponent formatDuration(int duration) {
+        float tickRate = 20;
+        if (Minecraft.getInstance() != null && Minecraft.getInstance().level != null) {
+            tickRate = Minecraft.getInstance().level.tickRateManager().tickrate();
+        }
+        return Component.literal(StringUtil.formatTickDuration(duration, tickRate));
     }
 }

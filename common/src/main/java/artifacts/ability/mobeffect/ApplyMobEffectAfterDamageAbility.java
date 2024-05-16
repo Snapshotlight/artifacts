@@ -25,13 +25,13 @@ import net.minecraft.world.entity.LivingEntity;
 import java.util.List;
 import java.util.Optional;
 
-public record ApplyMobEffectAfterDamageAbility(Holder<MobEffect> mobEffect, IntegerValue level, IntegerValue duration, Optional<TagKey<DamageType>> damageTypeTag) implements ArtifactAbility {
+public record ApplyMobEffectAfterDamageAbility(Holder<MobEffect> mobEffect, IntegerValue level, IntegerValue duration, Optional<TagKey<DamageType>> tag) implements ArtifactAbility {
 
     public static final MapCodec<ApplyMobEffectAfterDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(ApplyMobEffectAfterDamageAbility::mobEffect),
             IntegerValue.mobEffectLevelCodec().fieldOf("level").forGetter(ApplyMobEffectAfterDamageAbility::level),
             IntegerValue.durationSecondsCodec().fieldOf("duration").forGetter(ApplyMobEffectAfterDamageAbility::duration),
-            TagKey.codec(Registries.DAMAGE_TYPE).optionalFieldOf("damage_type_tag").forGetter(ApplyMobEffectAfterDamageAbility::damageTypeTag)
+            TagKey.codec(Registries.DAMAGE_TYPE).optionalFieldOf("tag").forGetter(ApplyMobEffectAfterDamageAbility::tag)
     ).apply(instance, ApplyMobEffectAfterDamageAbility::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ApplyMobEffectAfterDamageAbility> STREAM_CODEC = StreamCodec.composite(
@@ -42,7 +42,7 @@ public record ApplyMobEffectAfterDamageAbility(Holder<MobEffect> mobEffect, Inte
             IntegerValue.streamCodec(),
             ApplyMobEffectAfterDamageAbility::duration,
             ByteBufCodecs.optional(ByteBufCodecs.fromCodec(TagKey.codec(Registries.DAMAGE_TYPE))),
-            ApplyMobEffectAfterDamageAbility::damageTypeTag,
+            ApplyMobEffectAfterDamageAbility::tag,
             ApplyMobEffectAfterDamageAbility::new
     );
 
@@ -51,7 +51,7 @@ public record ApplyMobEffectAfterDamageAbility(Holder<MobEffect> mobEffect, Inte
                 && amount >= 1
         ) {
             AbilityHelper.forEach(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE.get(), entity, (ability, stack) -> {
-                if (ability.damageTypeTag().isEmpty() || damageSource.is(ability.damageTypeTag().get())) {
+                if (ability.tag().isEmpty() || damageSource.is(ability.tag().get())) {
                     entity.addEffect(new MobEffectInstance(ability.mobEffect(), ability.duration().get(), ability.level().get() - 1, false, false, true));
                 }
             }, true);
@@ -70,7 +70,7 @@ public record ApplyMobEffectAfterDamageAbility(Holder<MobEffect> mobEffect, Inte
 
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        if (mobEffect().equals(MobEffects.FIRE_RESISTANCE) && damageTypeTag.isPresent() && damageTypeTag.get().equals(DamageTypeTags.IS_FIRE)) {
+        if (mobEffect().equals(MobEffects.FIRE_RESISTANCE) && tag.isPresent() && tag.get().equals(DamageTypeTags.IS_FIRE)) {
             tooltip.add(tooltipLine("fire_resistance"));
         } else if (mobEffect().equals(MobEffects.MOVEMENT_SPEED)) {
             tooltip.add(tooltipLine("speed"));

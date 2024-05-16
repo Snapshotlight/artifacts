@@ -76,6 +76,7 @@ public class AbilityHelper {
         return getAbilities(stack)
                 .stream()
                 .filter(ability -> ability.getType() == type)
+                .filter(ArtifactAbility::isEnabled)
                 .map(ability -> (T) ability);
     }
 
