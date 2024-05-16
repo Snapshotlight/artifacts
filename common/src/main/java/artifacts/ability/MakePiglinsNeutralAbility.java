@@ -19,6 +19,6 @@ public record MakePiglinsNeutralAbility() implements TooltiplessAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return false;
+        return true;
     }
 }

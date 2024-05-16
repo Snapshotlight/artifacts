@@ -8,6 +8,7 @@ import artifacts.registry.ModTags;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -47,7 +48,7 @@ public record ReplenishHungerOnGrassAbility(BooleanValue enabled, IntegerValue r
                 && entity.getBlockStateOn().is(ModTags.ROOTED_BOOTS_GRASS)
         ) {
             player.getFoodData().eat(1, 0.5F);
-            PlaySoundAtPlayerPacket.sendSound(player, SoundEvents.GENERIC_EAT, 0.5F, 0.8F + entity.getRandom().nextFloat() * 0.4F);
+            PlaySoundAtPlayerPacket.sendSound(player, BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.GENERIC_EAT), 0.5F, 0.8F + entity.getRandom().nextFloat() * 0.4F);
         }
     }
 }

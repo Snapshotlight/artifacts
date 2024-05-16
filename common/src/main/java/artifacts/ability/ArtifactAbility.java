@@ -8,11 +8,12 @@ import artifacts.util.AbilityHelper;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,7 +36,7 @@ public interface ArtifactAbility {
             );
 
     @SuppressWarnings("ConstantConditions")
-    StreamCodec<ByteBuf, ArtifactAbility> STREAM_CODEC = ResourceLocation.STREAM_CODEC
+    StreamCodec<RegistryFriendlyByteBuf, ArtifactAbility> STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(ResourceLocation.CODEC)
             .dispatch(
                     ability -> ModAbilities.REGISTRY.getId(ability.getType()),
                     id -> ModAbilities.REGISTRY.get(id).streamCodec()
@@ -91,7 +92,7 @@ public interface ArtifactAbility {
 
     }
 
-    record Type<T extends ArtifactAbility>(MapCodec<T> codec, StreamCodec<ByteBuf, T> streamCodec) {
+    record Type<T extends ArtifactAbility>(MapCodec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
 
     }
 }

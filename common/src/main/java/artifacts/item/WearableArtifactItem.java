@@ -101,7 +101,7 @@ public class WearableArtifactItem extends Item {
         }
 
         public Builder increasesEnchantment(Enchantment enchantment, ModGameRules.IntegerGameRule amount) {
-            return addAbility(new IncreaseEnchantmentLevelAbility(enchantment, amount.asIntegerValue(100, 1)));
+            return addAbility(new IncreaseEnchantmentLevelAbility(BuiltInRegistries.ENCHANTMENT.wrapAsHolder(enchantment), amount.asIntegerValue(100, 1)));
         }
 
         public Builder addAbility(ArtifactAbility ability) {

@@ -11,7 +11,7 @@ import artifacts.ability.retaliation.ThornsAbility;
 import com.mojang.serialization.MapCodec;
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrarManager;
-import io.netty.buffer.ByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
@@ -60,7 +60,7 @@ public class ModAbilities {
         // no-op
     }
 
-    public static <T extends ArtifactAbility> RegistrySupplier<Type<T>> register(String name, MapCodec<T> codec, StreamCodec<ByteBuf, T> streamCodec) {
+    public static <T extends ArtifactAbility> RegistrySupplier<Type<T>> register(String name, MapCodec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
         return register(name, () -> new Type<>(codec, streamCodec));
     }
 

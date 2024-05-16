@@ -5,9 +5,10 @@ import artifacts.ability.value.IntegerValue;
 import artifacts.registry.ModAbilities;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -25,13 +26,13 @@ public class GenericMobEffectAbility extends MobEffectAbility {
     );
 
     public static final MapCodec<GenericMobEffectAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("id").forGetter(GenericMobEffectAbility::getMobEffect),
+            BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(GenericMobEffectAbility::getMobEffect),
             IntegerValue.mobEffectLevelCodec().optionalFieldOf("level", IntegerValue.ONE).forGetter(GenericMobEffectAbility::getLevel),
             BooleanValue.codec().optionalFieldOf("enabled", BooleanValue.TRUE).forGetter(ability -> ability.enabled)
     ).apply(instance, GenericMobEffectAbility::new));
 
-    public static final StreamCodec<ByteBuf, GenericMobEffectAbility> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.idMapper(BuiltInRegistries.MOB_EFFECT.asHolderIdMap()),
+    public static final StreamCodec<RegistryFriendlyByteBuf, GenericMobEffectAbility> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT),
             GenericMobEffectAbility::getMobEffect,
             IntegerValue.Constant.STREAM_CODEC,
             GenericMobEffectAbility::getLevel,
