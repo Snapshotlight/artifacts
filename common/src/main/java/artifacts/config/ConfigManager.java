@@ -12,7 +12,6 @@ import com.electronwill.nightconfig.core.file.FileWatcher;
 import com.electronwill.nightconfig.core.io.ParsingException;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import dev.architectury.utils.GameInstance;
-import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 import org.apache.commons.io.FilenameUtils;
 
@@ -90,8 +89,12 @@ public class ConfigManager {
                 if (ItemConfigs.getValues(type).containsKey(key)) {
                     if (!config.contains(key)) {
                         config.add(key, ItemConfigs.getValues(type).get(key).getDefaultValue());
-                        String comment = Component.translatable("artifacts.config.%s.title".formatted(key)).getString();
-                        config.setComment(key, comment + '\n' + type.getAllowedValuesComment());
+                        StringBuilder builder = new StringBuilder();
+                        for (String tooltip : ItemConfigs.TOOLTIPS.get(key)) {
+                            builder.append(tooltip).append('\n');
+                        }
+                        builder.append(type.getAllowedValuesComment());
+                        config.setComment(key, builder.toString());
                     }
                 }
             }

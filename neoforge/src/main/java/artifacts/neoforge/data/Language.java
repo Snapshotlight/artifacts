@@ -2,6 +2,8 @@ package artifacts.neoforge.data;
 
 import artifacts.Artifacts;
 import artifacts.ability.ArtifactAbility;
+import artifacts.config.ItemConfigs;
+import artifacts.config.value.type.ValueType;
 import artifacts.registry.*;
 import dev.architectury.registry.registries.RegistrySupplier;
 import joptsimple.internal.Strings;
@@ -34,6 +36,7 @@ public class Language extends LanguageProvider {
         config();
         entities();
         itemConfigs();
+        itemConfigTooltips();
         items();
         tooltips();
     }
@@ -240,7 +243,6 @@ public class Language extends LanguageProvider {
         add("artifacts.config.heliumFlamingo.rechargeDuration.title", "Helium Flamingo recharge duration");
         add("artifacts.config.kittySlippers.enabled.title", "Kitty Slippers enabled");
         add("artifacts.config.luckyScarf.fortuneBonus.title", "Lucky Scarf fortune bonus");
-        add("artifacts.config.nightVisionGoggles.enabled.title", "Night Vision Goggles enabled");
         add("artifacts.config.nightVisionGoggles.strength.title", "Night Vision Goggles strength");
         add("artifacts.config.noveltyDrinkingHat.drinkingSpeedBonus.title", "Novelty Drinking Hat drinking speed bonus");
         add("artifacts.config.noveltyDrinkingHat.eatingSpeedBonus.title", "Novelty Drinking Hat eating speed bonus");
@@ -265,12 +267,10 @@ public class Language extends LanguageProvider {
         add("artifacts.config.shockPendant.cooldown.title", "Shock Pendant cooldown");
         add("artifacts.config.shockPendant.cancelLightningDamage.title", "Shock Pendant cancels lightning damage");
         add("artifacts.config.shockPendant.strikeChance.title", "Shock Pendant strike chance");
-        add("artifacts.config.snorkel.enabled.title", "Snorkel enabled");
         add("artifacts.config.snorkel.isInfinite.title", "Snorkel is infinite");
         add("artifacts.config.snorkel.waterBreathingDuration.title", "Snorkel water breathing duration");
         add("artifacts.config.snowshoes.allowWalkingOnPowderSnow.title", "Snowshoes allow walking on Powder Snow");
         add("artifacts.config.snowshoes.movementSpeedOnSnowBonus.title", "Snowshoes movement speed bonus on snow");
-        add("artifacts.config.steadfastSpikes.enabled.title", "Steadfast Spikes enabled");
         add("artifacts.config.steadfastSpikes.knockbackResistance.title", "Steadfast Spikes knockback resistance");
         add("artifacts.config.steadfastSpikes.slipperinessReduction.title", "Steadfast Spikes slipperiness reduction");
         add("artifacts.config.superstitiousHat.lootingLevelBonus.title", "Superstitious Hat looting level bonus");
@@ -285,6 +285,21 @@ public class Language extends LanguageProvider {
         add("artifacts.config.vampiricGlove.maxHealingPerHit.title", "Vampiric Glove maximum healing per hit");
         add("artifacts.config.villagerHat.reputationBonus.title", "Villager Hat reputation bonus");
         add("artifacts.config.whoopeeCushion.fartChance.title", "Whoopee Cushion fart chance");
+    }
+
+    private void itemConfigTooltips() {
+        for (ValueType<?, ?> type : ItemConfigs.getValueTypes()) {
+            for (String key : ItemConfigs.getValues(type).keySet()) {
+                List<String> tooltips = ItemConfigs.getTooltips(key);
+                if (tooltips.size() == 1) {
+                    add("%s.config.%s.description".formatted(Artifacts.MOD_ID, key), tooltips.get(0));
+                    continue;
+                }
+                for (int i = 0; i < tooltips.size(); i++) {
+                    add("%s.config.%s.description.%s".formatted(Artifacts.MOD_ID, key, i), tooltips.get(i));
+                }
+            }
+        }
     }
 
     private void items() {
