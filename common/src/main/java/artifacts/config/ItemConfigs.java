@@ -65,7 +65,7 @@ public class ItemConfigs {
             POCKET_PISTON_ATTACK_KNOCKBACK_BONUS = attributeModifier(ModItems.POCKET_PISTON, "attackKnockbackBonus", 0.75),
             POWER_GLOVE_ATTACK_DAMAGE_BONUS = attributeModifier(ModItems.POWER_GLOVE, "attackDamageBonus", 4),
             RUNNING_SHOES_SPRINTING_SPEED_BONUS = attributeModifier(ModItems.RUNNING_SHOES, "sprintingSpeedBonus", 0.40),
-            RUNNING_SHOES_SPRINTING_STEP_HEIGHT_BONUS = attributeModifier(ModItems.RUNNING_SHOES, "sprintingStepHeightBonus", 0.25),
+            RUNNING_SHOES_SPRINTING_STEP_HEIGHT_BONUS = attributeModifier(ModItems.RUNNING_SHOES, "sprintingStepHeightBonus", 0.5),
             SNOWSHOES_MOVEMENT_SPEED_ON_SNOW_BONUS = attributeModifier(ModItems.SNOWSHOES, "movementSpeedOnSnowBonus", 0.50),
             STEADFAST_SPIKES_KNOCKBACK_RESISTANCE = attributeModifier(ModItems.STEADFAST_SPIKES, "knockbackResistance", 1.00),
             STEADFAST_SPIKES_SLIPPERINESS_REDUCTION = attributeModifier(ModItems.STEADFAST_SPIKES, "slipperinessReduction", 1.00),
