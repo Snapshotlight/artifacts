@@ -8,12 +8,12 @@ public class CosmeticsHelper {
 
     public static boolean areCosmeticsToggledOffByPlayer(ItemStack stack) {
         Boolean enabled = stack.get(ModDataComponentsFabric.COSMETICS_ENABLED.get());
-        return enabled != null && enabled && !isCosmeticOnly(stack);
+        return enabled != null && !enabled && !isCosmeticOnly(stack);
     }
 
     public static void toggleCosmetics(ItemStack stack) {
         if (!isCosmeticOnly(stack)) {
-            stack.set(ModDataComponentsFabric.COSMETICS_ENABLED.get(), !areCosmeticsToggledOffByPlayer(stack));
+            stack.set(ModDataComponentsFabric.COSMETICS_ENABLED.get(), areCosmeticsToggledOffByPlayer(stack));
         }
     }
 
