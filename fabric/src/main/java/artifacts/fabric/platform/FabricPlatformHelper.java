@@ -6,6 +6,7 @@ import artifacts.component.AbilityToggles;
 import artifacts.component.SwimData;
 import artifacts.fabric.ArtifactsFabric;
 import artifacts.fabric.client.CosmeticsHelper;
+import artifacts.fabric.mixin.accessors.AttributesAccessor;
 import artifacts.fabric.registry.ModAttributesFabric;
 import artifacts.fabric.registry.ModComponents;
 import artifacts.fabric.registry.ModDataComponentsFabric;
@@ -113,6 +114,11 @@ public class FabricPlatformHelper implements PlatformHelper {
     @Override
     public Holder<Attribute> getSwimSpeedAttribute() {
         return ModAttributesFabric.SWIM_SPEED;
+    }
+
+    @Override
+    public Holder<Attribute> registerAttribute(String name, Attribute attribute) {
+        return AttributesAccessor.invokeRegister(Artifacts.id(name).toString(), attribute);
     }
 
     @Override

@@ -5,23 +5,16 @@ import artifacts.ability.ArtifactAbility;
 import artifacts.ability.AttributeModifierAbility;
 import artifacts.ability.IncreaseEnchantmentLevelAbility;
 import artifacts.config.value.Value;
-import artifacts.platform.PlatformServices;
 import artifacts.registry.ModDataComponents;
 import artifacts.registry.ModItems;
-import artifacts.util.AbilityHelper;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.ArrayList;
@@ -45,19 +38,6 @@ public class WearableArtifactItem extends Item {
 
     public float getEquipSoundPitch() {
         return equipSoundPitch;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltipList, TooltipFlag tooltipFlag) {
-        if (Artifacts.CONFIG.client.showTooltips) {
-            List<MutableComponent> tooltip = new ArrayList<>();
-            if (AbilityHelper.isCosmetic(stack)) {
-                tooltip.add(Component.translatable("%s.tooltip.cosmetic".formatted(Artifacts.MOD_ID)).withStyle(ChatFormatting.ITALIC));
-            } else {
-                PlatformServices.platformHelper.addCosmeticToggleTooltip(tooltip, stack);
-            }
-            tooltip.forEach(line -> tooltipList.add(line.withStyle(ChatFormatting.GRAY)));
-        }
     }
 
     public static class Builder {

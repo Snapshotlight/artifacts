@@ -21,12 +21,6 @@ import java.util.Map;
 @Mixin(Gui.class)
 public abstract class GuiMixin {
 
-    @Shadow
-    private int screenHeight;
-
-    @Shadow
-    private int screenWidth;
-
     @Final
     @Shadow
     private Minecraft minecraft;
@@ -34,22 +28,22 @@ public abstract class GuiMixin {
     @Shadow
     protected abstract Player getCameraPlayer();
 
-    @Inject(method = "renderHotbar", at = @At(value = "TAIL"))
-    private void renderFlamingoAir(float f, GuiGraphics guiGraphics, CallbackInfo ci) {
+    @Inject(method = "renderHotbarAndDecorations", at = @At(value = "TAIL"))
+    private void renderHotbarAndDecorations(GuiGraphics guiGraphics, float f, CallbackInfo ci) {
         Player player = this.getCameraPlayer();
         if (!Artifacts.CONFIG.client.enableCooldownOverlay || player == null) {
             return;
         }
 
         TrinketsApi.getTrinketComponent(player).ifPresent(component -> {
-            int y = screenHeight - 16 - 3;
+            int y = guiGraphics.guiHeight() - 16 - 3;
             int cooldownOverlayOffset = Artifacts.CONFIG.client.cooldownOverlayOffset;
             int step = 20;
-            int start = screenWidth / 2 + 91 + cooldownOverlayOffset;
+            int start = guiGraphics.guiWidth() / 2 + 91 + cooldownOverlayOffset;
 
             if (cooldownOverlayOffset < 0) {
                 step = -20;
-                start = screenWidth / 2 - 91 - 16 + cooldownOverlayOffset;
+                start = guiGraphics.guiWidth() / 2 - 91 - 16 + cooldownOverlayOffset;
             }
 
             int k = 0;

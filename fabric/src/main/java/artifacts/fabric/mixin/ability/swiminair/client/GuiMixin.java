@@ -17,12 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class GuiMixin {
 
     @Shadow
-    private int screenHeight;
-
-    @Shadow
-    private int screenWidth;
-
-    @Shadow
     protected abstract int getVisibleVehicleHeartRows(int i);
 
     @Shadow
@@ -41,7 +35,7 @@ public abstract class GuiMixin {
             return;
         }
 
-        HeliumFlamingoOverlay.renderOverlay(- getStatusBarHeightOffset(player), guiGraphics, screenWidth, screenHeight);
+        HeliumFlamingoOverlay.renderOverlay(- getStatusBarHeightOffset(player), guiGraphics, guiGraphics.guiWidth(), guiGraphics.guiHeight());
     }
 
     /**
