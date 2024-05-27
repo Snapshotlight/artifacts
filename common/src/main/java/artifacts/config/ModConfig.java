@@ -23,17 +23,12 @@ public class ModConfig extends PartitioningSerializer.GlobalData {
     @Config(name = "common")
     public static final class Common implements ConfigData {
 
-        @ConfigEntry.Gui.PrefixText
         @ConfigEntry.Gui.Tooltip(count = 4)
         @Comment("""
                 Affects how common artifacts are in chests.
                 Values above 1 will make artifacts rarer, values between 0 and 1 will make artifacts more common.
                 Doubling this value will make artifacts approximately twice as hard to find, and vice versa.
                 To prevent artifacts from appearing as chest loot, set this to 10000.
-                
-                To disable or change the effects of specific items, the /gamerule command can be used.
-                A list of available game rules and their effects can be found on the wiki on GitHub:
-                https://github.com/ochotonida/artifacts/wiki
                 """)
         double artifactRarity = 1;
 

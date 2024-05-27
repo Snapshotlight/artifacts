@@ -225,7 +225,6 @@
   "text.autoconfig.artifacts.option.common.archaeologyChance": "考古概率",
   "text.autoconfig.artifacts.option.common.archaeologyChance.@Tooltip": "奇异饰品生成在可疑的沙子或可疑的砂砾中的概率",
   "text.autoconfig.artifacts.option.common.artifactRarity": "饰品稀有度",
-  "text.autoconfig.artifacts.option.common.artifactRarity.@PrefixText": "若想禁用或改变特定物品的功能，可使用/gamerule命令。关于这些游戏规则及对应效果，请查阅Github上的wiki。",
   "text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[0]": "影响饰品在箱子中的常见程度",
   "text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[1]": "超过1的数值将让饰品更加稀有",
   "text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[2]": "介于0到1之间的数值会让饰品更为常见",

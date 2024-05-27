@@ -225,7 +225,6 @@
   "text.autoconfig.artifacts.option.common.archaeologyChance": "Probabilidad de arqueología",
   "text.autoconfig.artifacts.option.common.archaeologyChance.@Tooltip": "La probabilidad de que se genere un artefacto en arena o grava sospechosa",
   "text.autoconfig.artifacts.option.common.artifactRarity": "Rareza de artefactos",
-  "text.autoconfig.artifacts.option.common.artifactRarity.@PrefixText": "Para deshabilitar o cambiar los efectos de objetos específicos, se puede usar el comando /gamerule. Una lista de las reglas de juego disponibles y sus efectos se puede encontrar en el wiki en GitHub.",
   "text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[0]": "Afecta la frecuencia con la que aparecen los artefactos en cofres",
   "text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[1]": "Los valores por encima de 1 harán que los artefactos sean más raros",
   "text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[2]": "Los valores entre 0 y 1 harán que los artefactos sean más comunes",

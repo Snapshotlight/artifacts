@@ -225,7 +225,6 @@
   "text.autoconfig.artifacts.option.common.archaeologyChance": "고고학 확률",
   "text.autoconfig.artifacts.option.common.archaeologyChance.@Tooltip": "수상한 모래나 자갈에서 유물이 생성될 확률",
   "text.autoconfig.artifacts.option.common.artifactRarity": "아티팩트 희소도",
-  "text.autoconfig.artifacts.option.common.artifactRarity.@PrefixText": "특정 아이템의 효과를 비활성화하거나 변경하려면 /gamerule 명령어를 사용할 수 있습니다 사용 가능한 게임 룰 및 효과 목록은 GitHub 위키에서 확인할 수 있습니다",
   "text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[0]": "상자에 아티팩트가 얼마나 흔히 나타나는지에 영향을 줍니다",
   "text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[1]": "1 이상의 값은 아티팩트를 더 희소하게 만듭니다",
   "text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[2]": "0에서 1 사이의 값은 아티팩트를 더 흔하게 만듭니다",

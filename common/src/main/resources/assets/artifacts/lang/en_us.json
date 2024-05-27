@@ -263,7 +263,6 @@
   "text.autoconfig.artifacts.option.common.archaeologyChance": "Archaeology chance",
   "text.autoconfig.artifacts.option.common.archaeologyChance.@Tooltip": "The chance that an artifact generates in suspicious sand or gravel",
   "text.autoconfig.artifacts.option.common.artifactRarity": "Artifact rarity",
-  "text.autoconfig.artifacts.option.common.artifactRarity.@PrefixText": "To disable or change the effects of specific items, the /gamerule command can be used. A list of available game rules and their effects can be found on the wiki on GitHub.",
   "text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[0]": "Affects how common artifacts are in chests",
   "text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[1]": "Values above 1 will make artifacts rarer",
   "text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[2]": "Values between 0 and 1 will make artifacts more common",
