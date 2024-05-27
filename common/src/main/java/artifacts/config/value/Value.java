@@ -1,5 +1,6 @@
 package artifacts.config.value;
 
+import artifacts.config.value.type.ValueType;
 import net.minecraft.util.StringRepresentable;
 
 import java.util.function.Supplier;
@@ -21,12 +22,14 @@ public interface Value<T> extends Supplier<T> {
 
     final class ConfigValue<T> implements Value<T>, StringRepresentable {
 
+        private final ValueType<T, ?> type;
         private final String id;
         private final T defaultValue;
 
         private T value;
 
-        public ConfigValue(String id, T defaultValue) {
+        public ConfigValue(ValueType<T, ?> type, String id, T defaultValue) {
+            this.type = type;
             this.id = id;
             this.defaultValue = this.value = defaultValue;
         }
@@ -49,6 +52,10 @@ public interface Value<T> extends Supplier<T> {
 
         public T getDefaultValue() {
             return defaultValue;
+        }
+
+        public ValueType<T, ?> type() {
+            return type;
         }
     }
 }

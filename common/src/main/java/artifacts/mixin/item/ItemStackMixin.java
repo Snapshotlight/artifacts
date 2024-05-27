@@ -9,7 +9,6 @@ import artifacts.registry.ModAbilities;
 import artifacts.registry.ModDataComponents;
 import artifacts.util.AbilityHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -209,10 +208,6 @@ public class ItemStackMixin {
 
     @Unique
     private static MutableComponent formatDurationSeconds(int seconds) {
-        float tickRate = 20;
-        if (Minecraft.getInstance() != null && Minecraft.getInstance().level != null) {
-            tickRate = Minecraft.getInstance().level.tickRateManager().tickrate();
-        }
-        return Component.literal(StringUtil.formatTickDuration(seconds * 20, tickRate));
+        return Component.literal(StringUtil.formatTickDuration(seconds * 20, 20));
     }
 }

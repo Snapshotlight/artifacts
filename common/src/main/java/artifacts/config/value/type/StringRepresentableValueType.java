@@ -10,7 +10,7 @@ import net.minecraft.util.StringRepresentable;
 import java.util.Arrays;
 import java.util.List;
 
-public class StringRepresentableValueType<T extends StringRepresentable> extends ValueType<T> {
+public class StringRepresentableValueType<T extends StringRepresentable> extends ValueType<T, String> {
 
     private final T[] values;
 
@@ -43,12 +43,22 @@ public class StringRepresentableValueType<T extends StringRepresentable> extends
     }
 
     @Override
+    public T read(String configValue) {
+        for (T value : values) {
+            if (value.getSerializedName().equalsIgnoreCase(configValue)) {
+                return value;
+            }
+        }
+        throw new IllegalArgumentException("Unknown value '%s'".formatted(configValue));
+    }
+
+    @Override
     protected Codec<T> valueCodec() {
         return StringRepresentable.fromValues(() -> values);
     }
 
     @Override
-    protected StreamCodec<ByteBuf, T> valueStreamCodec() {
+    public StreamCodec<ByteBuf, T> valueStreamCodec() {
         return ByteBufCodecs.idMapper(i -> values[i], Util.createIndexLookup(Arrays.asList(values)));
     }
 }

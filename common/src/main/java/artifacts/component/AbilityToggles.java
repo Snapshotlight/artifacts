@@ -1,7 +1,7 @@
 package artifacts.component;
 
 import artifacts.ability.ArtifactAbility;
-import artifacts.network.SyncArtifactTogglesPacket;
+import artifacts.network.UpdateArtifactTogglesPacket;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
 import com.google.common.collect.Sets;
@@ -65,6 +65,6 @@ public class AbilityToggles {
     }
 
     public void sendToClient(ServerPlayer player) {
-        NetworkManager.sendToPlayer(player, new SyncArtifactTogglesPacket(List.copyOf(toggles)));
+        NetworkManager.sendToPlayer(player, new UpdateArtifactTogglesPacket(List.copyOf(toggles)));
     }
 }

@@ -16,13 +16,15 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public abstract class ValueType<T> {
+public abstract class ValueType<T, C> {
 
     public abstract boolean isCorrect(T value);
 
     public abstract String makeError(T value);
 
     public abstract String getAllowedValuesComment();
+
+    public abstract T read(C c);
 
     public final Codec<Value<T>> codec() {
         return ModCodecs.xorAlternative(
@@ -56,7 +58,7 @@ public abstract class ValueType<T> {
         );
     }
 
-    protected abstract StreamCodec<ByteBuf, T> valueStreamCodec();
+    public abstract StreamCodec<ByteBuf, T> valueStreamCodec();
 
     public final StreamCodec<ByteBuf, Value.ConfigValue<T>> configStreamCodec() {
         Value.ConfigValue<T>[] values = getConfigValues();

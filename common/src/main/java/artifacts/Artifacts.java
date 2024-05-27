@@ -1,11 +1,15 @@
 package artifacts;
 
 import artifacts.component.SwimEvents;
+import artifacts.config.ConfigManager;
+import artifacts.config.ItemConfigs;
 import artifacts.config.ModConfig;
 import artifacts.entity.MimicEntity;
 import artifacts.event.ArtifactEvents;
 import artifacts.network.NetworkHandler;
 import artifacts.registry.*;
+import dev.architectury.event.events.common.LifecycleEvent;
+import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
@@ -54,6 +58,11 @@ public class Artifacts {
         ModAbilities.register();
 
         EntityAttributeRegistry.register(ModEntityTypes.MIMIC, MimicEntity::createMobAttributes);
+
+        LifecycleEvent.SETUP.register(ConfigManager::setup);
+
+        LifecycleEvent.SERVER_STARTING.register(ItemConfigs::loadFromConfig);
+        PlayerEvent.PLAYER_JOIN.register(ItemConfigs::sendToPlayer);
 
         SwimEvents.register();
         ArtifactEvents.register();

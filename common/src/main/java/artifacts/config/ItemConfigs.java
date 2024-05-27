@@ -4,19 +4,25 @@ import artifacts.ability.UpgradeToolTierAbility;
 import artifacts.config.value.Value;
 import artifacts.config.value.ValueTypes;
 import artifacts.config.value.type.ValueType;
+import artifacts.network.UpdateItemConfigPacket;
 import artifacts.registry.ModItems;
 import com.google.common.base.CaseFormat;
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.Holder;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @SuppressWarnings("SameParameterValue")
 public class ItemConfigs {
 
-    private static final Map<ValueType<?>, ValueMap<?>> VALUES = new HashMap<>();
+    private static final Map<ValueType<?, ?>, ValueMap<?>> VALUES = new HashMap<>();
+    private static final List<ValueType<?, ?>> VALUE_TYPES = new ArrayList<>();
 
     public static final Value.ConfigValue<Boolean>
             ANTIDOTE_VESSEL_ENABLED = booleanValue(ModItems.ANTIDOTE_VESSEL, "enabled"),
@@ -31,10 +37,10 @@ public class ItemConfigs {
             SCARF_OF_INVISIBILITY_ENABLED = booleanValue(ModItems.SCARF_OF_INVISIBILITY, "enabled"),
             UNIVERSAL_ATTRACTOR_ENABLED = booleanValue(ModItems.UNIVERSAL_ATTRACTOR, "enabled"),
 
-            CHORUS_TOTEM_DO_CONSUME_ON_USE = booleanValue(ModItems.CHORUS_TOTEM, "doConsumeOnUse"),
-            FLAME_PENDANT_DO_GRANT_FIRE_RESISTANCE = booleanValue(ModItems.FLAME_PENDANT, "doGrantFireResistance"),
-            ROOTED_BOOTS_DO_GROW_PLANTS_AFTER_EATING = booleanValue(ModItems.ROOTED_BOOTS, "doGrowPlantsAfterEating"),
-            SHOCK_PENDANT_DO_CANCEL_LIGHTNING_DAMAGE = booleanValue(ModItems.SHOCK_PENDANT, "doCancelLightningDamage"),
+            CHORUS_TOTEM_DO_CONSUME_ON_USE = booleanValue(ModItems.CHORUS_TOTEM, "consumeOnUse"),
+            FLAME_PENDANT_DO_GRANT_FIRE_RESISTANCE = booleanValue(ModItems.FLAME_PENDANT, "grantFireResistance"),
+            ROOTED_BOOTS_DO_GROW_PLANTS_AFTER_EATING = booleanValue(ModItems.ROOTED_BOOTS, "growPlantsAfterEating"),
+            SHOCK_PENDANT_DO_CANCEL_LIGHTNING_DAMAGE = booleanValue(ModItems.SHOCK_PENDANT, "cancelLightningDamage"),
             SNORKEL_IS_INFINITE = booleanValue(ModItems.SNORKEL, "isInfinite", false),
             SNOWSHOES_ALLOW_WALKING_ON_POWDER_SNOW = booleanValue(ModItems.SNOWSHOES, "allowWalkingOnPowderSnow"),
             UMBRELLA_IS_SHIELD = booleanValue(ModItems.UMBRELLA, "isShield"),
@@ -155,27 +161,40 @@ public class ItemConfigs {
         return register(holder, name, ValueTypes.MOB_EFFECT_LEVEL, defaultValue);
     }
 
-    private static <T> Value.ConfigValue<T> register(Holder<? extends Item> holder, String name, ValueType<T> type, T defaultValue) {
+    private static <T> Value.ConfigValue<T> register(Holder<? extends Item> holder, String name, ValueType<T, ?> type, T defaultValue) {
         String id = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, holder.unwrapKey().orElseThrow().location().getPath()) + '.' + name;
         if (!type.isCorrect(defaultValue)) {
             throw new IllegalArgumentException(type.makeError(defaultValue));
         }
-        Value.ConfigValue<T> value = new Value.ConfigValue<>(id, defaultValue);
+        Value.ConfigValue<T> value = new Value.ConfigValue<>(type, id, defaultValue);
         getValues(type).put(id, value);
         return value;
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Map<String, Value.ConfigValue<T>> getValues(ValueType<T> type) {
-        if (!VALUES.containsKey(type)) {
+    public static <T> Map<String, Value.ConfigValue<T>> getValues(ValueType<T, ?> type) {
+        if (!VALUE_TYPES.contains(type)) {
             VALUES.put(type, new ValueMap<>());
+            VALUE_TYPES.add(type);
         }
         ValueMap<T> valueMap = (ValueMap<T>) VALUES.get(type);
         return valueMap.getMap();
     }
 
-    public static Set<ValueType<?>> getValueTypes() {
-        return VALUES.keySet();
+    public static List<ValueType<?, ?>> getValueTypes() {
+        return VALUE_TYPES;
+    }
+
+    public static void loadFromConfig(MinecraftServer server) {
+        for (ValueMap<?> map : VALUES.values()) {
+            map.loadValues(server);
+        }
+    }
+
+    public static void sendToPlayer(ServerPlayer player) {
+        for (ValueMap<?> map : VALUES.values()) {
+            map.sendToPlayer(player);
+        }
     }
 
     private static class ValueMap<T> {
@@ -183,6 +202,20 @@ public class ItemConfigs {
 
         public Map<String, Value.ConfigValue<T>> getMap() {
             return map;
+        }
+
+        public void loadValues(MinecraftServer server) {
+            map.forEach((key, config) -> {
+                T value = config.type().read(ConfigManager.getConfigValue(key));
+                if (!config.get().equals(value)) {
+                    config.set(value);
+                    NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(), new UpdateItemConfigPacket(config));
+                }
+            });
+        }
+
+        public void sendToPlayer(ServerPlayer player) {
+            map.forEach((key, config) -> NetworkManager.sendToPlayer(player, new UpdateItemConfigPacket(config)));
         }
     }
 }

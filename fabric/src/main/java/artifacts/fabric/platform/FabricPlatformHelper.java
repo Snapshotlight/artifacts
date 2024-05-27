@@ -21,6 +21,7 @@ import dev.emi.trinkets.api.TrinketInventory;
 import dev.emi.trinkets.api.TrinketsApi;
 import dev.emi.trinkets.api.client.TrinketRenderer;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -197,6 +198,6 @@ public class FabricPlatformHelper implements PlatformHelper {
 
     @Override
     public Path getConfigDir() {
-        return null;
+        return FabricLoader.getInstance().getConfigDir();
     }
 }

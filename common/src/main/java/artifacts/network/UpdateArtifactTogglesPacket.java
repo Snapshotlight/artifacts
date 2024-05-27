@@ -16,16 +16,16 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
-public record SyncArtifactTogglesPacket(List<ArtifactAbility.Type<?>> toggles) implements CustomPacketPayload {
+public record UpdateArtifactTogglesPacket(List<ArtifactAbility.Type<?>> toggles) implements CustomPacketPayload {
 
-    public static final CustomPacketPayload.Type<SyncArtifactTogglesPacket> TYPE = new CustomPacketPayload.Type<>(Artifacts.id("sync_artifact_toggles"));
+    public static final CustomPacketPayload.Type<UpdateArtifactTogglesPacket> TYPE = new CustomPacketPayload.Type<>(Artifacts.id("update_artifact_toggles"));
 
-    public static final StreamCodec<FriendlyByteBuf, SyncArtifactTogglesPacket> CODEC = StreamCodec.composite(
+    public static final StreamCodec<FriendlyByteBuf, UpdateArtifactTogglesPacket> CODEC = StreamCodec.composite(
             ByteBufCodecs.<ByteBuf, ArtifactAbility.Type<?>>list().apply(
                     ResourceLocation.STREAM_CODEC.map(ModAbilities.REGISTRY::get, ModAbilities.REGISTRY::getId)
             ),
-            SyncArtifactTogglesPacket::toggles,
-            SyncArtifactTogglesPacket::new
+            UpdateArtifactTogglesPacket::toggles,
+            UpdateArtifactTogglesPacket::new
     );
 
     void apply(NetworkManager.PacketContext context) {
@@ -39,7 +39,7 @@ public record SyncArtifactTogglesPacket(List<ArtifactAbility.Type<?>> toggles) i
     }
 
     @Override
-    public CustomPacketPayload.Type<SyncArtifactTogglesPacket> type() {
+    public CustomPacketPayload.Type<UpdateArtifactTogglesPacket> type() {
         return TYPE;
     }
 }

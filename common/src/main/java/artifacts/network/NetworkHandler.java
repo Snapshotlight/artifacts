@@ -12,7 +12,8 @@ public class NetworkHandler {
     public static void register() {
         registerS2C(ChorusTotemUsedPacket.TYPE, ChorusTotemUsedPacket.CODEC, ChorusTotemUsedPacket::apply);
         registerS2C(PlaySoundAtPlayerPacket.TYPE, PlaySoundAtPlayerPacket.CODEC, PlaySoundAtPlayerPacket::apply);
-        registerS2C(SyncArtifactTogglesPacket.TYPE, SyncArtifactTogglesPacket.CODEC, SyncArtifactTogglesPacket::apply);
+        registerS2C(UpdateArtifactTogglesPacket.TYPE, UpdateArtifactTogglesPacket.CODEC, UpdateArtifactTogglesPacket::apply);
+        registerS2C(UpdateItemConfigPacket.TYPE, UpdateItemConfigPacket.CODEC, UpdateItemConfigPacket::apply);
 
         registerC2S(DoubleJumpPacket.TYPE, DoubleJumpPacket.CODEC, DoubleJumpPacket::apply);
         registerC2S(SwimPacket.TYPE, SwimPacket.CODEC, SwimPacket::apply);

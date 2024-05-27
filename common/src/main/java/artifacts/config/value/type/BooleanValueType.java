@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
-public class BooleanValueType extends ValueType<Boolean> {
+public class BooleanValueType extends ValueType<Boolean, Boolean> {
 
     @Override
     protected Codec<Boolean> valueCodec() {
@@ -15,7 +15,7 @@ public class BooleanValueType extends ValueType<Boolean> {
     }
 
     @Override
-    protected StreamCodec<ByteBuf, Boolean> valueStreamCodec() {
+    public StreamCodec<ByteBuf, Boolean> valueStreamCodec() {
         return ByteBufCodecs.BOOL;
     }
 
@@ -32,6 +32,11 @@ public class BooleanValueType extends ValueType<Boolean> {
     @Override
     public String getAllowedValuesComment() {
         return "Allowed Values: true, false";
+    }
+
+    @Override
+    public Boolean read(Boolean value) {
+        return value;
     }
 
     public MapCodec<Value<Boolean>> enabledField() {

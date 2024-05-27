@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
-public class NumberValueType<T extends Number & Comparable<T>> extends ValueType<T> {
+public class NumberValueType<T extends Number & Comparable<T>> extends ValueType<T, T> {
 
     private final T min;
     private final T max;
@@ -32,7 +32,7 @@ public class NumberValueType<T extends Number & Comparable<T>> extends ValueType
     }
 
     @Override
-    protected StreamCodec<ByteBuf, T> valueStreamCodec() {
+    public StreamCodec<ByteBuf, T> valueStreamCodec() {
         return valueStreamCodec;
     }
 
@@ -54,5 +54,10 @@ public class NumberValueType<T extends Number & Comparable<T>> extends ValueType
         return "Range: %s ~ %s".formatted(getMin(), getMax())
                 .replace("0.0 ~ Infinity", "> 0.0")
                 .replace("0 ~ 2147483647", "> 0");
+    }
+
+    @Override
+    public T read(T value) {
+        return value;
     }
 }
