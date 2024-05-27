@@ -34,6 +34,7 @@ public class ArtifactsData {
         generator.addProvider(event.includeServer(), new SoundDefinitions(packOutput, existingFileHelper));
         generator.addProvider(event.includeServer(), new Advancements(packOutput, lookupProvider, existingFileHelper));
 
+        generator.addProvider(event.includeClient(), new Language(packOutput));
         generator.addProvider(event.includeClient(), new ItemModels(packOutput, existingFileHelper));
 
         generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(generator.getPackOutput(), event.getLookupProvider(), createLevelProvider(), Set.of(Artifacts.MOD_ID)));
