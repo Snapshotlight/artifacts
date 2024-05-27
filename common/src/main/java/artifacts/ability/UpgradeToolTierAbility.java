@@ -1,7 +1,8 @@
 package artifacts.ability;
 
 import artifacts.Artifacts;
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
@@ -13,64 +14,37 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
-import java.util.Optional;
 
-public record UpgradeToolTierAbility(IntegerValue tierLevel) implements ArtifactAbility {
+public record UpgradeToolTierAbility(Value<Tier> tier) implements ArtifactAbility {
 
     public static final MapCodec<UpgradeToolTierAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.codec(5).fieldOf("tier").forGetter(UpgradeToolTierAbility::tierLevel)
+            ValueTypes.TOOL_TIER.codec().optionalFieldOf("tier", new Value.Constant<>(Tier.NONE)).forGetter(UpgradeToolTierAbility::tier)
     ).apply(instance, UpgradeToolTierAbility::new));
 
     public static final StreamCodec<ByteBuf, UpgradeToolTierAbility> STREAM_CODEC = StreamCodec.composite(
-            IntegerValue.streamCodec(),
-            UpgradeToolTierAbility::tierLevel,
+            ValueTypes.TOOL_TIER.streamCodec(),
+            UpgradeToolTierAbility::tier,
             UpgradeToolTierAbility::new
     );
 
     public static boolean canHarvestWithTier(LivingEntity entity, BlockState state) {
         if (state.is(ModTags.MINEABLE_WITH_DIGGING_CLAWS)) {
-            Optional<Tier> tier = getTier(AbilityHelper.maxInt(
+            Tier tier = Tier.fromLevel(AbilityHelper.maxInt(
                     ModAbilities.UPGRADE_TOOL_TIER.get(), entity,
-                    ability -> ability.tierLevel().get(), false
+                    ability -> ability.tier().get().getLevel(), false
             ));
-            return tier.isPresent() && isCorrectTierForDrops(tier.get(), state);
+            return isCorrectTierForDrops(tier, state);
         }
         return false;
     }
 
-    public static Optional<Tier> getTier(int toolTier) {
-        return switch (toolTier) {
-            case 0 -> Optional.empty();
-            case 1 -> Optional.of(Tiers.WOOD);
-            case 2 -> Optional.of(Tiers.STONE);
-            case 3 -> Optional.of(Tiers.IRON);
-            case 4 -> Optional.of(Tiers.DIAMOND);
-            default -> Optional.of(Tiers.NETHERITE);
-        };
-    }
-
-    public static int getTierLevel(Tier tier) {
-        if (!(tier instanceof Tiers tiers)) {
-            return 0;
-        }
-        return switch (tiers) {
-            case WOOD -> 1;
-            case STONE -> 2;
-            case IRON -> 3;
-            case DIAMOND -> 4;
-            case NETHERITE -> 5;
-            default -> 0;
-        };
-    }
-
     public static boolean isCorrectTierForDrops(Tier tier, BlockState state) {
-        int i = UpgradeToolTierAbility.getTierLevel(tier);
+        int i = tier.getLevel();
         if (state.is(BlockTags.NEEDS_DIAMOND_TOOL)) {
             return i >= 4;
         } else if (state.is(BlockTags.NEEDS_IRON_TOOL)) {
@@ -88,20 +62,53 @@ public record UpgradeToolTierAbility(IntegerValue tierLevel) implements Artifact
 
     @Override
     public boolean isNonCosmetic() {
-        return getTier(tierLevel().get()).isPresent();
+        return tier().get() != Tier.NONE;
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        getTier(tierLevel().get()).ifPresent(tier ->  {
-            ResourceLocation id = ModAbilities.REGISTRY.getId(getType());
-            tooltip.add(
-                    Component.translatable(
-                            "%s.tooltip.ability.%s".formatted(id.getNamespace(), id.getPath()),
-                            Component.translatable("%s.tooltip.tool_tier.%s".formatted(Artifacts.MOD_ID, getTierLevel(tier)))
-                    )
-            );
-        });
+        ResourceLocation id = ModAbilities.REGISTRY.getId(getType());
+        tooltip.add(
+                Component.translatable(
+                        "%s.tooltip.ability.%s".formatted(id.getNamespace(), id.getPath()),
+                        Component.translatable("%s.tooltip.tool_tier.%s".formatted(Artifacts.MOD_ID, tier().get().getLevel()))
+                )
+        );
+    }
+
+    public enum Tier implements StringRepresentable {
+        NONE(0),
+        WOOD(1),
+        STONE(2),
+        IRON(3),
+        DIAMOND(4),
+        NETHERITE(5);
+
+        private final int level;
+
+        Tier(int level) {
+            this.level = level;
+        }
+
+        public static Tier fromLevel(int level) {
+            return switch (level) {
+                case 0 -> NONE;
+                case 1 -> WOOD;
+                case 2 -> STONE;
+                case 3 -> IRON;
+                case 4 -> DIAMOND;
+                default -> NETHERITE;
+            };
+        }
+
+        public int getLevel() {
+            return level;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return toString().toLowerCase();
+        }
     }
 }

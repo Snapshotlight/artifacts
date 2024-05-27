@@ -14,6 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
@@ -52,4 +53,6 @@ public interface PlatformHelper {
 
     @Nullable
     ArtifactRenderer getArtifactRenderer(Item item);
+
+    Path getConfigDir();
 }

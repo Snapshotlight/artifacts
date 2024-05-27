@@ -1,7 +1,7 @@
 package artifacts.ability.mobeffect;
 
 import artifacts.ability.ArtifactAbility;
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
 import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -13,13 +13,13 @@ import java.util.Objects;
 public abstract class MobEffectAbility implements ArtifactAbility {
 
     private final Holder<MobEffect> mobEffect;
-    protected final IntegerValue level;
+    protected final Value<Integer> level;
 
     protected MobEffectAbility(Holder<MobEffect> mobEffect) {
-        this(mobEffect, new IntegerValue.Constant(1));
+        this(mobEffect, Value.Constant.ONE);
     }
 
-    protected MobEffectAbility(Holder<MobEffect> mobEffect, IntegerValue level) {
+    protected MobEffectAbility(Holder<MobEffect> mobEffect, Value<Integer> level) {
         this.mobEffect = mobEffect;
         this.level = level;
     }
@@ -28,7 +28,7 @@ public abstract class MobEffectAbility implements ArtifactAbility {
         return mobEffect;
     }
 
-    public IntegerValue getLevel() {
+    public Value<Integer> getLevel() {
         return level;
     }
 

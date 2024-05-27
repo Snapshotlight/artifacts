@@ -37,7 +37,7 @@ public class LivingEntityMixin {
                     if (ability.consumedOnUse().get()) {
                         totem.shrink(1);
                     } else if (entity instanceof Player player) {
-                        player.getCooldowns().addCooldown(totem.getItem(), ability.cooldown().get());
+                        player.getCooldowns().addCooldown(totem.getItem(), ability.cooldown().get() * 20);
                     }
                     entity.setHealth(Math.min(entity.getMaxHealth(), Math.max(1, ability.healthRestored().get())));
                     if (entity instanceof ServerPlayer player) {

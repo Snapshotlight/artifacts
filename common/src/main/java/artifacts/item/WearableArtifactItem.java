@@ -4,10 +4,9 @@ import artifacts.Artifacts;
 import artifacts.ability.ArtifactAbility;
 import artifacts.ability.AttributeModifierAbility;
 import artifacts.ability.IncreaseEnchantmentLevelAbility;
-import artifacts.ability.value.DoubleValue;
+import artifacts.config.value.Value;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModDataComponents;
-import artifacts.registry.ModGameRules;
 import artifacts.registry.ModItems;
 import artifacts.util.AbilityHelper;
 import net.minecraft.ChatFormatting;
@@ -87,21 +86,16 @@ public class WearableArtifactItem extends Item {
             return this;
         }
 
-        public Builder addAttributeModifier(Holder<Attribute> attribute, ModGameRules.IntegerGameRule amount, AttributeModifier.Operation operation) {
-            return addAttributeModifier(attribute, amount, operation, 100);
+        public Builder addAttributeModifier(Holder<Attribute> attribute, Value<Double> amount, AttributeModifier.Operation operation) {
+            return addAttributeModifier(attribute, amount, operation, true);
         }
 
-        public Builder addAttributeModifier(Holder<Attribute> attribute, ModGameRules.IntegerGameRule amount, AttributeModifier.Operation operation, int factor) {
-            return addAttributeModifier(attribute, amount, operation, factor, true);
+        public Builder addAttributeModifier(Holder<Attribute> attribute, Value<Double> amount, AttributeModifier.Operation operation, boolean ignoreCooldown) {
+            return addAbility(AttributeModifierAbility.create(attribute, amount, operation, Artifacts.id(itemName + '/' + attribute.unwrapKey().orElseThrow().location().getPath()).toString(), ignoreCooldown));
         }
 
-        public Builder addAttributeModifier(Holder<Attribute> attribute, ModGameRules.IntegerGameRule amount, AttributeModifier.Operation operation, int factor, boolean ignoreCooldown) {
-            DoubleValue amountValue = amount.asDoubleValue(Integer.MIN_VALUE, Integer.MAX_VALUE, factor);
-            return addAbility(AttributeModifierAbility.create(attribute, amountValue, operation, Artifacts.id(itemName + '/' + attribute.unwrapKey().orElseThrow().location().getPath()).toString(), ignoreCooldown));
-        }
-
-        public Builder increasesEnchantment(Enchantment enchantment, ModGameRules.IntegerGameRule amount) {
-            return addAbility(new IncreaseEnchantmentLevelAbility(BuiltInRegistries.ENCHANTMENT.wrapAsHolder(enchantment), amount.asIntegerValue(100, 1)));
+        public Builder increasesEnchantment(Enchantment enchantment, Value<Integer> amount) {
+            return addAbility(new IncreaseEnchantmentLevelAbility(BuiltInRegistries.ENCHANTMENT.wrapAsHolder(enchantment), amount));
         }
 
         public Builder addAbility(ArtifactAbility ability) {

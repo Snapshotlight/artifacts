@@ -20,8 +20,6 @@
     "attribute.invincibilityticks.LivingEntityMixin",
     "attribute.villagerreputation.VillagerMixin",
     "debug.TagLoaderMixin",
-    "gamerule.BooleanValueInvoker",
-    "gamerule.IntegerValueInvoker",
     "item.ItemStackMixin",
     "item.NaturalSpawnerMixin",
     "item.umbrella.EntityMixin"

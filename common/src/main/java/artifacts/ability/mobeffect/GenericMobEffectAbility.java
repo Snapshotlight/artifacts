@@ -1,7 +1,7 @@
 package artifacts.ability.mobeffect;
 
-import artifacts.ability.value.BooleanValue;
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -27,30 +27,30 @@ public class GenericMobEffectAbility extends MobEffectAbility {
 
     public static final MapCodec<GenericMobEffectAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(GenericMobEffectAbility::getMobEffect),
-            IntegerValue.mobEffectLevelCodec().optionalFieldOf("level", IntegerValue.ONE).forGetter(GenericMobEffectAbility::getLevel),
-            BooleanValue.codec().optionalFieldOf("enabled", BooleanValue.TRUE).forGetter(ability -> ability.enabled)
+            ValueTypes.MOB_EFFECT_LEVEL.codec().optionalFieldOf("level", Value.Constant.ONE).forGetter(GenericMobEffectAbility::getLevel),
+            ValueTypes.BOOLEAN.codec().optionalFieldOf("enabled", Value.Constant.TRUE).forGetter(ability -> ability.enabled)
     ).apply(instance, GenericMobEffectAbility::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, GenericMobEffectAbility> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT),
             GenericMobEffectAbility::getMobEffect,
-            IntegerValue.Constant.STREAM_CODEC,
+            ValueTypes.MOB_EFFECT_LEVEL.streamCodec(),
             GenericMobEffectAbility::getLevel,
-            BooleanValue.Constant.STREAM_CODEC,
+            ValueTypes.BOOLEAN.streamCodec(),
             ability -> ability.enabled,
             GenericMobEffectAbility::new
     );
 
-    private final BooleanValue enabled;
+    private final Value<Boolean> enabled;
 
-    public GenericMobEffectAbility(Holder<MobEffect> mobEffect, IntegerValue level, BooleanValue enabled) {
+    public GenericMobEffectAbility(Holder<MobEffect> mobEffect, Value<Integer> level, Value<Boolean> enabled) {
         super(mobEffect, level);
         this.enabled = enabled;
     }
 
     @Override
-    public IntegerValue getLevel() {
-        return enabled.get() ? super.getLevel() : IntegerValue.ZERO;
+    public Value<Integer> getLevel() {
+        return enabled.get() ? super.getLevel() : Value.Constant.ZERO;
     }
 
     @Override

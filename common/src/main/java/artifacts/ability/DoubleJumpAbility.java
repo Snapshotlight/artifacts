@@ -1,7 +1,7 @@
 package artifacts.ability;
 
-import artifacts.ability.value.BooleanValue;
-import artifacts.ability.value.DoubleValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModAttributes;
 import artifacts.registry.ModSoundEvents;
@@ -18,20 +18,20 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
-public record DoubleJumpAbility(BooleanValue enabled, DoubleValue sprintHorizontalVelocity, DoubleValue sprintVerticalVelocity) implements ArtifactAbility {
+public record DoubleJumpAbility(Value<Boolean> enabled, Value<Double> sprintHorizontalVelocity, Value<Double> sprintVerticalVelocity) implements ArtifactAbility {
 
     public static final MapCodec<DoubleJumpAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.enabledField().forGetter(DoubleJumpAbility::enabled),
-            DoubleValue.codec(100 * 100, 100).optionalFieldOf("sprint_jump_horizontal_velocity", DoubleValue.ZERO).forGetter(DoubleJumpAbility::sprintHorizontalVelocity),
-            DoubleValue.codec(100 * 100, 100).optionalFieldOf("sprint_jump_vertical_velocity", DoubleValue.ZERO).forGetter(DoubleJumpAbility::sprintVerticalVelocity)
+            ValueTypes.BOOLEAN.enabledField().forGetter(DoubleJumpAbility::enabled),
+            ValueTypes.NON_NEGATIVE_DOUBLE.codec().optionalFieldOf("sprint_jump_horizontal_velocity", Value.Constant.ZERO_D).forGetter(DoubleJumpAbility::sprintHorizontalVelocity),
+            ValueTypes.NON_NEGATIVE_DOUBLE.codec().optionalFieldOf("sprint_jump_vertical_velocity", Value.Constant.ZERO_D).forGetter(DoubleJumpAbility::sprintVerticalVelocity)
     ).apply(instance, DoubleJumpAbility::new));
 
     public static final StreamCodec<ByteBuf, DoubleJumpAbility> STREAM_CODEC = StreamCodec.composite(
-            BooleanValue.streamCodec(),
+            ValueTypes.BOOLEAN.streamCodec(),
             DoubleJumpAbility::enabled,
-            DoubleValue.streamCodec(),
+            ValueTypes.NON_NEGATIVE_DOUBLE.streamCodec(),
             DoubleJumpAbility::sprintHorizontalVelocity,
-            DoubleValue.streamCodec(),
+            ValueTypes.NON_NEGATIVE_DOUBLE.streamCodec(),
             DoubleJumpAbility::sprintVerticalVelocity,
             DoubleJumpAbility::new
     );

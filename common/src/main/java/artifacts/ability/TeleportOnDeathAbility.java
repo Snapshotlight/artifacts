@@ -1,8 +1,7 @@
 package artifacts.ability;
 
-import artifacts.ability.value.BooleanValue;
-import artifacts.ability.value.DoubleValue;
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
@@ -24,23 +23,23 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public record TeleportOnDeathAbility(DoubleValue teleportationChance, IntegerValue healthRestored, IntegerValue cooldown, BooleanValue consumedOnUse) implements ArtifactAbility {
+public record TeleportOnDeathAbility(Value<Double> teleportationChance, Value<Integer> healthRestored, Value<Integer> cooldown, Value<Boolean> consumedOnUse) implements ArtifactAbility {
 
     public static final MapCodec<TeleportOnDeathAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.percentage().fieldOf("teleportation_chance").forGetter(TeleportOnDeathAbility::teleportationChance),
-            IntegerValue.codec().fieldOf("health_restored").forGetter(TeleportOnDeathAbility::healthRestored),
-            IntegerValue.durationSecondsCodec().optionalFieldOf("cooldown", IntegerValue.ZERO).forGetter(TeleportOnDeathAbility::cooldown),
-            BooleanValue.codec().optionalFieldOf("consume", BooleanValue.TRUE).forGetter(TeleportOnDeathAbility::consumedOnUse)
+            ValueTypes.FRACTION.codec().fieldOf("teleportation_chance").forGetter(TeleportOnDeathAbility::teleportationChance),
+            ValueTypes.NON_NEGATIVE_INT.codec().fieldOf("health_restored").forGetter(TeleportOnDeathAbility::healthRestored),
+            ValueTypes.DURATION.codec().optionalFieldOf("cooldown", Value.Constant.ZERO).forGetter(TeleportOnDeathAbility::cooldown),
+            ValueTypes.BOOLEAN.codec().optionalFieldOf("consume", Value.Constant.TRUE).forGetter(TeleportOnDeathAbility::consumedOnUse)
     ).apply(instance, TeleportOnDeathAbility::new));
 
     public static final StreamCodec<ByteBuf, TeleportOnDeathAbility> STREAM_CODEC = StreamCodec.composite(
-            DoubleValue.streamCodec(),
+            ValueTypes.FRACTION.streamCodec(),
             TeleportOnDeathAbility::teleportationChance,
-            IntegerValue.streamCodec(),
+            ValueTypes.NON_NEGATIVE_INT.streamCodec(),
             TeleportOnDeathAbility::healthRestored,
-            IntegerValue.streamCodec(),
+            ValueTypes.DURATION.streamCodec(),
             TeleportOnDeathAbility::cooldown,
-            BooleanValue.streamCodec(),
+            ValueTypes.BOOLEAN.streamCodec(),
             TeleportOnDeathAbility::consumedOnUse,
             TeleportOnDeathAbility::new
     );
@@ -97,12 +96,12 @@ public record TeleportOnDeathAbility(DoubleValue teleportationChance, IntegerVal
 
     @Override
     public boolean isNonCosmetic() {
-        return !teleportationChance().fuzzyEquals(0);
+        return !Mth.equal(teleportationChance().get(), 0);
     }
 
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        if (teleportationChance().fuzzyEquals(1)) {
+        if (Mth.equal(teleportationChance().get(), 0)) {
             tooltip.add(tooltipLine("constant"));
         } else {
             tooltip.add(tooltipLine("chance"));

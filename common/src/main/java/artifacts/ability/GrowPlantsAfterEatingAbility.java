@@ -1,6 +1,7 @@
 package artifacts.ability;
 
-import artifacts.ability.value.BooleanValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModTags;
 import artifacts.util.AbilityHelper;
@@ -15,14 +16,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 // TODO migrate to simpleAbility
-public record GrowPlantsAfterEatingAbility(BooleanValue enabled) implements ArtifactAbility {
+public record GrowPlantsAfterEatingAbility(Value<Boolean> enabled) implements ArtifactAbility {
 
     public static final MapCodec<GrowPlantsAfterEatingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.enabledField().forGetter(GrowPlantsAfterEatingAbility::enabled)
+            ValueTypes.BOOLEAN.enabledField().forGetter(GrowPlantsAfterEatingAbility::enabled)
     ).apply(instance, GrowPlantsAfterEatingAbility::new));
 
     public static final StreamCodec<ByteBuf, GrowPlantsAfterEatingAbility> STREAM_CODEC = StreamCodec.composite(
-            BooleanValue.streamCodec(),
+            ValueTypes.BOOLEAN.streamCodec(),
             GrowPlantsAfterEatingAbility::enabled,
             GrowPlantsAfterEatingAbility::new
     );

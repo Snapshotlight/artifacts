@@ -1,6 +1,7 @@
 package artifacts.ability;
 
-import artifacts.ability.value.DoubleValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModAttributes;
 import com.mojang.serialization.Codec;
@@ -13,6 +14,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -24,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, UUID modifierId, String name, boolean ignoreCooldown) implements ArtifactAbility {
+public record AttributeModifierAbility(Holder<Attribute> attribute, Value<Double> amount, AttributeModifier.Operation operation, UUID modifierId, String name, boolean ignoreCooldown) implements ArtifactAbility {
 
     private static final Set<Holder<Attribute>> POSITIVE_ATTRIBUTES_WITH_TOOLTIP;
     private static final Set<Holder<Attribute>> NEGATIVE_ATTRIBUTES_WITH_TOOLTIP = Set.of(
@@ -52,7 +54,7 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
 
     public static final MapCodec<AttributeModifierAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.ATTRIBUTE.holderByNameCodec().fieldOf("attribute").forGetter(AttributeModifierAbility::attribute),
-            DoubleValue.codec(Integer.MIN_VALUE, Integer.MAX_VALUE, 100).fieldOf("amount").forGetter(AttributeModifierAbility::amount),
+            ValueTypes.ATTRIBUTE_MODIFIER_AMOUNT.codec().fieldOf("amount").forGetter(AttributeModifierAbility::amount),
             AttributeModifier.Operation.CODEC.optionalFieldOf("operation", AttributeModifier.Operation.ADD_VALUE).forGetter(AttributeModifierAbility::operation),
             Codec.STRING.fieldOf("id").forGetter(AttributeModifierAbility::name),
             Codec.BOOL.optionalFieldOf("ignore_cooldown", true).forGetter(AttributeModifierAbility::ignoreCooldown)
@@ -61,7 +63,7 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
     public static final StreamCodec<RegistryFriendlyByteBuf, AttributeModifierAbility> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.holderRegistry(Registries.ATTRIBUTE),
             AttributeModifierAbility::attribute,
-            DoubleValue.streamCodec(),
+            ValueTypes.ATTRIBUTE_MODIFIER_AMOUNT.streamCodec(),
             AttributeModifierAbility::amount,
             AttributeModifier.Operation.STREAM_CODEC,
             AttributeModifierAbility::operation,
@@ -72,11 +74,11 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
             AttributeModifierAbility::create
     );
 
-    public static AttributeModifierAbility create(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, String name) {
+    public static AttributeModifierAbility create(Holder<Attribute> attribute, Value<Double> amount, AttributeModifier.Operation operation, String name) {
         return create(attribute, amount, operation, name, true);
     }
 
-    public static AttributeModifierAbility create(Holder<Attribute> attribute, DoubleValue amount, AttributeModifier.Operation operation, String name, boolean ignoreCooldowns) {
+    public static AttributeModifierAbility create(Holder<Attribute> attribute, Value<Double> amount, AttributeModifier.Operation operation, String name, boolean ignoreCooldowns) {
         return new AttributeModifierAbility(attribute, amount, operation, UUID.nameUUIDFromBytes(name.getBytes()), name, ignoreCooldowns);
     }
 
@@ -97,7 +99,7 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
 
     @Override
     public boolean isNonCosmetic() {
-        return !amount().fuzzyEquals(0);
+        return !Mth.equal(amount().get(), 0);
     }
 
     @Override
@@ -121,7 +123,7 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, DoubleValue 
                 onUnequip(entity, true);
             }
         } else {
-            if (existingModifier == null || !amount().fuzzyEquals(existingModifier.amount())) {
+            if (existingModifier == null || !Mth.equal(amount().get(), existingModifier.amount())) {
                 attributeInstance.removeModifier(modifierId());
                 attributeInstance.addPermanentModifier(createModifier());
                 onAttributeUpdated(entity);

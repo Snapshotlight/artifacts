@@ -1,7 +1,7 @@
 package artifacts.ability.mobeffect;
 
-import artifacts.ability.value.BooleanValue;
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -21,28 +21,28 @@ import java.util.Objects;
 public class LimitedWaterBreathingAbility extends MobEffectAbility {
 
     public static final MapCodec<LimitedWaterBreathingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.durationSecondsCodec().fieldOf("duration").forGetter(LimitedWaterBreathingAbility::maxDuration),
-            BooleanValue.codec().optionalFieldOf("infinite", BooleanValue.FALSE).forGetter(ability -> ability.isInfinite)
+            ValueTypes.DURATION.codec().fieldOf("duration").forGetter(LimitedWaterBreathingAbility::maxDuration),
+            ValueTypes.BOOLEAN.codec().optionalFieldOf("infinite", Value.Constant.FALSE).forGetter(ability -> ability.isInfinite)
     ).apply(instance, LimitedWaterBreathingAbility::new));
 
     public static final StreamCodec<ByteBuf, LimitedWaterBreathingAbility> STREAM_CODEC = StreamCodec.composite(
-            IntegerValue.streamCodec(),
+            ValueTypes.DURATION.streamCodec(),
             LimitedWaterBreathingAbility::maxDuration,
-            BooleanValue.streamCodec(),
+            ValueTypes.BOOLEAN.streamCodec(),
             ability -> ability.isInfinite,
             LimitedWaterBreathingAbility::new
     );
 
-    private final IntegerValue duration;
-    private final BooleanValue isInfinite;
+    private final Value<Integer> duration;
+    private final Value<Boolean> isInfinite;
 
-    public LimitedWaterBreathingAbility(IntegerValue duration, BooleanValue isInfinite) {
+    public LimitedWaterBreathingAbility(Value<Integer> duration, Value<Boolean> isInfinite) {
         super(MobEffects.WATER_BREATHING);
         this.duration = duration;
         this.isInfinite = isInfinite;
     }
 
-    private IntegerValue maxDuration() {
+    private Value<Integer> maxDuration() {
         return duration;
     }
 
@@ -66,7 +66,7 @@ public class LimitedWaterBreathingAbility extends MobEffectAbility {
 
     @Override
     public int getDuration() {
-        return maxDuration().get();
+        return maxDuration().get() * 20;
     }
 
     protected int getAdditionalDuration(LivingEntity target) {

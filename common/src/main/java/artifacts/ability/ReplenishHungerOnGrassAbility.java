@@ -1,8 +1,8 @@
 package artifacts.ability;
 
 import artifacts.ability.mobeffect.ApplyMobEffectAfterEatingAbility;
-import artifacts.ability.value.BooleanValue;
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.network.PlaySoundAtPlayerPacket;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModTags;
@@ -15,17 +15,17 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 
-public record ReplenishHungerOnGrassAbility(BooleanValue enabled, IntegerValue replenishingDuration) implements ArtifactAbility {
+public record ReplenishHungerOnGrassAbility(Value<Boolean> enabled, Value<Integer> replenishingDuration) implements ArtifactAbility {
 
     public static final MapCodec<ReplenishHungerOnGrassAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.enabledField().forGetter(ReplenishHungerOnGrassAbility::enabled),
-            IntegerValue.durationSecondsCodec().fieldOf("duration").forGetter(ReplenishHungerOnGrassAbility::replenishingDuration)
+            ValueTypes.BOOLEAN.enabledField().forGetter(ReplenishHungerOnGrassAbility::enabled),
+            ValueTypes.DURATION.codec().fieldOf("duration").forGetter(ReplenishHungerOnGrassAbility::replenishingDuration)
     ).apply(instance, ReplenishHungerOnGrassAbility::new));
 
     public static final StreamCodec<ByteBuf, ReplenishHungerOnGrassAbility> STREAM_CODEC = StreamCodec.composite(
-            BooleanValue.streamCodec(),
+            ValueTypes.BOOLEAN.streamCodec(),
             ReplenishHungerOnGrassAbility::enabled,
-            IntegerValue.streamCodec(),
+            ValueTypes.DURATION.streamCodec(),
             ReplenishHungerOnGrassAbility::replenishingDuration,
             ReplenishHungerOnGrassAbility::new
     );
@@ -45,7 +45,7 @@ public record ReplenishHungerOnGrassAbility(BooleanValue enabled, IntegerValue r
         if (isActive && entity instanceof ServerPlayer player
                 && player.onGround()
                 && player.getFoodData().needsFood()
-                && entity.tickCount % Math.max(20, replenishingDuration().get()) == 0
+                && entity.tickCount % (Math.max(1, replenishingDuration().get()) * 20) == 0
                 && entity.getBlockStateOn().is(ModTags.ROOTED_BOOTS_GRASS)
         ) {
             player.getFoodData().eat(1, 0.5F);

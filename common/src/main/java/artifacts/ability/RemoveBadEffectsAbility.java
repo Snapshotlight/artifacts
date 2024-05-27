@@ -1,7 +1,7 @@
 package artifacts.ability;
 
-import artifacts.ability.value.BooleanValue;
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModTags;
 import com.mojang.serialization.MapCodec;
@@ -16,17 +16,17 @@ import net.minecraft.world.entity.LivingEntity;
 import java.util.HashMap;
 import java.util.Map;
 
-public record RemoveBadEffectsAbility(BooleanValue enabled, IntegerValue maxEffectDuration) implements ArtifactAbility {
+public record RemoveBadEffectsAbility(Value<Boolean> enabled, Value<Integer> maxEffectDuration) implements ArtifactAbility {
 
     public static final MapCodec<RemoveBadEffectsAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.enabledField().forGetter(RemoveBadEffectsAbility::enabled),
-            IntegerValue.durationSecondsCodec().fieldOf("duration").forGetter(RemoveBadEffectsAbility::maxEffectDuration)
+            ValueTypes.BOOLEAN.enabledField().forGetter(RemoveBadEffectsAbility::enabled),
+            ValueTypes.DURATION.codec().fieldOf("duration").forGetter(RemoveBadEffectsAbility::maxEffectDuration)
     ).apply(instance, RemoveBadEffectsAbility::new));
 
     public static final StreamCodec<ByteBuf, RemoveBadEffectsAbility> STREAM_CODEC = StreamCodec.composite(
-            BooleanValue.streamCodec(),
+            ValueTypes.BOOLEAN.streamCodec(),
             RemoveBadEffectsAbility::enabled,
-            IntegerValue.streamCodec(),
+            ValueTypes.DURATION.streamCodec(),
             RemoveBadEffectsAbility::maxEffectDuration,
             RemoveBadEffectsAbility::new
     );
@@ -48,7 +48,7 @@ public record RemoveBadEffectsAbility(BooleanValue enabled, IntegerValue maxEffe
         }
         Map<Holder<MobEffect>, MobEffectInstance> effects = new HashMap<>();
 
-        int maxEffectDuration = maxEffectDuration().get();
+        int maxEffectDuration = maxEffectDuration().get() * 20;
         entity.getActiveEffectsMap().forEach((effect, instance) -> {
             if (ModTags.isInTag(effect.value(), ModTags.ANTIDOTE_VESSEL_CANCELLABLE) && instance.getDuration() > maxEffectDuration) {
                 effects.put(effect, instance);

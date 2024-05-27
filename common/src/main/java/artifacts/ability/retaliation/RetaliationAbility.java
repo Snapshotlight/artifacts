@@ -1,12 +1,13 @@
 package artifacts.ability.retaliation;
 
 import artifacts.ability.ArtifactAbility;
-import artifacts.ability.value.DoubleValue;
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.util.AbilityHelper;
 import artifacts.util.DamageSourceHelper;
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -14,26 +15,26 @@ import net.minecraft.world.item.ItemStack;
 
 public abstract class RetaliationAbility implements ArtifactAbility {
 
-    private final DoubleValue strikeChance;
-    private final IntegerValue cooldown;
+    private final Value<Double> strikeChance;
+    private final Value<Integer> cooldown;
 
-    protected static <T extends RetaliationAbility> Products.P2<RecordCodecBuilder.Mu<T>, DoubleValue, IntegerValue> codecStart(RecordCodecBuilder.Instance<T> instance) {
+    protected static <T extends RetaliationAbility> Products.P2<RecordCodecBuilder.Mu<T>, Value<Double>, Value<Integer>> codecStart(RecordCodecBuilder.Instance<T> instance) {
         return instance.group(
-                DoubleValue.percentage().fieldOf("strike_chance").forGetter(RetaliationAbility::strikeChance),
-                IntegerValue.durationSecondsCodec().optionalFieldOf("cooldown", IntegerValue.ZERO).forGetter(RetaliationAbility::cooldown)
+                ValueTypes.FRACTION.codec().fieldOf("strike_chance").forGetter(RetaliationAbility::strikeChance),
+                ValueTypes.DURATION.codec().optionalFieldOf("cooldown", Value.Constant.ZERO).forGetter(RetaliationAbility::cooldown)
         );
     }
 
-    public RetaliationAbility(DoubleValue strikeChance, IntegerValue cooldown) {
+    public RetaliationAbility(Value<Double> strikeChance, Value<Integer> cooldown) {
         this.strikeChance = strikeChance;
         this.cooldown = cooldown;
     }
 
-    public DoubleValue strikeChance() {
+    public Value<Double> strikeChance() {
         return strikeChance;
     }
 
-    public IntegerValue cooldown() {
+    public Value<Integer> cooldown() {
         return cooldown;
     }
 
@@ -45,7 +46,7 @@ public abstract class RetaliationAbility implements ArtifactAbility {
         ) {
             applyEffect(entity, attacker);
             if (entity instanceof Player player && cooldown().get() > 0) {
-                player.getCooldowns().addCooldown(stack.getItem(), cooldown().get());
+                player.getCooldowns().addCooldown(stack.getItem(), cooldown().get() * 20);
             }
         }
     }
@@ -54,6 +55,6 @@ public abstract class RetaliationAbility implements ArtifactAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return !strikeChance().fuzzyEquals(0);
+        return !Mth.equal(strikeChance().get(), 0);
     }
 }

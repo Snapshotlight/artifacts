@@ -117,7 +117,7 @@ public class AbilityHelper {
     public static <A extends ArtifactAbility> void applyCooldowns(ArtifactAbility.Type<A> type, LivingEntity entity, Function<A, Integer> cooldown) {
         if (entity instanceof Player player && !player.level().isClientSide()) {
             forEach(type, entity, (ability, stack) -> {
-                int c = cooldown.apply(ability);
+                int c = cooldown.apply(ability) * 20;
                 if (c > 0) {
                     player.getCooldowns().addCooldown(stack.getItem(), c);
                 }

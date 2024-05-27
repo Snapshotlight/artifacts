@@ -1,6 +1,7 @@
 package artifacts.ability;
 
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
 import artifacts.util.ModCodecs;
@@ -17,15 +18,15 @@ import net.minecraft.world.entity.LivingEntity;
 
 import java.util.Optional;
 
-public record ApplyCooldownAfterDamageAbility(IntegerValue cooldown, Optional<TagKey<DamageType>> tag) implements TooltiplessAbility {
+public record ApplyCooldownAfterDamageAbility(Value<Integer> cooldown, Optional<TagKey<DamageType>> tag) implements TooltiplessAbility {
 
     public static final MapCodec<ApplyCooldownAfterDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.durationSecondsCodec().fieldOf("cooldown").forGetter(ApplyCooldownAfterDamageAbility::cooldown),
+            ValueTypes.DURATION.codec().fieldOf("cooldown").forGetter(ApplyCooldownAfterDamageAbility::cooldown),
             TagKey.codec(Registries.DAMAGE_TYPE).optionalFieldOf("tag").forGetter(ApplyCooldownAfterDamageAbility::tag)
     ).apply(instance, ApplyCooldownAfterDamageAbility::new));
 
     public static final StreamCodec<ByteBuf, ApplyCooldownAfterDamageAbility> STREAM_CODEC = StreamCodec.composite(
-            IntegerValue.streamCodec(),
+            ValueTypes.DURATION.streamCodec(),
             ApplyCooldownAfterDamageAbility::cooldown,
             ByteBufCodecs.optional(ModCodecs.tagKeyStreamCodec(Registries.DAMAGE_TYPE)),
             ApplyCooldownAfterDamageAbility::tag,

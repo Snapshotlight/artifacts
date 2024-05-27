@@ -1,8 +1,7 @@
 package artifacts.ability.retaliation;
 
-import artifacts.ability.value.BooleanValue;
-import artifacts.ability.value.DoubleValue;
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -19,37 +18,37 @@ public class SetAttackersOnFireAbility extends RetaliationAbility {
 
     public static final MapCodec<SetAttackersOnFireAbility> CODEC = RecordCodecBuilder.mapCodec(
             instance -> codecStart(instance)
-                    .and(IntegerValue.durationSecondsCodec().fieldOf("duration").forGetter(SetAttackersOnFireAbility::fireDuration))
-                    .and(BooleanValue.codec().optionalFieldOf("grants_fire_resistance", BooleanValue.TRUE).forGetter(SetAttackersOnFireAbility::grantsFireResistance))
+                    .and(ValueTypes.DURATION.codec().fieldOf("duration").forGetter(SetAttackersOnFireAbility::fireDuration))
+                    .and(ValueTypes.BOOLEAN.codec().optionalFieldOf("grants_fire_resistance", Value.Constant.TRUE).forGetter(SetAttackersOnFireAbility::grantsFireResistance))
                     .apply(instance, SetAttackersOnFireAbility::new)
     );
 
     public static final StreamCodec<ByteBuf, SetAttackersOnFireAbility> STREAM_CODEC = StreamCodec.composite(
-            DoubleValue.streamCodec(),
+            ValueTypes.FRACTION.streamCodec(),
             SetAttackersOnFireAbility::strikeChance,
-            IntegerValue.streamCodec(),
+            ValueTypes.DURATION.streamCodec(),
             SetAttackersOnFireAbility::cooldown,
-            IntegerValue.streamCodec(),
+            ValueTypes.DURATION.streamCodec(),
             SetAttackersOnFireAbility::fireDuration,
-            BooleanValue.streamCodec(),
+            ValueTypes.BOOLEAN.streamCodec(),
             SetAttackersOnFireAbility::grantsFireResistance,
             SetAttackersOnFireAbility::new
     );
 
-    private final IntegerValue fireDuration;
-    private final BooleanValue grantsFireResistance;
+    private final Value<Integer> fireDuration;
+    private final Value<Boolean> grantsFireResistance;
 
-    public SetAttackersOnFireAbility(DoubleValue strikeChance, IntegerValue cooldown, IntegerValue fireDuration, BooleanValue grantsFireResistance) {
+    public SetAttackersOnFireAbility(Value<Double> strikeChance, Value<Integer> cooldown, Value<Integer> fireDuration, Value<Boolean> grantsFireResistance) {
         super(strikeChance, cooldown);
         this.fireDuration = fireDuration;
         this.grantsFireResistance = grantsFireResistance;
     }
 
-    public IntegerValue fireDuration() {
+    public Value<Integer> fireDuration() {
         return fireDuration;
     }
 
-    public BooleanValue grantsFireResistance() {
+    public Value<Boolean> grantsFireResistance() {
         return grantsFireResistance;
     }
 
@@ -67,9 +66,9 @@ public class SetAttackersOnFireAbility extends RetaliationAbility {
     protected void applyEffect(LivingEntity target, LivingEntity attacker) {
         if (!attacker.fireImmune() && attacker.attackable() && fireDuration().get() > 0) {
             if (grantsFireResistance().get()) {
-                target.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, fireDuration().get(), 0, false, false, true));
+                target.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, fireDuration().get() * 20, 0, false, false, true));
             }
-            attacker.igniteForTicks(fireDuration().get());
+            attacker.igniteForSeconds(fireDuration().get());
         }
     }
 

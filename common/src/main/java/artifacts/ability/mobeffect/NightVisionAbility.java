@@ -1,12 +1,14 @@
 package artifacts.ability.mobeffect;
 
-import artifacts.ability.value.DoubleValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 
 import java.util.List;
@@ -15,23 +17,23 @@ import java.util.Objects;
 public class NightVisionAbility extends MobEffectAbility {
 
     public static final MapCodec<NightVisionAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            DoubleValue.percentage().optionalFieldOf("strength", DoubleValue.ONE).forGetter(NightVisionAbility::strength)
+            ValueTypes.FRACTION.codec().optionalFieldOf("strength", Value.Constant.ONE_D).forGetter(NightVisionAbility::strength)
     ).apply(instance, NightVisionAbility::new));
 
     public static final StreamCodec<ByteBuf, NightVisionAbility> STREAM_CODEC = StreamCodec.composite(
-            DoubleValue.streamCodec(),
+            ValueTypes.FRACTION.streamCodec(),
             NightVisionAbility::strength,
             NightVisionAbility::new
     );
 
-    private final DoubleValue strength;
+    private final Value<Double> strength;
 
-    public NightVisionAbility(DoubleValue strength) {
+    public NightVisionAbility(Value<Double> strength) {
         super(MobEffects.NIGHT_VISION);
         this.strength = strength;
     }
 
-    public DoubleValue strength() {
+    public Value<Double> strength() {
         return strength;
     }
 
@@ -42,7 +44,7 @@ public class NightVisionAbility extends MobEffectAbility {
 
     @Override
     public boolean isNonCosmetic() {
-        return !strength().fuzzyEquals(0);
+        return !Mth.equal(strength().get(), 0);
     }
 
     @Override

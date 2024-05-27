@@ -1,7 +1,7 @@
 package artifacts.ability.retaliation;
 
-import artifacts.ability.value.DoubleValue;
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -12,37 +12,37 @@ import net.minecraft.world.entity.LivingEntity;
 public class ThornsAbility extends RetaliationAbility {
 
     public static final MapCodec<ThornsAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> codecStart(instance)
-            .and(IntegerValue.codec().fieldOf("min_damage").forGetter(ThornsAbility::minDamage))
-            .and(IntegerValue.codec().fieldOf("max_damage").forGetter(ThornsAbility::maxDamage))
+            .and(ValueTypes.NON_NEGATIVE_INT.codec().fieldOf("min_damage").forGetter(ThornsAbility::minDamage))
+            .and(ValueTypes.NON_NEGATIVE_INT.codec().fieldOf("max_damage").forGetter(ThornsAbility::maxDamage))
             .apply(instance, ThornsAbility::new)
     );
 
     public static final StreamCodec<ByteBuf, ThornsAbility> STREAM_CODEC = StreamCodec.composite(
-            DoubleValue.streamCodec(),
+            ValueTypes.FRACTION.streamCodec(),
             ThornsAbility::strikeChance,
-            IntegerValue.streamCodec(),
+            ValueTypes.DURATION.streamCodec(),
             ThornsAbility::cooldown,
-            IntegerValue.streamCodec(),
+            ValueTypes.NON_NEGATIVE_INT.streamCodec(),
             ThornsAbility::minDamage,
-            IntegerValue.streamCodec(),
+            ValueTypes.NON_NEGATIVE_INT.streamCodec(),
             ThornsAbility::maxDamage,
             ThornsAbility::new
     );
 
-    private final IntegerValue minDamage;
-    private final IntegerValue maxDamage;
+    private final Value<Integer> minDamage;
+    private final Value<Integer> maxDamage;
 
-    public ThornsAbility(DoubleValue strikeChance, IntegerValue cooldown, IntegerValue minDamage, IntegerValue maxDamage) {
+    public ThornsAbility(Value<Double> strikeChance, Value<Integer> cooldown, Value<Integer> minDamage, Value<Integer> maxDamage) {
         super(strikeChance, cooldown);
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
     }
 
-    public IntegerValue minDamage() {
+    public Value<Integer> minDamage() {
         return minDamage;
     }
 
-    public IntegerValue maxDamage() {
+    public Value<Integer> maxDamage() {
         return maxDamage;
     }
 

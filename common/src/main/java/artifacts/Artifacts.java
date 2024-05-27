@@ -6,8 +6,6 @@ import artifacts.entity.MimicEntity;
 import artifacts.event.ArtifactEvents;
 import artifacts.network.NetworkHandler;
 import artifacts.registry.*;
-import dev.architectury.event.events.common.LifecycleEvent;
-import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
@@ -56,9 +54,6 @@ public class Artifacts {
         ModAbilities.register();
 
         EntityAttributeRegistry.register(ModEntityTypes.MIMIC, MimicEntity::createMobAttributes);
-
-        LifecycleEvent.SERVER_STARTED.register(ModGameRules::onServerStarted);
-        PlayerEvent.PLAYER_JOIN.register(ModGameRules::onPlayerJoinLevel);
 
         SwimEvents.register();
         ArtifactEvents.register();

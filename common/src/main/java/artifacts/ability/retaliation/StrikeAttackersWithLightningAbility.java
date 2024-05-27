@@ -1,7 +1,7 @@
 package artifacts.ability.retaliation;
 
-import artifacts.ability.value.DoubleValue;
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -21,14 +21,14 @@ public class StrikeAttackersWithLightningAbility extends RetaliationAbility {
     );
 
     public static final StreamCodec<ByteBuf, StrikeAttackersWithLightningAbility> STREAM_CODEC = StreamCodec.composite(
-            DoubleValue.streamCodec(),
+            ValueTypes.FRACTION.streamCodec(),
             StrikeAttackersWithLightningAbility::strikeChance,
-            IntegerValue.streamCodec(),
+            ValueTypes.DURATION.streamCodec(),
             StrikeAttackersWithLightningAbility::cooldown,
             StrikeAttackersWithLightningAbility::new
     );
 
-    public StrikeAttackersWithLightningAbility(DoubleValue strikeChance, IntegerValue cooldown) {
+    public StrikeAttackersWithLightningAbility(Value<Double> strikeChance, Value<Integer> cooldown) {
         super(strikeChance, cooldown);
     }
 

@@ -10,8 +10,6 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 public class NetworkHandler {
 
     public static void register() {
-        registerS2C(BooleanGameRuleChangedPacket.TYPE, BooleanGameRuleChangedPacket.CODEC, BooleanGameRuleChangedPacket::apply);
-        registerS2C(IntegerGameRuleChangedPacket.TYPE, IntegerGameRuleChangedPacket.CODEC, IntegerGameRuleChangedPacket::apply);
         registerS2C(ChorusTotemUsedPacket.TYPE, ChorusTotemUsedPacket.CODEC, ChorusTotemUsedPacket::apply);
         registerS2C(PlaySoundAtPlayerPacket.TYPE, PlaySoundAtPlayerPacket.CODEC, PlaySoundAtPlayerPacket::apply);
         registerS2C(SyncArtifactTogglesPacket.TYPE, SyncArtifactTogglesPacket.CODEC, SyncArtifactTogglesPacket::apply);

@@ -1,7 +1,8 @@
 package artifacts.ability.mobeffect;
 
 import artifacts.ability.ArtifactAbility;
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
 import com.mojang.serialization.MapCodec;
@@ -25,21 +26,21 @@ import net.minecraft.world.entity.LivingEntity;
 import java.util.List;
 import java.util.Optional;
 
-public record ApplyMobEffectAfterDamageAbility(Holder<MobEffect> mobEffect, IntegerValue level, IntegerValue duration, Optional<TagKey<DamageType>> tag) implements ArtifactAbility {
+public record ApplyMobEffectAfterDamageAbility(Holder<MobEffect> mobEffect, Value<Integer> level, Value<Integer> duration, Optional<TagKey<DamageType>> tag) implements ArtifactAbility {
 
     public static final MapCodec<ApplyMobEffectAfterDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(ApplyMobEffectAfterDamageAbility::mobEffect),
-            IntegerValue.mobEffectLevelCodec().fieldOf("level").forGetter(ApplyMobEffectAfterDamageAbility::level),
-            IntegerValue.durationSecondsCodec().fieldOf("duration").forGetter(ApplyMobEffectAfterDamageAbility::duration),
+            ValueTypes.MOB_EFFECT_LEVEL.codec().fieldOf("level").forGetter(ApplyMobEffectAfterDamageAbility::level),
+            ValueTypes.DURATION.codec().fieldOf("duration").forGetter(ApplyMobEffectAfterDamageAbility::duration),
             TagKey.codec(Registries.DAMAGE_TYPE).optionalFieldOf("tag").forGetter(ApplyMobEffectAfterDamageAbility::tag)
     ).apply(instance, ApplyMobEffectAfterDamageAbility::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ApplyMobEffectAfterDamageAbility> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT),
             ApplyMobEffectAfterDamageAbility::mobEffect,
-            IntegerValue.streamCodec(),
+            ValueTypes.MOB_EFFECT_LEVEL.streamCodec(),
             ApplyMobEffectAfterDamageAbility::level,
-            IntegerValue.streamCodec(),
+            ValueTypes.DURATION.streamCodec(),
             ApplyMobEffectAfterDamageAbility::duration,
             ByteBufCodecs.optional(ByteBufCodecs.fromCodec(TagKey.codec(Registries.DAMAGE_TYPE))),
             ApplyMobEffectAfterDamageAbility::tag,
@@ -52,7 +53,7 @@ public record ApplyMobEffectAfterDamageAbility(Holder<MobEffect> mobEffect, Inte
         ) {
             AbilityHelper.forEach(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE.get(), entity, (ability, stack) -> {
                 if (ability.tag().isEmpty() || damageSource.is(ability.tag().get())) {
-                    entity.addEffect(new MobEffectInstance(ability.mobEffect(), ability.duration().get(), ability.level().get() - 1, false, false, true));
+                    entity.addEffect(new MobEffectInstance(ability.mobEffect(), ability.duration().get() * 20, ability.level().get() - 1, false, false, true));
                 }
             }, true);
         }

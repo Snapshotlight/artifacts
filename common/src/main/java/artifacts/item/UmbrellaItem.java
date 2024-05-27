@@ -1,7 +1,7 @@
 package artifacts.item;
 
+import artifacts.config.ItemConfigs;
 import artifacts.registry.ModAbilities;
-import artifacts.registry.ModGameRules;
 import artifacts.util.AbilityHelper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
@@ -26,15 +26,15 @@ public class UmbrellaItem extends ArtifactItem {
 
     @Override
     public boolean isCosmetic() {
-        return !ModGameRules.UMBRELLA_IS_GLIDER.get() && !ModGameRules.UMBRELLA_IS_SHIELD.get();
+        return !ItemConfigs.UMBRELLA_IS_GLIDER.get() && !ItemConfigs.UMBRELLA_IS_SHIELD.get();
     }
 
     @Override
     protected void addEffectsTooltip(List<MutableComponent> tooltip) {
-        if (ModGameRules.UMBRELLA_IS_GLIDER.get()) {
+        if (ItemConfigs.UMBRELLA_IS_GLIDER.get()) {
             tooltip.add(tooltipLine("glider"));
         }
-        if (ModGameRules.UMBRELLA_IS_SHIELD.get()) {
+        if (ItemConfigs.UMBRELLA_IS_SHIELD.get()) {
             tooltip.add(tooltipLine("shield"));
         }
     }
@@ -52,7 +52,7 @@ public class UmbrellaItem extends ArtifactItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (!ModGameRules.UMBRELLA_IS_SHIELD.get()) {
+        if (!ItemConfigs.UMBRELLA_IS_SHIELD.get()) {
             return super.use(level, player, hand);
         }
         player.startUsingItem(hand);
@@ -67,7 +67,7 @@ public class UmbrellaItem extends ArtifactItem {
 
     public static boolean shouldGlide(LivingEntity entity) {
         boolean isInWater = entity.isInWater() && !AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), entity);
-        return ModGameRules.UMBRELLA_IS_GLIDER.get()
+        return ItemConfigs.UMBRELLA_IS_GLIDER.get()
                 && !entity.onGround() && !isInWater
                 && entity.getDeltaMovement().y < 0
                 && !entity.hasEffect(MobEffects.SLOW_FALLING)

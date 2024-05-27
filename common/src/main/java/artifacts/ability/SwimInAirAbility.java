@@ -1,7 +1,8 @@
 package artifacts.ability;
 
-import artifacts.ability.value.IntegerValue;
 import artifacts.component.SwimData;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
 import artifacts.registry.ModKeyMappings;
@@ -17,17 +18,17 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
-public record SwimInAirAbility(IntegerValue flightDuration, IntegerValue rechargeDuration) implements ArtifactAbility {
+public record SwimInAirAbility(Value<Integer> flightDuration, Value<Integer> rechargeDuration) implements ArtifactAbility {
 
     public static final MapCodec<SwimInAirAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            IntegerValue.durationSecondsCodec().fieldOf("flight_duration").forGetter(SwimInAirAbility::flightDuration),
-            IntegerValue.durationSecondsCodec().fieldOf("recharge_duration").forGetter(SwimInAirAbility::rechargeDuration)
+            ValueTypes.DURATION.codec().fieldOf("flight_duration").forGetter(SwimInAirAbility::flightDuration),
+            ValueTypes.DURATION.codec().fieldOf("recharge_duration").forGetter(SwimInAirAbility::rechargeDuration)
     ).apply(instance, SwimInAirAbility::new));
 
     public static final StreamCodec<ByteBuf, SwimInAirAbility> STREAM_CODEC = StreamCodec.composite(
-            IntegerValue.streamCodec(),
+            ValueTypes.DURATION.streamCodec(),
             SwimInAirAbility::flightDuration,
-            IntegerValue.streamCodec(),
+            ValueTypes.DURATION.streamCodec(),
             SwimInAirAbility::rechargeDuration,
             SwimInAirAbility::new
     );
@@ -65,11 +66,11 @@ public record SwimInAirAbility(IntegerValue flightDuration, IntegerValue recharg
     }
 
     public static int getFlightDuration(LivingEntity entity) {
-        return AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.get(), entity, ability -> ability.flightDuration().get(), false);
+        return AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.get(), entity, ability -> ability.flightDuration().get() * 20, false);
     }
 
     public static int getRechargeDuration(LivingEntity entity) {
-        return Math.max(20, AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.get(), entity, ability -> ability.rechargeDuration().get(), false));
+        return Math.max(20, AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.get(), entity, ability -> ability.rechargeDuration().get() * 20, false));
     }
 
     @Override

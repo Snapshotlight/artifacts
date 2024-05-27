@@ -36,6 +36,7 @@ allprojects {
     group = rootProject.maven_group
 
     repositories {
+        mavenCentral()
         maven {
             url "https://jitpack.io"
             content {

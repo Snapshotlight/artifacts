@@ -1,6 +1,7 @@
 package artifacts.ability;
 
-import artifacts.ability.value.BooleanValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
 import com.mojang.serialization.MapCodec;
@@ -16,14 +17,14 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public record AttractItemsAbility(BooleanValue enabled) implements ArtifactAbility {
+public record AttractItemsAbility(Value<Boolean> enabled) implements ArtifactAbility {
 
     public static final MapCodec<AttractItemsAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BooleanValue.enabledField().forGetter(AttractItemsAbility::enabled)
+            ValueTypes.BOOLEAN.enabledField().forGetter(AttractItemsAbility::enabled)
     ).apply(instance, AttractItemsAbility::new));
 
     public static final StreamCodec<ByteBuf, AttractItemsAbility> STREAM_CODEC = StreamCodec.composite(
-            BooleanValue.streamCodec(),
+            ValueTypes.BOOLEAN.streamCodec(),
             AttractItemsAbility::enabled,
             AttractItemsAbility::new
     );

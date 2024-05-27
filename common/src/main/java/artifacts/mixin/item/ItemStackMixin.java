@@ -165,7 +165,7 @@ public class ItemStackMixin {
         AbilityHelper.getAbilities(ModAbilities.APPLY_COOLDOWN_AFTER_DAMAGE.get(), stack)
                 .forEach(ability -> {
                     if (ability.tag().isEmpty() && tag == null || ability.tag().isPresent() && ability.tag().get().equals(tag)) {
-                        tooltip.accept(Component.translatable("artifacts.tooltip.cooldown", formatDuration(ability.cooldown().get())).withStyle(ChatFormatting.GOLD));
+                        tooltip.accept(Component.translatable("artifacts.tooltip.cooldown", formatDurationSeconds(ability.cooldown().get())).withStyle(ChatFormatting.GOLD));
                     }
                 });
     }
@@ -189,17 +189,17 @@ public class ItemStackMixin {
             mutableComponent = Component.translatable("potion.withAmplifier", mutableComponent, Component.translatable("potion.potency." + (level - 1)));
         }
         if (!isInfinite) {
-            mutableComponent = Component.translatable("potion.withDuration", mutableComponent, formatDuration(duration));
+            mutableComponent = Component.translatable("potion.withDuration", mutableComponent, formatDurationSeconds(duration));
         }
         tooltip.accept(Component.translatable("artifacts.tooltip.plus_mob_effect", mutableComponent).withStyle(mobEffect.getCategory().getTooltipFormatting()));
     }
 
     @Unique
-    private static MutableComponent formatDuration(int duration) {
+    private static MutableComponent formatDurationSeconds(int seconds) {
         float tickRate = 20;
         if (Minecraft.getInstance() != null && Minecraft.getInstance().level != null) {
             tickRate = Minecraft.getInstance().level.tickRateManager().tickrate();
         }
-        return Component.literal(StringUtil.formatTickDuration(duration, tickRate));
+        return Component.literal(StringUtil.formatTickDuration(seconds * 20, tickRate));
     }
 }

@@ -1,6 +1,7 @@
 package artifacts.ability;
 
-import artifacts.ability.value.IntegerValue;
+import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -15,17 +16,17 @@ import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.List;
 
-public record IncreaseEnchantmentLevelAbility(Holder<Enchantment> enchantment, IntegerValue amount) implements ArtifactAbility {
+public record IncreaseEnchantmentLevelAbility(Holder<Enchantment> enchantment, Value<Integer> amount) implements ArtifactAbility {
 
     public static final MapCodec<IncreaseEnchantmentLevelAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.ENCHANTMENT.holderByNameCodec().fieldOf("enchantment").forGetter(IncreaseEnchantmentLevelAbility::enchantment),
-            IntegerValue.codec(100).optionalFieldOf("level", IntegerValue.ONE).forGetter(IncreaseEnchantmentLevelAbility::amount)
+            ValueTypes.ENCHANTMENT_LEVEL.codec().optionalFieldOf("level", Value.Constant.ONE).forGetter(IncreaseEnchantmentLevelAbility::amount)
     ).apply(instance, IncreaseEnchantmentLevelAbility::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, IncreaseEnchantmentLevelAbility> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.holderRegistry(Registries.ENCHANTMENT),
             IncreaseEnchantmentLevelAbility::enchantment,
-            IntegerValue.streamCodec(),
+            ValueTypes.ENCHANTMENT_LEVEL.streamCodec(),
             IncreaseEnchantmentLevelAbility::amount,
             IncreaseEnchantmentLevelAbility::new
     );
