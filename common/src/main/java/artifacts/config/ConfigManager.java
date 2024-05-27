@@ -128,7 +128,7 @@ public class ConfigManager {
         List<String> allowedValues = new ArrayList<>();
         allowedValues.addAll(type.getValues().stream().map(StringRepresentable::getSerializedName).toList());
         allowedValues.addAll(type.getValues().stream().map(StringRepresentable::getSerializedName).map(String::toUpperCase).toList());
-        spec.defineInList(key, value.getDefaultValue(), allowedValues);
+        spec.defineInList(key, value.getDefaultValue().getSerializedName(), allowedValues);
     }
 
     private <T> void defineValue(ConfigSpec spec, String key, ValueType<T, ?> type) {
