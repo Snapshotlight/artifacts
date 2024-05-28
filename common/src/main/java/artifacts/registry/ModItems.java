@@ -273,7 +273,7 @@ public class ModItems {
                     Artifacts.CONFIG.items.rootedBootsEnabled,
                     Artifacts.CONFIG.items.rootedBootsHungerReplenishingDuration
             ))
-            .addAbility(new GrowPlantsAfterEatingAbility(Artifacts.CONFIG.items.rootedBootsGrowPlantsAfterEating))
+            .addAbility(new SimpleAbility(ModAbilities.GROW_PLANTS_AFTER_EATING, Artifacts.CONFIG.items.rootedBootsGrowPlantsAfterEating))
     );
 
     // curio

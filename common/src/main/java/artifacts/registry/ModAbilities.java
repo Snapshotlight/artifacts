@@ -31,7 +31,7 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<AttributeModifierAbility>> ATTRIBUTE_MODIFIER = register("attribute_modifier", AttributeModifierAbility.CODEC, AttributeModifierAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<CustomTooltipAbility>> CUSTOM_TOOLTIP = register("custom_tooltip", CustomTooltipAbility.CODEC, CustomTooltipAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<DoubleJumpAbility>> DOUBLE_JUMP = register("double_jump", DoubleJumpAbility.CODEC, DoubleJumpAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<GrowPlantsAfterEatingAbility>> GROW_PLANTS_AFTER_EATING = register("grow_plants_after_eating", GrowPlantsAfterEatingAbility.CODEC, GrowPlantsAfterEatingAbility.STREAM_CODEC);
+    public static final RegistrySupplier<Type<SimpleAbility>> GROW_PLANTS_AFTER_EATING = register("grow_plants_after_eating", SimpleAbility::createType);
     public static final RegistrySupplier<Type<IncreaseEnchantmentLevelAbility>> INCREASE_ENCHANTMENT_LEVEL = register("increase_enchantment_level", IncreaseEnchantmentLevelAbility.CODEC, IncreaseEnchantmentLevelAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> LIGHTNING_IMMUNITY = register("lightning_immunity", SimpleAbility::createType);
     public static final RegistrySupplier<Type<LimitedWaterBreathingAbility>> LIMITED_WATER_BREATHING = register("limited_water_breathing", LimitedWaterBreathingAbility.CODEC, LimitedWaterBreathingAbility.STREAM_CODEC);

@@ -33,9 +33,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
@@ -238,5 +237,17 @@ public class ArtifactEvents {
             return Mth.lerp(((float) slipperinessReduction), friction, 0.6F);
         }
         return friction;
+    }
+
+    public static void applyBoneMealAfterEating(LivingEntity entity, FoodProperties properties) {
+        if (!entity.level().isClientSide()
+                && AbilityHelper.hasAbilityActive(ModAbilities.GROW_PLANTS_AFTER_EATING.get(), entity)
+                && properties.nutrition() > 0
+                && !properties.canAlwaysEat()
+                && entity.onGround()
+                && entity.getBlockStateOn().is(ModTags.ROOTED_BOOTS_GRASS)
+        ) {
+            BoneMealItem.growCrop(new ItemStack(Items.BONE_MEAL), entity.level(), entity.getOnPos());
+        }
     }
 }

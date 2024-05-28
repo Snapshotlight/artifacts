@@ -112,7 +112,7 @@ public class ItemConfigsManager extends ConfigManager {
                     "How much the Running Shoes increase the wearer's sprinting speed"),
             runningShoesSprintingStepHeightBonus = defineAttributeModifier(createKey(ModItems.RUNNING_SHOES, "sprintingStepHeightBonus"), 0.5,
                     "How much the Running Shoes increase the wearer's step height while sprinting"),
-            snowshoesMovementSpeedOnSnowBonus = defineAttributeModifier(createKey(ModItems.SNOWSHOES, "movementSpeedOnSnowBonus"), 0.50,
+            snowshoesMovementSpeedOnSnowBonus = defineAttributeModifier(createKey(ModItems.SNOWSHOES, "movementSpeedOnSnowBonus"), 0.30,
                     "How much the Snowshoes increase the wearer's movement speed on snow blocks"),
             steadfastSpikesKnockbackResistance = defineAttributeModifier(createKey(ModItems.STEADFAST_SPIKES, "knockbackResistance"), 1.00,
                     "How much knockback resistance is granted by the Steadfast Spikes"),

@@ -58,7 +58,7 @@ public class DynamicAttributeModifier {
                             && entity.onGround()
                             && entity instanceof EntityAccessor entityAccessor
                             && (entity.level().getBlockState(entityAccessor.callGetBlockPosBelowThatAffectsMyMovement()).is(BlockTags.SNOW)
-                            || entity.getInBlockState().is(ModTags.SNOW_LAYERS)),
+                            || entity.level().getBlockState(entityAccessor.callGetBlockPosBelowThatAffectsMyMovement().above()).is(ModTags.SNOW_LAYERS)),
                     entity -> {
                         if (entity instanceof Player player && player.getAbilities().flying) {
                             return true;

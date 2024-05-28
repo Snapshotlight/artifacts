@@ -1,7 +1,7 @@
 package artifacts.mixin.ability.applyeffectsaftereating;
 
-import artifacts.ability.GrowPlantsAfterEatingAbility;
 import artifacts.ability.mobeffect.ApplyMobEffectAfterEatingAbility;
+import artifacts.event.ArtifactEvents;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,7 +27,7 @@ public abstract class PlayerMixin extends LivingEntity {
         FoodProperties properties = stack.get(DataComponents.FOOD);
         if (properties != null) {
             ApplyMobEffectAfterEatingAbility.applyEffects(this, properties);
-            GrowPlantsAfterEatingAbility.applyBoneMeal(this, properties);
+            ArtifactEvents.applyBoneMealAfterEating(this, properties);
         }
     }
 }
