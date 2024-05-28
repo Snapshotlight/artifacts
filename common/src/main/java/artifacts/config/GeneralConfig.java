@@ -2,7 +2,7 @@ package artifacts.config;
 
 import java.util.function.Supplier;
 
-public class GeneralConfigManager extends ConfigManager {
+public class GeneralConfig extends ConfigManager {
 
     public final Supplier<Double> artifactRarity = defineNonNegativeDouble("artifactRarity", 1.0,
             "Affects how common artifacts are in chests",
@@ -37,7 +37,7 @@ public class GeneralConfigManager extends ConfigManager {
                 "Whether campsites can contain blocks that emit light");
     }
 
-    protected GeneralConfigManager() {
+    protected GeneralConfig() {
         super("general");
     }
 }

@@ -4,15 +4,13 @@ import java.util.List;
 
 public class ModConfig {
 
-    public ClientConfigManager client = new ClientConfigManager();
-    public GeneralConfigManager general = new GeneralConfigManager();
-    public ItemConfigsManager items = new ItemConfigsManager();
+    public ClientConfig client = new ClientConfig();
+    public GeneralConfig general = new GeneralConfig();
+    public ItemConfigs items = new ItemConfigs();
 
     public final List<AbstractConfigManager> configs = List.of(general, client, items);
 
     public void setup() {
-        general.setup();
-        client.setup();
-        items.setup();
+        configs.forEach(AbstractConfigManager::setup);
     }
 }

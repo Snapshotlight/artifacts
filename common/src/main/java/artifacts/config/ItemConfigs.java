@@ -12,7 +12,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 
-public class ItemConfigsManager extends ConfigManager {
+public class ItemConfigs extends ConfigManager {
 
     public final Value.ConfigValue<Boolean>
             antidoteVesselEnabled = defineBool(createKey(ModItems.ANTIDOTE_VESSEL, "enabled"),
@@ -208,7 +208,7 @@ public class ItemConfigsManager extends ConfigManager {
             diggingClawsToolTier = defineEnum(createKey(ModItems.DIGGING_CLAWS, "toolTier"), ValueTypes.TOOL_TIER, UpgradeToolTierAbility.Tier.STONE,
             "The tool tier that the digging claws increase the wearer's mining level to");
 
-    protected ItemConfigsManager() {
+    protected ItemConfigs() {
         super("items");
     }
 

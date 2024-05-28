@@ -2,7 +2,7 @@ package artifacts.config;
 
 import java.util.function.Supplier;
 
-public class ClientConfigManager extends ConfigManager {
+public class ClientConfig extends ConfigManager {
 
     public final Supplier<Boolean> showFirstPersonGloves = defineBool("showFirstPersonGloves", true,
             "Whether models for gloves are shown in first person");
@@ -17,7 +17,7 @@ public class ClientConfigManager extends ConfigManager {
             "Distance from the hotbar measured in pixels",
             "Negative values place the element left of the hotbar");
 
-    protected ClientConfigManager() {
+    protected ClientConfig() {
         super("client");
     }
 }
