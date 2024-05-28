@@ -147,7 +147,6 @@ public abstract class AbstractConfigManager {
         }
     }
 
-    // See neoforge ConfigFileTypeHandler
     private class ConfigWatcher implements Runnable {
 
         @Override

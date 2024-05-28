@@ -1,16 +1,12 @@
 package artifacts.config.value.type;
 
-import artifacts.config.AbstractConfigManager;
-import artifacts.config.ItemConfigs;
+import artifacts.Artifacts;
 import artifacts.config.value.Value;
 import artifacts.util.ModCodecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import io.netty.buffer.ByteBuf;
-import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.minecraft.Util;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
@@ -36,7 +32,7 @@ public abstract class ValueType<T, C> {
         return ModCodecs.xorAlternative(
                 configCodec().flatXmap(
                         DataResult::success,
-                        value -> value instanceof Value.ConfigValue<T> configValue && ItemConfigs.getValues(this).containsKey(configValue.getId())
+                        value -> value instanceof Value.ConfigValue<T> configValue && Artifacts.CONFIG.items.getValues(this).containsKey(configValue.getId())
                                 ? DataResult.success(configValue)
                                 : DataResult.error(() -> "Not a valid config value: %s".formatted(value))
                 ),
@@ -60,20 +56,24 @@ public abstract class ValueType<T, C> {
     public final StreamCodec<ByteBuf, Value<T>> streamCodec() {
         return ByteBufCodecs.BOOL.dispatch(
                 value -> value instanceof Value.ConfigValue<?>,
-                b -> b ? configStreamCodec() : valueStreamCodec().map(Value.Constant::new, Supplier::get)
+                b -> b ? configReferenceStreamCodec() : valueStreamCodec().map(Value.Constant::new, Supplier::get)
         );
     }
 
     public abstract StreamCodec<ByteBuf, T> valueStreamCodec();
 
-    public final StreamCodec<ByteBuf, Value.ConfigValue<T>> configStreamCodec() {
+    public final StreamCodec<ByteBuf, Value.ConfigValue<T>> configReferenceStreamCodec() {
         Value.ConfigValue<T>[] values = getConfigValues();
         return ByteBufCodecs.idMapper(i -> values[i], Util.createIndexLookup(Arrays.asList(values)));
     }
 
+    public final StreamCodec<ByteBuf, Value.ConfigValue<T>> directConfigStreamCodec(String id) {
+        return valueStreamCodec().map(v -> new Value.ConfigValue<>(this, id, v), Value.ConfigValue::get);
+    }
+
     @SuppressWarnings("unchecked")
     private Value.ConfigValue<T>[] getConfigValues() {
-        List<Value.ConfigValue<T>> values = List.copyOf(ItemConfigs.getValues(this).values());
+        List<Value.ConfigValue<T>> values = List.copyOf(Artifacts.CONFIG.items.getValues(this).values());
         // yikes
         Value.ConfigValue<T>[] result = (Value.ConfigValue<T>[]) java.lang.reflect.Array.newInstance(values.get(0).getClass(), values.size());
         for (int i = 0; i < values.size(); i++) {
@@ -81,6 +81,4 @@ public abstract class ValueType<T, C> {
         }
         return result;
     }
-
-    public abstract FieldBuilder<?, ?, ?> createConfigEntry(AbstractConfigManager config, ConfigEntryBuilder entryBuilder, Component title, Value.ConfigValue<T> value);
 }

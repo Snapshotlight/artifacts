@@ -3,7 +3,6 @@ package artifacts.neoforge.data;
 import artifacts.Artifacts;
 import artifacts.ability.ArtifactAbility;
 import artifacts.config.AbstractConfigManager;
-import artifacts.config.ItemConfigsManager;
 import artifacts.registry.*;
 import com.google.common.base.CaseFormat;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -30,7 +29,6 @@ public class Language extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        // TODO SETUP event does not get called in data gen?
         Artifacts.setupConfigs();
 
         misc();
@@ -39,7 +37,6 @@ public class Language extends LanguageProvider {
         attributes();
         entities();
         add(configTitle(), "Artifacts Config");
-        config(ItemConfigsManager.INSTANCE);
         for (AbstractConfigManager config : Artifacts.CONFIG.configs) {
             config(config);
         }

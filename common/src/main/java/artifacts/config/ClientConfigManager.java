@@ -1,7 +1,5 @@
 package artifacts.config;
 
-import artifacts.config.value.ValueTypes;
-
 import java.util.function.Supplier;
 
 public class ClientConfigManager extends ConfigManager {
@@ -14,7 +12,7 @@ public class ClientConfigManager extends ConfigManager {
             "Whether mimics can use textures from Lootr or Quark");
     public final Supplier<Boolean> enableCooldownOverlay = defineBool("enableCooldownOverlay", false,
             "Display artifacts on cooldown next to the hotbar");
-    public final Supplier<Integer> cooldownOverlayOffset = define("cooldownOverlayOffset", ValueTypes.INT, 10,
+    public final Supplier<Integer> cooldownOverlayOffset = defineInt("cooldownOverlayOffset", 10,
             "Location of the artifact cooldown gui element",
             "Distance from the hotbar measured in pixels",
             "Negative values place the element left of the hotbar");

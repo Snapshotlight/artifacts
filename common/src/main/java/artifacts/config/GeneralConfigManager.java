@@ -1,12 +1,10 @@
 package artifacts.config;
 
-import artifacts.config.value.ValueTypes;
-
 import java.util.function.Supplier;
 
 public class GeneralConfigManager extends ConfigManager {
 
-    public final Supplier<Double> artifactRarity = define("artifactRarity", ValueTypes.NON_NEGATIVE_DOUBLE, 1.0,
+    public final Supplier<Double> artifactRarity = defineNonNegativeDouble("artifactRarity", 1.0,
             "Affects how common artifacts are in chests",
             "Values above 1 will make artifacts rarer, values between 0 and 1 will make artifacts more common",
             "Doubling this value will make artifacts approximately twice as hard to find, and vice versa",

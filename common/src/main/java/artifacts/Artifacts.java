@@ -2,8 +2,6 @@ package artifacts;
 
 import artifacts.component.SwimEvents;
 import artifacts.config.AbstractConfigManager;
-import artifacts.config.ItemConfigs;
-import artifacts.config.ItemConfigsManager;
 import artifacts.config.ModConfig;
 import artifacts.entity.MimicEntity;
 import artifacts.event.ArtifactEvents;
@@ -58,9 +56,8 @@ public class Artifacts {
 
         LifecycleEvent.SETUP.register(Artifacts::setupConfigs);
 
-        LifecycleEvent.SERVER_STARTING.register(server -> ItemConfigsManager.INSTANCE.loadFromConfig());
         LifecycleEvent.SERVER_STARTING.register(server -> CONFIG.configs.forEach(AbstractConfigManager::loadFromConfig));
-        PlayerEvent.PLAYER_JOIN.register(ItemConfigs::sendToPlayer);
+        PlayerEvent.PLAYER_JOIN.register(Artifacts.CONFIG.items::sendToClient);
 
         SwimEvents.register();
         ArtifactEvents.register();

@@ -3,6 +3,12 @@
   "artifacts.advancements.amateur_archaeologist.title": "Arqueólogo Amador",
   "artifacts.advancements.chest_slayer.description": "Matar um Mímico",
   "artifacts.advancements.chest_slayer.title": "Assassino de Báu",
+  "artifacts.config.client.showFirstPersonGloves.title": "Mostrar luvas de primeira pessoa",
+  "artifacts.config.client.showTooltips.title": "Mostrar descrição dos itens",
+  "artifacts.config.general.artifactRarity.title": "Raridade do artefato",
+  "artifacts.config.general.campsite.mimicChance.title": "Chance de gerar mímicos em acampamentos",
+  "artifacts.config.general.campsite.useModdedChests.title": "Usar baús de mods",
+  "artifacts.config.general.modifyHurtSounds.title": "Modificar sons de ferimento dos jogadores",
   "artifacts.creative_tab": "Artifacts",
   "artifacts.key_category": "Artifacts",
   "artifacts.subtitles.entity.mimic.close": "Mímico fechando",
@@ -85,11 +91,5 @@
   "item.artifacts.universal_attractor": "Atrator Universal",
   "item.artifacts.vampiric_glove": "Luva Vampírica",
   "item.artifacts.villager_hat": "Chapéu de Aldeão",
-  "item.artifacts.whoopee_cushion": "Almofada Engraçadinha",
-  "text.autoconfig.artifacts.option.client.showFirstPersonGloves": "Mostrar luvas de primeira pessoa",
-  "text.autoconfig.artifacts.option.client.showTooltips": "Mostrar descrição dos itens",
-  "text.autoconfig.artifacts.option.common.artifactRarity": "Raridade do artefato",
-  "text.autoconfig.artifacts.option.common.campsite.mimicChance": "Chance de gerar mímicos em acampamentos",
-  "text.autoconfig.artifacts.option.common.campsite.useModdedChests": "Usar baús de mods",
-  "text.autoconfig.artifacts.option.common.modifyHurtSounds": "Modificar sons de ferimento dos jogadores"
+  "item.artifacts.whoopee_cushion": "Almofada Engraçadinha"
 }

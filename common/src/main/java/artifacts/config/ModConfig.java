@@ -6,14 +6,13 @@ public class ModConfig {
 
     public ClientConfigManager client = new ClientConfigManager();
     public GeneralConfigManager general = new GeneralConfigManager();
+    public ItemConfigsManager items = new ItemConfigsManager();
 
-    public final List<AbstractConfigManager> configs = List.of(general, client, ItemConfigsManager.INSTANCE);
+    public final List<AbstractConfigManager> configs = List.of(general, client, items);
 
     public void setup() {
         general.setup();
         client.setup();
-        ItemConfigsManager.INSTANCE = new ItemConfigsManager();
-        ItemConfigsManager.INSTANCE.buildSpec();
-        ItemConfigsManager.INSTANCE.setup();
+        items.setup();
     }
 }

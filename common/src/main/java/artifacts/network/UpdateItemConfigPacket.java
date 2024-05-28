@@ -1,10 +1,7 @@
 package artifacts.network;
 
 import artifacts.Artifacts;
-import artifacts.config.ItemConfigs;
 import artifacts.config.value.Value;
-import artifacts.config.value.type.ValueType;
-import com.mojang.datafixers.util.Pair;
 import dev.architectury.networking.NetworkManager;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -15,27 +12,17 @@ public record UpdateItemConfigPacket(Value.ConfigValue<?> value) implements Cust
 
     public static final CustomPacketPayload.Type<UpdateItemConfigPacket> TYPE = new CustomPacketPayload.Type<>(Artifacts.id("update_item_configs"));
 
-    // oof
-    public static final StreamCodec<ByteBuf, UpdateItemConfigPacket> CODEC = StreamCodec.<ByteBuf, Pair<String, ValueType<?, ?>>, String, ValueType<?, ?>>composite(
-            ByteBufCodecs.STRING_UTF8,
-            Pair::getFirst,
-            ByteBufCodecs.idMapper(
-                ItemConfigs.getValueTypes().stream().toList()::get,
-                ItemConfigs.getValueTypes().stream().toList()::indexOf
-            ),
-            Pair::getSecond,
-            Pair::of
-    ).<Value.ConfigValue<?>>dispatch(
-            value -> Pair.of(value.getId(), value.type()),
-            pair -> pair.getSecond().valueStreamCodec().map(
-                    v -> new Value.ConfigValue<>(pair.getSecond(), pair.getFirst(), cast(v)),
-                    c -> cast(c.get())
+    public static final StreamCodec<ByteBuf, UpdateItemConfigPacket> CODEC = ByteBufCodecs.STRING_UTF8.dispatch(
+            packet -> packet.value.getId(),
+            id -> Artifacts.CONFIG.items.getValues().get(id).type().directConfigStreamCodec(id).map(
+                    UpdateItemConfigPacket::new,
+                    packet -> cast(packet.value())
             )
-    ).map(UpdateItemConfigPacket::new, packet -> packet.value);
+    );
 
-    @SuppressWarnings("unchecked")
-    private static <T> T cast(Object object) {
-        return (T) object;
+    private static <T> Value.ConfigValue<T> cast(Value.ConfigValue<?> value) {
+        //noinspection unchecked
+        return (Value.ConfigValue<T>) value;
     }
 
     void apply(NetworkManager.PacketContext context) {
@@ -43,7 +30,7 @@ public record UpdateItemConfigPacket(Value.ConfigValue<?> value) implements Cust
     }
 
     private <T> void apply(String key, Value.ConfigValue<T> value) {
-        ItemConfigs.getValues(value.type()).get(key).set(value.get());
+        Artifacts.CONFIG.items.getValues(value.type()).get(key).set(value.get());
     }
 
     @Override
