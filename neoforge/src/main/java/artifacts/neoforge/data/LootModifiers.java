@@ -103,7 +103,8 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.DIGGING_CLAWS.get())
                 .item(ModItems.POCKET_PISTON.get());
         builder(BuiltInLootTables.VILLAGE_WEAPONSMITH, 0.1F)
-                .item(ModItems.FERAL_CLAWS.get());
+                .item(ModItems.FERAL_CLAWS.get(), 2)
+                .item(ModItems.CHARM_OF_SHRINKING.get());
         builder(BuiltInLootTables.ABANDONED_MINESHAFT, 0.3F)
                 .item(ModItems.ONION_RING.get(), 2)
                 .item(ModItems.NIGHT_VISION_GOGGLES.get())
@@ -131,7 +132,8 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.STEADFAST_SPIKES.get())
                 .item(ModItems.PANIC_NECKLACE.get())
                 .item(ModItems.CRYSTAL_HEART.get())
-                .item(ModItems.ANTIDOTE_VESSEL.get());
+                .item(ModItems.ANTIDOTE_VESSEL.get())
+                .item(ModItems.CHARM_OF_SHRINKING.get());
         builder(BuiltInLootTables.BURIED_TREASURE, 0.25F)
                 .item(ModItems.SNORKEL.get(), 5)
                 .item(ModItems.FLIPPERS.get(), 5)
@@ -172,6 +174,7 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.POCKET_PISTON.get())
                 .item(ModItems.RUNNING_SHOES.get())
                 .item(ModItems.COWBOY_HAT.get())
+                .item(ModItems.CHARM_OF_SHRINKING.get())
                 .drinkingHat(1);
         builder(BuiltInLootTables.PILLAGER_OUTPOST, 0.25F)
                 .item(ModItems.PANIC_NECKLACE.get())
@@ -192,7 +195,8 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.UNIVERSAL_ATTRACTOR.get())
                 .item(ModItems.OBSIDIAN_SKULL.get())
                 .item(ModItems.LUCKY_SCARF.get())
-                .item(ModItems.COWBOY_HAT.get());
+                .item(ModItems.COWBOY_HAT.get())
+                .item(ModItems.CHARM_OF_SHRINKING.get());
         builder(BuiltInLootTables.SHIPWRECK_TREASURE, 0.15F)
                 .item(ModItems.GOLDEN_HOOK.get(), 3)
                 .item(ModItems.SNORKEL.get())
@@ -280,7 +284,8 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.POCKET_PISTON.get())
                 .item(ModItems.WHOOPEE_CUSHION.get())
                 .item(ModItems.FLAME_PENDANT.get())
-                .item(ModItems.THORN_PENDANT.get());
+                .item(ModItems.THORN_PENDANT.get())
+                .item(ModItems.CHARM_OF_SHRINKING.get());
     }
 
     protected Builder builder(ResourceKey<LootTable> lootTable, float baseChance) {

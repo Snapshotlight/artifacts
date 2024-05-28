@@ -41,6 +41,10 @@
         {
           "type": "minecraft:item",
           "name": "artifacts:cowboy_hat"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "artifacts:charm_of_shrinking"
         }
       ],
       "rolls": 1.0

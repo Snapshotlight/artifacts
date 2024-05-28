@@ -51,6 +51,10 @@
         {
           "type": "minecraft:item",
           "name": "artifacts:thorn_pendant"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "artifacts:charm_of_shrinking"
         }
       ],
       "rolls": 1.0
