@@ -21,7 +21,6 @@
     "attribute.slipresistance.LivingEntityMixin",
     "attribute.swimspeed.LivingEntityMixin",
     "compat.origins.ConditionFactoryAccessor",
-    "config.ClientConfigMixin",
     "item.WearableArtifactItemMixin"
   ],
   "client": [

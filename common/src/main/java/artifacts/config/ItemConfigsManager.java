@@ -5,6 +5,7 @@ import artifacts.config.value.type.EnumValueType;
 import artifacts.config.value.type.NumberValueType;
 import artifacts.config.value.type.ValueType;
 import com.electronwill.nightconfig.core.ConfigSpec;
+import dev.architectury.utils.GameInstance;
 import net.minecraft.util.StringRepresentable;
 
 import java.util.ArrayList;
@@ -12,20 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ItemConfigsManager extends ConfigManager {
+public class ItemConfigsManager extends AbstractConfigManager {
 
-    protected static ItemConfigsManager INSTANCE;
+    public static ItemConfigsManager INSTANCE;
 
     protected ItemConfigsManager() {
         super("items");
     }
 
-    public static void setup() {
-        INSTANCE = new ItemConfigsManager();
-    }
-
     @Override
-    protected Map<String, Value.ConfigValue<?>> getValueMap() {
+    public Map<String, Value.ConfigValue<?>> getValues() {
         Map<String, Value.ConfigValue<?>> result = new HashMap<>();
         for (ValueType<?, ?> type : ItemConfigs.getValueTypes()) {
             result.putAll(ItemConfigs.getValues(type));
@@ -34,19 +31,21 @@ public class ItemConfigsManager extends ConfigManager {
     }
 
     @Override
-    protected List<String> getTooltips(String key) {
+    public List<String> getTooltips(String key) {
         return ItemConfigs.getTooltips(key);
     }
 
+    // TODO remove
+    public void buildSpec() {
+        getValues().forEach((key, value) -> addToSpec(spec, key, value.type()));
+    }
+
     @Override
-    protected ConfigSpec createConfigSpec() {
-        ConfigSpec spec = new ConfigSpec();
-        for (ValueType<?, ?> type : ItemConfigs.getValueTypes()) {
-            for (String key : ItemConfigs.getValues(type).keySet()) {
-                addToSpec(spec, key, type);
-            }
+    public void onConfigChanged() {
+        if (GameInstance.getServer() != null) {
+            getValues().forEach(this::loadFromConfig);
+            ItemConfigs.sendToClients(GameInstance.getServer());
         }
-        return spec;
     }
 
     protected <T> void addToSpec(ConfigSpec spec, String key, ValueType<T, ?> type) {
@@ -74,6 +73,6 @@ public class ItemConfigsManager extends ConfigManager {
 
     private <T> void defineValue(ConfigSpec spec, String key, ValueType<T, ?> type) {
         Value.ConfigValue<T> value = ItemConfigs.getValues(type).get(key);
-        spec.define(key, value.getDefaultValue());
+        spec.define(key, value.type().write(value.getDefaultValue()));
     }
 }

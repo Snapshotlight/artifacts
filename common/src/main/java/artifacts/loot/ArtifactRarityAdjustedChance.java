@@ -23,10 +23,10 @@ public record ArtifactRarityAdjustedChance(float defaultProbability) implements 
 
     @Override
     public boolean test(LootContext context) {
-        if (Artifacts.CONFIG.common.getArtifactRarity() > 9999) {
+        if (Artifacts.CONFIG.general.artifactRarity.get() > 9999) {
             return false;
         }
-        float r = (float) Artifacts.CONFIG.common.getArtifactRarity();
+        float r = (float) (double) Artifacts.CONFIG.general.artifactRarity.get();
         float p = defaultProbability;
         float adjustedProbability = p / (p + r - r * p);
         return context.getRandom().nextFloat() < adjustedProbability;

@@ -31,13 +31,13 @@ public abstract class GuiMixin {
     @Inject(method = "renderHotbarAndDecorations", at = @At(value = "TAIL"))
     private void renderHotbarAndDecorations(GuiGraphics guiGraphics, float f, CallbackInfo ci) {
         Player player = this.getCameraPlayer();
-        if (!Artifacts.CONFIG.client.enableCooldownOverlay || player == null) {
+        if (!Artifacts.CONFIG.client.enableCooldownOverlay.get() || player == null) {
             return;
         }
 
         TrinketsApi.getTrinketComponent(player).ifPresent(component -> {
             int y = guiGraphics.guiHeight() - 16 - 3;
-            int cooldownOverlayOffset = Artifacts.CONFIG.client.cooldownOverlayOffset;
+            int cooldownOverlayOffset = Artifacts.CONFIG.client.cooldownOverlayOffset.get();
             int step = 20;
             int start = guiGraphics.guiWidth() / 2 + 91 + cooldownOverlayOffset;
 

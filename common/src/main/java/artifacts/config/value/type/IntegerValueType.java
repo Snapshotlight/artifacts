@@ -1,5 +1,6 @@
 package artifacts.config.value.type;
 
+import artifacts.config.AbstractConfigManager;
 import artifacts.config.value.Value;
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
@@ -15,10 +16,10 @@ public class IntegerValueType extends NumberValueType<Integer> {
     }
 
     @Override
-    public FieldBuilder<?, ?, ?> createConfigEntry(ConfigEntryBuilder entryBuilder, Component title, Value.ConfigValue<Integer> value) {
-        return entryBuilder.startIntField(title, value.get())
+    public FieldBuilder<?, ?, ?> createConfigEntry(AbstractConfigManager config, ConfigEntryBuilder entryBuilder, Component title, Value.ConfigValue<Integer> value) {
+        return entryBuilder.startIntField(title, config.get(value.type(), value.getId()))
                 .setDefaultValue(value.getDefaultValue())
-                .setSaveConsumer(value::set)
+                .setSaveConsumer(v -> config.set(value.type(), value.getId(), v))
                 .setMin(getMin())
                 .setMax(getMax());
     }

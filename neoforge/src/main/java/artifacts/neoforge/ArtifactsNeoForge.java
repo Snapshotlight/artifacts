@@ -41,7 +41,7 @@ public class ArtifactsNeoForge {
     private void registerConfig() {
         ModLoadingContext.get().registerExtensionPoint(
                 IConfigScreenFactory.class,
-                () -> (client, parent) -> ArtifactsConfigScreen.createScreen(parent)
+                () -> (client, parent) -> new ArtifactsConfigScreen(parent).build()
         );
     }
 

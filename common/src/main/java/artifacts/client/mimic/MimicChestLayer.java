@@ -109,7 +109,7 @@ public class MimicChestLayer extends RenderLayer<MimicEntity, MimicModel> {
     }
 
     private Material getChestMaterial(MimicEntity mimic) {
-        if (!Artifacts.CONFIG.client.useModdedMimicTextures) {
+        if (!Artifacts.CONFIG.client.useModdedMimicTextures.get()) {
             return vanillaChestMaterial;
         }
         if (chestMaterials.size() == 1) {

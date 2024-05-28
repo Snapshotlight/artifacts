@@ -23,7 +23,7 @@ public abstract class ArtifactItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltipList, TooltipFlag tooltipFlag) {
-        if (Artifacts.CONFIG.client.showTooltips) {
+        if (Artifacts.CONFIG.client.showTooltips.get()) {
             List<MutableComponent> tooltip = new ArrayList<>();
             addTooltip(tooltip);
             tooltip.forEach(line -> tooltipList.add(line.withStyle(ChatFormatting.GRAY)));

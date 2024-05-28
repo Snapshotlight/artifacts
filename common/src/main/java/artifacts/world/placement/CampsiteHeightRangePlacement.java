@@ -27,8 +27,8 @@ public class CampsiteHeightRangePlacement extends PlacementModifier {
 
     @Override
     public Stream<BlockPos> getPositions(PlacementContext context, RandomSource randomSource, BlockPos pos) {
-        int minY = Artifacts.CONFIG.common.campsite.minY;
-        int maxY = Artifacts.CONFIG.common.campsite.maxY;
+        int minY = Artifacts.CONFIG.general.campsite.minY.get();
+        int maxY = Artifacts.CONFIG.general.campsite.maxY.get();
         if (minY > maxY) {
             return Stream.of();
         }

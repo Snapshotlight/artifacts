@@ -8,6 +8,6 @@ public class ModMenuIntegration implements ModMenuApi {
 
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return ArtifactsConfigScreen::createScreen;
+        return parent -> new ArtifactsConfigScreen(parent).build();
     }
 }

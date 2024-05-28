@@ -1,5 +1,6 @@
 package artifacts.config.value.type;
 
+import artifacts.config.AbstractConfigManager;
 import artifacts.config.value.Value;
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
@@ -75,11 +76,11 @@ public class EnumValueType<T extends Enum<T> & StringRepresentable> extends Valu
     }
 
     @Override
-    public FieldBuilder<?, ?, ?> createConfigEntry(ConfigEntryBuilder entryBuilder, Component title, Value.ConfigValue<T> value) {
+    public FieldBuilder<?, ?, ?> createConfigEntry(AbstractConfigManager config, ConfigEntryBuilder entryBuilder, Component title, Value.ConfigValue<T> value) {
         //noinspection unchecked
-        return entryBuilder.startEnumSelector(title, enumClass, value.get())
+        return entryBuilder.startEnumSelector(title, enumClass, config.get(value.type(), value.getId()))
                 .setEnumNameProvider(e -> toText.apply((T) e))
                 .setDefaultValue(value.getDefaultValue())
-                .setSaveConsumer(value::set);
+                .setSaveConsumer(v -> config.set(value.type(), value.getId(), v));
     }
 }

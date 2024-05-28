@@ -72,7 +72,6 @@ public class ArtifactEvents {
         ApplyCooldownAfterDamageAbility.onLivingDamaged(entity, source);
     }
 
-    // TODO call this on fabric side
     public static void onItemChanged(LivingEntity entity, ItemStack oldStack, ItemStack newStack) {
         if (entity.level().isClientSide()) {
             return;
@@ -138,7 +137,7 @@ public class ArtifactEvents {
     }
 
     public static void onPlaySoundAtEntity(LivingEntity entity, float volume, float pitch) {
-        if (Artifacts.CONFIG.common.modifyHurtSounds) {
+        if (Artifacts.CONFIG.general.modifyHurtSounds.get()) {
             AbilityHelper.forEach(ModAbilities.MODIFY_HURT_SOUND.get(), entity, ability -> entity.playSound(ability.soundEvent().value(), volume, pitch));
         }
     }

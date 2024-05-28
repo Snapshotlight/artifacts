@@ -2,8 +2,8 @@ package artifacts.neoforge.data;
 
 import artifacts.Artifacts;
 import artifacts.ability.ArtifactAbility;
-import artifacts.config.ItemConfigs;
-import artifacts.config.value.type.ValueType;
+import artifacts.config.AbstractConfigManager;
+import artifacts.config.ItemConfigsManager;
 import artifacts.registry.*;
 import com.google.common.base.CaseFormat;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -30,14 +30,19 @@ public class Language extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        // TODO SETUP event does not get called in data gen?
+        Artifacts.setupConfigs();
+
         misc();
         abilities();
         advancements();
         attributes();
-        config();
         entities();
-        itemConfigs();
-        itemConfigTooltips();
+        add(configTitle(), "Artifacts Config");
+        config(ItemConfigsManager.INSTANCE);
+        for (AbstractConfigManager config : Artifacts.CONFIG.configs) {
+            config(config);
+        }
         items();
         tooltips();
     }
@@ -142,58 +147,6 @@ public class Language extends LanguageProvider {
         add("generic.swim_speed", "Swim Speed");
     }
 
-    private void config() {
-        add("artifacts.config.title", "Artifacts Config");
-        add("text.autoconfig.artifacts.category.client", "Client");
-        add("text.autoconfig.artifacts.category.common", "Common");
-        add("text.autoconfig.artifacts.option.client.alwaysShowCosmeticsToggleTooltip", "Always show cosmetics toggle tooltip");
-        add("text.autoconfig.artifacts.option.client.alwaysShowCosmeticsToggleTooltip.@Tooltip[0]", "Whether the cosmetics toggle tooltip should");
-        add("text.autoconfig.artifacts.option.client.alwaysShowCosmeticsToggleTooltip.@Tooltip[1]", "be shown even when cosmetics are toggled on");
-        add("text.autoconfig.artifacts.option.client.cooldownOverlayOffset", "Cooldown overlay offset");
-        add("text.autoconfig.artifacts.option.client.cooldownOverlayOffset.@Tooltip[0]", "Location of the artifact cooldown gui element");
-        add("text.autoconfig.artifacts.option.client.cooldownOverlayOffset.@Tooltip[1]", "Distance from the hotbar measured in pixels");
-        add("text.autoconfig.artifacts.option.client.cooldownOverlayOffset.@Tooltip[2]", "Negative values place the element left of the hotbar");
-        add("text.autoconfig.artifacts.option.client.enableCooldownOverlay", "Enable cooldown overlay");
-        add("text.autoconfig.artifacts.option.client.enableCooldownOverlay.@Tooltip", "Display artifacts on cooldown next to the hotbar");
-        add("text.autoconfig.artifacts.option.client.showFirstPersonGloves", "Show first person gloves");
-        add("text.autoconfig.artifacts.option.client.showFirstPersonGloves.@Tooltip", "Whether models for gloves are shown in first person");
-        add("text.autoconfig.artifacts.option.client.showTooltips", "Show item tooltips");
-        add("text.autoconfig.artifacts.option.client.showTooltips.@Tooltip", "Whether artifacts have tooltips explaining their effects");
-        add("text.autoconfig.artifacts.option.client.useModdedMimicTextures", "Use modded chest textures for Mimics");
-        add("text.autoconfig.artifacts.option.client.useModdedMimicTextures.@Tooltip", "Whether mimics can use textures from Lootr or Quark");
-        add("text.autoconfig.artifacts.option.common.archaeologyChance", "Archaeology chance");
-        add("text.autoconfig.artifacts.option.common.archaeologyChance.@Tooltip", "The chance that an artifact generates in suspicious sand or gravel");
-        add("text.autoconfig.artifacts.option.common.artifactRarity", "Artifact rarity");
-        add("text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[0]", "Affects how common artifacts are in chests");
-        add("text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[1]", "Values above 1 will make artifacts rarer");
-        add("text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[2]", "Values between 0 and 1 will make artifacts more common");
-        add("text.autoconfig.artifacts.option.common.artifactRarity.@Tooltip[3]", "Set this to 10000 to remove all artifacts from chest loot");
-        add("text.autoconfig.artifacts.option.common.campsite", "Campsite");
-        add("text.autoconfig.artifacts.option.common.campsite.allowLightSources", "Allow light sources");
-        add("text.autoconfig.artifacts.option.common.campsite.allowLightSources.@Tooltip", "Whether campsites can contain blocks that emit lights");
-        add("text.autoconfig.artifacts.option.common.campsite.count", "Campsite count");
-        add("text.autoconfig.artifacts.option.common.campsite.count.@Tooltip[0]", "Amount of campsite generation attempts per chunk");
-        add("text.autoconfig.artifacts.option.common.campsite.count.@Tooltip[1]", "Set this to 0 to prevent campsites from generating");
-        add("text.autoconfig.artifacts.option.common.campsite.maxY", "Maximum Y-level");
-        add("text.autoconfig.artifacts.option.common.campsite.maxY.@Tooltip", "The maximum height campsites can spawn at");
-        add("text.autoconfig.artifacts.option.common.campsite.mimicChance", "Mimic chance");
-        add("text.autoconfig.artifacts.option.common.campsite.mimicChance.@Tooltip", "Probability that a campsite contains a mimic");
-        add("text.autoconfig.artifacts.option.common.campsite.minY", "Minimum Y-level");
-        add("text.autoconfig.artifacts.option.common.campsite.minY.@Tooltip", "The minimum height campsites can spawn at");
-        add("text.autoconfig.artifacts.option.common.campsite.useModdedChests", "Use modded chests");
-        add("text.autoconfig.artifacts.option.common.campsite.useModdedChests.@Tooltip", "Whether chests from other mods generate in campsites");
-        add("text.autoconfig.artifacts.option.common.entityEquipmentChance", "Entity Equipment Chance");
-        add("text.autoconfig.artifacts.option.common.entityEquipmentChance.@Tooltip[0]", "The chance that a skeleton, zombie or piglin");
-        add("text.autoconfig.artifacts.option.common.entityEquipmentChance.@Tooltip[1]", "spawns with an artifact equipped");
-        add("text.autoconfig.artifacts.option.common.everlastingBeefChance", "Everlasting Beef chance");
-        add("text.autoconfig.artifacts.option.common.everlastingBeefChance.@Tooltip[0]", "The chance everlasting beef drops when a cow");
-        add("text.autoconfig.artifacts.option.common.everlastingBeefChance.@Tooltip[1]", "or mooshroom is killed by a player");
-        add("text.autoconfig.artifacts.option.common.modifyHurtSounds", "Modify player hurt sounds");
-        add("text.autoconfig.artifacts.option.common.modifyHurtSounds.@Tooltip[0]", "Whether the Kitty Slippers and Bunny Hoppers");
-        add("text.autoconfig.artifacts.option.common.modifyHurtSounds.@Tooltip[1]", "change the player's hurt sounds");
-        add("text.autoconfig.artifacts.title", "Artifacts Config");
-    }
-
     private void entities() {
         for (RegistrySupplier<EntityType<?>> entityType : ModEntityTypes.ENTITY_TYPES) {
             add(entityType.get().getDescriptionId(), fromSnakeCasedString(entityType.getId().getPath()));
@@ -204,30 +157,41 @@ public class Language extends LanguageProvider {
         add(ModSoundEvents.MIMIC_OPEN.get(), "Mimic hops");
     }
 
-    private void itemConfigs() {
-        for (ValueType<?, ?> type : ItemConfigs.getValueTypes()) {
-            for (String key : ItemConfigs.getValues(type).keySet()) {
-                String[] words = key.split("\\.");
-                String name = fromSnakeCasedString(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, words[1]));
-                key = words[1].equals("cooldown") || words[1].equals("enabled") ? words[1] : key;
-                add("%s.config.items.%s.title".formatted(Artifacts.MOD_ID, key), name);
-            }
-        }
+    private void config(AbstractConfigManager config) {
+        add(configTitle(config.getName()), fromCamelCasedString(config.getName()));
+        configNames(config);
+        configTooltips(config);
     }
 
-    private void itemConfigTooltips() {
-        for (ValueType<?, ?> type : ItemConfigs.getValueTypes()) {
-            for (String key : ItemConfigs.getValues(type).keySet()) {
-                List<String> tooltips = ItemConfigs.getTooltips(key);
-                if (tooltips.size() == 1) {
-                    add("%s.config.items.%s.description".formatted(Artifacts.MOD_ID, key), tooltips.get(0));
-                    continue;
-                }
-                for (int i = 0; i < tooltips.size(); i++) {
-                    add("%s.config.items.%s.description.%s".formatted(Artifacts.MOD_ID, key, i), tooltips.get(i));
+    private void configNames(AbstractConfigManager config) {
+        config.getValues().forEach((key, value) -> {
+            String[] words = key.split("\\.");
+            String name = words[words.length - 1];
+            String translation = fromCamelCasedString(name);
+            key = name.equals("cooldown") || words[words.length - 1].equals("enabled") ? name : config.getName() + '.' + key;
+            add(configTitle(key), translation);
+            StringBuilder categoryKey = new StringBuilder(config.getName());
+            for (int i = 0; i < words.length - 1; i++) {
+                categoryKey.append('.').append(words[i]);
+                if (!BuiltInRegistries.ITEM.containsKey(Artifacts.id(words[i]))) {
+                    add(configTitle(categoryKey.toString()), fromSnakeCasedString(words[i]));
                 }
             }
-        }
+        });
+    }
+
+    private void configTooltips(AbstractConfigManager config) {
+        config.getValues().forEach((key, value) -> {
+            List<String> tooltips = config.getTooltips(key);
+            key = config.getName() + '.' + key;
+            if (tooltips.size() == 1) {
+                add(configDescription(key), tooltips.get(0));
+            } else {
+                for (int i = 0; i < tooltips.size(); i++) {
+                    add(concat(configDescription(key), Integer.toString(i)), tooltips.get(i));
+                }
+            }
+        });
     }
 
     private void items() {
@@ -289,6 +253,10 @@ public class Language extends LanguageProvider {
         add("%s.tooltip.%s".formatted(Artifacts.MOD_ID, key), value);
     }
 
+    private static String fromCamelCasedString(String string) {
+        return fromSnakeCasedString(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, string));
+    }
+
     private static String fromSnakeCasedString(String string) {
         String[] words = string.split("_");
         for (int i = 0; i < words.length; i++) {
@@ -302,5 +270,31 @@ public class Language extends LanguageProvider {
                 .replace(" On ", " on ")
                 .replaceFirst(" Per ", " per ")
                 .replace(" The ", " the ");
+    }
+
+    private static String configDescription(String... names) {
+        return key("config", concat(names), "description");
+    }
+
+    private static String configTitle(String... names) {
+        return key("config", concat(names), "title");
+    }
+
+    private static String key(String... names) {
+        return concat(Artifacts.MOD_ID, concat(names));
+    }
+
+    private static String concat(String... names) {
+        if (names.length == 0) {
+            return "";
+        }
+        StringBuilder builder = new StringBuilder(names[0]);
+        for (int i = 1; i < names.length; i++) {
+            if (names[i].equals("")) {
+                continue;
+            }
+            builder.append('.').append(names[i]);
+        }
+        return builder.toString();
     }
 }

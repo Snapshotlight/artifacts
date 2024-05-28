@@ -42,9 +42,9 @@ public record ConfigValueChance(ChanceConfig chanceConfig) implements LootItemCo
     }
 
     private enum ChanceConfig implements StringRepresentable {
-        ARCHAEOLOGY("archaeology", () -> Artifacts.CONFIG.common.archaeologyChance),
-        ENTITY_EQUIPMENT("entity_equipment", () -> Artifacts.CONFIG.common.entityEquipmentChance),
-        EVERLASTING_BEEF("everlasting_beef", () -> Artifacts.CONFIG.common.everlastingBeefChance);
+        ARCHAEOLOGY("archaeology", Artifacts.CONFIG.general.archaeologyChance),
+        ENTITY_EQUIPMENT("entity_equipment", Artifacts.CONFIG.general.entityEquipmentChance),
+        EVERLASTING_BEEF("everlasting_beef", Artifacts.CONFIG.general.everlastingBeefChance);
 
         private static final Codec<ChanceConfig> CODEC = StringRepresentable.fromEnum(ChanceConfig::values);
 

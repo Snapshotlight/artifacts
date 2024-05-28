@@ -16,13 +16,13 @@ public class ArtifactCooldownOverlayRenderer {
 
     @SuppressWarnings("unused")
     public static void render(GuiGraphics guiGraphics, float partialTick) {
-        if (!Artifacts.CONFIG.client.enableCooldownOverlay || !(Minecraft.getInstance().getCameraEntity() instanceof Player player)) {
+        if (!Artifacts.CONFIG.client.enableCooldownOverlay.get() || !(Minecraft.getInstance().getCameraEntity() instanceof Player player)) {
             return;
         }
 
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> {
             int y = guiGraphics.guiHeight() - 16 - 3;
-            int cooldownOverlayOffset = Artifacts.CONFIG.client.cooldownOverlayOffset;
+            int cooldownOverlayOffset = Artifacts.CONFIG.client.cooldownOverlayOffset.get();
             int step = 20;
             int start = guiGraphics.guiWidth() / 2 + 91 + cooldownOverlayOffset;
 

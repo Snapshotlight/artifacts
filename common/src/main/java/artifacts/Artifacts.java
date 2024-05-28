@@ -1,6 +1,7 @@
 package artifacts;
 
 import artifacts.component.SwimEvents;
+import artifacts.config.AbstractConfigManager;
 import artifacts.config.ItemConfigs;
 import artifacts.config.ItemConfigsManager;
 import artifacts.config.ModConfig;
@@ -11,9 +12,6 @@ import artifacts.registry.*;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
-import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -40,8 +38,7 @@ public class Artifacts {
     }
 
     public static void init() {
-        AutoConfig.register(ModConfig.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
-        CONFIG = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+        CONFIG = new ModConfig();
 
         NetworkHandler.register();
 
@@ -59,12 +56,17 @@ public class Artifacts {
 
         EntityAttributeRegistry.register(ModEntityTypes.MIMIC, MimicEntity::createMobAttributes);
 
-        LifecycleEvent.SETUP.register(ItemConfigsManager::setup);
+        LifecycleEvent.SETUP.register(Artifacts::setupConfigs);
 
-        LifecycleEvent.SERVER_STARTING.register(ItemConfigs::loadFromConfigAndSend);
+        LifecycleEvent.SERVER_STARTING.register(server -> ItemConfigsManager.INSTANCE.loadFromConfig());
+        LifecycleEvent.SERVER_STARTING.register(server -> CONFIG.configs.forEach(AbstractConfigManager::loadFromConfig));
         PlayerEvent.PLAYER_JOIN.register(ItemConfigs::sendToPlayer);
 
         SwimEvents.register();
         ArtifactEvents.register();
+    }
+
+    public static void setupConfigs() {
+        CONFIG.setup();
     }
 }

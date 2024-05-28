@@ -1,5 +1,6 @@
 package artifacts.config.value.type;
 
+import artifacts.config.AbstractConfigManager;
 import artifacts.config.ItemConfigs;
 import artifacts.config.value.Value;
 import artifacts.util.ModCodecs;
@@ -81,5 +82,5 @@ public abstract class ValueType<T, C> {
         return result;
     }
 
-    public abstract FieldBuilder<?, ?, ?> createConfigEntry(ConfigEntryBuilder entryBuilder, Component title, Value.ConfigValue<T> value);
+    public abstract FieldBuilder<?, ?, ?> createConfigEntry(AbstractConfigManager config, ConfigEntryBuilder entryBuilder, Component title, Value.ConfigValue<T> value);
 }

@@ -34,7 +34,7 @@ public abstract class PlayerRendererMixin {
 
     @Unique
     private static void renderArm(PoseStack matrixStack, MultiBufferSource buffer, int light, AbstractClientPlayer player, HumanoidArm handSide) {
-        if (!Artifacts.CONFIG.client.showFirstPersonGloves) {
+        if (!Artifacts.CONFIG.client.showFirstPersonGloves.get()) {
             return;
         }
 

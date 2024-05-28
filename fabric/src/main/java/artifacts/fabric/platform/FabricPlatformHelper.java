@@ -4,7 +4,6 @@ import artifacts.Artifacts;
 import artifacts.client.item.renderer.ArtifactRenderer;
 import artifacts.component.AbilityToggles;
 import artifacts.component.SwimData;
-import artifacts.fabric.ArtifactsFabric;
 import artifacts.fabric.client.CosmeticsHelper;
 import artifacts.fabric.mixin.accessors.AttributesAccessor;
 import artifacts.fabric.registry.ModAttributesFabric;
@@ -139,7 +138,7 @@ public class FabricPlatformHelper implements PlatformHelper {
                     Component.translatable("%s.tooltip.cosmetics_disabled".formatted(Artifacts.MOD_ID))
                             .withStyle(ChatFormatting.ITALIC)
             );
-        } else if (ArtifactsFabric.getClientConfig().alwaysShowCosmeticsToggleTooltip()) {
+        } else {
             tooltip.add(
                     Component.translatable("%s.tooltip.cosmetics_enabled".formatted(Artifacts.MOD_ID))
                             .withStyle(ChatFormatting.ITALIC)

@@ -6,10 +6,8 @@ import artifacts.config.value.ValueTypes;
 import artifacts.config.value.type.ValueType;
 import artifacts.network.UpdateItemConfigPacket;
 import artifacts.registry.ModItems;
-import com.google.common.base.CaseFormat;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
@@ -26,8 +24,6 @@ public class ItemConfigs {
 
     private static final Map<ValueType<?, ?>, ValueMap<?>> VALUES = new HashMap<>();
     private static final List<ValueType<?, ?>> VALUE_TYPES = new ArrayList<>();
-
-    public static final Map<ResourceLocation, List<String>> ITEM_TO_KEYS = new HashMap<>();
 
     public static final Value.ConfigValue<Boolean>
             ANTIDOTE_VESSEL_ENABLED = booleanValue(ModItems.ANTIDOTE_VESSEL, "enabled",
@@ -260,7 +256,7 @@ public class ItemConfigs {
     }
 
     private static <T> Value.ConfigValue<T> register(Holder<? extends Item> holder, String name, ValueType<T, ?> type, T defaultValue, String... tooltips) {
-        String id = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, holder.unwrapKey().orElseThrow().location().getPath()) + '.' + name;
+        String id = holder.unwrapKey().orElseThrow().location().getPath() + '.' + name;
         if (!type.isCorrect(defaultValue)) {
             throw new IllegalArgumentException(type.makeError(defaultValue));
         }
@@ -270,11 +266,6 @@ public class ItemConfigs {
         if (holder.unwrapKey().isEmpty()) {
             throw new IllegalStateException();
         }
-        ResourceLocation item = holder.unwrapKey().get().location();
-        if (!ITEM_TO_KEYS.containsKey(item)) {
-            ITEM_TO_KEYS.put(item, new ArrayList<>());
-        }
-        ITEM_TO_KEYS.get(item).add(id);
         return value;
     }
 
@@ -296,21 +287,9 @@ public class ItemConfigs {
         return TOOLTIPS.get(key);
     }
 
-    public static void save() {
+    public static void sendToClients(MinecraftServer server) {
         for (ValueMap<?> map : VALUES.values()) {
-            map.saveValues();
-        }
-    }
-
-    public static void loadFromConfig() {
-        for (ValueMap<?> map : VALUES.values()) {
-            map.loadValues();
-        }
-    }
-
-    public static void loadFromConfigAndSend(MinecraftServer server) {
-        for (ValueMap<?> map : VALUES.values()) {
-            map.loadValuesAndSend(server);
+            map.sendToPlayers(server);
         }
     }
 
@@ -327,26 +306,8 @@ public class ItemConfigs {
             return map;
         }
 
-        public void saveValues() {
-            map.forEach((key, config) -> {
-                if (!ItemConfigsManager.INSTANCE.get(config.type(), key).equals(config.get())) {
-                    ItemConfigsManager.INSTANCE.set(config.type(), key, config.get());
-                }
-            });
-        }
-
-        public void loadValues() {
-            map.forEach((key, config) -> config.set(ItemConfigsManager.INSTANCE.get(config.type(), key)));
-        }
-
-        public void loadValuesAndSend(MinecraftServer server) {
-            map.forEach((key, config) -> {
-                T value = ItemConfigsManager.INSTANCE.get(config.type(), key);
-                if (!config.get().equals(value)) {
-                    config.set(value);
-                    NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(), new UpdateItemConfigPacket(config));
-                }
-            });
+        public void sendToPlayers(MinecraftServer server) {
+            map.forEach((key, config) -> NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(), new UpdateItemConfigPacket(config)));
         }
 
         public void sendToPlayer(ServerPlayer player) {

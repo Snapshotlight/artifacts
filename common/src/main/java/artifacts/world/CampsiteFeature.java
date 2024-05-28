@@ -186,7 +186,7 @@ public class CampsiteFeature extends Feature<NoneFeatureConfiguration> {
 
     private void placeCampfire(WorldGenLevel level, BlockPos origin, RandomSource random) {
         BlockState campfire = UNLIT_CAMPFIRES.getState(random, origin);
-        if (Artifacts.CONFIG.common.campsite.allowLightSources && random.nextFloat() < 0.10) {
+        if (Artifacts.CONFIG.general.campsite.allowLightSources.get() && random.nextFloat() < 0.10) {
             campfire = LIT_CAMPFIRES.getState(random, origin);
         }
         setBlock(level, origin, campfire);
@@ -195,7 +195,7 @@ public class CampsiteFeature extends Feature<NoneFeatureConfiguration> {
     private void placeLightSource(WorldGenLevel level, BlockPos pos, RandomSource random) {
         if (random.nextFloat() < 0.5) {
             BlockState lightSource = UNLIT_LIGHT_SOURCES.getState(random, pos);
-            if (Artifacts.CONFIG.common.campsite.allowLightSources && random.nextFloat() < 0.30) {
+            if (Artifacts.CONFIG.general.campsite.allowLightSources.get() && random.nextFloat() < 0.30) {
                 lightSource = LIGHT_SOURCES.getState(random, pos);
             }
             setBlock(level, pos, lightSource);
@@ -234,7 +234,7 @@ public class CampsiteFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     public void placeChest(WorldGenLevel level, BlockPos pos, RandomSource random, Direction facing) {
-        if (random.nextFloat() < Artifacts.CONFIG.common.campsite.getMimicChance()) {
+        if (random.nextFloat() < Artifacts.CONFIG.general.campsite.mimicChance.get()) {
             MimicEntity mimic = ModEntityTypes.MIMIC.get().create(level.getLevel());
             if (mimic != null) {
                 mimic.setDormant(true);
@@ -248,7 +248,7 @@ public class CampsiteFeature extends Feature<NoneFeatureConfiguration> {
                 setBlock(level, pos.below(), Blocks.TNT.defaultBlockState());
                 chest = Blocks.TRAPPED_CHEST.defaultBlockState();
                 setBlock(level, pos, Blocks.TRAPPED_CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(random)));
-            } else if (Artifacts.CONFIG.common.campsite.useModdedChests) {
+            } else if (Artifacts.CONFIG.general.campsite.useModdedChests.get()) {
                 chest = ModTags.getTag(ModTags.CAMPSITE_CHESTS)
                         .getRandomElement(random)
                         .map(Holder::value)

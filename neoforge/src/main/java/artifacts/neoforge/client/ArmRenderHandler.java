@@ -19,7 +19,7 @@ public abstract class ArmRenderHandler {
     }
 
     public static void onRenderArm(RenderArmEvent event) {
-        if (!Artifacts.CONFIG.client.showFirstPersonGloves || event.isCanceled()) {
+        if (!Artifacts.CONFIG.client.showFirstPersonGloves.get() || event.isCanceled()) {
             return;
         }
 

@@ -2,7 +2,6 @@ package artifacts.fabric;
 
 import artifacts.Artifacts;
 import artifacts.fabric.event.SwimEventsFabric;
-import artifacts.fabric.extensions.ClientConfigFabric;
 import artifacts.fabric.integration.CompatHandler;
 import artifacts.fabric.registry.ModFeatures;
 import artifacts.fabric.registry.ModLootTablesFabric;
@@ -15,11 +14,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ArtifactsFabric implements ModInitializer {
-
-    @SuppressWarnings("ConstantConditions")
-    public static ClientConfigFabric getClientConfig() {
-        return (ClientConfigFabric) (Object) Artifacts.CONFIG.client;
-    }
 
     @Override
     public void onInitialize() {
