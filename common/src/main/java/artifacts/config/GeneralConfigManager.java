@@ -22,8 +22,7 @@ public class GeneralConfigManager extends ConfigManager {
 
     public class Campsite {
 
-        // TODO increase granularity by adding a rarity filter
-        public final Supplier<Integer> count = defineNonNegativeInt("campsite.campsiteCount", 4,
+        public final Supplier<Integer> count = defineNonNegativeInt("campsite.campsiteCount", 40,
                 "How many times a campsite will attempt to generate per chunk",
                 "Set this to 0 to prevent campsites from generating");
         public final Supplier<Integer> minY = defineInt("campsite.minY", -60,

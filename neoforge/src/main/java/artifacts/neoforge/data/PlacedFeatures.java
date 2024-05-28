@@ -27,6 +27,7 @@ public class PlacedFeatures {
                 campsite,
                 List.of(
                         CampsiteCountPlacement.campsiteCount(),
+                        RarityFilter.onAverageOnceEvery(10),
                         InSquarePlacement.spread(),
                         CampsiteHeightRangePlacement.campsiteHeightRange(),
                         EnvironmentScanPlacement.scanningFor(
