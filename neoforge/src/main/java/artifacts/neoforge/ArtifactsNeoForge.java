@@ -1,7 +1,7 @@
 package artifacts.neoforge;
 
 import artifacts.Artifacts;
-import artifacts.config.ModConfig;
+import artifacts.config.screen.ArtifactsConfigScreen;
 import artifacts.item.WearableArtifactItem;
 import artifacts.neoforge.curio.WearableArtifactCurio;
 import artifacts.neoforge.event.ArtifactEventsNeoForge;
@@ -9,7 +9,6 @@ import artifacts.neoforge.event.SwimEventsNeoForge;
 import artifacts.neoforge.registry.ModAttachmentTypes;
 import artifacts.neoforge.registry.ModLootModifiers;
 import artifacts.registry.ModItems;
-import me.shedaniel.autoconfig.AutoConfig;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
@@ -42,7 +41,7 @@ public class ArtifactsNeoForge {
     private void registerConfig() {
         ModLoadingContext.get().registerExtensionPoint(
                 IConfigScreenFactory.class,
-                () -> (client, parent) -> AutoConfig.getConfigScreen(ModConfig.class, parent).get()
+                () -> (client, parent) -> ArtifactsConfigScreen.createScreen(parent)
         );
     }
 

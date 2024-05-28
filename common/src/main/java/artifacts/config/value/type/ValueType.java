@@ -6,7 +6,10 @@ import artifacts.util.ModCodecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import io.netty.buffer.ByteBuf;
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
@@ -25,6 +28,8 @@ public abstract class ValueType<T, C> {
     public abstract String getAllowedValuesComment();
 
     public abstract T read(C c);
+
+    public abstract C write(T c);
 
     public final Codec<Value<T>> codec() {
         return ModCodecs.xorAlternative(
@@ -75,4 +80,6 @@ public abstract class ValueType<T, C> {
         }
         return result;
     }
+
+    public abstract FieldBuilder<?, ?, ?> createConfigEntry(ConfigEntryBuilder entryBuilder, Component title, Value.ConfigValue<T> value);
 }

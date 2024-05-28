@@ -72,9 +72,13 @@ public record UpgradeToolTierAbility(Value<Tier> tier) implements ArtifactAbilit
         tooltip.add(
                 Component.translatable(
                         "%s.tooltip.ability.%s".formatted(id.getNamespace(), id.getPath()),
-                        Component.translatable("%s.tooltip.tool_tier.%s".formatted(Artifacts.MOD_ID, tier().get().getLevel()))
+                        getTierName(tier.get())
                 )
         );
+    }
+
+    public static Component getTierName(Tier tier) {
+        return Component.translatable("%s.tooltip.tool_tier.%s".formatted(Artifacts.MOD_ID, tier.getSerializedName()));
     }
 
     public enum Tier implements StringRepresentable {

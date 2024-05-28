@@ -2,8 +2,6 @@ package artifacts.config;
 
 import artifacts.Artifacts;
 import artifacts.config.value.Value;
-import artifacts.config.value.type.NumberValueType;
-import artifacts.config.value.type.StringRepresentableValueType;
 import artifacts.config.value.type.ValueType;
 import artifacts.platform.PlatformServices;
 import com.electronwill.nightconfig.core.ConfigSpec;
@@ -12,7 +10,6 @@ import com.electronwill.nightconfig.core.file.FileWatcher;
 import com.electronwill.nightconfig.core.io.ParsingException;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import dev.architectury.utils.GameInstance;
-import net.minecraft.util.StringRepresentable;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.IOException;
@@ -21,17 +18,16 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 // see Neoforge ConfigFileTypeHandler
-public class ConfigManager {
+public abstract class ConfigManager {
 
-    private static ConfigManager ITEMS;
-
-    private final CommentedFileConfig config;
+    protected final CommentedFileConfig config;
     private final ConfigSpec spec = createConfigSpec();
     private final Path configPath;
 
-    private ConfigManager(String fileName) {
+    protected ConfigManager(String fileName) {
         this.configPath = Path.of(Artifacts.MOD_ID, "%s.toml".formatted(fileName));
         Path path = PlatformServices.platformHelper.getConfigDir().resolve(configPath);
         config = CommentedFileConfig.builder(PlatformServices.platformHelper.getConfigDir().resolve(configPath))
@@ -40,7 +36,6 @@ public class ConfigManager {
                 .autosave()
                 .writingMode(WritingMode.REPLACE)
                 .build();
-
         try {
             config.load();
         } catch (ParsingException exception) {
@@ -68,80 +63,48 @@ public class ConfigManager {
         }
     }
 
-    public static void setup() {
-        ITEMS = new ConfigManager("items");
-    }
-
     private void correctConfigAndSave() {
         addMissingKeys();
         spec.correct(config);
         config.save();
     }
 
-    private void addMissingKeys() {
-        List<String> keys = new ArrayList<>();
-        for (ValueType<?, ?> type : ItemConfigs.getValueTypes()) {
-            keys.addAll(ItemConfigs.getValues(type).keySet());
-        }
+    public <T, C> T get(ValueType<T, C> type, String key) {
+        return type.read(config.get(key));
+    }
+
+    public <T, C> void set(ValueType<T, C> type, String key, T value) {
+        config.set(key, type.write(value));
+    }
+
+    protected void addMissingKeys() {
+        Map<String, Value.ConfigValue<?>> values = getValueMap();
+
+        List<String> keys = new ArrayList<>(values.keySet());
         Collections.sort(keys);
         for (String key : keys) {
-            for (ValueType<?, ?> type : ItemConfigs.getValueTypes()) {
-                if (ItemConfigs.getValues(type).containsKey(key)) {
-                    if (!config.contains(key)) {
-                        config.add(key, ItemConfigs.getValues(type).get(key).getDefaultValue());
-                        StringBuilder builder = new StringBuilder();
-                        for (String tooltip : ItemConfigs.TOOLTIPS.get(key)) {
-                            builder.append(tooltip).append('\n');
-                        }
-                        builder.append(type.getAllowedValuesComment());
-                        config.setComment(key, builder.toString());
-                    }
+            if (!config.contains(key)) {
+                Value.ConfigValue<?> value = values.get(key);
+                reset(key, value);
+                StringBuilder builder = new StringBuilder();
+                for (String tooltip : getTooltips(key)) {
+                    builder.append(tooltip).append('\n');
                 }
+                builder.append(value.type().getAllowedValuesComment());
+                config.setComment(key, builder.toString());
             }
         }
     }
 
-    private ConfigSpec createConfigSpec() {
-        ConfigSpec spec = new ConfigSpec();
-        for (ValueType<?, ?> type : ItemConfigs.getValueTypes()) {
-            for (String key : ItemConfigs.getValues(type).keySet()) {
-                addToSpec(spec, key, type);
-            }
-        }
-        return spec;
+    private <T> void reset(String key, Value.ConfigValue<T> value) {
+        config.add(key, value.type().write(value.getDefaultValue()));
     }
 
-    private <T> void addToSpec(ConfigSpec spec, String key, ValueType<T, ?> type) {
-        if (type instanceof NumberValueType<?> numberValueType) {
-            defineNumber(spec, key, numberValueType);
-        } else if (type instanceof StringRepresentableValueType<?> stringRepresentableValueType) {
-            defineStringRepresentable(spec, key, stringRepresentableValueType);
-        } else {
-            defineValue(spec, key, type);
-        }
-    }
+    protected abstract List<String> getTooltips(String key);
 
-    private <T extends Number & Comparable<T>> void defineNumber(ConfigSpec spec, String key, NumberValueType<T> type) {
-        Value.ConfigValue<T> value = ItemConfigs.getValues(type).get(key);
-        spec.defineInRange(key, value.getDefaultValue(), type.getMin(), type.getMax());
-    }
+    protected abstract Map<String, Value.ConfigValue<?>> getValueMap();
 
-    private <T extends StringRepresentable> void defineStringRepresentable(ConfigSpec spec, String key, StringRepresentableValueType<T> type) {
-        Value.ConfigValue<T> value = ItemConfigs.getValues(type).get(key);
-        List<String> allowedValues = new ArrayList<>();
-        allowedValues.addAll(type.getValues().stream().map(StringRepresentable::getSerializedName).toList());
-        allowedValues.addAll(type.getValues().stream().map(StringRepresentable::getSerializedName).map(String::toUpperCase).toList());
-        spec.defineInList(key, value.getDefaultValue().getSerializedName(), allowedValues);
-    }
-
-    private <T> void defineValue(ConfigSpec spec, String key, ValueType<T, ?> type) {
-        Value.ConfigValue<T> value = ItemConfigs.getValues(type).get(key);
-        spec.define(key, value.getDefaultValue());
-    }
-
-    public static <T> T getConfigValue(String key) {
-        return ITEMS.config.get(key);
-    }
+    protected abstract ConfigSpec createConfigSpec();
 
     public static void backUpConfig(final Path commentedFileConfig, final int maxBackups) {
         Path bakFileLocation = commentedFileConfig.getParent();
@@ -180,7 +143,7 @@ public class ConfigManager {
             }
             Artifacts.LOGGER.info("Config file {} changed", configPath);
             if (GameInstance.getServer() != null) {
-                ItemConfigs.loadFromConfig(GameInstance.getServer());
+                ItemConfigs.loadFromConfigAndSend(GameInstance.getServer());
             }
         }
     }

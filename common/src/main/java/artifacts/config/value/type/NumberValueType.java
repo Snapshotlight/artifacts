@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
-public class NumberValueType<T extends Number & Comparable<T>> extends ValueType<T, T> {
+public abstract class NumberValueType<T extends Number & Comparable<T>> extends ValueType<T, T> {
 
     private final T min;
     private final T max;
@@ -58,6 +58,11 @@ public class NumberValueType<T extends Number & Comparable<T>> extends ValueType
 
     @Override
     public T read(T value) {
+        return value;
+    }
+
+    @Override
+    public T write(T value) {
         return value;
     }
 }

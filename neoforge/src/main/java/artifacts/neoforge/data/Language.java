@@ -5,6 +5,7 @@ import artifacts.ability.ArtifactAbility;
 import artifacts.config.ItemConfigs;
 import artifacts.config.value.type.ValueType;
 import artifacts.registry.*;
+import com.google.common.base.CaseFormat;
 import dev.architectury.registry.registries.RegistrySupplier;
 import joptsimple.internal.Strings;
 import net.minecraft.core.Holder;
@@ -142,6 +143,7 @@ public class Language extends LanguageProvider {
     }
 
     private void config() {
+        add("artifacts.config.title", "Artifacts Config");
         add("text.autoconfig.artifacts.category.client", "Client");
         add("text.autoconfig.artifacts.category.common", "Common");
         add("text.autoconfig.artifacts.option.client.alwaysShowCosmeticsToggleTooltip", "Always show cosmetics toggle tooltip");
@@ -203,88 +205,14 @@ public class Language extends LanguageProvider {
     }
 
     private void itemConfigs() {
-        add("artifacts.config.anglersHat.luckOfTheSeaLevelBonus.title", "Angler's Hat Luck of the Sea level bonus");
-        add("artifacts.config.anglersHat.lureLevelBonus.title", "Angler's Hat Lure level bonus");
-        add("artifacts.config.antidoteVessel.enabled.title", "Antidote Vessel enabled");
-        add("artifacts.config.antidoteVessel.maxEffectDuration.title", "Antidote Vessel maximum negative effect duration");
-        add("artifacts.config.aquaDashers.enabled.title", "Aqua Dashers enabled");
-        add("artifacts.config.bunnyHoppers.fallDamageMultiplier.title", "Bunny Hoppers fall damage multiplier");
-        add("artifacts.config.bunnyHoppers.jumpStrengthBonus.title", "Bunny Hoppers jump strength bonus");
-        add("artifacts.config.bunnyHoppers.safeFallDistanceBonus.title", "Bunny Hoppers safe fall distance bonus");
-        add("artifacts.config.charmOfShrinking.scaleModifier.title", "Charm of Sinking scale modifier");
-        add("artifacts.config.charmOfSinking.enabled.title", "Charm of Sinking enabled");
-        add("artifacts.config.chorusTotem.consumeOnUse.title", "Chorus Totem consumed on use");
-        add("artifacts.config.chorusTotem.cooldown.title", "Chorus Totem cooldown");
-        add("artifacts.config.chorusTotem.healthRestored.title", "Chorus Totem health restored");
-        add("artifacts.config.chorusTotem.teleportationChance.title", "Chorus Totem teleportation chance");
-        add("artifacts.config.cloudInABottle.enabled.title", "Cloud in a Bottle enabled");
-        add("artifacts.config.cloudInABottle.safeFallDistanceBonus.title", "Cloud in a bottle safe fall distance bonus");
-        add("artifacts.config.cloudInABottle.sprintJumpHorizontalVelocity.title", "Cloud in a Bottle sprint jump horizontal velocity");
-        add("artifacts.config.cloudInABottle.sprintJumpVerticalVelocity.title", "Cloud in a Bottle sprint jump vertical velocity");
-        add("artifacts.config.cowboyHat.mountSpeedBonus.title", "Cowboy Hat mount speed bonus");
-        add("artifacts.config.crossNecklace.bonusInvincibilityTicks.title", "Cross Necklace bonus invincibility ticks");
-        add("artifacts.config.crossNecklace.cooldown.title", "Cross Necklace cooldown");
-        add("artifacts.config.crystalHeart.healthBonus.title", "Crystal Heart health bonus");
-        add("artifacts.config.diggingClaws.blockBreakSpeedBonus.title", "Digging Claws dig speed bonus");
-        add("artifacts.config.diggingClaws.toolTier.title", "Digging Claws tool tier");
-        add("artifacts.config.eternalSteak.cooldown.title", "Eternal Steak eating cooldown");
-        add("artifacts.config.eternalSteak.enabled.title", "Eternal Steak enabled");
-        add("artifacts.config.everlastingBeef.cooldown.title", "Everlasting Beef eating cooldown");
-        add("artifacts.config.everlastingBeef.enabled.title", "Everlasting Beef enabled");
-        add("artifacts.config.feralClaws.attackSpeedBonus.title", "Feral Claws attack speed bonus");
-        add("artifacts.config.fireGauntlet.fireDuration.title", "Fire Gauntlet fire duration");
-        add("artifacts.config.flamePendant.cooldown.title", "Flame Pendant cooldown");
-        add("artifacts.config.flamePendant.grantFireResistance.title", "Flame Pendant grants fire resistance");
-        add("artifacts.config.flamePendant.fireDuration.title", "Flame Pendant fire duration");
-        add("artifacts.config.flamePendant.strikeChance.title", "Flame Pendant strike chance");
-        add("artifacts.config.flippers.swimSpeedBonus.title", "Flippers swim speed bonus");
-        add("artifacts.config.goldenHook.entityExperienceBonus.title", "Golden Hook experience bonus");
-        add("artifacts.config.heliumFlamingo.flightDuration.title", "Helium Flamingo maximum flight duration");
-        add("artifacts.config.heliumFlamingo.rechargeDuration.title", "Helium Flamingo recharge duration");
-        add("artifacts.config.kittySlippers.enabled.title", "Kitty Slippers enabled");
-        add("artifacts.config.luckyScarf.fortuneBonus.title", "Lucky Scarf fortune bonus");
-        add("artifacts.config.nightVisionGoggles.strength.title", "Night Vision Goggles strength");
-        add("artifacts.config.noveltyDrinkingHat.drinkingSpeedBonus.title", "Novelty Drinking Hat drinking speed bonus");
-        add("artifacts.config.noveltyDrinkingHat.eatingSpeedBonus.title", "Novelty Drinking Hat eating speed bonus");
-        add("artifacts.config.obsidianSkull.fireResistanceCooldown.title", "Obsidian Skull fire resistance cooldown");
-        add("artifacts.config.obsidianSkull.fireResistanceDuration.title", "Obsidian Skull fire resistance duration");
-        add("artifacts.config.onionRing.hasteDurationPerFoodPoint.title", "Onion Ring haste duration per food point eaten");
-        add("artifacts.config.onionRing.hasteLevel.title", "Onion Ring haste level");
-        add("artifacts.config.panicNecklace.cooldown.title", "Panic Necklace cooldown");
-        add("artifacts.config.panicNecklace.speedDuration.title", "Panic Necklace speed duration");
-        add("artifacts.config.panicNecklace.speedLevel.title", "Panic Necklace speed level");
-        add("artifacts.config.pickaxeHeater.enabled.title", "Pickaxe Heater enabled");
-        add("artifacts.config.plasticDrinkingHat.drinkingSpeedBonus.title", "Plastic Drinking Hat drinking speed bonus");
-        add("artifacts.config.plasticDrinkingHat.eatingSpeedBonus.title", "Plastic Drinking Hat eating speed bonus");
-        add("artifacts.config.pocketPiston.attackKnockbackBonus.title", "Pocket Piston knockback strength");
-        add("artifacts.config.powerGlove.attackDamageBonus.title", "Power Glove attack damage bonus");
-        add("artifacts.config.rootedBoots.growPlantsAfterEating.title", "Rooted Boots grows plants after eating");
-        add("artifacts.config.rootedBoots.enabled.title", "Rooted Boots enabled");
-        add("artifacts.config.rootedBoots.hungerReplenishingDuration.title", "Rooted Boots hunger replenishing duration");
-        add("artifacts.config.runningShoes.sprintingSpeedBonus.title", "Running Shoes sprinting speed bonus");
-        add("artifacts.config.runningShoes.sprintingStepHeightBonus.title", "Running Shoes sprinting step height bonus");
-        add("artifacts.config.scarfOfInvisibility.enabled.title", "Scarf of Invisibility enabled");
-        add("artifacts.config.shockPendant.cooldown.title", "Shock Pendant cooldown");
-        add("artifacts.config.shockPendant.cancelLightningDamage.title", "Shock Pendant cancels lightning damage");
-        add("artifacts.config.shockPendant.strikeChance.title", "Shock Pendant strike chance");
-        add("artifacts.config.snorkel.isInfinite.title", "Snorkel is infinite");
-        add("artifacts.config.snorkel.waterBreathingDuration.title", "Snorkel water breathing duration");
-        add("artifacts.config.snowshoes.allowWalkingOnPowderSnow.title", "Snowshoes allow walking on Powder Snow");
-        add("artifacts.config.snowshoes.movementSpeedOnSnowBonus.title", "Snowshoes movement speed bonus on snow");
-        add("artifacts.config.steadfastSpikes.knockbackResistance.title", "Steadfast Spikes knockback resistance");
-        add("artifacts.config.steadfastSpikes.slipperinessReduction.title", "Steadfast Spikes slipperiness reduction");
-        add("artifacts.config.superstitiousHat.lootingLevelBonus.title", "Superstitious Hat looting level bonus");
-        add("artifacts.config.thornPendant.cooldown.title", "Thorn Pendant cooldown");
-        add("artifacts.config.thornPendant.maxDamage.title", "Thorn Pendant maximum damage");
-        add("artifacts.config.thornPendant.minDamage.title", "Thorn Pendant minimum damage");
-        add("artifacts.config.thornPendant.strikeChance.title", "Thorn Pendant strike chance");
-        add("artifacts.config.umbrella.isGlider.title", "Umbrella slows falling");
-        add("artifacts.config.umbrella.isShield.title", "Umbrella can block");
-        add("artifacts.config.universalAttractor.enabled.title", "Universal Attractor enabled");
-        add("artifacts.config.vampiricGlove.absorptionRatio.title", "Vampiric Glove health absorption ratio");
-        add("artifacts.config.vampiricGlove.maxHealingPerHit.title", "Vampiric Glove maximum healing per hit");
-        add("artifacts.config.villagerHat.reputationBonus.title", "Villager Hat reputation bonus");
-        add("artifacts.config.whoopeeCushion.fartChance.title", "Whoopee Cushion fart chance");
+        for (ValueType<?, ?> type : ItemConfigs.getValueTypes()) {
+            for (String key : ItemConfigs.getValues(type).keySet()) {
+                String[] words = key.split("\\.");
+                String name = fromSnakeCasedString(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, words[1]));
+                key = words[1].equals("cooldown") || words[1].equals("enabled") ? words[1] : key;
+                add("%s.config.items.%s.title".formatted(Artifacts.MOD_ID, key), name);
+            }
+        }
     }
 
     private void itemConfigTooltips() {
@@ -292,11 +220,11 @@ public class Language extends LanguageProvider {
             for (String key : ItemConfigs.getValues(type).keySet()) {
                 List<String> tooltips = ItemConfigs.getTooltips(key);
                 if (tooltips.size() == 1) {
-                    add("%s.config.%s.description".formatted(Artifacts.MOD_ID, key), tooltips.get(0));
+                    add("%s.config.items.%s.description".formatted(Artifacts.MOD_ID, key), tooltips.get(0));
                     continue;
                 }
                 for (int i = 0; i < tooltips.size(); i++) {
-                    add("%s.config.%s.description.%s".formatted(Artifacts.MOD_ID, key, i), tooltips.get(i));
+                    add("%s.config.items.%s.description.%s".formatted(Artifacts.MOD_ID, key, i), tooltips.get(i));
                 }
             }
         }
@@ -322,6 +250,7 @@ public class Language extends LanguageProvider {
         tooltip("per_food_point_restored", "For every food point restored:");
         tooltip("plus_mob_effect", "+%s");
         tooltip("toggle_keymapping", "Press %s to toggle");
+        tooltip("tool_tier.none", "none");
         tooltip("tool_tier.wood", "wood");
         tooltip("tool_tier.stone", "stone");
         tooltip("tool_tier.iron", "iron");
@@ -371,6 +300,7 @@ public class Language extends LanguageProvider {
                 .replaceFirst(" In ", " in ")
                 .replace(" Of ", " of ")
                 .replace(" On ", " on ")
+                .replaceFirst(" Per ", " per ")
                 .replace(" The ", " the ");
     }
 }

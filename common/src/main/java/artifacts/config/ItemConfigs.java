@@ -9,6 +9,7 @@ import artifacts.registry.ModItems;
 import com.google.common.base.CaseFormat;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
@@ -25,6 +26,8 @@ public class ItemConfigs {
 
     private static final Map<ValueType<?, ?>, ValueMap<?>> VALUES = new HashMap<>();
     private static final List<ValueType<?, ?>> VALUE_TYPES = new ArrayList<>();
+
+    public static final Map<ResourceLocation, List<String>> ITEM_TO_KEYS = new HashMap<>();
 
     public static final Value.ConfigValue<Boolean>
             ANTIDOTE_VESSEL_ENABLED = booleanValue(ModItems.ANTIDOTE_VESSEL, "enabled",
@@ -85,7 +88,7 @@ public class ItemConfigs {
             BUNNY_HOPPERS_SAFE_FALL_DISTANCE_BONUS = attributeModifier(ModItems.BUNNY_HOPPERS, "safeFallDistanceBonus", 10,
                     "The amount of extra safe fall distance in blocks that is granted by the Bunny Hoppers"),
             CHARM_OF_SHRINKING_SCALE_MODIFIER = attributeModifier(ModItems.CHARM_OF_SHRINKING, "scaleModifier", -0.50,
-                    "How much the Charm of Shrinking decrease or increase the player's Scale",
+                    "How much the Charm of Shrinking decreases or increases the player's Scale",
                     "Values between -1 and 0 reduce the player's scale",
                     "Values above 0 increase the player's scale"),
             CLOUD_IN_A_BOTTLE_SAFE_FALL_DISTANCE_BONUS = attributeModifier(ModItems.CLOUD_IN_A_BOTTLE, "safeFallDistanceBonus", 3,
@@ -106,7 +109,7 @@ public class ItemConfigs {
             FLIPPERS_SWIM_SPEED_BONUS = attributeModifier(ModItems.FLIPPERS, "swimSpeedBonus", 0.70,
                     "How much the Flippers increase the wearer's swim speed"),
             GOLDEN_HOOK_ENTITY_EXPERIENCE_BONUS = attributeModifier(ModItems.GOLDEN_HOOK, "entityExperienceBonus", 0.50,
-                    "The amount of extra experience that is dropped by entities " +
+                    "The amount of extra experience dropped by entities " +
                             "that are killed by players wearing the Golden Hook"),
             NOVELTY_DRINKING_HAT_DRINKING_SPEED_BONUS = attributeModifier(ModItems.NOVELTY_DRINKING_HAT, "drinkingSpeedBonus", 1.50,
                     "How much the Novelty Drinking Hat increases the wearer's drinking speed"),
@@ -119,7 +122,7 @@ public class ItemConfigs {
             POCKET_PISTON_ATTACK_KNOCKBACK_BONUS = attributeModifier(ModItems.POCKET_PISTON, "attackKnockbackBonus", 0.75,
                     "The amount of extra knockback that is granted by the Pocket Piston"),
             POWER_GLOVE_ATTACK_DAMAGE_BONUS = attributeModifier(ModItems.POWER_GLOVE, "attackDamageBonus", 4,
-                    "The amount of extra damage that is dealt by melee attacks from entities wearing the Power Glove"),
+                    "The amount of extra damage that is dealt by melee attacks from players wearing the Power Glove"),
             RUNNING_SHOES_SPRINTING_SPEED_BONUS = attributeModifier(ModItems.RUNNING_SHOES, "sprintingSpeedBonus", 0.40,
                     "How much the Running Shoes increase the wearer's sprinting speed"),
             RUNNING_SHOES_SPRINTING_STEP_HEIGHT_BONUS = attributeModifier(ModItems.RUNNING_SHOES, "sprintingStepHeightBonus", 0.5,
@@ -155,7 +158,7 @@ public class ItemConfigs {
 
     public static final Value.ConfigValue<Integer>
             CHORUS_TOTEM_HEALTH_RESTORED = nonNegativeInt(ModItems.CHORUS_TOTEM, "healthRestored", 10,
-                    "The amount of health points that are restored after the Chorus Totem is activated"),
+                    "The amount of health points that are restored after the Chorus Totem activates"),
             THORN_PENDANT_MAX_DAMAGE = nonNegativeInt(ModItems.THORN_PENDANT, "maxDamage", 6,
                     "The minimum amount of damage that is dealt when the Thorn Pendant activates"),
             THORN_PENDANT_MIN_DAMAGE = nonNegativeInt(ModItems.THORN_PENDANT, "minDamage", 2,
@@ -177,16 +180,15 @@ public class ItemConfigs {
             FLAME_PENDANT_FIRE_DURATION = duration(ModItems.FLAME_PENDANT, "fireDuration", 10,
                     "How long an attacking entity is set on fire for when the Flame Pendant activates"),
             HELIUM_FLAMINGO_FLIGHT_DURATION = duration(ModItems.HELIUM_FLAMINGO, "flightDuration", 8,
-                    "The amount of time in seconds a player can fly with the helium flamingo before needing to recharge"),
+                    "The amount of time in seconds a player can fly with the Helium Flamingo before needing to recharge"),
             HELIUM_FLAMINGO_RECHARGE_DURATION = duration(ModItems.HELIUM_FLAMINGO, "rechargeDuration", 15,
-                    "The amount of time in seconds it takes for the Helium Flamingo to fully recharge"),
+                    "The amount of time in seconds it takes for the Helium Flamingo to recharge"),
             OBSIDIAN_SKULL_FIRE_RESISTANCE_COOLDOWN = duration(ModItems.OBSIDIAN_SKULL, "fireResistanceCooldown", 60,
                     "The amount of time in seconds the Obsidian Skull goes on cooldown for after taking fire damage"),
             OBSIDIAN_SKULL_FIRE_RESISTANCE_DURATION = duration(ModItems.OBSIDIAN_SKULL, "fireResistanceDuration", 30,
-                    "The duration of the fire resistance effect in seconds " +
-                            "that is applied when taking damage while wearing the Obsidian Skull"),
+                    "The duration of the fire resistance effect that is applied when taking fire damage while wearing the Obsidian Skull"),
             ONION_RING_HASTE_DURATION_PER_FOOD_POINT = duration(ModItems.ONION_RING, "hasteDurationPerFoodPoint", 6,
-                    "The duration of haste in seconds that is applied per food point eaten while wearing the Onion Ring"),
+                    "The duration of haste that is applied per food point eaten while wearing the Onion Ring"),
             PANIC_NECKLACE_COOLDOWN = duration(ModItems.PANIC_NECKLACE, "cooldown", 0,
                     "The duration in seconds the Panic Necklace goes on cooldown for after taking damage"),
             PANIC_NECKLACE_SPEED_DURATION = duration(ModItems.PANIC_NECKLACE, "speedDuration", 8,
@@ -199,7 +201,7 @@ public class ItemConfigs {
             SNORKEL_WATER_BREATHING_DURATION = duration(ModItems.SNORKEL, "waterBreathingDuration", 15,
                     "The duration of the water breathing effect that is applied by the Snorkel"),
             THORN_PENDANT_COOLDOWN = duration(ModItems.THORN_PENDANT, "cooldown", 0,
-                    "The duration in seconds the thorn pendant goes on cooldown for after damaging an attacker");
+                    "The duration in seconds the thorn pendant goes on cooldown for after activating");
 
     public static final Value.ConfigValue<Integer>
             ANGLERS_HAT_LUCK_OF_THE_SEA_LEVEL_BONUS = enchantmentLevel(ModItems.ANGLERS_HAT, "luckOfTheSeaLevelBonus", 1,
@@ -265,6 +267,14 @@ public class ItemConfigs {
         Value.ConfigValue<T> value = new Value.ConfigValue<>(type, id, defaultValue);
         getValues(type).put(id, value);
         TOOLTIPS.put(id, List.of(tooltips));
+        if (holder.unwrapKey().isEmpty()) {
+            throw new IllegalStateException();
+        }
+        ResourceLocation item = holder.unwrapKey().get().location();
+        if (!ITEM_TO_KEYS.containsKey(item)) {
+            ITEM_TO_KEYS.put(item, new ArrayList<>());
+        }
+        ITEM_TO_KEYS.get(item).add(id);
         return value;
     }
 
@@ -286,9 +296,21 @@ public class ItemConfigs {
         return TOOLTIPS.get(key);
     }
 
-    public static void loadFromConfig(MinecraftServer server) {
+    public static void save() {
         for (ValueMap<?> map : VALUES.values()) {
-            map.loadValues(server);
+            map.saveValues();
+        }
+    }
+
+    public static void loadFromConfig() {
+        for (ValueMap<?> map : VALUES.values()) {
+            map.loadValues();
+        }
+    }
+
+    public static void loadFromConfigAndSend(MinecraftServer server) {
+        for (ValueMap<?> map : VALUES.values()) {
+            map.loadValuesAndSend(server);
         }
     }
 
@@ -305,9 +327,21 @@ public class ItemConfigs {
             return map;
         }
 
-        public void loadValues(MinecraftServer server) {
+        public void saveValues() {
             map.forEach((key, config) -> {
-                T value = config.type().read(ConfigManager.getConfigValue(key));
+                if (!ItemConfigsManager.INSTANCE.get(config.type(), key).equals(config.get())) {
+                    ItemConfigsManager.INSTANCE.set(config.type(), key, config.get());
+                }
+            });
+        }
+
+        public void loadValues() {
+            map.forEach((key, config) -> config.set(ItemConfigsManager.INSTANCE.get(config.type(), key)));
+        }
+
+        public void loadValuesAndSend(MinecraftServer server) {
+            map.forEach((key, config) -> {
+                T value = ItemConfigsManager.INSTANCE.get(config.type(), key);
                 if (!config.get().equals(value)) {
                     config.set(value);
                     NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(), new UpdateItemConfigPacket(config));

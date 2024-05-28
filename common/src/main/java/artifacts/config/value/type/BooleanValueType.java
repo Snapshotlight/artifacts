@@ -4,6 +4,9 @@ import artifacts.config.value.Value;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import io.netty.buffer.ByteBuf;
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
@@ -39,7 +42,19 @@ public class BooleanValueType extends ValueType<Boolean, Boolean> {
         return value;
     }
 
+    @Override
+    public Boolean write(Boolean value) {
+        return value;
+    }
+
     public MapCodec<Value<Boolean>> enabledField() {
         return codec().optionalFieldOf("enabled", Value.Constant.TRUE);
+    }
+
+    @Override
+    public FieldBuilder<?, ?, ?> createConfigEntry(ConfigEntryBuilder entryBuilder, Component title, Value.ConfigValue<Boolean> value) {
+        return entryBuilder.startBooleanToggle(title, value.get())
+                .setDefaultValue(value.getDefaultValue())
+                .setSaveConsumer(value::set);
     }
 }
