@@ -9,20 +9,21 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.DropdownMenuBuilder;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
-import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ArtifactsConfigScreen {
 
     private final ConfigBuilder builder;
 
-    private final Map<String, SubCategoryBuilder> subCategories = new HashMap<>();
+    private final Map<String, List<AbstractConfigListEntry<?>>> subCategories = new HashMap<>();
 
     public ArtifactsConfigScreen(Screen parent) {
         builder = ConfigBuilder.create()
@@ -44,7 +45,14 @@ public class ArtifactsConfigScreen {
 
         subCategories.keySet().stream().sorted().forEach(key -> {
             ConfigCategory category = builder.getOrCreateCategory(getTitle(key.split("\\.")[0]));
-            category.addEntry(subCategories.get(key).build());
+            AbstractConfigListEntry<?> subCategory;
+            String name = key.substring(key.lastIndexOf('.') + 1);
+            if (ResourceLocation.isValidPath(name) && BuiltInRegistries.ITEM.containsKey(Artifacts.id(name))) {
+                subCategory = new ItemSubCategoryListEntry(BuiltInRegistries.ITEM.get(Artifacts.id(name)), subCategories.get(key));
+            } else {
+                subCategory = builder.entryBuilder().startSubCategory(getTitle(key), List.copyOf(subCategories.get(key))).build();
+            }
+            category.addEntry(subCategory);
         });
 
         return builder.build();
@@ -59,17 +67,17 @@ public class ArtifactsConfigScreen {
             if (names.length == 1) {
                 configBuilder.addEntry(field);
             } else {
-                SubCategoryBuilder subCategory = getSubCategory(config.getName() + '.' +  names[0]);
+                List<AbstractConfigListEntry<?>> subCategory = getSubCategory(config.getName() + '.' +  names[0]);
                 subCategory.add(field);
             }
         });
     }
 
-    private SubCategoryBuilder getSubCategory(String key) {
+    private List<AbstractConfigListEntry<?>> getSubCategory(String key) {
         if (subCategories.containsKey(key)) {
             return subCategories.get(key);
         }
-        subCategories.put(key, builder.entryBuilder().startSubCategory(getTitle(key)));
+        subCategories.put(key, new ArrayList<>());
         return subCategories.get(key);
     }
 
