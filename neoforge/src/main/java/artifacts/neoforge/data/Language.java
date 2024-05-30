@@ -94,6 +94,8 @@ public class Language extends LanguageProvider {
         abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.ENTITY_EXPERIENCE, "Increases experience dropped by creatures");
         abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.VILLAGER_REPUTATION, "Decreases the trading prices of villagers");
         abilityTooltip(ModAbilities.DOUBLE_JUMP, "Allows the wearer to double jump");
+        abilityTooltip(ModAbilities.ENDER_PEARLS_COST_HUNGER, "free", "Ender pearls are not consumed when thrown");
+        abilityTooltip(ModAbilities.ENDER_PEARLS_COST_HUNGER, "cost", "Ender pearls are not consumed, but cost hunger instead");
         abilityTooltip(ModAbilities.GROW_PLANTS_AFTER_EATING, "Plants grow after eating when standing on grass");
         abilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "fortune", "multiple_levels", "Applies %s extra levels of fortune to mined blocks");
         abilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "fortune", "single_level", "Applies an extra level of fortune to mined blocks");
@@ -109,6 +111,7 @@ public class Language extends LanguageProvider {
         abilityTooltip(ModAbilities.MOB_EFFECT, "invisibility", "Turns the wearer invisible");
         abilityTooltip(ModAbilities.NIGHT_VISION, "full", "Allows the wearer to see in the dark");
         abilityTooltip(ModAbilities.NIGHT_VISION, "partial", "Allows the wearer to see in the dark slightly");
+        abilityTooltip(ModAbilities.NULLIFY_ENDER_PEARL_DAMAGE, "Ender Pearls deal no damage");
         abilityTooltip(ModAbilities.REMOVE_BAD_EFFECTS, "Greatly reduces the duration of negative effects");
         abilityTooltip(ModAbilities.REPLENISH_HUNGER_ON_GRASS, "Slowly replenishes hunger while walking on grass");
         abilityTooltip(ModAbilities.SCARE_CREEPERS, "Creepers avoid the wearer");

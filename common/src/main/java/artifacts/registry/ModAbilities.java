@@ -31,6 +31,7 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<AttributeModifierAbility>> ATTRIBUTE_MODIFIER = register("attribute_modifier", AttributeModifierAbility.CODEC, AttributeModifierAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<CustomTooltipAbility>> CUSTOM_TOOLTIP = register("custom_tooltip", CustomTooltipAbility.CODEC, CustomTooltipAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<DoubleJumpAbility>> DOUBLE_JUMP = register("double_jump", DoubleJumpAbility.CODEC, DoubleJumpAbility.STREAM_CODEC);
+    public static final RegistrySupplier<Type<EnderPearlsCostHungerAbility>> ENDER_PEARLS_COST_HUNGER = register("ender_pearls_cost_hunger", EnderPearlsCostHungerAbility.CODEC, EnderPearlsCostHungerAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> GROW_PLANTS_AFTER_EATING = register("grow_plants_after_eating", SimpleAbility::createType);
     public static final RegistrySupplier<Type<IncreaseEnchantmentLevelAbility>> INCREASE_ENCHANTMENT_LEVEL = register("increase_enchantment_level", IncreaseEnchantmentLevelAbility.CODEC, IncreaseEnchantmentLevelAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> LIGHTNING_IMMUNITY = register("lightning_immunity", SimpleAbility::createType);
@@ -39,6 +40,7 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<GenericMobEffectAbility>> MOB_EFFECT = register("mob_effect", GenericMobEffectAbility.CODEC, GenericMobEffectAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<HurtSoundAbility>> MODIFY_HURT_SOUND = register("modify_hurt_sound", HurtSoundAbility.CODEC, HurtSoundAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<NightVisionAbility>> NIGHT_VISION = register("night_vision", NightVisionAbility.CODEC, NightVisionAbility.STREAM_CODEC);
+    public static final RegistrySupplier<Type<SimpleAbility>> NULLIFY_ENDER_PEARL_DAMAGE = register("nullify_ender_pearl_damage", SimpleAbility::createType);
     public static final RegistrySupplier<Type<RemoveBadEffectsAbility>> REMOVE_BAD_EFFECTS = register("remove_bad_effects", RemoveBadEffectsAbility.CODEC, RemoveBadEffectsAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<ReplenishHungerOnGrassAbility>> REPLENISH_HUNGER_ON_GRASS = register("replenish_hunger_on_grass", ReplenishHungerOnGrassAbility.CODEC, ReplenishHungerOnGrassAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> SCARE_CREEPERS = register("scare_creepers", SimpleAbility::createType);

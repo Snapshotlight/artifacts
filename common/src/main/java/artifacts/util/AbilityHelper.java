@@ -107,6 +107,10 @@ public class AbilityHelper {
         return reduce(type, entity, skipItemsOnCooldown, 0, (ability, d) -> Math.max(d, f.apply(ability)));
     }
 
+    public static <A extends ArtifactAbility> int minInt(ArtifactAbility.Type<A> type, LivingEntity entity, int init, Function<A, Integer> f, boolean skipItemsOnCooldown) {
+        return reduce(type, entity, skipItemsOnCooldown, init, (ability, d) -> Math.min(d, f.apply(ability)));
+    }
+
     public static void addCooldown(ArtifactAbility.Type<?> type, LivingEntity entity, int ticks) {
         if (ticks > 0 && !entity.level().isClientSide() && entity instanceof Player player) {
             PlatformServices.platformHelper.findAllEquippedBy(entity, stack -> hasAbility(type, stack))
