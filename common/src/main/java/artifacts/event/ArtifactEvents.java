@@ -6,6 +6,7 @@ import artifacts.ability.ArtifactAbility;
 import artifacts.ability.AttractItemsAbility;
 import artifacts.ability.SwimInAirAbility;
 import artifacts.ability.mobeffect.ApplyMobEffectAfterDamageAbility;
+import artifacts.ability.mobeffect.AttacksInflictMobEffectAbility;
 import artifacts.ability.retaliation.RetaliationAbility;
 import artifacts.attribute.DynamicAttributeModifier;
 import artifacts.item.UmbrellaItem;
@@ -55,6 +56,7 @@ public class ArtifactEvents {
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onAttackBurningLivingHurt);
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onPendantLivingHurt);
         EntityEvent.LIVING_HURT.register(ArtifactEvents::onLightningHurt);
+        EntityEvent.LIVING_HURT.register(AttacksInflictMobEffectAbility::onLivingHurt);
         EntityEvent.ADD.register(ArtifactEvents::onEntityJoinWorld);
         TickEvent.PLAYER_PRE.register(SwimInAirAbility::onHeliumFlamingoTick);
     }

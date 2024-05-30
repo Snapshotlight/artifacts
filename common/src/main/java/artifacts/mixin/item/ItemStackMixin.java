@@ -102,6 +102,7 @@ public class ItemStackMixin {
         }
         addWhenHurtTooltips(consumer, self);
         addPerFoodPointEatenTooltip(consumer, self);
+        addAttacksInflictTooltip(consumer, self);
     }
 
     @Unique
@@ -190,6 +191,20 @@ public class ItemStackMixin {
             AbilityHelper.getAbilities(ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING.get(), stack).forEach(ability ->
                     addMobEffectTooltip(tooltip, ability.mobEffect().value(), ability.durationPerFoodPoint().get(), ability.level().get(), false)
             );
+        }
+    }
+
+    @Unique
+    private static void addAttacksInflictTooltip(Consumer<Component> tooltip, ItemStack stack) {
+        if (AbilityHelper.hasAbility(ModAbilities.ATTACKS_INFLICT_MOB_EFFECT.get(), stack)) {
+            tooltip.accept(CommonComponents.EMPTY);
+            tooltip.accept(Component.translatable("artifacts.tooltip.attacks_inflict").withStyle(ChatFormatting.GRAY));
+            AbilityHelper.getAbilities(ModAbilities.ATTACKS_INFLICT_MOB_EFFECT.get(), stack).forEach(ability -> {
+                addMobEffectTooltip(tooltip, ability.mobEffect().value(), ability.duration().get(), ability.level().get(), false);
+                if (ability.cooldown().get() > 0) {
+                    tooltip.accept(Component.translatable("artifacts.tooltip.cooldown", formatDurationSeconds(ability.cooldown().get())).withStyle(ChatFormatting.GOLD));
+                }
+            });
         }
     }
 

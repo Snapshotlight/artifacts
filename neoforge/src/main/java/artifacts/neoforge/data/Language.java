@@ -68,6 +68,7 @@ public class Language extends LanguageProvider {
         abilityTooltip(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE, MobEffects.FIRE_RESISTANCE, "Applies a temporary fire resistance effect after taking fire damage");
         abilityTooltip(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE, MobEffects.MOVEMENT_SPEED, "Increases the wearer's movement speed after taking damage");
         abilityTooltip(ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING, MobEffects.DIG_SPEED, "Grants a temporary boost to mining speed after eating food");
+        abilityTooltip(ModAbilities.ATTACKS_INFLICT_MOB_EFFECT, MobEffects.WITHER, "Causes the wearer's melee attacks to inflict a wither effect");
         abilityTooltip(ModAbilities.ATTRACT_ITEMS, "Attracts nearby items");
         abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.ATTACK_BURNING_DURATION, "Causes the wearer's melee attacks to deal fire damage");
         abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.ATTACK_DAMAGE, "Increases damage dealt by the wearer");
@@ -197,6 +198,7 @@ public class Language extends LanguageProvider {
     }
 
     private void tooltips() {
+        tooltip("attacks_inflict", "Attacks inflict:");
         tooltip("cooldown", "+Cooldown (%s)");
         tooltip("cosmetic", "Cosmetic");
         tooltip("cosmetics_disabled", "Cosmetics disabled (right-click to toggle)");
