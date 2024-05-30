@@ -94,8 +94,8 @@ public class Language extends LanguageProvider {
         abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.ENTITY_EXPERIENCE, "Increases experience dropped by creatures");
         abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.VILLAGER_REPUTATION, "Decreases the trading prices of villagers");
         abilityTooltip(ModAbilities.DOUBLE_JUMP, "Allows the wearer to double jump");
-        abilityTooltip(ModAbilities.ENDER_PEARLS_COST_HUNGER, "free", "Ender pearls are not consumed when thrown");
-        abilityTooltip(ModAbilities.ENDER_PEARLS_COST_HUNGER, "cost", "Ender pearls are not consumed, but cost hunger instead");
+        abilityTooltip(ModAbilities.ENDER_PEARLS_COST_HUNGER, "free", "Ender Pearls are not consumed when thrown");
+        abilityTooltip(ModAbilities.ENDER_PEARLS_COST_HUNGER, "cost", "Ender Pearls are not consumed, but cost hunger instead");
         abilityTooltip(ModAbilities.GROW_PLANTS_AFTER_EATING, "Plants grow after eating when standing on grass");
         abilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "fortune", "multiple_levels", "Applies %s extra levels of fortune to mined blocks");
         abilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "fortune", "single_level", "Applies an extra level of fortune to mined blocks");

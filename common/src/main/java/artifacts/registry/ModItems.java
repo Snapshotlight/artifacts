@@ -194,6 +194,17 @@ public class ModItems {
                     Artifacts.CONFIG.items.chorusTotemConsumeOnUse
             ))
     );
+    public static final RegistrySupplier<WearableArtifactItem> WARP_DRIVE = wearableItem("warp_drive", builder -> builder
+            .addAbility(new EnderPearlsCostHungerAbility(
+                    Artifacts.CONFIG.items.warpDriveEnabled,
+                    Artifacts.CONFIG.items.warpDriveHungerCost,
+                    Artifacts.CONFIG.items.warpDriveCooldown
+            ))
+            .addAbility(new SimpleAbility(
+                    ModAbilities.NULLIFY_ENDER_PEARL_DAMAGE,
+                    Artifacts.CONFIG.items.warpDriveNullifyEnderPearlDamage
+            ))
+    );
 
     // hands
     public static final RegistrySupplier<WearableArtifactItem> DIGGING_CLAWS = wearableItem("digging_claws", builder -> builder

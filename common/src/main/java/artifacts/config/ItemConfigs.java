@@ -16,7 +16,7 @@ public class ItemConfigs extends ConfigManager {
 
     public final Value.ConfigValue<Boolean>
             antidoteVesselEnabled = defineBool(createKey(ModItems.ANTIDOTE_VESSEL, "enabled"),
-            "Whether the Antidote Vessel reduces the duration of negative effects"),
+                    "Whether the Antidote Vessel reduces the duration of negative effects"),
             aquaDashersEnabled = defineBool(createKey(ModItems.AQUA_DASHERS, "enabled"),
                     "Whether the Aqua-Dashers allow the wearer to sprint on water"),
             charmOfSinkingEnabled = defineBool(createKey(ModItems.CHARM_OF_SINKING, "enabled"),
@@ -37,9 +37,11 @@ public class ItemConfigs extends ConfigManager {
                     "Whether the Scarf of Invisibility makes players invisible"),
             universalAttractorEnabled = defineBool(createKey(ModItems.UNIVERSAL_ATTRACTOR, "enabled"),
                     "Whether the Universal Attractor attracts nearby items"),
+            warpDriveEnabled = defineBool(createKey(ModItems.WARP_DRIVE, "enabled"),
+                    "Whether the Warp Drive causes ender pearls to not be consumed"),
 
             chorusTotemConsumeOnUse = defineBool(createKey(ModItems.CHORUS_TOTEM, "consumeOnUse"),
-            "Whether the Chorus Totem is consumed after activating"),
+                    "Whether the Chorus Totem is consumed after activating"),
             flamePendantGrantFireResistance = defineBool(createKey(ModItems.FLAME_PENDANT, "grantFireResistance"),
                     "Whether the Flame Pendant grants Fire Resistance after igniting an entity"),
             rootedBootsGrowPlantsAfterEating = defineBool(createKey(ModItems.ROOTED_BOOTS, "growPlantsAfterEating"),
@@ -53,7 +55,9 @@ public class ItemConfigs extends ConfigManager {
             umbrellaIsShield = defineBool(createKey(ModItems.UMBRELLA, "isShield"),
                     "Whether the Umbrella can be used as a shield"),
             umbrellaIsGlider = defineBool(createKey(ModItems.UMBRELLA, "isGlider"),
-                    "Whether the Umbrella slows the player's falling speed when held");
+                    "Whether the Umbrella slows the player's falling speed when held"),
+            warpDriveNullifyEnderPearlDamage = defineBool(createKey(ModItems.WARP_DRIVE, "nullifyEnderPearlDamage"),
+                    "Whether the Warp Drive causes Ender Pearls not to deal any damage");
 
     public final Value.ConfigValue<Double>
             cloudInABottleSprintJumpVerticalVelocity = defineNonNegativeDouble(createKey(ModItems.CLOUD_IN_A_BOTTLE, "sprintJumpVerticalVelocity"), 0.25,
@@ -61,7 +65,7 @@ public class ItemConfigs extends ConfigManager {
                     "that double jump while sprinting using the Cloud in a Bottle"),
             cloudInABottleSprintJumpHorizontalVelocity = defineNonNegativeDouble(createKey(ModItems.CLOUD_IN_A_BOTTLE, "sprintJumpHorizontalVelocity"), 0.25,
                     "The amount of extra horizontal velocity that is applied to players " +
-                            "that double jump while sprinting using the Cloud in a Bottle");
+                    "that double jump while sprinting using the Cloud in a Bottle");
 
     public final Value.ConfigValue<Double>
             bunnyHoppersFallDamageMultiplier = defineAttributeModifier(createKey(ModItems.BUNNY_HOPPERS, "fallDamageMultiplier"), 0,
@@ -82,7 +86,7 @@ public class ItemConfigs extends ConfigManager {
                     "How much the Cowboy Hat increases the speed of ridden mounts"),
             crossNecklaceBonusInvincibilityTicks = defineAttributeModifier(createKey(ModItems.CROSS_NECKLACE, "bonusInvincibilityTicks"), 20,
                     "The amount of extra ticks the player stays invincible for " +
-                            "after taking damage while wearing the Cross Necklace"),
+                    "after taking damage while wearing the Cross Necklace"),
             crystalHeartHealthBonus = defineAttributeModifier(createKey(ModItems.CRYSTAL_HEART, "healthBonus"), 10,
                     "The amount of extra health points that are granted by the crystal heart"),
             diggingClawsBlockBreakSpeedBonus = defineAttributeModifier(createKey(ModItems.DIGGING_CLAWS, "blockBreakSpeedBonus"), 0.30,
@@ -95,7 +99,7 @@ public class ItemConfigs extends ConfigManager {
                     "How much the Flippers increase the wearer's swim speed"),
             goldenHookEntityExperienceBonus = defineAttributeModifier(createKey(ModItems.GOLDEN_HOOK, "entityExperienceBonus"), 0.50,
                     "The amount of extra experience dropped by entities " +
-                            "that are killed by players wearing the Golden Hook"),
+                    "that are killed by players wearing the Golden Hook"),
             noveltyDrinkingHatDrinkingSpeedBonus = defineAttributeModifier(createKey(ModItems.NOVELTY_DRINKING_HAT, "drinkingSpeedBonus"), 1.50,
                     "How much the Novelty Drinking Hat increases the wearer's drinking speed"),
             noveltyDrinkingHatEatingSpeedBonus = defineAttributeModifier(createKey(ModItems.NOVELTY_DRINKING_HAT, "eatingSpeedBonus"), 0.50,
@@ -120,13 +124,13 @@ public class ItemConfigs extends ConfigManager {
                     "How much the Steadfast Spikes reduce the slipperiness of ice"),
             vampiricGloveMaxHealingPerHit = defineAttributeModifier(createKey(ModItems.VAMPIRIC_GLOVE, "maxHealingPerHit"), 6,
                     "The maximum amount of healing that can be absorbed in a single hit " +
-                            "when attacking an entity while wearing the Vampiric Glove"),
+                    "when attacking an entity while wearing the Vampiric Glove"),
             villagerHatReputationBonus = defineAttributeModifier(createKey(ModItems.VILLAGER_HAT, "reputationBonus"), 0.75,
                     "The amount of extra reputation that is granted by the villager hat when trading with villagers");
 
     public final Value.ConfigValue<Double>
             whoopeeCushionFartChance = defineFraction(createKey(ModItems.WHOOPEE_CUSHION, "fartChance"), 0.12,
-            "The probability that a fart sound plays when sneaking " +
+                    "The probability that a fart sound plays when sneaking " +
                     "or double jumping while wearing the Whoopee Cushion"),
             chorusTotemTeleportationChance = defineFraction(createKey(ModItems.CHORUS_TOTEM, "teleportationChance"), 1.00,
                     "The probability that the Chorus Totem activates when a player dies"),
@@ -143,15 +147,17 @@ public class ItemConfigs extends ConfigManager {
 
     public final Value.ConfigValue<Integer>
             chorusTotemHealthRestored = defineNonNegativeInt(createKey(ModItems.CHORUS_TOTEM, "healthRestored"), 10,
-            "The amount of health points that are restored after the Chorus Totem activates"),
+                    "The amount of health points that are restored after the Chorus Totem activates"),
             thornPendantMaxDamage = defineNonNegativeInt(createKey(ModItems.THORN_PENDANT, "maxDamage"), 6,
                     "The minimum amount of damage that is dealt when the Thorn Pendant activates"),
             thornPendantMinDamage = defineNonNegativeInt(createKey(ModItems.THORN_PENDANT, "minDamage"), 2,
-                    "The maximum amount of damage that is dealt when the Thorn Pendant activates");
+                    "The maximum amount of damage that is dealt when the Thorn Pendant activates"),
+            warpDriveHungerCost = defineNonNegativeInt(createKey(ModItems.WARP_DRIVE, "hungerCost"), 4,
+                    "How many hunger points it costs to throw an Ender Pearl using the Warp Drive");
 
     public final Value.ConfigValue<Integer>
             antidoteVesselMaxEffectDuration = defineDuration(createKey(ModItems.ANTIDOTE_VESSEL, "maxEffectDuration"), 5,
-            "The maximum duration in seconds negative mob effects can last when wearing the antidote vessel"),
+                    "The maximum duration in seconds negative mob effects can last when wearing the antidote vessel"),
             chorusTotemCooldown = defineDuration(createKey(ModItems.CHORUS_TOTEM, "cooldown"), 0,
                     "The duration in seconds the Chorus Totem goes on cooldown for after activating"),
             crossNecklaceCooldown = defineDuration(createKey(ModItems.CROSS_NECKLACE, "cooldown"), 0,
@@ -186,11 +192,13 @@ public class ItemConfigs extends ConfigManager {
             snorkelWaterBreathingDuration = defineDuration(createKey(ModItems.SNORKEL, "waterBreathingDuration"), 15,
                     "The duration of the water breathing effect that is applied by the Snorkel"),
             thornPendantCooldown = defineDuration(createKey(ModItems.THORN_PENDANT, "cooldown"), 0,
-                    "The duration in seconds the thorn pendant goes on cooldown for after activating");
+                    "The duration in seconds the thorn pendant goes on cooldown for after activating"),
+            warpDriveCooldown = defineDuration(createKey(ModItems.WARP_DRIVE, "cooldown"), 0,
+                    "The duration Ender Pearls go on cooldown for after being thrown using the Warp Drive");
 
     public final Value.ConfigValue<Integer>
             anglersHatLuckOfTheSeaLevelBonus = defineEnchantmentLevel(createKey(ModItems.ANGLERS_HAT, "luckOfTheSeaLevelBonus"), 1,
-            "The amount of extra levels of luck of the sea that are granted by the Angler's Hat"),
+                    "The amount of extra levels of luck of the sea that are granted by the Angler's Hat"),
             anglersHatLureLevelBonus = defineEnchantmentLevel(createKey(ModItems.ANGLERS_HAT, "lureLevelBonus"), 1,
                     "The amount of extra levels of lure that are granted by the Angler's Hat"),
             luckScarfFortuneBonus = defineEnchantmentLevel(createKey(ModItems.LUCKY_SCARF, "fortuneLevelBonus"), 1,
@@ -200,13 +208,13 @@ public class ItemConfigs extends ConfigManager {
 
     public final Value.ConfigValue<Integer>
             onionRingHasteLevel = defineMobEffectLevel(createKey(ModItems.ONION_RING, "hasteLevel"), 2,
-            "The level of the haste effect that is applied by the Onion Ring"),
+                    "The level of the haste effect that is applied by the Onion Ring"),
             panicNecklaceSpeedLevel = defineMobEffectLevel(createKey(ModItems.PANIC_NECKLACE, "speedLevel"), 1,
                     "The level of the speed effect that is applied by the Panic Necklace");
 
     public final Value.ConfigValue<UpgradeToolTierAbility.Tier>
             diggingClawsToolTier = defineEnum(createKey(ModItems.DIGGING_CLAWS, "toolTier"), ValueTypes.TOOL_TIER, UpgradeToolTierAbility.Tier.STONE,
-            "The tool tier that the digging claws increase the wearer's mining level to");
+                    "The tool tier that the digging claws increase the wearer's mining level to");
 
     protected ItemConfigs() {
         super("items");
