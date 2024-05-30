@@ -21,6 +21,10 @@
           "name": "artifacts:umbrella"
         },
         {
+          "type": "minecraft:item",
+          "name": "artifacts:warp_drive"
+        },
+        {
           "type": "minecraft:loot_table",
           "value": "artifacts:items/drinking_hat"
         }

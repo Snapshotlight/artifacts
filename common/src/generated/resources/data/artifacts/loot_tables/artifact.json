@@ -25,6 +25,11 @@
         },
         {
           "type": "minecraft:item",
+          "name": "artifacts:charm_of_shrinking",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
           "name": "artifacts:charm_of_sinking",
           "weight": 8
         },
@@ -186,6 +191,11 @@
         {
           "type": "minecraft:item",
           "name": "artifacts:villager_hat",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
+          "name": "artifacts:warp_drive",
           "weight": 8
         },
         {

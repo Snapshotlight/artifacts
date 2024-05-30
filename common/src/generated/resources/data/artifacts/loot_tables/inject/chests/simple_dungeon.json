@@ -6,21 +6,13 @@
       "conditions": [
         {
           "condition": "artifacts:artifact_rarity_adjusted_chance",
-          "default_probability": 0.2
+          "default_probability": 0.15
         }
       ],
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "artifacts:cross_necklace"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "artifacts:antidote_vessel"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "artifacts:charm_of_sinking"
+          "name": "artifacts:charm_of_shrinking"
         },
         {
           "type": "minecraft:item",
@@ -30,5 +22,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "artifacts:inject/chests/village/village_temple"
+  "random_sequence": "artifacts:inject/chests/simple_dungeon"
 }

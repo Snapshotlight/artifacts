@@ -37,6 +37,10 @@
         {
           "type": "minecraft:item",
           "name": "artifacts:helium_flamingo"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "artifacts:warp_drive"
         }
       ],
       "rolls": 1.0

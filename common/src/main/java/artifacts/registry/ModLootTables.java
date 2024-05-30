@@ -45,7 +45,8 @@ public class ModLootTables {
             BuiltInLootTables.WOODLAND_MANSION,
             BuiltInLootTables.IGLOO_CHEST,
             BuiltInLootTables.ANCIENT_CITY_ICE_BOX,
-            BuiltInLootTables.ANCIENT_CITY
+            BuiltInLootTables.ANCIENT_CITY,
+            BuiltInLootTables.SIMPLE_DUNGEON
     );
 
     public static final List<ResourceKey<LootTable>> ARCHAEOLOGY_LOOT_TABLES = List.of(
