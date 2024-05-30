@@ -6,6 +6,7 @@ import artifacts.loot.ConfigValueChance;
 import artifacts.neoforge.loot.RollLootTableModifier;
 import artifacts.neoforge.loot.SmeltOresWithPickaxeHeaterModifier;
 import artifacts.registry.ModItems;
+import artifacts.registry.ModLootTables;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.*;
 import com.mojang.serialization.JsonOps;
@@ -282,6 +283,9 @@ public class LootModifiers implements DataProvider {
     }
 
     protected Builder builder(ResourceLocation lootTable, float baseChance) {
+        if (!ModLootTables.INJECTED_LOOT_TABLES.contains(lootTable)) {
+            throw new IllegalArgumentException("Missing injected loot table: %s".formatted(lootTable));
+        }
         Builder builder = new Builder(lootTable);
         builder.lootPoolCondition(ArtifactRarityAdjustedChance.adjustedChance(baseChance));
         builder.lootModifierCondition(LootTableIdCondition.builder(lootTable));
@@ -290,6 +294,9 @@ public class LootModifiers implements DataProvider {
     }
 
     protected Builder archaeologyBuilder(ResourceLocation lootTable) {
+        if (!ModLootTables.ARCHAEOLOGY_LOOT_TABLES.contains(lootTable)) {
+            throw new IllegalArgumentException("Missing archaeology loot table: %s".formatted(lootTable));
+        }
         Builder builder = new Builder(lootTable).replace();
         builder.lootModifierCondition(LootTableIdCondition.builder(lootTable));
         builder.lootModifierCondition(ConfigValueChance.archaeologyChance());
