@@ -104,8 +104,9 @@ public class BeltModel extends HumanoidModel<LivingEntity> {
     }
 
     public static BeltModel createWarpDriveModel() {
-        return new BeltModel(RendererUtil.bakeLayer(ArtifactLayers.WARP_DRIVE), 4, -3, -0.3F);
+        return new BeltModel(RendererUtil.bakeLayer(ArtifactLayers.WARP_DRIVE), 3.5F, -3, -0.3F);
     }
+
     private static MeshDefinition createBelt(CubeListBuilder charm) {
         CubeDeformation deformation = new CubeDeformation(0.5F);
         MeshDefinition mesh = createMesh(CubeDeformation.NONE, 0);
@@ -248,17 +249,17 @@ public class BeltModel extends HumanoidModel<LivingEntity> {
         CubeListBuilder charm = CubeListBuilder.create();
 
         charm.texOffs(0, 16);
-        charm.addBox(-3, 0, -2, 5, 4, 4);
+        charm.addBox(-2.5F, 0, -2, 5, 4, 4);
         charm.texOffs(0, 24);
-        charm.addBox(-4, 1, -1, 1, 2, 2);
+        charm.addBox(-3, 1, -1, 1, 2, 2);
         charm.texOffs(6, 24);
         charm.addBox(2, 1, -1, 1, 2, 2);
 
         // flash
         charm.texOffs(0, 28);
-        charm.addBox(-3, 1, 0, 5, 2, 0);
+        charm.addBox(-2.5F, 1, 0, 5, 2, 0);
         charm.texOffs(0, 30);
-        charm.addBox(-3, 2, -1, 5, 0, 2);
+        charm.addBox(-2.5F, 2, -1, 5, 0, 2);
 
         return createBelt(charm);
     }
