@@ -33,7 +33,6 @@ public class Language extends LanguageProvider {
 
         misc();
         abilities();
-        advancements();
         attributes();
         entities();
         add(configTitle(), "Artifacts Config");
@@ -42,6 +41,7 @@ public class Language extends LanguageProvider {
         }
         items();
         tooltips();
+        Advancements.TRANSLATIONS.forEach(this::add);
     }
 
     @Override
@@ -116,28 +116,22 @@ public class Language extends LanguageProvider {
         abilityTooltip(ModAbilities.REPLENISH_HUNGER_ON_GRASS, "Slowly replenishes hunger while walking on grass");
         abilityTooltip(ModAbilities.SCARE_CREEPERS, "Creepers avoid the wearer");
         abilityTooltip(ModAbilities.SET_ATTACKERS_ON_FIRE, "fire_resistance", "Grants fire resistance after lighting an attacker on fire");
-        abilityTooltip(ModAbilities.SET_ATTACKERS_ON_FIRE, "strike_chance", "Has a chance to light attackers on fire");
+        abilityTooltip(ModAbilities.SET_ATTACKERS_ON_FIRE, "chance", "Has a chance to light attackers on fire");
+        abilityTooltip(ModAbilities.SET_ATTACKERS_ON_FIRE, "constant", "Attacking entities are lit on fire");
         abilityTooltip(ModAbilities.SINKING, "Allows the wearer to move freely in water");
         abilityTooltip(ModAbilities.SMELT_ORES, "Automatically smelts mined ores");
         abilityTooltip(ModAbilities.SPRINT_ON_FLUIDS, "Allows the wearer to walk on fluids while sprinting");
-        abilityTooltip(ModAbilities.STRIKE_ATTACKERS_WITH_LIGHTNING, "Has a chance to strike attackers with lightning");
+        abilityTooltip(ModAbilities.STRIKE_ATTACKERS_WITH_LIGHTNING, "chance", "Has a chance to strike attackers with lightning");
+        abilityTooltip(ModAbilities.STRIKE_ATTACKERS_WITH_LIGHTNING, "constant", "Attacking entities are struck by lightning");
         abilityTooltip(ModAbilities.SWIM_IN_AIR, "keymapping", "Press %s while in the air to start swimming");
         abilityTooltip(ModAbilities.SWIM_IN_AIR, "swimming", "Allows the wearer to swim in the air for a limited period of time");
         abilityTooltip(ModAbilities.TELEPORT_ON_DEATH, "chance", "A fatal hit has a chance to teleport you somewhere else instead");
         abilityTooltip(ModAbilities.TELEPORT_ON_DEATH, "constant", "A fatal hit teleports you somewhere else instead");
         abilityTooltip(ModAbilities.TELEPORT_ON_DEATH, "not_consumed", "Not consumed on use");
-        abilityTooltip(ModAbilities.THORNS, "Has a chance to damage attackers");
+        abilityTooltip(ModAbilities.THORNS, "chance", "Has a chance to damage attackers");
+        abilityTooltip(ModAbilities.THORNS, "constant", "Attacking entities are damaged as well");
         abilityTooltip(ModAbilities.UPGRADE_TOOL_TIER, "Increases the wearer's base mining level to %s");
         abilityTooltip(ModAbilities.WALK_ON_POWDER_SNOW, "Allows the wearer to walk on Powder Snow");
-    }
-
-    private void advancements() {
-        add("artifacts.advancements.adventurous_eater.description", "Eat an Artifact");
-        add("artifacts.advancements.adventurous_eater.title", "Adventurous Eater");
-        add("artifacts.advancements.amateur_archaeologist.description", "Find an Artifact");
-        add("artifacts.advancements.amateur_archaeologist.title", "Amateur Archaeologist");
-        add("artifacts.advancements.chest_slayer.description", "Kill a Mimic");
-        add("artifacts.advancements.chest_slayer.title", "Chest Slayer");
     }
 
     private void attributes() {

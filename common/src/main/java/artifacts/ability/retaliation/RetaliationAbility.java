@@ -7,11 +7,14 @@ import artifacts.util.AbilityHelper;
 import artifacts.util.DamageSourceHelper;
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 public abstract class RetaliationAbility implements ArtifactAbility {
 
@@ -56,5 +59,14 @@ public abstract class RetaliationAbility implements ArtifactAbility {
     @Override
     public boolean isNonCosmetic() {
         return !Mth.equal(strikeChance().get(), 0);
+    }
+
+    @Override
+    public void addAbilityTooltip(List<MutableComponent> tooltip) {
+        if (Mth.equal(strikeChance().get(), 1)) {
+            tooltip.add(tooltipLine("constant"));
+        } else {
+            tooltip.add(tooltipLine("chance"));
+        }
     }
 }

@@ -74,7 +74,7 @@ public class SetAttackersOnFireAbility extends RetaliationAbility {
 
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        tooltip.add(tooltipLine("strike_chance"));
+        super.addAbilityTooltip(tooltip);
         if (grantsFireResistance().get()) {
             tooltip.add(tooltipLine("fire_resistance"));
         }

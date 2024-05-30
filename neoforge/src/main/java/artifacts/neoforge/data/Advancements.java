@@ -17,12 +17,16 @@ import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class Advancements extends AdvancementProvider {
+
+    public static Map<String, String> TRANSLATIONS = new HashMap<>();
 
     public Advancements(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper existingFileHelper) {
         super(output, registries, existingFileHelper, List.of(Advancements::generate));
@@ -31,32 +35,34 @@ public class Advancements extends AdvancementProvider {
     private static void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
         ResourceLocation amateurArcheologist = Artifacts.id("amateur_archaeologist");
         //noinspection removal
-        AdvancementHolder parent = advancement(amateurArcheologist, ModItems.FLAME_PENDANT.get())
+        AdvancementHolder parent = advancement(amateurArcheologist, ModItems.FLAME_PENDANT.get(), "Amateur Archaeologist", "Find an Artifact")
                 .parent(new ResourceLocation("adventure/root"))
                 .addCriterion("find_artifact", InventoryChangeTrigger.TriggerInstance.hasItems(
                         ItemPredicate.Builder.item().of(ItemTags.ARTIFACTS).build()
                 )).save(saver, amateurArcheologist, existingFileHelper);
 
         ResourceLocation chestSlayer = Artifacts.id("chest_slayer");
-        advancement(chestSlayer, ModItems.MIMIC_SPAWN_EGG.get())
+        advancement(chestSlayer, ModItems.MIMIC_SPAWN_EGG.get(), "Chest Slayer", "Kill a Mimic")
                 .parent(parent)
                 .addCriterion("kill_mimic", KilledTrigger.TriggerInstance.playerKilledEntity(
                         EntityPredicate.Builder.entity().of(ModEntityTypes.MIMIC.get())
                 )).save(saver, chestSlayer, existingFileHelper);
 
         ResourceLocation adventurousEater = Artifacts.id("adventurous_eater");
-        advancement(adventurousEater, ModItems.ONION_RING.get(), true)
+        advancement(adventurousEater, ModItems.ONION_RING.get(), "Adventurous Eater", "Eat an Artifact", true)
                 .parent(parent)
                 .addCriterion("eat_artifact", ConsumeItemTrigger.TriggerInstance.usedItem(
                         ItemPredicate.Builder.item().of(ModItems.ONION_RING.get())
                 )).save(saver, adventurousEater, existingFileHelper);
     }
 
-    private static Advancement.Builder advancement(ResourceLocation id, ItemLike icon) {
-        return advancement(id, icon, false);
+    private static Advancement.Builder advancement(ResourceLocation id, ItemLike icon, String title, String description) {
+        return advancement(id, icon, title, description, false);
     }
 
-    private static Advancement.Builder advancement(ResourceLocation id, ItemLike icon, boolean hidden) {
+    private static Advancement.Builder advancement(ResourceLocation id, ItemLike icon, String title, String description, boolean hidden) {
+        TRANSLATIONS.put("%s.advancements.%s.title".formatted(id.getNamespace(), id.getPath()), title);
+        TRANSLATIONS.put("%s.advancements.%s.description".formatted(id.getNamespace(), id.getPath()), description);
         return Advancement.Builder.advancement().display(display(id.getPath(), icon, hidden));
     }
 
