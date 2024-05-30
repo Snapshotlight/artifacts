@@ -9,9 +9,10 @@ import artifacts.ability.retaliation.ThornsAbility;
 import com.mojang.serialization.MapCodec;
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrarManager;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Supplier;
 
@@ -19,10 +20,14 @@ import static artifacts.ability.ArtifactAbility.Type;
 
 public class ModAbilities {
 
-    private static final ResourceLocation REGISTRY_ID = Artifacts.id("ability_types");
-    public static final Registrar<Type<?>> REGISTRY = RegistrarManager.get(Artifacts.MOD_ID).<Type<?>>builder(REGISTRY_ID)
+    public static final Registrar<Type<?>> REGISTRY = RegistrarManager.get(Artifacts.MOD_ID).<Type<?>>builder(Artifacts.id("ability_types"))
             .syncToClients()
             .build();
+
+    public static Registry<Type<?>> getRegistry() {
+        // noinspection unchecked
+        return (Registry<Type<?>>) BuiltInRegistries.REGISTRY.get(REGISTRY.key().location());
+    }
 
     public static final RegistrySupplier<Type<ApplyCooldownAfterDamageAbility>> APPLY_COOLDOWN_AFTER_DAMAGE = register("apply_cooldown_after_damage", ApplyCooldownAfterDamageAbility.CODEC, ApplyCooldownAfterDamageAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<ApplyMobEffectAfterDamageAbility>> APPLY_MOB_EFFECT_AFTER_DAMAGE = register("apply_mob_effect_after_damage", ApplyMobEffectAfterDamageAbility.CODEC, ApplyMobEffectAfterDamageAbility.STREAM_CODEC);

@@ -5,8 +5,8 @@ import artifacts.ArtifactsClient;
 import artifacts.client.ToggleKeyHandler;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
+import artifacts.util.ModCodecs;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -20,27 +20,16 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
-import java.util.function.Function;
 
 public interface ArtifactAbility {
 
-    @SuppressWarnings("ConstantConditions")
-    Codec<ArtifactAbility> CODEC = ResourceLocation.CODEC
-            .comapFlatMap(id -> ModAbilities.REGISTRY.contains(id)
-                    ? DataResult.success(id)
-                    : DataResult.error(() -> "Unknown ability type '%s'".formatted(id)),
-                    Function.identity()
-            ).dispatch("type",
-                    ability -> ModAbilities.REGISTRY.getId(ability.getType()),
-                    id -> ModAbilities.REGISTRY.get(id).codec()
-            );
+    Codec<ArtifactAbility> CODEC = ModCodecs.lazyCodec(() ->
+            ModAbilities.getRegistry().byNameCodec().dispatch("type", ArtifactAbility::getType, Type::codec)
+    );
 
-    @SuppressWarnings("ConstantConditions")
-    StreamCodec<RegistryFriendlyByteBuf, ArtifactAbility> STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(ResourceLocation.CODEC)
-            .dispatch(
-                    ability -> ModAbilities.REGISTRY.getId(ability.getType()),
-                    id -> ModAbilities.REGISTRY.get(id).streamCodec()
-            );
+    StreamCodec<RegistryFriendlyByteBuf, ArtifactAbility> STREAM_CODEC = ModCodecs.lazyStreamCodec(() ->
+            ByteBufCodecs.registry(ModAbilities.REGISTRY.key()).dispatch(ArtifactAbility::getType, Type::streamCodec)
+    );
 
     Type<?> getType();
 

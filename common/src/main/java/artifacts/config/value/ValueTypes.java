@@ -15,7 +15,7 @@ public class ValueTypes {
     public static final NumberValueType<Integer> NON_NEGATIVE_INT = new IntegerValueType(0, Integer.MAX_VALUE, Codec.INT, ByteBufCodecs.INT);
     public static final NumberValueType<Integer> DURATION = new IntegerValueType(0, 60 * 60 * 20, Codec.INT, ByteBufCodecs.INT);
     public static final NumberValueType<Integer> ENCHANTMENT_LEVEL = new IntegerValueType(0, 100, Codec.INT, ByteBufCodecs.INT);
-    public static final NumberValueType<Integer> MOB_EFFECT_LEVEL = new IntegerValueType(0, 127, Codec.INT, ByteBufCodecs.INT);
+    public static final NumberValueType<Integer> MOB_EFFECT_LEVEL = new IntegerValueType(0, 256, Codec.INT, ByteBufCodecs.INT);
     public static final EnumValueType<UpgradeToolTierAbility.Tier> TOOL_TIER = new EnumValueType<>(UpgradeToolTierAbility.Tier.class, UpgradeToolTierAbility::getTierName);
 
 }
