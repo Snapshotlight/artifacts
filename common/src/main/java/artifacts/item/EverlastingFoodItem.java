@@ -37,7 +37,7 @@ public class EverlastingFoodItem extends ArtifactItem {
         if (stack.has(DataComponents.FOOD)) {
             entity.eat(world, stack.copy());
             if (eatingCooldown.get() > 0 && !entity.level().isClientSide() && entity instanceof Player player) {
-                player.getCooldowns().addCooldown(this, eatingCooldown.get());
+                player.getCooldowns().addCooldown(this, eatingCooldown.get() * 20);
             }
         }
 
