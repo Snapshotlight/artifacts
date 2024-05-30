@@ -98,7 +98,8 @@ public class LootModifiers implements DataProvider {
         builder(BuiltInLootTables.VILLAGE_TEMPLE, 0.2F)
                 .item(ModItems.CROSS_NECKLACE.get())
                 .item(ModItems.ANTIDOTE_VESSEL.get())
-                .item(ModItems.CHARM_OF_SINKING.get());
+                .item(ModItems.CHARM_OF_SINKING.get())
+                .item(ModItems.WARP_DRIVE.get());
         builder(BuiltInLootTables.VILLAGE_TOOLSMITH, 0.15F)
                 .item(ModItems.DIGGING_CLAWS.get())
                 .item(ModItems.POCKET_PISTON.get());
@@ -132,8 +133,7 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.STEADFAST_SPIKES.get())
                 .item(ModItems.PANIC_NECKLACE.get())
                 .item(ModItems.CRYSTAL_HEART.get())
-                .item(ModItems.ANTIDOTE_VESSEL.get())
-                .item(ModItems.CHARM_OF_SHRINKING.get());
+                .item(ModItems.ANTIDOTE_VESSEL.get());
         builder(BuiltInLootTables.BURIED_TREASURE, 0.25F)
                 .item(ModItems.SNORKEL.get(), 5)
                 .item(ModItems.FLIPPERS.get(), 5)
@@ -161,6 +161,7 @@ public class LootModifiers implements DataProvider {
         builder(BuiltInLootTables.END_CITY_TREASURE, 0.3F)
                 .item(ModItems.CHORUS_TOTEM.get(), 6)
                 .item(ModItems.HELIUM_FLAMINGO.get(), 4)
+                .item(ModItems.WARP_DRIVE.get(), 2)
                 .item(ModItems.CRYSTAL_HEART.get())
                 .item(ModItems.CLOUD_IN_A_BOTTLE.get());
         builder(BuiltInLootTables.JUNGLE_TEMPLE, 0.35F)
@@ -209,6 +210,9 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.OBSIDIAN_SKULL.get())
                 .item(ModItems.RUNNING_SHOES.get())
                 .item(ModItems.CHARM_OF_SINKING.get());
+        builder(BuiltInLootTables.SIMPLE_DUNGEON, 0.15F)
+                .item(ModItems.CHARM_OF_SHRINKING.get())
+                .item(ModItems.WARP_DRIVE.get());
         builder(BuiltInLootTables.STRONGHOLD_CORRIDOR, 0.3F)
                 .item(ModItems.POWER_GLOVE.get())
                 .item(ModItems.ANTIDOTE_VESSEL.get())
@@ -244,7 +248,8 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.AQUA_DASHERS.get())
                 .item(ModItems.CHARM_OF_SINKING.get())
                 .item(ModItems.SHOCK_PENDANT.get())
-                .item(ModItems.HELIUM_FLAMINGO.get());
+                .item(ModItems.HELIUM_FLAMINGO.get())
+                .item(ModItems.WARP_DRIVE.get());
 
         archaeologyBuilder(BuiltInLootTables.DESERT_PYRAMID_ARCHAEOLOGY)
                 .item(ModItems.COWBOY_HAT.get())
@@ -259,6 +264,7 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.UNIVERSAL_ATTRACTOR.get())
                 .item(ModItems.SUPERSTITIOUS_HAT.get())
                 .item(ModItems.UMBRELLA.get())
+                .item(ModItems.WARP_DRIVE.get())
                 .drinkingHat(1);
         archaeologyBuilder(BuiltInLootTables.OCEAN_RUIN_COLD_ARCHAEOLOGY)
                 .item(ModItems.LUCKY_SCARF.get())
