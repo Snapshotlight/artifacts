@@ -40,6 +40,7 @@ public class Language extends LanguageProvider {
             config(config);
         }
         items();
+        tags();
         tooltips();
         Advancements.TRANSLATIONS.forEach(this::add);
     }
@@ -195,6 +196,23 @@ public class Language extends LanguageProvider {
         }
         add(ModItems.ANGLERS_HAT.get(), "Angler's Hat");
         add(ModItems.AQUA_DASHERS.get(), "Aqua-Dashers");
+    }
+
+    private void tags() {
+        add(ItemTags.ARTIFACTS, "Artifacts");
+        add(ItemTags.ALL, "Any Slot Equipable Artifacts");
+        add(ItemTags.BELT, "Belt Slot Equipable Artifacts");
+        add(ItemTags.FEET, "Feet Slot Equipable Artifacts");
+        add(ItemTags.HANDS, "Hands Slot Equipable Artifacts");
+        add(ItemTags.HEAD, "Head Slot Equipable Artifacts");
+        add(ItemTags.NECKLACE, "Necklace Slot Equipable Artifacts");
+
+        add(ModTags.ANTIDOTE_VESSEL_CANCELLABLE, "Antidote Vessel Cancellable");
+        add(ModTags.CAMPSITE_CHESTS, "Campsite Chests");
+        add(ModTags.CREEPERS, "Creepers");
+        add(ModTags.MINEABLE_WITH_DIGGING_CLAWS, "Mineable With Digging Claws");
+        add(ModTags.ROOTED_BOOTS_GRASS, "Rooted Boots Grass");
+        add(ModTags.SNOW_LAYERS, "Snow Layers");
     }
 
     private void tooltips() {
