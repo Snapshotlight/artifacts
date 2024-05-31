@@ -2,7 +2,7 @@ package artifacts.neoforge.data;
 
 import artifacts.Artifacts;
 import artifacts.ability.ArtifactAbility;
-import artifacts.config.AbstractConfigManager;
+import artifacts.config.ConfigManager;
 import artifacts.registry.*;
 import com.google.common.base.CaseFormat;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -36,7 +36,7 @@ public class Language extends LanguageProvider {
         attributes();
         entities();
         add(configTitle(), "Artifacts Config");
-        for (AbstractConfigManager config : Artifacts.CONFIG.configs) {
+        for (ConfigManager config : Artifacts.CONFIG.configs) {
             config(config);
         }
         items();
@@ -152,13 +152,13 @@ public class Language extends LanguageProvider {
         add(ModSoundEvents.MIMIC_OPEN.get(), "Mimic hops");
     }
 
-    private void config(AbstractConfigManager config) {
+    private void config(ConfigManager config) {
         add(configTitle(config.getName()), fromCamelCasedString(config.getName()));
         configNames(config);
         configTooltips(config);
     }
 
-    private void configNames(AbstractConfigManager config) {
+    private void configNames(ConfigManager config) {
         config.getValues().forEach((key, value) -> {
             String[] words = key.split("\\.");
             String name = words[words.length - 1];
@@ -175,9 +175,9 @@ public class Language extends LanguageProvider {
         });
     }
 
-    private void configTooltips(AbstractConfigManager config) {
+    private void configTooltips(ConfigManager config) {
         config.getValues().forEach((key, value) -> {
-            List<String> tooltips = config.getTooltips(key);
+            List<String> tooltips = config.getDescription(key);
             key = config.getName() + '.' + key;
             if (tooltips.size() == 1) {
                 add(configDescription(key), tooltips.get(0));

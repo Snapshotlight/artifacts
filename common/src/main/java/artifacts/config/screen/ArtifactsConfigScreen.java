@@ -1,7 +1,7 @@
 package artifacts.config.screen;
 
 import artifacts.Artifacts;
-import artifacts.config.AbstractConfigManager;
+import artifacts.config.ConfigManager;
 import artifacts.config.value.Value;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
@@ -30,16 +30,16 @@ public class ArtifactsConfigScreen {
                 .setParentScreen(parent)
                 .setTitle(Component.translatable("%s.config.title".formatted(Artifacts.MOD_ID)))
                 .setSavingRunnable(() -> {
-                    for (AbstractConfigManager config : Artifacts.CONFIG.configs) {
+                    for (ConfigManager config : Artifacts.CONFIG.configs) {
                         config.onConfigChanged();
                     }
                 });
     }
 
     public Screen build() {
-        Artifacts.CONFIG.configs.forEach(AbstractConfigManager::loadFromConfig);
+        Artifacts.CONFIG.configs.forEach(ConfigManager::readValuesFromConfig);
 
-        for (AbstractConfigManager config : Artifacts.CONFIG.configs) {
+        for (ConfigManager config : Artifacts.CONFIG.configs) {
             addConfigs(config);
         }
 
@@ -58,12 +58,12 @@ public class ArtifactsConfigScreen {
         return builder.build();
     }
 
-    private void addConfigs(AbstractConfigManager config) {
+    private void addConfigs(ConfigManager config) {
         ConfigCategory configBuilder = builder.getOrCreateCategory(getTitle(config.getName()));
         config.getValues().keySet().stream().sorted().forEach(key -> {
             String[] names = key.split("\\.");
             Value.ConfigValue<?> value = config.getValues().get(key);
-            var field = createField(config, config.getName(), key, value, config.getTooltips(key).size());
+            var field = createField(config, config.getName(), key, value, config.getDescription(key).size());
             if (names.length == 1) {
                 configBuilder.addEntry(field);
             } else {
@@ -81,7 +81,7 @@ public class ArtifactsConfigScreen {
         return subCategories.get(key);
     }
 
-    private AbstractConfigListEntry<?> createField(AbstractConfigManager config, String categoryName, String key, Value.ConfigValue<?> value, int tooltipCount) {
+    private AbstractConfigListEntry<?> createField(ConfigManager config, String categoryName, String key, Value.ConfigValue<?> value, int tooltipCount) {
         String[] names = key.split("\\.");
         key = categoryName + '.' + key;
         String name = names[names.length - 1];
@@ -96,8 +96,8 @@ public class ArtifactsConfigScreen {
         return configEntry.build();
     }
 
-    private <T> FieldBuilder<?, ?, ?> createConfigEntry(AbstractConfigManager config, Value.ConfigValue<T> value, Component title) {
-        return ConfigEntries.createConfigEntry(config, value, builder.entryBuilder(), title);
+    private <T> FieldBuilder<?, ?, ?> createConfigEntry(ConfigManager config, Value.ConfigValue<T> value, Component title) {
+        return value.type().getConfigEntryFactory().createConfigEntry(config, builder.entryBuilder(), title, value);
     }
 
     private static Component getTitle(String categoryKey) {

@@ -1,6 +1,7 @@
 package artifacts.config.value.type;
 
 import artifacts.Artifacts;
+import artifacts.config.screen.ConfigEntries;
 import artifacts.config.value.Value;
 import artifacts.util.ModCodecs;
 import com.mojang.serialization.Codec;
@@ -81,4 +82,6 @@ public abstract class ValueType<T, C> {
         }
         return result;
     }
+
+    public abstract ConfigEntries.ConfigEntryFactory<T> getConfigEntryFactory();
 }

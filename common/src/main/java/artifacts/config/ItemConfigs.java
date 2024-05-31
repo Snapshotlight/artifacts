@@ -226,16 +226,16 @@ public class ItemConfigs extends ConfigManager {
         super("items");
     }
 
+    private static String createKey(Holder<? extends Item> holder, String name) {
+        return holder.unwrapKey().orElseThrow().location().getPath() + '.' + name;
+    }
+
     @Override
     public void onConfigChanged() {
         if (GameInstance.getServer() != null) {
-            getValues().forEach(this::loadFromConfig);
+            readValuesFromConfig();
             sendToClients(GameInstance.getServer());
         }
-    }
-
-    private static String createKey(Holder<? extends Item> holder, String name) {
-        return holder.unwrapKey().orElseThrow().location().getPath() + '.' + name;
     }
 
     private void sendToClients(MinecraftServer server) {

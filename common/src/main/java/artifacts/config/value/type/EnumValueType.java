@@ -1,5 +1,6 @@
 package artifacts.config.value.type;
 
+import artifacts.config.screen.ConfigEntries;
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.Util;
@@ -73,5 +74,10 @@ public class EnumValueType<T extends Enum<T> & StringRepresentable> extends Valu
 
     public Component getAsComponent(T value) {
         return toText.apply(value);
+    }
+
+    @Override
+    public ConfigEntries.ConfigEntryFactory<T> getConfigEntryFactory() {
+        return ConfigEntries.enumConfigEntryFactory(this);
     }
 }

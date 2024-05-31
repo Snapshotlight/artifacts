@@ -1,5 +1,6 @@
 package artifacts.config.value.type;
 
+import artifacts.config.screen.ConfigEntries;
 import artifacts.config.value.Value;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -46,5 +47,10 @@ public class BooleanValueType extends ValueType<Boolean, Boolean> {
 
     public MapCodec<Value<Boolean>> enabledField() {
         return codec().optionalFieldOf("enabled", Value.Constant.TRUE);
+    }
+
+    @Override
+    public ConfigEntries.ConfigEntryFactory<Boolean> getConfigEntryFactory() {
+        return ConfigEntries.booleanConfigEntryFactory();
     }
 }

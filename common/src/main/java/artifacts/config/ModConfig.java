@@ -8,9 +8,9 @@ public class ModConfig {
     public GeneralConfig general = new GeneralConfig();
     public ItemConfigs items = new ItemConfigs();
 
-    public final List<AbstractConfigManager> configs = List.of(general, client, items);
+    public final List<ConfigManager> configs = List.of(general, client, items);
 
     public void setup() {
-        configs.forEach(AbstractConfigManager::setup);
+        configs.forEach(ConfigManager::setup);
     }
 }
