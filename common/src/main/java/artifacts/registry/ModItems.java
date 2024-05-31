@@ -247,6 +247,14 @@ public class ModItems {
             .equipSound(SoundEvents.ARMOR_EQUIP_IRON)
             .addAbility(new SimpleAbility(ModAbilities.SMELT_ORES, Artifacts.CONFIG.items.pickaxeHeaterEnabled))
     );
+    public static final RegistrySupplier<WearableArtifactItem> WITHERED_BRACELET = wearableItem("withered_bracelet", builder -> builder
+            .addAbility(new AttacksInflictMobEffectAbility(
+                    MobEffects.WITHER,
+                    Artifacts.CONFIG.items.witheredBraceletWitherLevel,
+                    Artifacts.CONFIG.items.witheredBraceletWitherDuration,
+                    Artifacts.CONFIG.items.witheredBraceletCooldown
+            ))
+    );
 
     // feet
     public static final RegistrySupplier<WearableArtifactItem> AQUA_DASHERS = wearableItem("aqua_dashers", builder -> builder

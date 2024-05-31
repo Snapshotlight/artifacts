@@ -199,6 +199,11 @@
           "weight": 8
         },
         {
+          "type": "minecraft:item",
+          "name": "artifacts:withered_bracelet",
+          "weight": 8
+        },
+        {
           "type": "minecraft:loot_table",
           "value": "artifacts:items/drinking_hat",
           "weight": 8

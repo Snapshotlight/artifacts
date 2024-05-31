@@ -203,6 +203,11 @@
   "artifacts.config.items.warp_drive.nullifyEnderPearlDamage.title": "Nullify Ender Pearl Damage",
   "artifacts.config.items.whoopee_cushion.fartChance.description": "The probability that a fart sound plays when sneaking or double jumping while wearing the Whoopee Cushion",
   "artifacts.config.items.whoopee_cushion.fartChance.title": "Fart Chance",
+  "artifacts.config.items.withered_bracelet.cooldown.description": "The duration the Withered Bracelet goes on cooldown for after inflicting wither on an entity",
+  "artifacts.config.items.withered_bracelet.witherDuration.description": "The duration of the wither effect applied by the Withered Bracelet",
+  "artifacts.config.items.withered_bracelet.witherDuration.title": "Wither Duration",
+  "artifacts.config.items.withered_bracelet.witherLevel.description": "The level of the wither effect that is inflicted by the Withered Bracelet",
+  "artifacts.config.items.withered_bracelet.witherLevel.title": "Wither Level",
   "artifacts.config.title": "Artifacts Config",
   "artifacts.creative_tab": "Artifacts",
   "artifacts.key.helium_flamingo.activate": "Activate Helium Flamingo",
@@ -365,6 +370,7 @@
   "item.artifacts.villager_hat": "Villager Hat",
   "item.artifacts.warp_drive": "Warp Drive",
   "item.artifacts.whoopee_cushion": "Whoopee Cushion",
+  "item.artifacts.withered_bracelet": "Withered Bracelet",
   "player.entity_experience": "Entity Experience",
   "player.villager_reputation": "Villager Reputation"
 }

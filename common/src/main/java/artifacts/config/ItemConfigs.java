@@ -194,7 +194,11 @@ public class ItemConfigs extends ConfigManager {
             thornPendantCooldown = defineDuration(createKey(ModItems.THORN_PENDANT, "cooldown"), 0,
                     "The duration in seconds the thorn pendant goes on cooldown for after activating"),
             warpDriveCooldown = defineDuration(createKey(ModItems.WARP_DRIVE, "cooldown"), 0,
-                    "The duration Ender Pearls go on cooldown for after being thrown using the Warp Drive");
+                    "The duration Ender Pearls go on cooldown for after being thrown using the Warp Drive"),
+            witheredBraceletCooldown = defineDuration(createKey(ModItems.WITHERED_BRACELET, "cooldown"), 0,
+                    "The duration the Withered Bracelet goes on cooldown for after inflicting wither on an entity"),
+            witheredBraceletWitherDuration = defineDuration(createKey(ModItems.WITHERED_BRACELET, "witherDuration"), 5,
+                    "The duration of the wither effect applied by the Withered Bracelet");
 
     public final Value.ConfigValue<Integer>
             anglersHatLuckOfTheSeaLevelBonus = defineEnchantmentLevel(createKey(ModItems.ANGLERS_HAT, "luckOfTheSeaLevelBonus"), 1,
@@ -210,7 +214,9 @@ public class ItemConfigs extends ConfigManager {
             onionRingHasteLevel = defineMobEffectLevel(createKey(ModItems.ONION_RING, "hasteLevel"), 2,
                     "The level of the haste effect that is applied by the Onion Ring"),
             panicNecklaceSpeedLevel = defineMobEffectLevel(createKey(ModItems.PANIC_NECKLACE, "speedLevel"), 1,
-                    "The level of the speed effect that is applied by the Panic Necklace");
+                    "The level of the speed effect that is applied by the Panic Necklace"),
+            witheredBraceletWitherLevel = defineMobEffectLevel(createKey(ModItems.WITHERED_BRACELET, "witherLevel"), 2,
+                    "The level of the wither effect that is inflicted by the Withered Bracelet");
 
     public final Value.ConfigValue<UpgradeToolTierAbility.Tier>
             diggingClawsToolTier = defineEnum(createKey(ModItems.DIGGING_CLAWS, "toolTier"), ValueTypes.TOOL_TIER, UpgradeToolTierAbility.Tier.STONE,

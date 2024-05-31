@@ -75,7 +75,8 @@ public class ItemTags extends ItemTagsProvider {
                 ModItems.VAMPIRIC_GLOVE.get(),
                 ModItems.GOLDEN_HOOK.get(),
                 ModItems.ONION_RING.get(),
-                ModItems.PICKAXE_HEATER.get()
+                ModItems.PICKAXE_HEATER.get(),
+                ModItems.WITHERED_BRACELET.get()
         );
         tag(BELT).add(
                 ModItems.CLOUD_IN_A_BOTTLE.get(),
