@@ -31,30 +31,26 @@ public class Language extends LanguageProvider {
     protected void addTranslations() {
         Artifacts.setupConfigs();
 
-        misc();
-        abilities();
-        attributes();
-        entities();
-        add(configTitle(), "Artifacts Config");
-        for (ConfigManager config : Artifacts.CONFIG.configs) {
-            config(config);
-        }
-        items();
-        tags();
-        tooltips();
+        addMiscTranslations();
+        addAbilities();
+        addAttributes();
+        addEntities();
+        addConfigs();
+        addItems();
+        addTags();
+        addTooltips();
         Advancements.TRANSLATIONS.forEach(this::add);
     }
 
-    @Override
-    public void add(String key, String value) {
+    public void override(String key, String value) {
         try {
-            super.add(key, value);
+            add(key, value);
         } catch (IllegalStateException ignored) {
 
         }
     }
 
-    private void misc() {
+    private void addMiscTranslations() {
         add("artifacts.creative_tab", "Artifacts");
         add("artifacts.key.helium_flamingo.activate", "Activate Helium Flamingo");
         add("artifacts.key.night_vision_goggles.toggle", "Toggle Night Vision Goggles");
@@ -65,85 +61,85 @@ public class Language extends LanguageProvider {
         add("curios.modifiers.feet", "When on feet:");
     }
 
-    private void abilities() {
-        abilityTooltip(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE, MobEffects.FIRE_RESISTANCE, "Applies a temporary fire resistance effect after taking fire damage");
-        abilityTooltip(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE, MobEffects.MOVEMENT_SPEED, "Increases the wearer's movement speed after taking damage");
-        abilityTooltip(ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING, MobEffects.DIG_SPEED, "Grants a temporary boost to mining speed after eating food");
-        abilityTooltip(ModAbilities.ATTACKS_INFLICT_MOB_EFFECT, MobEffects.WITHER, "Causes the wearer's melee attacks to inflict a wither effect");
-        abilityTooltip(ModAbilities.ATTRACT_ITEMS, "Attracts nearby items");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.ATTACK_BURNING_DURATION, "Causes the wearer's melee attacks to deal fire damage");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.ATTACK_DAMAGE, "Increases damage dealt by the wearer");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.ATTACK_DAMAGE_ABSORPTION, "Causes the wearer's melee attacks to absorb health");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.ATTACK_KNOCKBACK, "Increases knockback dealt by the wearer");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.ATTACK_SPEED, "Increases the wearer's attack speed");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.DRINKING_SPEED, "Decreases the time it takes to drink items");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.EATING_SPEED, "Decreases the time it takes to eat items");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.FALL_DAMAGE_MULTIPLIER, "Reduces fall damage taken by the wearer");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.FLATULENCE, "Increases the wearer's flatulence");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.INVINCIBILITY_TICKS, "Increases the length of invincibility after taking damage");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.JUMP_STRENGTH, "Increases the wearer's jump height");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.KNOCKBACK_RESISTANCE, "Grants immunity to knockback");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.MAX_HEALTH, "Increases the wearer's maximum health");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.MOUNT_SPEED, "Increases the speed of ridden mounts");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.SAFE_FALL_DISTANCE, "Increases the wearer's maximum safe fall distance");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.SCALE, "Shrinks the wearer");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.SLIP_RESISTANCE, "Makes ice less slippery to walk on");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.MOVEMENT_SPEED_ON_SNOW, "Increases the wearer's walking speed on snow");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.SPRINTING_SPEED, "Increases the wearer's movement speed while sprinting");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.SPRINTING_STEP_HEIGHT, "Increases the wearer's step height while sprinting");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, "generic.swim_speed", "Improves agility in water");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.BLOCK_BREAK_SPEED, "Increases the wearer's mining speed");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.ENTITY_EXPERIENCE, "Increases experience dropped by creatures");
-        abilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.VILLAGER_REPUTATION, "Decreases the trading prices of villagers");
-        abilityTooltip(ModAbilities.DOUBLE_JUMP, "Allows the wearer to double jump");
-        abilityTooltip(ModAbilities.ENDER_PEARLS_COST_HUNGER, "free", "Ender Pearls are not consumed when thrown");
-        abilityTooltip(ModAbilities.ENDER_PEARLS_COST_HUNGER, "cost", "Ender Pearls are not consumed, but cost hunger instead");
-        abilityTooltip(ModAbilities.GROW_PLANTS_AFTER_EATING, "Plants grow after eating when standing on grass");
-        abilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "fortune", "multiple_levels", "Applies %s extra levels of fortune to mined blocks");
-        abilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "fortune", "single_level", "Applies an extra level of fortune to mined blocks");
-        abilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "looting", "multiple_levels", "Applies %s extra levels of looting to killed entities");
-        abilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "looting", "single_level", "Applies an extra level of looting to killed entities");
-        abilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "luck_of_the_sea", "multiple_levels", "Applies %s extra levels of Luck of the Sea when fishing");
-        abilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "luck_of_the_sea", "single_level", "Applies an extra Luck of the Sea when fishing");
-        abilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "lure", "multiple_levels", "Applies %s extra levels of Lure when fishing");
-        abilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "lure", "single_level", "Applies an extra level of Lure when fishing");
-        abilityTooltip(ModAbilities.LIGHTNING_IMMUNITY, "Grants protection against lightning strikes");
-        abilityTooltip(ModAbilities.LIMITED_WATER_BREATHING, "infinite", "Allows the wearer to breathe underwater");
-        abilityTooltip(ModAbilities.LIMITED_WATER_BREATHING, "limited", "Allows the wearer to breathe underwater for a limited amount of time");
-        abilityTooltip(ModAbilities.MOB_EFFECT, "invisibility", "Turns the wearer invisible");
-        abilityTooltip(ModAbilities.NIGHT_VISION, "full", "Allows the wearer to see in the dark");
-        abilityTooltip(ModAbilities.NIGHT_VISION, "partial", "Allows the wearer to see in the dark slightly");
-        abilityTooltip(ModAbilities.NULLIFY_ENDER_PEARL_DAMAGE, "Ender Pearls deal no damage");
-        abilityTooltip(ModAbilities.REMOVE_BAD_EFFECTS, "Greatly reduces the duration of negative effects");
-        abilityTooltip(ModAbilities.REPLENISH_HUNGER_ON_GRASS, "Slowly replenishes hunger while walking on grass");
-        abilityTooltip(ModAbilities.SCARE_CREEPERS, "Creepers avoid the wearer");
-        abilityTooltip(ModAbilities.SET_ATTACKERS_ON_FIRE, "fire_resistance", "Grants fire resistance after lighting an attacker on fire");
-        abilityTooltip(ModAbilities.SET_ATTACKERS_ON_FIRE, "chance", "Has a chance to light attackers on fire");
-        abilityTooltip(ModAbilities.SET_ATTACKERS_ON_FIRE, "constant", "Attacking entities are lit on fire");
-        abilityTooltip(ModAbilities.SINKING, "Allows the wearer to move freely in water");
-        abilityTooltip(ModAbilities.SMELT_ORES, "Automatically smelts mined ores");
-        abilityTooltip(ModAbilities.SPRINT_ON_FLUIDS, "Allows the wearer to walk on fluids while sprinting");
-        abilityTooltip(ModAbilities.STRIKE_ATTACKERS_WITH_LIGHTNING, "chance", "Has a chance to strike attackers with lightning");
-        abilityTooltip(ModAbilities.STRIKE_ATTACKERS_WITH_LIGHTNING, "constant", "Attacking entities are struck by lightning");
-        abilityTooltip(ModAbilities.SWIM_IN_AIR, "keymapping", "Press %s while in the air to start swimming");
-        abilityTooltip(ModAbilities.SWIM_IN_AIR, "swimming", "Allows the wearer to swim in the air for a limited period of time");
-        abilityTooltip(ModAbilities.TELEPORT_ON_DEATH, "chance", "A fatal hit has a chance to teleport you somewhere else instead");
-        abilityTooltip(ModAbilities.TELEPORT_ON_DEATH, "constant", "A fatal hit teleports you somewhere else instead");
-        abilityTooltip(ModAbilities.TELEPORT_ON_DEATH, "not_consumed", "Not consumed on use");
-        abilityTooltip(ModAbilities.THORNS, "chance", "Has a chance to damage attackers");
-        abilityTooltip(ModAbilities.THORNS, "constant", "Attacking entities are damaged as well");
-        abilityTooltip(ModAbilities.UPGRADE_TOOL_TIER, "Increases the wearer's base mining level to %s");
-        abilityTooltip(ModAbilities.WALK_ON_POWDER_SNOW, "Allows the wearer to walk on Powder Snow");
+    private void addAbilities() {
+        addAbilityTooltip(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE, MobEffects.FIRE_RESISTANCE, "Applies a temporary fire resistance effect after taking fire damage");
+        addAbilityTooltip(ModAbilities.APPLY_MOB_EFFECT_AFTER_DAMAGE, MobEffects.MOVEMENT_SPEED, "Increases the wearer's movement speed after taking damage");
+        addAbilityTooltip(ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING, MobEffects.DIG_SPEED, "Grants a temporary boost to mining speed after eating food");
+        addAbilityTooltip(ModAbilities.ATTACKS_INFLICT_MOB_EFFECT, MobEffects.WITHER, "Causes the wearer's melee attacks to inflict a wither effect");
+        addAbilityTooltip(ModAbilities.ATTRACT_ITEMS, "Attracts nearby items");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.ATTACK_BURNING_DURATION, "Causes the wearer's melee attacks to deal fire damage");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.ATTACK_DAMAGE, "Increases damage dealt by the wearer");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.ATTACK_DAMAGE_ABSORPTION, "Causes the wearer's melee attacks to absorb health");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.ATTACK_KNOCKBACK, "Increases knockback dealt by the wearer");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.ATTACK_SPEED, "Increases the wearer's attack speed");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.DRINKING_SPEED, "Decreases the time it takes to drink items");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.EATING_SPEED, "Decreases the time it takes to eat items");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.FALL_DAMAGE_MULTIPLIER, "Reduces fall damage taken by the wearer");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.FLATULENCE, "Increases the wearer's flatulence");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.INVINCIBILITY_TICKS, "Increases the length of invincibility after taking damage");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.JUMP_STRENGTH, "Increases the wearer's jump height");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.KNOCKBACK_RESISTANCE, "Grants immunity to knockback");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.MAX_HEALTH, "Increases the wearer's maximum health");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.MOUNT_SPEED, "Increases the speed of ridden mounts");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.SAFE_FALL_DISTANCE, "Increases the wearer's maximum safe fall distance");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.SCALE, "Shrinks the wearer");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.SLIP_RESISTANCE, "Makes ice less slippery to walk on");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.MOVEMENT_SPEED_ON_SNOW, "Increases the wearer's walking speed on snow");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.SPRINTING_SPEED, "Increases the wearer's movement speed while sprinting");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.SPRINTING_STEP_HEIGHT, "Increases the wearer's step height while sprinting");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, "generic.swim_speed", "Improves agility in water");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, Attributes.BLOCK_BREAK_SPEED, "Increases the wearer's mining speed");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.ENTITY_EXPERIENCE, "Increases experience dropped by creatures");
+        addAbilityTooltip(ModAbilities.ATTRIBUTE_MODIFIER, ModAttributes.VILLAGER_REPUTATION, "Decreases the trading prices of villagers");
+        addAbilityTooltip(ModAbilities.DOUBLE_JUMP, "Allows the wearer to double jump");
+        addAbilityTooltip(ModAbilities.ENDER_PEARLS_COST_HUNGER, "free", "Ender Pearls are not consumed when thrown");
+        addAbilityTooltip(ModAbilities.ENDER_PEARLS_COST_HUNGER, "cost", "Ender Pearls are not consumed, but cost hunger instead");
+        addAbilityTooltip(ModAbilities.GROW_PLANTS_AFTER_EATING, "Plants grow after eating when standing on grass");
+        addAbilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "fortune", "multiple_levels", "Applies %s extra levels of fortune to mined blocks");
+        addAbilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "fortune", "single_level", "Applies an extra level of fortune to mined blocks");
+        addAbilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "looting", "multiple_levels", "Applies %s extra levels of looting to killed entities");
+        addAbilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "looting", "single_level", "Applies an extra level of looting to killed entities");
+        addAbilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "luck_of_the_sea", "multiple_levels", "Applies %s extra levels of Luck of the Sea when fishing");
+        addAbilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "luck_of_the_sea", "single_level", "Applies an extra Luck of the Sea when fishing");
+        addAbilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "lure", "multiple_levels", "Applies %s extra levels of Lure when fishing");
+        addAbilityTooltip(ModAbilities.INCREASE_ENCHANTMENT_LEVEL, "lure", "single_level", "Applies an extra level of Lure when fishing");
+        addAbilityTooltip(ModAbilities.LIGHTNING_IMMUNITY, "Grants protection against lightning strikes");
+        addAbilityTooltip(ModAbilities.LIMITED_WATER_BREATHING, "infinite", "Allows the wearer to breathe underwater");
+        addAbilityTooltip(ModAbilities.LIMITED_WATER_BREATHING, "limited", "Allows the wearer to breathe underwater for a limited amount of time");
+        addAbilityTooltip(ModAbilities.MOB_EFFECT, "invisibility", "Turns the wearer invisible");
+        addAbilityTooltip(ModAbilities.NIGHT_VISION, "full", "Allows the wearer to see in the dark");
+        addAbilityTooltip(ModAbilities.NIGHT_VISION, "partial", "Allows the wearer to see in the dark slightly");
+        addAbilityTooltip(ModAbilities.NULLIFY_ENDER_PEARL_DAMAGE, "Ender Pearls deal no damage");
+        addAbilityTooltip(ModAbilities.REMOVE_BAD_EFFECTS, "Greatly reduces the duration of negative effects");
+        addAbilityTooltip(ModAbilities.REPLENISH_HUNGER_ON_GRASS, "Slowly replenishes hunger while walking on grass");
+        addAbilityTooltip(ModAbilities.SCARE_CREEPERS, "Creepers avoid the wearer");
+        addAbilityTooltip(ModAbilities.SET_ATTACKERS_ON_FIRE, "fire_resistance", "Grants fire resistance after lighting an attacker on fire");
+        addAbilityTooltip(ModAbilities.SET_ATTACKERS_ON_FIRE, "chance", "Has a chance to light attackers on fire");
+        addAbilityTooltip(ModAbilities.SET_ATTACKERS_ON_FIRE, "constant", "Attacking entities are lit on fire");
+        addAbilityTooltip(ModAbilities.SINKING, "Allows the wearer to move freely in water");
+        addAbilityTooltip(ModAbilities.SMELT_ORES, "Automatically smelts mined ores");
+        addAbilityTooltip(ModAbilities.SPRINT_ON_FLUIDS, "Allows the wearer to walk on fluids while sprinting");
+        addAbilityTooltip(ModAbilities.STRIKE_ATTACKERS_WITH_LIGHTNING, "chance", "Has a chance to strike attackers with lightning");
+        addAbilityTooltip(ModAbilities.STRIKE_ATTACKERS_WITH_LIGHTNING, "constant", "Attacking entities are struck by lightning");
+        addAbilityTooltip(ModAbilities.SWIM_IN_AIR, "keymapping", "Press %s while in the air to start swimming");
+        addAbilityTooltip(ModAbilities.SWIM_IN_AIR, "swimming", "Allows the wearer to swim in the air for a limited period of time");
+        addAbilityTooltip(ModAbilities.TELEPORT_ON_DEATH, "chance", "A fatal hit has a chance to teleport you somewhere else instead");
+        addAbilityTooltip(ModAbilities.TELEPORT_ON_DEATH, "constant", "A fatal hit teleports you somewhere else instead");
+        addAbilityTooltip(ModAbilities.TELEPORT_ON_DEATH, "not_consumed", "Not consumed on use");
+        addAbilityTooltip(ModAbilities.THORNS, "chance", "Has a chance to damage attackers");
+        addAbilityTooltip(ModAbilities.THORNS, "constant", "Attacking entities are damaged as well");
+        addAbilityTooltip(ModAbilities.UPGRADE_TOOL_TIER, "Increases the wearer's base mining level to %s");
+        addAbilityTooltip(ModAbilities.WALK_ON_POWDER_SNOW, "Allows the wearer to walk on Powder Snow");
     }
 
-    private void attributes() {
+    private void addAttributes() {
         for (RegistrySupplier<Attribute> attribute : ModAttributes.ATTRIBUTES) {
             add(attribute.get().getDescriptionId(), fromSnakeCasedString(attribute.getId().getPath().split("\\.")[1]));
         }
         add("generic.swim_speed", "Swim Speed");
     }
 
-    private void entities() {
+    private void addEntities() {
         for (RegistrySupplier<EntityType<?>> entityType : ModEntityTypes.ENTITY_TYPES) {
             add(entityType.get().getDescriptionId(), fromSnakeCasedString(entityType.getId().getPath()));
         }
@@ -153,30 +149,37 @@ public class Language extends LanguageProvider {
         add(ModSoundEvents.MIMIC_OPEN.get(), "Mimic hops");
     }
 
-    private void config(ConfigManager config) {
-        add(configTitle(config.getName()), fromCamelCasedString(config.getName()));
-        configNames(config);
-        configTooltips(config);
+    private void addConfigs() {
+        add(configTitle(), "Artifacts Config");
+        add("artifacts.config.enabled.title", "Enabled");
+        add("artifacts.config.cooldown.title", "Cooldown");
+        for (ConfigManager config : Artifacts.CONFIG.configs) {
+            add(configTitle(config.getName()), fromCamelCasedString(config.getName()));
+            addConfigNames(config);
+            addConfigTooltips(config);
+        }
     }
 
-    private void configNames(ConfigManager config) {
+    private void addConfigNames(ConfigManager config) {
         config.getValues().forEach((key, value) -> {
             String[] words = key.split("\\.");
             String name = words[words.length - 1];
-            String translation = fromCamelCasedString(name);
-            key = name.equals("cooldown") || words[words.length - 1].equals("enabled") ? name : config.getName() + '.' + key;
-            add(configTitle(key), translation);
-            StringBuilder categoryKey = new StringBuilder(config.getName());
-            for (int i = 0; i < words.length - 1; i++) {
-                categoryKey.append('.').append(words[i]);
-                if (!BuiltInRegistries.ITEM.containsKey(Artifacts.id(words[i]))) {
-                    add(configTitle(categoryKey.toString()), fromSnakeCasedString(words[i]));
+            if (!name.equals("cooldown") && !name.equals("enabled")) {
+                String translation = fromCamelCasedString(name);
+                key = config.getName() + '.' + key;
+                add(configTitle(key), translation);
+                StringBuilder categoryKey = new StringBuilder(config.getName());
+                for (int i = 0; i < words.length - 1; i++) {
+                    categoryKey.append('.').append(words[i]);
+                    if (!BuiltInRegistries.ITEM.containsKey(Artifacts.id(words[i]))) {
+                        override(configTitle(categoryKey.toString()), fromSnakeCasedString(words[i]));
+                    }
                 }
             }
         });
     }
 
-    private void configTooltips(ConfigManager config) {
+    private void addConfigTooltips(ConfigManager config) {
         config.getValues().forEach((key, value) -> {
             List<String> tooltips = config.getDescription(key);
             key = config.getName() + '.' + key;
@@ -190,15 +193,15 @@ public class Language extends LanguageProvider {
         });
     }
 
-    private void items() {
+    private void addItems() {
         for (RegistrySupplier<Item> item : ModItems.ITEMS) {
             add(item.get(), fromSnakeCasedString(item.getId().getPath()));
         }
-        add(ModItems.ANGLERS_HAT.get(), "Angler's Hat");
-        add(ModItems.AQUA_DASHERS.get(), "Aqua-Dashers");
+        override(ModItems.ANGLERS_HAT.get().getDescriptionId(), "Angler's Hat");
+        override(ModItems.AQUA_DASHERS.get().getDescriptionId(), "Aqua-Dashers");
     }
 
-    private void tags() {
+    private void addTags() {
         add(ItemTags.ARTIFACTS, "Artifacts");
         add(ItemTags.ALL, "Any Slot Equipable Artifacts");
         add(ItemTags.BELT, "Belt Slot Equipable Artifacts");
@@ -215,7 +218,7 @@ public class Language extends LanguageProvider {
         add(ModTags.SNOW_LAYERS, "Snow Layers");
     }
 
-    private void tooltips() {
+    private void addTooltips() {
         tooltip("attacks_inflict", "Attacks inflict:");
         tooltip("cooldown", "+Cooldown (%s)");
         tooltip("cosmetic", "Cosmetic");
@@ -247,14 +250,14 @@ public class Language extends LanguageProvider {
         add(key.formatted(id.getNamespace(), id.getPath()), value);
     }
 
-    private void abilityTooltip(Holder<? extends ArtifactAbility.Type<?>> type, Holder<?> holder, String... s) {
+    private void addAbilityTooltip(Holder<? extends ArtifactAbility.Type<?>> type, Holder<?> holder, String... s) {
         List<String> list = new java.util.ArrayList<>(List.of(s));
         //noinspection OptionalGetWithoutIsPresent
         list.add(0, holder.unwrapKey().get().location().getPath());
-        abilityTooltip(type, list.toArray(String[]::new));
+        addAbilityTooltip(type, list.toArray(String[]::new));
     }
 
-    private void abilityTooltip(Holder<? extends ArtifactAbility.Type<?>> type, String... s) {
+    private void addAbilityTooltip(Holder<? extends ArtifactAbility.Type<?>> type, String... s) {
         StringBuilder key = new StringBuilder("%s.tooltip.ability.%s");
         for (int i = 0; i < s.length - 1; i++) {
             key.append('.').append(s[i]);
