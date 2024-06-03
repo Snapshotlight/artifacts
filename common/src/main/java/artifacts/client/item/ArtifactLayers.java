@@ -49,6 +49,8 @@ public class ArtifactLayers {
             ONION_RING_SLIM = createLayerLocation("onion_ring_slim"),
             PICKAXE_HEATER_WIDE = createLayerLocation("pickaxe_heater_wide"),
             PICKAXE_HEATER_SLIM = createLayerLocation("pickaxe_heater_slim"),
+            WITHERED_BRACELET_WIDE = createLayerLocation("withered_bracelet_wide"),
+            WITHERED_BRACELET_SLIM = createLayerLocation("withered_bracelet_slim"),
 
             AQUA_DASHERS_SMALL = createLayerLocation("aqua_dashers_small"),
             AQUA_DASHERS_LARGE = createLayerLocation("aqua_dashers_large"),
@@ -84,6 +86,10 @@ public class ArtifactLayers {
 
     public static ModelLayerLocation pickaxeHeater(boolean hasSlimArms) {
         return hasSlimArms ? PICKAXE_HEATER_SLIM : PICKAXE_HEATER_WIDE;
+    }
+
+    public static ModelLayerLocation witheredBracelet(boolean hasSlimArms) {
+        return hasSlimArms ? WITHERED_BRACELET_SLIM : WITHERED_BRACELET_WIDE;
     }
 
     public static ModelLayerLocation createLayerLocation(String name) {
@@ -127,10 +133,12 @@ public class ArtifactLayers {
         EntityModelLayerRegistry.register(GOLDEN_HOOK_SLIM, layer(() -> ArmsModel.createGoldenHook(true), 64, 32));
         EntityModelLayerRegistry.register(POCKET_PISTON_WIDE, layer(() -> ArmsModel.createPocketPiston(false), 32, 16));
         EntityModelLayerRegistry.register(POCKET_PISTON_SLIM, layer(() -> ArmsModel.createPocketPiston(true), 32, 16));
-        EntityModelLayerRegistry.register(ONION_RING_WIDE, layer(() -> ArmsModel.createOnionRing(false), 32, 32));
-        EntityModelLayerRegistry.register(ONION_RING_SLIM, layer(() -> ArmsModel.createOnionRing(true), 32, 32));
+        EntityModelLayerRegistry.register(ONION_RING_WIDE, layer(() -> ArmsModel.createBracelet(false, 4, -4), 32, 32));
+        EntityModelLayerRegistry.register(ONION_RING_SLIM, layer(() -> ArmsModel.createBracelet(true, 4, -4), 32, 32));
         EntityModelLayerRegistry.register(PICKAXE_HEATER_WIDE, layer(() -> ArmsModel.createPickaxeHeater(false), 64, 32));
         EntityModelLayerRegistry.register(PICKAXE_HEATER_SLIM, layer(() -> ArmsModel.createPickaxeHeater(true), 64, 32));
+        EntityModelLayerRegistry.register(WITHERED_BRACELET_WIDE, layer(() -> ArmsModel.createBracelet(false, 3, -5), 32, 32));
+        EntityModelLayerRegistry.register(WITHERED_BRACELET_SLIM, layer(() -> ArmsModel.createBracelet(true, 3, -5), 32, 32));
 
         EntityModelLayerRegistry.register(AQUA_DASHERS_SMALL, layer(() -> LegsModel.createAquaDashers(0.5F), 32, 32));
         EntityModelLayerRegistry.register(AQUA_DASHERS_LARGE, layer(() -> LegsModel.createAquaDashers(1.25F), 32, 32));

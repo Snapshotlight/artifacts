@@ -84,6 +84,10 @@ public class ArmsModel extends HumanoidModel<LivingEntity> {
         return new ArmsModel(RendererUtil.bakeLayer(ArtifactLayers.pickaxeHeater(hasSlimArms)));
     }
 
+    public static ArmsModel createWitheredBraceletModel(boolean hasSlimArms) {
+        return new ArmsModel(RendererUtil.bakeLayer(ArtifactLayers.witheredBracelet(hasSlimArms)));
+    }
+
     public static MeshDefinition createEmptyArms(CubeListBuilder leftArm, CubeListBuilder rightArm, boolean hasSlimArms) {
         MeshDefinition mesh = createMesh(CubeDeformation.NONE, 0);
 
@@ -225,33 +229,31 @@ public class ArmsModel extends HumanoidModel<LivingEntity> {
         return mesh;
     }
 
-    public static MeshDefinition createOnionRing(boolean hasSlimArms) {
+    public static MeshDefinition createBracelet(boolean hasSlimArms, int size, int h) {
         CubeListBuilder leftArm = CubeListBuilder.create();
         CubeListBuilder rightArm = CubeListBuilder.create();
 
-        float armWidth = hasSlimArms ? 3 : 4;
-        float armDepth = 4;
-        float h = -4;
+        float armWidth = hasSlimArms ? size - 1 : size;
 
         leftArm.texOffs(0, 0);
-        leftArm.addBox(-1 - armWidth / 2, h, -1 - armDepth / 2, armWidth + 2, 2, 1);
+        leftArm.addBox(-1 - armWidth / 2, h, -1 - size / 2F, armWidth + 2, 2, 1);
         rightArm.texOffs(16, 0);
-        rightArm.addBox(-1 - armWidth / 2, h, -1 - armDepth / 2, armWidth + 2, 2, 1);
+        rightArm.addBox(-1 - armWidth / 2, h, -1 - size / 2F, armWidth + 2, 2, 1);
 
         leftArm.texOffs(0, 3);
-        leftArm.addBox(-1 - armWidth / 2, h, armDepth / 2, armWidth + 2, 2, 1);
+        leftArm.addBox(-1 - armWidth / 2, h, size / 2F, armWidth + 2, 2, 1);
         rightArm.texOffs(16, 3);
-        rightArm.addBox(-1 - armWidth / 2, h, armDepth / 2, armWidth + 2, 2, 1);
+        rightArm.addBox(-1 - armWidth / 2, h, size / 2F, armWidth + 2, 2, 1);
 
         leftArm.texOffs(0, 6);
-        leftArm.addBox(armWidth / 2, h, - armDepth / 2, 1, 2, armDepth);
+        leftArm.addBox(armWidth / 2, h, - size / 2F, 1, 2, size);
         rightArm.texOffs(16, 6);
-        rightArm.addBox(armWidth / 2, h, - armDepth / 2, 1, 2, armDepth);
+        rightArm.addBox(armWidth / 2, h, - size / 2F, 1, 2, size);
 
         leftArm.texOffs(0, 12);
-        leftArm.addBox(-1 - armWidth / 2, h, - armDepth / 2, 1, 2, armDepth);
+        leftArm.addBox(-1 - armWidth / 2, h, - size / 2F, 1, 2, size);
         rightArm.texOffs(16, 12);
-        rightArm.addBox(-1 - armWidth / 2, h, - armDepth / 2, 1, 2, armDepth);
+        rightArm.addBox(-1 - armWidth / 2, h, - size / 2F, 1, 2, size);
 
         return createEmptyArms(leftArm, rightArm, hasSlimArms);
     }

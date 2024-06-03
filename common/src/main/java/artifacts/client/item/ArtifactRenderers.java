@@ -56,6 +56,7 @@ public class ArtifactRenderers {
         register(ModItems.GOLDEN_HOOK.get(), () -> new GloveArtifactRenderer("golden_hook", ArmsModel::createGoldenHookModel));
         register(ModItems.ONION_RING.get(), () -> new GloveArtifactRenderer("onion_ring", ArmsModel::createOnionRingModel));
         register(ModItems.PICKAXE_HEATER.get(), () -> new GlowingGloveArtifactRenderer("pickaxe_heater", ArmsModel::createPickaxeHeaterModel));
+        register(ModItems.WITHERED_BRACELET.get(), () -> new GloveArtifactRenderer("withered_bracelet", ArmsModel::createWitheredBraceletModel));
 
         // feet
         register(ModItems.AQUA_DASHERS.get(), () -> new BootArtifactRenderer("aqua_dashers", hasArmor -> new LegsModel(bakeLayer(hasArmor ? ArtifactLayers.AQUA_DASHERS_LARGE : ArtifactLayers.AQUA_DASHERS_SMALL))));
