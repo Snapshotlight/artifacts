@@ -125,7 +125,7 @@ public class ItemConfigs extends ConfigManager {
             vampiricGloveMaxHealingPerHit = defineAttributeModifier(createKey(ModItems.VAMPIRIC_GLOVE, "maxHealingPerHit"), 6,
                     "The maximum amount of healing that can be absorbed in a single hit " +
                     "when attacking an entity while wearing the Vampiric Glove"),
-            villagerHatReputationBonus = defineAttributeModifier(createKey(ModItems.VILLAGER_HAT, "reputationBonus"), 0.75,
+            villagerHatReputationBonus = defineAttributeModifier(createKey(ModItems.VILLAGER_HAT, "reputationBonus"), 75,
                     "The amount of extra reputation that is granted by the villager hat when trading with villagers");
 
     public final Value.ConfigValue<Double>
