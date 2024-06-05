@@ -11,16 +11,16 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.sounds.SoundEvent;
 
-public record HurtSoundAbility(Holder<SoundEvent> soundEvent) implements TooltiplessAbility {
+public record ModifyHurtSoundAbility(Holder<SoundEvent> soundEvent) implements TooltiplessAbility {
 
-    public static final MapCodec<HurtSoundAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BuiltInRegistries.SOUND_EVENT.holderByNameCodec().fieldOf("sound").forGetter(HurtSoundAbility::soundEvent)
-    ).apply(instance, HurtSoundAbility::new));
+    public static final MapCodec<ModifyHurtSoundAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            BuiltInRegistries.SOUND_EVENT.holderByNameCodec().fieldOf("sound").forGetter(ModifyHurtSoundAbility::soundEvent)
+    ).apply(instance, ModifyHurtSoundAbility::new));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, HurtSoundAbility> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, ModifyHurtSoundAbility> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.holderRegistry(Registries.SOUND_EVENT),
-            HurtSoundAbility::soundEvent,
-            HurtSoundAbility::new
+            ModifyHurtSoundAbility::soundEvent,
+            ModifyHurtSoundAbility::new
     );
 
     @Override

@@ -55,7 +55,7 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, Value<Double
     public static final MapCodec<AttributeModifierAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.ATTRIBUTE.holderByNameCodec().fieldOf("attribute").forGetter(AttributeModifierAbility::attribute),
             ValueTypes.ATTRIBUTE_MODIFIER_AMOUNT.codec().fieldOf("amount").forGetter(AttributeModifierAbility::amount),
-            AttributeModifier.Operation.CODEC.optionalFieldOf("operation", AttributeModifier.Operation.ADD_VALUE).forGetter(AttributeModifierAbility::operation),
+            AttributeModifier.Operation.CODEC.fieldOf("operation").forGetter(AttributeModifierAbility::operation),
             Codec.STRING.fieldOf("id").forGetter(AttributeModifierAbility::name),
             Codec.BOOL.optionalFieldOf("ignore_cooldown", true).forGetter(AttributeModifierAbility::ignoreCooldown)
     ).apply(instance, AttributeModifierAbility::create));

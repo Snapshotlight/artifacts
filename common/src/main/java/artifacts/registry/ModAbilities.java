@@ -44,7 +44,7 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<LimitedWaterBreathingAbility>> LIMITED_WATER_BREATHING = register("limited_water_breathing", LimitedWaterBreathingAbility.CODEC, LimitedWaterBreathingAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<MakePiglinsNeutralAbility>> MAKE_PIGLINS_NEUTRAL = register("make_piglins_neutral", MakePiglinsNeutralAbility.CODEC, MakePiglinsNeutralAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<GenericMobEffectAbility>> MOB_EFFECT = register("mob_effect", GenericMobEffectAbility.CODEC, GenericMobEffectAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<HurtSoundAbility>> MODIFY_HURT_SOUND = register("modify_hurt_sound", HurtSoundAbility.CODEC, HurtSoundAbility.STREAM_CODEC);
+    public static final RegistrySupplier<Type<ModifyHurtSoundAbility>> MODIFY_HURT_SOUND = register("modify_hurt_sound", ModifyHurtSoundAbility.CODEC, ModifyHurtSoundAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<NightVisionAbility>> NIGHT_VISION = register("night_vision", NightVisionAbility.CODEC, NightVisionAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> NULLIFY_ENDER_PEARL_DAMAGE = register("nullify_ender_pearl_damage", SimpleAbility::createType);
     public static final RegistrySupplier<Type<RemoveBadEffectsAbility>> REMOVE_BAD_EFFECTS = register("remove_bad_effects", RemoveBadEffectsAbility.CODEC, RemoveBadEffectsAbility.STREAM_CODEC);

@@ -15,7 +15,7 @@ import java.util.List;
 public record CustomTooltipAbility(Component tooltip) implements ArtifactAbility {
 
     public static final MapCodec<CustomTooltipAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ComponentSerialization.FLAT_CODEC.fieldOf("name").forGetter(CustomTooltipAbility::tooltip)
+            ComponentSerialization.FLAT_CODEC.fieldOf("tooltip").forGetter(CustomTooltipAbility::tooltip)
     ).apply(instance, CustomTooltipAbility::new));
 
     public static final StreamCodec<ByteBuf, CustomTooltipAbility> STREAM_CODEC = StreamCodec.composite(

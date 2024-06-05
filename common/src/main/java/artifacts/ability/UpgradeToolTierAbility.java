@@ -23,7 +23,7 @@ import java.util.List;
 public record UpgradeToolTierAbility(Value<Tier> tier) implements ArtifactAbility {
 
     public static final MapCodec<UpgradeToolTierAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ValueTypes.TOOL_TIER.codec().optionalFieldOf("tier", new Value.Constant<>(Tier.NONE)).forGetter(UpgradeToolTierAbility::tier)
+            ValueTypes.TOOL_TIER.codec().fieldOf("tier").forGetter(UpgradeToolTierAbility::tier)
     ).apply(instance, UpgradeToolTierAbility::new));
 
     public static final StreamCodec<ByteBuf, UpgradeToolTierAbility> STREAM_CODEC = StreamCodec.composite(

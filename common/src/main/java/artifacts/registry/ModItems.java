@@ -264,12 +264,12 @@ public class ModItems {
             .addAttributeModifier(Attributes.JUMP_STRENGTH, Artifacts.CONFIG.items.bunnyHoppersJumpStrengthBonus, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             .addAttributeModifier(Attributes.FALL_DAMAGE_MULTIPLIER, Artifacts.CONFIG.items.bunnyHoppersFallDamageMultiplier, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
             .addAttributeModifier(Attributes.SAFE_FALL_DISTANCE, Artifacts.CONFIG.items.bunnyHoppersSafeFallDistanceBonus, AttributeModifier.Operation.ADD_VALUE)
-            .addAbility(new HurtSoundAbility(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.RABBIT_HURT)))
+            .addAbility(new ModifyHurtSoundAbility(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.RABBIT_HURT)))
     );
     public static final RegistrySupplier<WearableArtifactItem> KITTY_SLIPPERS = wearableItem("kitty_slippers", builder -> builder
             .equipSound(SoundEvents.CAT_AMBIENT)
             .addAbility(new SimpleAbility(ModAbilities.SCARE_CREEPERS, Artifacts.CONFIG.items.kittySlippersEnabled))
-            .addAbility(new HurtSoundAbility(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.CAT_HURT)))
+            .addAbility(new ModifyHurtSoundAbility(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.CAT_HURT)))
     );
     public static final RegistrySupplier<WearableArtifactItem> RUNNING_SHOES = wearableItem("running_shoes", builder -> builder
             .addAttributeModifier(ModAttributes.SPRINTING_SPEED, Artifacts.CONFIG.items.runningShoesSprintingSpeedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
