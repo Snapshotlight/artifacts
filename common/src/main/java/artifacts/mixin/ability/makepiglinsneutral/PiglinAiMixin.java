@@ -1,4 +1,4 @@
-package artifacts.fabric.mixin.ability.makepiglinsneutral;
+package artifacts.mixin.ability.makepiglinsneutral;
 
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;

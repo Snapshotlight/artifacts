@@ -1,4 +1,4 @@
-package artifacts.fabric.mixin.ability.walkonpowdersnow;
+package artifacts.mixin.ability.walkonpowdersnow;
 
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;

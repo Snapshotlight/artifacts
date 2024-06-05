@@ -1,4 +1,4 @@
-package artifacts.fabric.mixin.ability.enchantment;
+package artifacts.mixin.ability.enchantment;
 
 import artifacts.util.AbilityHelper;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
