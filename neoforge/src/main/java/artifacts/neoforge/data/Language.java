@@ -118,6 +118,7 @@ public class Language extends LanguageProvider {
         addAbilityTooltip(ModAbilities.SET_ATTACKERS_ON_FIRE, "constant", "Attacking entities are lit on fire");
         addAbilityTooltip(ModAbilities.SINKING, "Allows the wearer to move freely in water");
         addAbilityTooltip(ModAbilities.SMELT_ORES, "Automatically smelts mined ores");
+        addAbilityTooltip(ModAbilities.SNEAK_ON_FLUIDS, "lava", "Allows the wearer to stand on lava while sneaking");
         addAbilityTooltip(ModAbilities.SPRINT_ON_FLUIDS, "Allows the wearer to walk on fluids while sprinting");
         addAbilityTooltip(ModAbilities.STRIKE_ATTACKERS_WITH_LIGHTNING, "chance", "Has a chance to strike attackers with lightning");
         addAbilityTooltip(ModAbilities.STRIKE_ATTACKERS_WITH_LIGHTNING, "constant", "Attacking entities are struck by lightning");

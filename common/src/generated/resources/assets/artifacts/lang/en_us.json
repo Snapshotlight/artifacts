@@ -275,6 +275,7 @@
   "artifacts.tooltip.ability.set_attackers_on_fire.fire_resistance": "Grants fire resistance after lighting an attacker on fire",
   "artifacts.tooltip.ability.sinking": "Allows the wearer to move freely in water",
   "artifacts.tooltip.ability.smelt_ores": "Automatically smelts mined ores",
+  "artifacts.tooltip.ability.sneak_on_fluids.lava": "Allows the wearer to stand on lava while sneaking",
   "artifacts.tooltip.ability.sprint_on_fluids": "Allows the wearer to walk on fluids while sprinting",
   "artifacts.tooltip.ability.strike_attackers_with_lightning.chance": "Has a chance to strike attackers with lightning",
   "artifacts.tooltip.ability.strike_attackers_with_lightning.constant": "Attacking entities are struck by lightning",

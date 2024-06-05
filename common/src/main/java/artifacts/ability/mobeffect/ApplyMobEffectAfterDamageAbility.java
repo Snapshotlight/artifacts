@@ -5,6 +5,7 @@ import artifacts.config.value.Value;
 import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
+import artifacts.util.ModCodecs;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
@@ -42,7 +43,7 @@ public record ApplyMobEffectAfterDamageAbility(Holder<MobEffect> mobEffect, Valu
             ApplyMobEffectAfterDamageAbility::level,
             ValueTypes.DURATION.streamCodec(),
             ApplyMobEffectAfterDamageAbility::duration,
-            ByteBufCodecs.optional(ByteBufCodecs.fromCodec(TagKey.codec(Registries.DAMAGE_TYPE))),
+            ByteBufCodecs.optional(ModCodecs.tagKeyStreamCodec(Registries.DAMAGE_TYPE)),
             ApplyMobEffectAfterDamageAbility::tag,
             ApplyMobEffectAfterDamageAbility::new
     );

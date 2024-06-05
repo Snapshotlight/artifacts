@@ -53,7 +53,8 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<SetAttackersOnFireAbility>> SET_ATTACKERS_ON_FIRE = register("set_attackers_on_fire", SetAttackersOnFireAbility.CODEC, SetAttackersOnFireAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> SINKING = register("sinking", SimpleAbility::createType);
     public static final RegistrySupplier<Type<SimpleAbility>> SMELT_ORES = register("smelt_ores", SimpleAbility::createType);
-    public static final RegistrySupplier<Type<SimpleAbility>> SPRINT_ON_FLUIDS = register("sprint_on_fluids", SimpleAbility::createType);
+    public static final RegistrySupplier<Type<CollideWithFluidsAbility>> SNEAK_ON_FLUIDS = register("sneak_on_fluids", CollideWithFluidsAbility::createType);
+    public static final RegistrySupplier<Type<CollideWithFluidsAbility>> SPRINT_ON_FLUIDS = register("sprint_on_fluids", CollideWithFluidsAbility::createType);
     public static final RegistrySupplier<Type<StrikeAttackersWithLightningAbility>> STRIKE_ATTACKERS_WITH_LIGHTNING = register("strike_attackers_with_lightning", StrikeAttackersWithLightningAbility.CODEC, StrikeAttackersWithLightningAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SwimInAirAbility>> SWIM_IN_AIR = register("swim_in_air", SwimInAirAbility.CODEC, SwimInAirAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<TeleportOnDeathAbility>> TELEPORT_ON_DEATH = register("teleport_on_death", TeleportOnDeathAbility.CODEC, TeleportOnDeathAbility.STREAM_CODEC);

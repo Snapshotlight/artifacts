@@ -12,10 +12,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 import java.util.stream.Stream;
 
 public class AbilityHelper {
@@ -58,10 +55,18 @@ public class AbilityHelper {
     }
 
     public static boolean hasAbilityActive(ArtifactAbility.Type<?> type, @Nullable LivingEntity entity, boolean skipItemsOnCooldown) {
+        return hasAbilityActive(type, entity, skipItemsOnCooldown, ability -> true);
+    }
+
+    public static <A extends ArtifactAbility> boolean hasAbilityActive(ArtifactAbility.Type<A> type, @Nullable LivingEntity entity, Predicate<A> predicate) {
+        return hasAbilityActive(type, entity, false, predicate);
+    }
+
+    public static <A extends ArtifactAbility> boolean hasAbilityActive(ArtifactAbility.Type<A> type, @Nullable LivingEntity entity, boolean skipItemsOnCooldown, Predicate<A> predicate) {
         if (entity == null || !isToggledOn(type, entity)) {
             return false;
         }
-        return reduce(type, entity, skipItemsOnCooldown, false, (ability, b) -> b || ability.isEnabled());
+        return reduce(type, entity, skipItemsOnCooldown, false, (ability, b) -> b || ability.isEnabled() && predicate.test(ability));
     }
 
     public static List<ArtifactAbility> getAbilities(ItemStack stack) {

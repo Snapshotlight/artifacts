@@ -258,7 +258,7 @@ public class ModItems {
 
     // feet
     public static final RegistrySupplier<WearableArtifactItem> AQUA_DASHERS = wearableItem("aqua_dashers", builder -> builder
-            .addAbility(new SimpleAbility(ModAbilities.SPRINT_ON_FLUIDS, Artifacts.CONFIG.items.aquaDashersEnabled))
+            .addAbility(new CollideWithFluidsAbility(ModAbilities.SPRINT_ON_FLUIDS, Artifacts.CONFIG.items.aquaDashersEnabled, Value.Constant.TRUE, Optional.empty()))
     );
     public static final RegistrySupplier<WearableArtifactItem> BUNNY_HOPPERS = wearableItem("bunny_hoppers", builder -> builder
             .addAttributeModifier(Attributes.JUMP_STRENGTH, Artifacts.CONFIG.items.bunnyHoppersJumpStrengthBonus, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
