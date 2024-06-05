@@ -3,8 +3,6 @@ package artifacts.neoforge.event;
 import artifacts.component.SwimEvents;
 import be.florens.expandability.api.forge.LivingFluidCollisionEvent;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
-import dev.architectury.event.EventResult;
-import net.neoforged.bus.api.Event;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -17,7 +15,7 @@ public class SwimEventsNeoForge {
         }
     }
 
-    public static void onPlayerSwim(PlayerSwimEvent event) {
+    public static void onPlayerSwim(PlayerSwimEvent event) {/* TODO
         if (event.getResult() == Event.Result.DEFAULT) {
             EventResult result = SwimEvents.onPlayerSwim(event.getEntity());
             if (!result.interruptsFurtherEvaluation()) {
@@ -27,12 +25,12 @@ public class SwimEventsNeoForge {
             } else {
                 event.setResult(Event.Result.DENY);
             }
-        }
+        }*/
     }
 
     private static void onAquaDashersFluidCollision(LivingFluidCollisionEvent event) {
         if (SwimEvents.onFluidCollision(event.getEntity(), event.getFluidState())) {
-            event.setResult(Event.Result.ALLOW);
+            // event.setResult(Event.Result.ALLOW);
         }
     }
 }
