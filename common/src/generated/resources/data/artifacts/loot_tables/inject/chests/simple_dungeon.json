@@ -17,6 +17,14 @@
         {
           "type": "minecraft:item",
           "name": "artifacts:warp_drive"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "artifacts:withered_bracelet"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "artifacts:strider_shoes"
         }
       ],
       "rolls": 1.0

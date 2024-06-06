@@ -35,6 +35,14 @@
           "name": "artifacts:charm_of_shrinking"
         },
         {
+          "type": "minecraft:item",
+          "name": "artifacts:strider_shoes"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "artifacts:withered_bracelet"
+        },
+        {
           "type": "minecraft:loot_table",
           "value": "artifacts:items/drinking_hat"
         }

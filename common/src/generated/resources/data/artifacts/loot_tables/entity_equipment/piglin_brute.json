@@ -12,6 +12,10 @@
         {
           "type": "minecraft:item",
           "name": "artifacts:onion_ring"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "artifacts:strider_shoes"
         }
       ],
       "rolls": 1.0

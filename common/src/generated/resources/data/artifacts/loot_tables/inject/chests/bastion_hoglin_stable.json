@@ -37,6 +37,11 @@
         },
         {
           "type": "minecraft:item",
+          "name": "artifacts:withered_bracelet",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
           "name": "artifacts:everlasting_beef"
         }
       ],

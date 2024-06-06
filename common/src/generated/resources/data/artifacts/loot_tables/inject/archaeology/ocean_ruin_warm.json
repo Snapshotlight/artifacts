@@ -23,6 +23,10 @@
         {
           "type": "minecraft:item",
           "name": "artifacts:vampiric_glove"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "artifacts:strider_shoes"
         }
       ],
       "rolls": 1.0

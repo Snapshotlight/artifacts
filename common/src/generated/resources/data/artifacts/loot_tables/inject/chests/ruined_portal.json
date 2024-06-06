@@ -45,6 +45,10 @@
         {
           "type": "minecraft:item",
           "name": "artifacts:charm_of_shrinking"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "artifacts:strider_shoes"
         }
       ],
       "rolls": 1.0

@@ -124,6 +124,7 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.FLAME_PENDANT.get(), 3)
                 .item(ModItems.COWBOY_HAT.get(), 3)
                 .item(ModItems.PICKAXE_HEATER.get(), 3)
+                .item(ModItems.WITHERED_BRACELET.get(), 3)
                 .item(ModItems.EVERLASTING_BEEF.get());
         builder(BuiltInLootTables.BASTION_TREASURE, 0.65F)
                 .artifact(6)
@@ -176,6 +177,8 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.RUNNING_SHOES.get())
                 .item(ModItems.COWBOY_HAT.get())
                 .item(ModItems.CHARM_OF_SHRINKING.get())
+                .item(ModItems.STRIDER_SHOES.get())
+                .item(ModItems.WITHERED_BRACELET.get())
                 .drinkingHat(1);
         builder(BuiltInLootTables.PILLAGER_OUTPOST, 0.25F)
                 .item(ModItems.PANIC_NECKLACE.get())
@@ -197,7 +200,8 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.OBSIDIAN_SKULL.get())
                 .item(ModItems.LUCKY_SCARF.get())
                 .item(ModItems.COWBOY_HAT.get())
-                .item(ModItems.CHARM_OF_SHRINKING.get());
+                .item(ModItems.CHARM_OF_SHRINKING.get())
+                .item(ModItems.STRIDER_SHOES.get());
         builder(BuiltInLootTables.SHIPWRECK_TREASURE, 0.15F)
                 .item(ModItems.GOLDEN_HOOK.get(), 3)
                 .item(ModItems.SNORKEL.get())
@@ -212,7 +216,9 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.CHARM_OF_SINKING.get());
         builder(BuiltInLootTables.SIMPLE_DUNGEON, 0.15F)
                 .item(ModItems.CHARM_OF_SHRINKING.get())
-                .item(ModItems.WARP_DRIVE.get());
+                .item(ModItems.WARP_DRIVE.get())
+                .item(ModItems.WITHERED_BRACELET.get())
+                .item(ModItems.STRIDER_SHOES.get());
         builder(BuiltInLootTables.STRONGHOLD_CORRIDOR, 0.3F)
                 .item(ModItems.POWER_GLOVE.get())
                 .item(ModItems.ANTIDOTE_VESSEL.get())
@@ -271,13 +277,15 @@ public class LootModifiers implements DataProvider {
                 .item(ModItems.FIRE_GAUNTLET.get())
                 .item(ModItems.ANGLERS_HAT.get())
                 .item(ModItems.DIGGING_CLAWS.get())
-                .item(ModItems.ANTIDOTE_VESSEL.get());
+                .item(ModItems.ANTIDOTE_VESSEL.get())
+                .item(ModItems.WITHERED_BRACELET.get());
         archaeologyBuilder(BuiltInLootTables.OCEAN_RUIN_WARM_ARCHAEOLOGY)
                 .item(ModItems.AQUA_DASHERS.get())
                 .item(ModItems.ONION_RING.get())
                 .item(ModItems.RUNNING_SHOES.get())
                 .item(ModItems.BUNNY_HOPPERS.get())
-                .item(ModItems.VAMPIRIC_GLOVE.get());
+                .item(ModItems.VAMPIRIC_GLOVE.get())
+                .item(ModItems.STRIDER_SHOES.get());
         archaeologyBuilder(BuiltInLootTables.TRAIL_RUINS_ARCHAEOLOGY_RARE)
                 .item(ModItems.ROOTED_BOOTS.get())
                 .item(ModItems.PICKAXE_HEATER.get())

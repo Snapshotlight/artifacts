@@ -23,6 +23,10 @@
         {
           "type": "minecraft:item",
           "name": "artifacts:antidote_vessel"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "artifacts:withered_bracelet"
         }
       ],
       "rolls": 1.0

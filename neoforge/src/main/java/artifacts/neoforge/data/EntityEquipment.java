@@ -65,7 +65,8 @@ public class EntityEquipment {
                 ModItems.OBSIDIAN_SKULL.get()
         );
         addItems(EntityType.PIGLIN_BRUTE,
-                ModItems.ONION_RING.get()
+                ModItems.ONION_RING.get(),
+                ModItems.STRIDER_SHOES.get()
         );
 
         if (!entityTypes.equals(ModLootTables.ENTITY_EQUIPMENT.keySet())) {
