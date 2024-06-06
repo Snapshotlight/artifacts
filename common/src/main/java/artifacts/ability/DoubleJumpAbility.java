@@ -76,7 +76,7 @@ public record DoubleJumpAbility(Value<Boolean> enabled, Value<Double> sprintHori
             player.causeFoodExhaustion(0.05F);
         }
 
-        if (player.level().isClientSide()) {
+        if (!player.level().isClientSide()) {
             double chance = player.getAttributeValue(ModAttributes.FLATULENCE);
             if (player.getRandom().nextFloat() < chance) {
                 player.level().playSound(null, player, ModSoundEvents.FART.get(), SoundSource.PLAYERS, 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
