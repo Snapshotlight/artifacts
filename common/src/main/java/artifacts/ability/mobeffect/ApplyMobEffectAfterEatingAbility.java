@@ -28,7 +28,7 @@ public record ApplyMobEffectAfterEatingAbility(Holder<MobEffect> mobEffect, Valu
     public static final MapCodec<ApplyMobEffectAfterEatingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(ApplyMobEffectAfterEatingAbility::mobEffect),
             ValueTypes.DURATION.codec().fieldOf("duration").forGetter(ApplyMobEffectAfterEatingAbility::durationPerFoodPoint),
-            ValueTypes.MOB_EFFECT_LEVEL.codec().optionalFieldOf("level", Value.Constant.ONE).forGetter(ApplyMobEffectAfterEatingAbility::level)
+            ValueTypes.mobEffectLevelField().forGetter(ApplyMobEffectAfterEatingAbility::level)
     ).apply(instance, ApplyMobEffectAfterEatingAbility::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ApplyMobEffectAfterEatingAbility> STREAM_CODEC = StreamCodec.composite(

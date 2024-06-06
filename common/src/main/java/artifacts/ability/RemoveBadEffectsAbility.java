@@ -19,7 +19,7 @@ import java.util.Map;
 public record RemoveBadEffectsAbility(Value<Boolean> enabled, Value<Integer> maxEffectDuration) implements ArtifactAbility {
 
     public static final MapCodec<RemoveBadEffectsAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ValueTypes.BOOLEAN.enabledField().forGetter(RemoveBadEffectsAbility::enabled),
+            ValueTypes.enabledField().forGetter(RemoveBadEffectsAbility::enabled),
             ValueTypes.DURATION.codec().fieldOf("duration").forGetter(RemoveBadEffectsAbility::maxEffectDuration)
     ).apply(instance, RemoveBadEffectsAbility::new));
 

@@ -30,7 +30,7 @@ public record CollideWithFluidsAbility(Supplier<Type<CollideWithFluidsAbility>> 
 
     private static MapCodec<CollideWithFluidsAbility> codec(Supplier<Type<CollideWithFluidsAbility>> type) {
         return RecordCodecBuilder.mapCodec(instance -> instance.group(
-                ValueTypes.BOOLEAN.enabledField().forGetter(CollideWithFluidsAbility::enabled),
+                ValueTypes.enabledField().forGetter(CollideWithFluidsAbility::enabled),
                 TagKey.codec(Registries.FLUID).optionalFieldOf("tag").forGetter(CollideWithFluidsAbility::tag)
         ).apply(instance, (enabled, tag) -> new CollideWithFluidsAbility(type, enabled, tag)));
     }

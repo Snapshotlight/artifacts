@@ -19,7 +19,7 @@ public class SetAttackersOnFireAbility extends RetaliationAbility {
     public static final MapCodec<SetAttackersOnFireAbility> CODEC = RecordCodecBuilder.mapCodec(
             instance -> codecStart(instance)
                     .and(ValueTypes.DURATION.codec().fieldOf("duration").forGetter(SetAttackersOnFireAbility::fireDuration))
-                    .and(ValueTypes.BOOLEAN.codec().optionalFieldOf("grant_fire_resistance", Value.Constant.TRUE).forGetter(SetAttackersOnFireAbility::grantsFireResistance))
+                    .and(ValueTypes.BOOLEAN.codec().optionalFieldOf("grant_fire_resistance", Value.of(true)).forGetter(SetAttackersOnFireAbility::grantsFireResistance))
                     .apply(instance, SetAttackersOnFireAbility::new)
     );
 

@@ -7,18 +7,11 @@ import java.util.function.Supplier;
 
 public interface Value<T> extends Supplier<T> {
 
-    record Constant<T>(T get) implements Value<T> {
-
-        public static final Constant<Boolean> FALSE = new Constant<>(false);
-        public static final Constant<Boolean> TRUE = new Constant<>(true);
-
-        public static final Constant<Integer> ZERO = new Constant<>(0);
-        public static final Constant<Integer> ONE = new Constant<>(1);
-
-        public static final Constant<Double> ZERO_D = new Constant<>(0D);
-        public static final Constant<Double> ONE_D = new Constant<>(1D);
-
+    static <T> Value<T> of(T v) {
+        return new Value.Constant<>(v);
     }
+
+    record Constant<T>(T get) implements Value<T> { }
 
     final class ConfigValue<T> implements Value<T>, StringRepresentable {
 

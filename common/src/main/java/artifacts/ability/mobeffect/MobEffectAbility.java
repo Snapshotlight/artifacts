@@ -16,7 +16,7 @@ public abstract class MobEffectAbility implements ArtifactAbility {
     protected final Value<Integer> level;
 
     protected MobEffectAbility(Holder<MobEffect> mobEffect) {
-        this(mobEffect, Value.Constant.ONE);
+        this(mobEffect, Value.of(1));
     }
 
     protected MobEffectAbility(Holder<MobEffect> mobEffect, Value<Integer> level) {

@@ -21,9 +21,9 @@ import net.minecraft.world.phys.Vec3;
 public record DoubleJumpAbility(Value<Boolean> enabled, Value<Double> sprintHorizontalVelocity, Value<Double> sprintVerticalVelocity) implements ArtifactAbility {
 
     public static final MapCodec<DoubleJumpAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ValueTypes.BOOLEAN.enabledField().forGetter(DoubleJumpAbility::enabled),
-            ValueTypes.NON_NEGATIVE_DOUBLE.codec().optionalFieldOf("sprint_jump_horizontal_velocity", Value.Constant.ZERO_D).forGetter(DoubleJumpAbility::sprintHorizontalVelocity),
-            ValueTypes.NON_NEGATIVE_DOUBLE.codec().optionalFieldOf("sprint_jump_vertical_velocity", Value.Constant.ZERO_D).forGetter(DoubleJumpAbility::sprintVerticalVelocity)
+            ValueTypes.enabledField().forGetter(DoubleJumpAbility::enabled),
+            ValueTypes.NON_NEGATIVE_DOUBLE.codec().optionalFieldOf("sprint_jump_horizontal_velocity", Value.of(0D)).forGetter(DoubleJumpAbility::sprintHorizontalVelocity),
+            ValueTypes.NON_NEGATIVE_DOUBLE.codec().optionalFieldOf("sprint_jump_vertical_velocity", Value.of(0D)).forGetter(DoubleJumpAbility::sprintVerticalVelocity)
     ).apply(instance, DoubleJumpAbility::new));
 
     public static final StreamCodec<ByteBuf, DoubleJumpAbility> STREAM_CODEC = StreamCodec.composite(

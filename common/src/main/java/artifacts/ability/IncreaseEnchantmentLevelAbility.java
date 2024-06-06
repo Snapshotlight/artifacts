@@ -33,7 +33,7 @@ public record IncreaseEnchantmentLevelAbility(Holder<Enchantment> enchantment, V
                             ? DataResult.success(enchantment)
                             : DataResult.error(() -> "Unsupported enchantment: %s".formatted(enchantment.unwrapKey().orElseThrow().location())))
                     .fieldOf("enchantment").forGetter(IncreaseEnchantmentLevelAbility::enchantment),
-            ValueTypes.ENCHANTMENT_LEVEL.codec().optionalFieldOf("level", Value.Constant.ONE).forGetter(IncreaseEnchantmentLevelAbility::amount)
+            ValueTypes.ENCHANTMENT_LEVEL.codec().optionalFieldOf("level", Value.of(1)).forGetter(IncreaseEnchantmentLevelAbility::amount)
     ).apply(instance, IncreaseEnchantmentLevelAbility::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, IncreaseEnchantmentLevelAbility> STREAM_CODEC = StreamCodec.composite(

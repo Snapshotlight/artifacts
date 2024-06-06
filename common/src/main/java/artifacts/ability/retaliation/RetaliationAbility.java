@@ -23,8 +23,8 @@ public abstract class RetaliationAbility implements ArtifactAbility {
 
     protected static <T extends RetaliationAbility> Products.P2<RecordCodecBuilder.Mu<T>, Value<Double>, Value<Integer>> codecStart(RecordCodecBuilder.Instance<T> instance) {
         return instance.group(
-                ValueTypes.FRACTION.codec().fieldOf("strike_chance").forGetter(RetaliationAbility::strikeChance),
-                ValueTypes.DURATION.codec().optionalFieldOf("cooldown", Value.Constant.ZERO).forGetter(RetaliationAbility::cooldown)
+                ValueTypes.FRACTION.codec().fieldOf("chance").forGetter(RetaliationAbility::strikeChance),
+                ValueTypes.cooldownField().forGetter(RetaliationAbility::cooldown)
         );
     }
 

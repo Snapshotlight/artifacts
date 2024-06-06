@@ -27,8 +27,8 @@ public class GenericMobEffectAbility extends MobEffectAbility {
 
     public static final MapCodec<GenericMobEffectAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(GenericMobEffectAbility::getMobEffect),
-            ValueTypes.MOB_EFFECT_LEVEL.codec().optionalFieldOf("level", Value.Constant.ONE).forGetter(GenericMobEffectAbility::getLevel),
-            ValueTypes.BOOLEAN.codec().optionalFieldOf("enabled", Value.Constant.TRUE).forGetter(ability -> ability.enabled)
+            ValueTypes.mobEffectLevelField().forGetter(GenericMobEffectAbility::getLevel),
+            ValueTypes.enabledField().forGetter(ability -> ability.enabled)
     ).apply(instance, GenericMobEffectAbility::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, GenericMobEffectAbility> STREAM_CODEC = StreamCodec.composite(
@@ -50,7 +50,7 @@ public class GenericMobEffectAbility extends MobEffectAbility {
 
     @Override
     public Value<Integer> getLevel() {
-        return enabled.get() ? super.getLevel() : Value.Constant.ZERO;
+        return enabled.get() ? super.getLevel() : Value.of(0);
     }
 
     @Override

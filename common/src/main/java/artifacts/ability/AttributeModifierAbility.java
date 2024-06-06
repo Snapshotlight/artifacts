@@ -74,10 +74,6 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, Value<Double
             AttributeModifierAbility::create
     );
 
-    public static AttributeModifierAbility create(Holder<Attribute> attribute, Value<Double> amount, AttributeModifier.Operation operation, String name) {
-        return create(attribute, amount, operation, name, true);
-    }
-
     public static AttributeModifierAbility create(Holder<Attribute> attribute, Value<Double> amount, AttributeModifier.Operation operation, String name, boolean ignoreCooldowns) {
         return new AttributeModifierAbility(attribute, amount, operation, UUID.nameUUIDFromBytes(name.getBytes()), name, ignoreCooldowns);
     }

@@ -3,6 +3,7 @@ package artifacts.config.value;
 import artifacts.ability.UpgradeToolTierAbility;
 import artifacts.config.value.type.*;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.network.codec.ByteBufCodecs;
 
 public class ValueTypes {
@@ -18,4 +19,15 @@ public class ValueTypes {
     public static final NumberValueType<Integer> MOB_EFFECT_LEVEL = new IntegerValueType(0, 256, Codec.INT, ByteBufCodecs.INT);
     public static final EnumValueType<UpgradeToolTierAbility.Tier> TOOL_TIER = new EnumValueType<>(UpgradeToolTierAbility.Tier.class, UpgradeToolTierAbility::getTierName);
 
+    public static MapCodec<Value<Boolean>> enabledField() {
+        return BOOLEAN.codec().optionalFieldOf("enabled", Value.of(true));
+    }
+
+    public static MapCodec<Value<Integer>> cooldownField() {
+        return DURATION.codec().optionalFieldOf("cooldown", Value.of(0));
+    }
+
+    public static MapCodec<Value<Integer>> mobEffectLevelField() {
+        return MOB_EFFECT_LEVEL.codec().optionalFieldOf("level", Value.of(1));
+    }
 }

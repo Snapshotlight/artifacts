@@ -31,7 +31,7 @@ public record ApplyMobEffectAfterDamageAbility(Holder<MobEffect> mobEffect, Valu
 
     public static final MapCodec<ApplyMobEffectAfterDamageAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(ApplyMobEffectAfterDamageAbility::mobEffect),
-            ValueTypes.MOB_EFFECT_LEVEL.codec().optionalFieldOf("level", Value.Constant.ONE).forGetter(ApplyMobEffectAfterDamageAbility::level),
+            ValueTypes.mobEffectLevelField().forGetter(ApplyMobEffectAfterDamageAbility::level),
             ValueTypes.DURATION.codec().fieldOf("duration").forGetter(ApplyMobEffectAfterDamageAbility::duration),
             TagKey.codec(Registries.DAMAGE_TYPE).optionalFieldOf("tag").forGetter(ApplyMobEffectAfterDamageAbility::tag)
     ).apply(instance, ApplyMobEffectAfterDamageAbility::new));

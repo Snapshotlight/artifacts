@@ -18,7 +18,7 @@ import net.minecraft.world.entity.LivingEntity;
 public record ReplenishHungerOnGrassAbility(Value<Boolean> enabled, Value<Integer> replenishingDuration) implements ArtifactAbility {
 
     public static final MapCodec<ReplenishHungerOnGrassAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ValueTypes.BOOLEAN.enabledField().forGetter(ReplenishHungerOnGrassAbility::enabled),
+            ValueTypes.enabledField().forGetter(ReplenishHungerOnGrassAbility::enabled),
             ValueTypes.DURATION.codec().fieldOf("duration").forGetter(ReplenishHungerOnGrassAbility::replenishingDuration)
     ).apply(instance, ReplenishHungerOnGrassAbility::new));
 

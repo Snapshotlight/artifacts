@@ -20,7 +20,7 @@ import java.util.List;
 public record AttractItemsAbility(Value<Boolean> enabled) implements ArtifactAbility {
 
     public static final MapCodec<AttractItemsAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ValueTypes.BOOLEAN.enabledField().forGetter(AttractItemsAbility::enabled)
+            ValueTypes.enabledField().forGetter(AttractItemsAbility::enabled)
     ).apply(instance, AttractItemsAbility::new));
 
     public static final StreamCodec<ByteBuf, AttractItemsAbility> STREAM_CODEC = StreamCodec.composite(

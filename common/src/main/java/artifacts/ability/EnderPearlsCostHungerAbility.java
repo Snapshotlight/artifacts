@@ -14,9 +14,9 @@ import java.util.List;
 public record EnderPearlsCostHungerAbility(Value<Boolean> enabled, Value<Integer> cost, Value<Integer> cooldown) implements ArtifactAbility {
 
     public static final MapCodec<EnderPearlsCostHungerAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ValueTypes.BOOLEAN.codec().optionalFieldOf("enabled", Value.Constant.TRUE).forGetter(EnderPearlsCostHungerAbility::enabled),
+            ValueTypes.enabledField().forGetter(EnderPearlsCostHungerAbility::enabled),
             ValueTypes.NON_NEGATIVE_INT.codec().fieldOf("cost").forGetter(EnderPearlsCostHungerAbility::cost),
-            ValueTypes.DURATION.codec().optionalFieldOf("cooldown", Value.Constant.ZERO).forGetter(EnderPearlsCostHungerAbility::cooldown)
+            ValueTypes.cooldownField().forGetter(EnderPearlsCostHungerAbility::cooldown)
     ).apply(instance, EnderPearlsCostHungerAbility::new));
 
     public static final StreamCodec<ByteBuf, EnderPearlsCostHungerAbility> STREAM_CODEC = StreamCodec.composite(

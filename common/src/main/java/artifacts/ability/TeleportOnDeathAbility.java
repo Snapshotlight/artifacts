@@ -26,10 +26,10 @@ import java.util.List;
 public record TeleportOnDeathAbility(Value<Double> teleportationChance, Value<Integer> healthRestored, Value<Integer> cooldown, Value<Boolean> consumedOnUse) implements ArtifactAbility {
 
     public static final MapCodec<TeleportOnDeathAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ValueTypes.FRACTION.codec().fieldOf("teleportation_chance").forGetter(TeleportOnDeathAbility::teleportationChance),
-            ValueTypes.NON_NEGATIVE_INT.codec().fieldOf("health_restored").forGetter(TeleportOnDeathAbility::healthRestored),
-            ValueTypes.DURATION.codec().optionalFieldOf("cooldown", Value.Constant.ZERO).forGetter(TeleportOnDeathAbility::cooldown),
-            ValueTypes.BOOLEAN.codec().optionalFieldOf("consume", Value.Constant.TRUE).forGetter(TeleportOnDeathAbility::consumedOnUse)
+            ValueTypes.FRACTION.codec().optionalFieldOf("chance", Value.of(1D)).forGetter(TeleportOnDeathAbility::teleportationChance),
+            ValueTypes.NON_NEGATIVE_INT.codec().optionalFieldOf("health_restored", Value.of(10)).forGetter(TeleportOnDeathAbility::healthRestored),
+            ValueTypes.cooldownField().forGetter(TeleportOnDeathAbility::cooldown),
+            ValueTypes.BOOLEAN.codec().optionalFieldOf("consume", Value.of(true)).forGetter(TeleportOnDeathAbility::consumedOnUse)
     ).apply(instance, TeleportOnDeathAbility::new));
 
     public static final StreamCodec<ByteBuf, TeleportOnDeathAbility> STREAM_CODEC = StreamCodec.composite(

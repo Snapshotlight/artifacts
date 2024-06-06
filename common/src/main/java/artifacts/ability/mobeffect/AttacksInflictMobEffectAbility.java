@@ -35,9 +35,9 @@ public record AttacksInflictMobEffectAbility(Holder<MobEffect> mobEffect, Value<
 
     public static final MapCodec<AttacksInflictMobEffectAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(AttacksInflictMobEffectAbility::mobEffect),
-            ValueTypes.MOB_EFFECT_LEVEL.codec().optionalFieldOf("level", Value.Constant.ONE).forGetter(AttacksInflictMobEffectAbility::level),
+            ValueTypes.mobEffectLevelField().forGetter(AttacksInflictMobEffectAbility::level),
             ValueTypes.DURATION.codec().fieldOf("duration").forGetter(AttacksInflictMobEffectAbility::duration),
-            ValueTypes.DURATION.codec().optionalFieldOf("cooldown", Value.Constant.ZERO).forGetter(AttacksInflictMobEffectAbility::cooldown)
+            ValueTypes.cooldownField().forGetter(AttacksInflictMobEffectAbility::cooldown)
     ).apply(instance, AttacksInflictMobEffectAbility::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, AttacksInflictMobEffectAbility> STREAM_CODEC = StreamCodec.composite(
@@ -52,6 +52,7 @@ public record AttacksInflictMobEffectAbility(Holder<MobEffect> mobEffect, Value<
             AttacksInflictMobEffectAbility::new
     );
 
+    @SuppressWarnings("unused")
     public static EventResult onLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {
         LivingEntity attacker = DamageSourceHelper.getAttacker(damageSource);
         if (attacker != null && DamageSourceHelper.isMeleeAttack(damageSource)) {

@@ -17,7 +17,7 @@ import java.util.Objects;
 public class NightVisionAbility extends MobEffectAbility {
 
     public static final MapCodec<NightVisionAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ValueTypes.FRACTION.codec().optionalFieldOf("strength", Value.Constant.ONE_D).forGetter(NightVisionAbility::strength)
+            ValueTypes.FRACTION.codec().optionalFieldOf("strength", Value.of(1D)).forGetter(NightVisionAbility::strength)
     ).apply(instance, NightVisionAbility::new));
 
     public static final StreamCodec<ByteBuf, NightVisionAbility> STREAM_CODEC = StreamCodec.composite(

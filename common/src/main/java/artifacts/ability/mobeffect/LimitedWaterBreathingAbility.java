@@ -22,7 +22,7 @@ public class LimitedWaterBreathingAbility extends MobEffectAbility {
 
     public static final MapCodec<LimitedWaterBreathingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ValueTypes.DURATION.codec().fieldOf("duration").forGetter(LimitedWaterBreathingAbility::maxDuration),
-            ValueTypes.BOOLEAN.codec().optionalFieldOf("infinite", Value.Constant.FALSE).forGetter(ability -> ability.isInfinite)
+            ValueTypes.BOOLEAN.codec().optionalFieldOf("infinite", Value.of(false)).forGetter(ability -> ability.isInfinite)
     ).apply(instance, LimitedWaterBreathingAbility::new));
 
     public static final StreamCodec<ByteBuf, LimitedWaterBreathingAbility> STREAM_CODEC = StreamCodec.composite(

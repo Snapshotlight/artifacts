@@ -90,7 +90,7 @@ public class ModItems {
             .increasesEnchantment(Enchantments.FORTUNE, Artifacts.CONFIG.items.luckScarfFortuneBonus)
     );
     public static final RegistrySupplier<WearableArtifactItem> SCARF_OF_INVISIBILITY = wearableItem("scarf_of_invisibility", builder -> builder
-            .addAbility(new GenericMobEffectAbility(MobEffects.INVISIBILITY, Value.Constant.ONE, Artifacts.CONFIG.items.scarfOfInvisibilityEnabled))
+            .addAbility(new GenericMobEffectAbility(MobEffects.INVISIBILITY, Value.of(1), Artifacts.CONFIG.items.scarfOfInvisibilityEnabled))
     );
     public static final RegistrySupplier<WearableArtifactItem> CROSS_NECKLACE = wearableItem("cross_necklace", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_DIAMOND)
@@ -154,7 +154,7 @@ public class ModItems {
             .equipSound(SoundEvents.ARMOR_EQUIP_IRON)
             .addAbility(new ApplyMobEffectAfterDamageAbility(
                     MobEffects.FIRE_RESISTANCE,
-                    Value.Constant.ONE,
+                    Value.of(1),
                     Artifacts.CONFIG.items.obsidianSkullFireResistanceDuration,
                     Optional.of(DamageTypeTags.IS_FIRE)
             ))

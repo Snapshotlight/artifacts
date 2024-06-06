@@ -26,7 +26,7 @@ public record DamageImmunityAbility(Value<Boolean> enabled, TagKey<DamageType> t
     );
 
     public static final MapCodec<DamageImmunityAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ValueTypes.BOOLEAN.enabledField().forGetter(DamageImmunityAbility::enabled),
+            ValueTypes.enabledField().forGetter(DamageImmunityAbility::enabled),
             TagKey.codec(Registries.DAMAGE_TYPE).fieldOf("tag").forGetter(DamageImmunityAbility::tag)
     ).apply(instance, DamageImmunityAbility::new));
 

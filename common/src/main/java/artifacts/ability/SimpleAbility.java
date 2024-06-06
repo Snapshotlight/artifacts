@@ -20,7 +20,7 @@ public record SimpleAbility(Supplier<Type<SimpleAbility>> type, Value<Boolean> e
 
     private static MapCodec<SimpleAbility> codec(Supplier<Type<SimpleAbility>> type) {
         return RecordCodecBuilder.mapCodec(instance -> instance.group(
-                ValueTypes.BOOLEAN.enabledField().forGetter(SimpleAbility::enabled)
+                ValueTypes.enabledField().forGetter(SimpleAbility::enabled)
         ).apply(instance, value -> new SimpleAbility(type, value)));
     }
 
