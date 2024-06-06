@@ -18,16 +18,16 @@ import net.minecraft.world.item.Items;
 import java.util.List;
 import java.util.Objects;
 
-public class LimitedWaterBreathingAbility extends MobEffectAbility {
+public class LimitedWaterBreathingAbility extends ConstantMobEffectAbility {
 
     public static final MapCodec<LimitedWaterBreathingAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ValueTypes.DURATION.codec().fieldOf("duration").forGetter(LimitedWaterBreathingAbility::maxDuration),
+            ValueTypes.DURATION.codec().fieldOf("duration").forGetter(LimitedWaterBreathingAbility::duration),
             ValueTypes.BOOLEAN.codec().optionalFieldOf("infinite", Value.of(false)).forGetter(ability -> ability.isInfinite)
     ).apply(instance, LimitedWaterBreathingAbility::new));
 
     public static final StreamCodec<ByteBuf, LimitedWaterBreathingAbility> STREAM_CODEC = StreamCodec.composite(
             ValueTypes.DURATION.streamCodec(),
-            LimitedWaterBreathingAbility::maxDuration,
+            LimitedWaterBreathingAbility::duration,
             ValueTypes.BOOLEAN.streamCodec(),
             ability -> ability.isInfinite,
             LimitedWaterBreathingAbility::new
@@ -42,12 +42,13 @@ public class LimitedWaterBreathingAbility extends MobEffectAbility {
         this.isInfinite = isInfinite;
     }
 
-    private Value<Integer> maxDuration() {
-        return duration;
-    }
-
     public boolean isInfinite() {
         return isInfinite.get();
+    }
+
+    @Override
+    public Value<Integer> duration() {
+        return duration;
     }
 
     @Override
@@ -64,11 +65,6 @@ public class LimitedWaterBreathingAbility extends MobEffectAbility {
         }
     }
 
-    @Override
-    public int getDuration() {
-        return maxDuration().get() * 20;
-    }
-
     protected int getAdditionalDuration(LivingEntity target) {
         if (!isInfinite()
                 && target instanceof Player
@@ -81,18 +77,13 @@ public class LimitedWaterBreathingAbility extends MobEffectAbility {
     }
 
     @Override
-    protected boolean shouldShowIcon() {
+    public boolean shouldShowIcon() {
         return !isInfinite();
     }
 
     @Override
     public boolean shouldApplyMobEffect(LivingEntity entity) {
         return isInfinite() || !entity.isEyeInFluid(FluidTags.WATER);
-    }
-
-    @Override
-    public boolean isNonCosmetic() {
-        return maxDuration().get() > 0;
     }
 
     @Override

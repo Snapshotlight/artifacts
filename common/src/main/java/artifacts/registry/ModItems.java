@@ -90,7 +90,7 @@ public class ModItems {
             .increasesEnchantment(Enchantments.FORTUNE, Artifacts.CONFIG.items.luckScarfFortuneBonus)
     );
     public static final RegistrySupplier<WearableArtifactItem> SCARF_OF_INVISIBILITY = wearableItem("scarf_of_invisibility", builder -> builder
-            .addAbility(new GenericMobEffectAbility(MobEffects.INVISIBILITY, Value.of(1), Artifacts.CONFIG.items.scarfOfInvisibilityEnabled))
+            .addAbility(new PermanentMobEffectAbility(MobEffects.INVISIBILITY, Value.of(1), Artifacts.CONFIG.items.scarfOfInvisibilityEnabled))
     );
     public static final RegistrySupplier<WearableArtifactItem> CROSS_NECKLACE = wearableItem("cross_necklace", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_DIAMOND)
@@ -240,8 +240,8 @@ public class ModItems {
             .properties(properties -> properties.food(new FoodProperties.Builder().nutrition(2).build()))
             .addAbility(new ApplyMobEffectAfterEatingAbility(
                     MobEffects.DIG_SPEED,
-                    Artifacts.CONFIG.items.onionRingHasteDurationPerFoodPoint,
-                    Artifacts.CONFIG.items.onionRingHasteLevel
+                    Artifacts.CONFIG.items.onionRingHasteLevel,
+                    Artifacts.CONFIG.items.onionRingHasteDurationPerFoodPoint
             ))
     );
     public static final RegistrySupplier<WearableArtifactItem> PICKAXE_HEATER = wearableItem("pickaxe_heater", builder -> builder

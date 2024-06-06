@@ -43,7 +43,7 @@ public class ModAbilities {
     public static final RegistrySupplier<Type<IncreaseEnchantmentLevelAbility>> INCREASE_ENCHANTMENT_LEVEL = register("increase_enchantment_level", IncreaseEnchantmentLevelAbility.CODEC, IncreaseEnchantmentLevelAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<LimitedWaterBreathingAbility>> LIMITED_WATER_BREATHING = register("limited_water_breathing", LimitedWaterBreathingAbility.CODEC, LimitedWaterBreathingAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<MakePiglinsNeutralAbility>> MAKE_PIGLINS_NEUTRAL = register("make_piglins_neutral", MakePiglinsNeutralAbility.CODEC, MakePiglinsNeutralAbility.STREAM_CODEC);
-    public static final RegistrySupplier<Type<GenericMobEffectAbility>> MOB_EFFECT = register("mob_effect", GenericMobEffectAbility.CODEC, GenericMobEffectAbility.STREAM_CODEC);
+    public static final RegistrySupplier<Type<PermanentMobEffectAbility>> MOB_EFFECT = register("mob_effect", PermanentMobEffectAbility.CODEC, PermanentMobEffectAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<ModifyHurtSoundAbility>> MODIFY_HURT_SOUND = register("modify_hurt_sound", ModifyHurtSoundAbility.CODEC, ModifyHurtSoundAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<NightVisionAbility>> NIGHT_VISION = register("night_vision", NightVisionAbility.CODEC, NightVisionAbility.STREAM_CODEC);
     public static final RegistrySupplier<Type<SimpleAbility>> NULLIFY_ENDER_PEARL_DAMAGE = register("nullify_ender_pearl_damage", SimpleAbility::createType);

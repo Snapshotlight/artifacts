@@ -108,8 +108,8 @@ public class ItemStackMixin {
     @Unique
     private static void addAbilityAttributeTooltips(ItemStack stack, Consumer<Component> tooltip) {
         AbilityHelper.getAbilities(ModAbilities.ATTRIBUTE_MODIFIER.get(), stack).forEach(ability -> addAbilityAttributeTooltip(tooltip, ability));
-        AbilityHelper.getAbilities(ModAbilities.MOB_EFFECT.get(), stack).forEach(ability -> addMobEffectTooltip(tooltip, ability.getMobEffect().value(), ability.getDuration(), ability.getLevel().get(), ability.isInfinite()));
-        AbilityHelper.getAbilities(ModAbilities.LIMITED_WATER_BREATHING.get(), stack).forEach(ability -> addMobEffectTooltip(tooltip, ability.getMobEffect().value(), ability.getDuration(), ability.getLevel().get(), ability.isInfinite()));
+        AbilityHelper.getAbilities(ModAbilities.MOB_EFFECT.get(), stack).forEach(ability -> addMobEffectTooltip(tooltip, ability.mobEffect().value(), ability.duration().get(), ability.level().get(), ability.isInfinite()));
+        AbilityHelper.getAbilities(ModAbilities.LIMITED_WATER_BREATHING.get(), stack).forEach(ability -> addMobEffectTooltip(tooltip, ability.mobEffect().value(), ability.duration().get(), ability.level().get(), ability.isInfinite()));
     }
 
     @Unique
@@ -189,7 +189,7 @@ public class ItemStackMixin {
             tooltip.accept(CommonComponents.EMPTY);
             tooltip.accept(Component.translatable("artifacts.tooltip.per_food_point_restored").withStyle(ChatFormatting.GRAY));
             AbilityHelper.getAbilities(ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING.get(), stack).forEach(ability ->
-                    addMobEffectTooltip(tooltip, ability.mobEffect().value(), ability.durationPerFoodPoint().get(), ability.level().get(), false)
+                    addMobEffectTooltip(tooltip, ability.mobEffect().value(), ability.duration().get(), ability.level().get(), false)
             );
         }
     }

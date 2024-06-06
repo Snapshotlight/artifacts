@@ -1,6 +1,5 @@
 package artifacts.ability.mobeffect;
 
-import artifacts.ability.ArtifactAbility;
 import artifacts.config.value.Value;
 import artifacts.config.value.ValueTypes;
 import artifacts.registry.ModAbilities;
@@ -18,7 +17,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -26,19 +24,17 @@ import net.minecraft.world.entity.player.Player;
 import java.util.List;
 import java.util.Set;
 
-public record AttacksInflictMobEffectAbility(Holder<MobEffect> mobEffect, Value<Integer> level, Value<Integer> duration, Value<Integer> cooldown) implements ArtifactAbility {
+public record AttacksInflictMobEffectAbility(Holder<MobEffect> mobEffect, Value<Integer> level, Value<Integer> duration, Value<Integer> cooldown) implements MobEffectAbility {
 
     private static final Set<Holder<MobEffect>> CUSTOM_TOOLTIP_MOB_EFFECTS = Set.of(
-            MobEffects.WITHER,
-            MobEffects.POISON
+            MobEffects.WITHER
     );
 
-    public static final MapCodec<AttacksInflictMobEffectAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(AttacksInflictMobEffectAbility::mobEffect),
-            ValueTypes.mobEffectLevelField().forGetter(AttacksInflictMobEffectAbility::level),
-            ValueTypes.DURATION.codec().fieldOf("duration").forGetter(AttacksInflictMobEffectAbility::duration),
-            ValueTypes.cooldownField().forGetter(AttacksInflictMobEffectAbility::cooldown)
-    ).apply(instance, AttacksInflictMobEffectAbility::new));
+    public static final MapCodec<AttacksInflictMobEffectAbility> CODEC = RecordCodecBuilder.mapCodec(
+            instance -> MobEffectAbility.codecStartWithDuration(instance)
+                    .and(ValueTypes.cooldownField().forGetter(AttacksInflictMobEffectAbility::cooldown))
+                    .apply(instance, AttacksInflictMobEffectAbility::new)
+    );
 
     public static final StreamCodec<RegistryFriendlyByteBuf, AttacksInflictMobEffectAbility> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT),
@@ -57,13 +53,18 @@ public record AttacksInflictMobEffectAbility(Holder<MobEffect> mobEffect, Value<
         LivingEntity attacker = DamageSourceHelper.getAttacker(damageSource);
         if (attacker != null && DamageSourceHelper.isMeleeAttack(damageSource)) {
             AbilityHelper.forEach(ModAbilities.ATTACKS_INFLICT_MOB_EFFECT.get(), attacker, (ability, stack) -> {
-                entity.addEffect(new MobEffectInstance(ability.mobEffect(), ability.duration().get() * 20, ability.level().get() - 1), attacker);
+                entity.addEffect(ability.createEffect(attacker), attacker);
                 if (attacker instanceof Player player) {
                     player.getCooldowns().addCooldown(stack.getItem(), ability.cooldown().get() * 20);
                 }
             }, true);
         }
         return EventResult.pass();
+    }
+
+    @Override
+    public boolean isVisible() {
+        return true;
     }
 
     @Override

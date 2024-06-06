@@ -14,7 +14,7 @@ import net.minecraft.world.effect.MobEffects;
 import java.util.List;
 import java.util.Objects;
 
-public class NightVisionAbility extends MobEffectAbility {
+public class NightVisionAbility extends ConstantMobEffectAbility {
 
     public static final MapCodec<NightVisionAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ValueTypes.FRACTION.codec().optionalFieldOf("strength", Value.of(1D)).forGetter(NightVisionAbility::strength)

@@ -19,38 +19,37 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class GenericMobEffectAbility extends MobEffectAbility {
+public class PermanentMobEffectAbility extends ConstantMobEffectAbility {
 
     private static final Set<Holder<MobEffect>> CUSTOM_TOOLTIP_MOB_EFFECTS = Set.of(
             MobEffects.INVISIBILITY
     );
 
-    public static final MapCodec<GenericMobEffectAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(GenericMobEffectAbility::getMobEffect),
-            ValueTypes.mobEffectLevelField().forGetter(GenericMobEffectAbility::getLevel),
-            ValueTypes.enabledField().forGetter(ability -> ability.enabled)
-    ).apply(instance, GenericMobEffectAbility::new));
+    public static final MapCodec<PermanentMobEffectAbility> CODEC = RecordCodecBuilder.mapCodec(instance -> MobEffectAbility.codecStart(instance)
+            .and(ValueTypes.enabledField().forGetter(ability -> ability.enabled))
+            .apply(instance, PermanentMobEffectAbility::new)
+    );
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, GenericMobEffectAbility> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, PermanentMobEffectAbility> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT),
-            GenericMobEffectAbility::getMobEffect,
+            PermanentMobEffectAbility::mobEffect,
             ValueTypes.MOB_EFFECT_LEVEL.streamCodec(),
-            GenericMobEffectAbility::getLevel,
+            PermanentMobEffectAbility::level,
             ValueTypes.BOOLEAN.streamCodec(),
             ability -> ability.enabled,
-            GenericMobEffectAbility::new
+            PermanentMobEffectAbility::new
     );
 
     private final Value<Boolean> enabled;
 
-    public GenericMobEffectAbility(Holder<MobEffect> mobEffect, Value<Integer> level, Value<Boolean> enabled) {
+    public PermanentMobEffectAbility(Holder<MobEffect> mobEffect, Value<Integer> level, Value<Boolean> enabled) {
         super(mobEffect, level);
         this.enabled = enabled;
     }
 
     @Override
-    public Value<Integer> getLevel() {
-        return enabled.get() ? super.getLevel() : Value.of(0);
+    public Value<Integer> level() {
+        return enabled.get() ? super.level() : Value.of(0);
     }
 
     @Override
@@ -61,7 +60,7 @@ public class GenericMobEffectAbility extends MobEffectAbility {
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
         for (Holder<MobEffect> mobEffect : CUSTOM_TOOLTIP_MOB_EFFECTS) {
-            if (mobEffect.isBound() && mobEffect.value() == getMobEffect().value()) {
+            if (mobEffect.isBound() && mobEffect.value() == mobEffect().value()) {
                 //noinspection ConstantConditions
                 tooltip.add(tooltipLine(BuiltInRegistries.MOB_EFFECT.getKey(mobEffect.value()).getPath()));
                 return;
@@ -74,7 +73,7 @@ public class GenericMobEffectAbility extends MobEffectAbility {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        GenericMobEffectAbility that = (GenericMobEffectAbility) o;
+        PermanentMobEffectAbility that = (PermanentMobEffectAbility) o;
         return enabled.equals(that.enabled);
     }
 

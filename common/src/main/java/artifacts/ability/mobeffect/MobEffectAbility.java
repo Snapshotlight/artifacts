@@ -2,108 +2,60 @@ package artifacts.ability.mobeffect;
 
 import artifacts.ability.ArtifactAbility;
 import artifacts.config.value.Value;
+import artifacts.config.value.ValueTypes;
+import com.mojang.datafixers.Products;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
+public interface MobEffectAbility extends ArtifactAbility {
 
-public abstract class MobEffectAbility implements ArtifactAbility {
-
-    private final Holder<MobEffect> mobEffect;
-    protected final Value<Integer> level;
-
-    protected MobEffectAbility(Holder<MobEffect> mobEffect) {
-        this(mobEffect, Value.of(1));
+    static <T extends MobEffectAbility> Products.P2<RecordCodecBuilder.Mu<T>, Holder<MobEffect>, Value<Integer>> codecStart(RecordCodecBuilder.Instance<T> instance) {
+        return instance.group(
+                BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("mob_effect").forGetter(MobEffectAbility::mobEffect),
+                ValueTypes.mobEffectLevelField().forGetter(MobEffectAbility::level)
+        );
     }
 
-    protected MobEffectAbility(Holder<MobEffect> mobEffect, Value<Integer> level) {
-        this.mobEffect = mobEffect;
-        this.level = level;
+    static <T extends MobEffectAbility> Products.P3<RecordCodecBuilder.Mu<T>, Holder<MobEffect>, Value<Integer>, Value<Integer>> codecStartWithDuration(RecordCodecBuilder.Instance<T> instance) {
+        return codecStart(instance).and(ValueTypes.DURATION.codec().fieldOf("duration").forGetter(MobEffectAbility::duration));
     }
 
-    public Holder<MobEffect> getMobEffect() {
-        return mobEffect;
+    Holder<MobEffect> mobEffect();
+
+    Value<Integer> level();
+
+    Value<Integer> duration();
+
+    default int getAmplifier() {
+        return level().get() - 1;
     }
 
-    public Value<Integer> getLevel() {
-        return level;
-    }
-
-    public int getAmplifier() {
-        return this.getLevel().get() - 1;
-    }
-
-    public int getDuration() {
-        return 20;
-    }
-
-    public boolean isInfinite() {
-        return true;
-    }
-
-    protected int getAdditionalDuration(LivingEntity target) {
-        return 0;
-    }
-
-    @Nullable
-    protected LivingEntity getTarget(LivingEntity entity) {
-        return entity;
-    }
-
-    protected boolean shouldShowIcon() {
+    default boolean isVisible() {
         return false;
     }
 
-    protected boolean shouldShowParticles() {
-        return false;
+    default boolean shouldShowIcon() {
+        return isVisible();
     }
 
-    protected int getUpdateInterval() {
-        return 1;
+    default int getDuration(LivingEntity entity) {
+        return duration().get() * 20;
     }
 
-    protected boolean shouldApplyMobEffect(LivingEntity entity) {
-        return true;
+    default MobEffectInstance createEffect(LivingEntity entity) {
+        return createEffect(getDuration(entity));
     }
 
-    @Override
-    public boolean isNonCosmetic() {
-        return level.get() > 0;
-    }
-
-    @Override
-    public void wornTick(LivingEntity entity, boolean isOnCooldown, boolean isActive) {
-        if (!entity.level().isClientSide() && isActive && shouldApplyMobEffect(entity)) {
-            LivingEntity target = getTarget(entity);
-            if (target != null && entity.tickCount % getUpdateInterval() == 0) {
-                target.addEffect(new MobEffectInstance(getMobEffect(), getDuration() + getAdditionalDuration(target) + 19, getAmplifier(), false, shouldShowParticles(), shouldShowIcon()));
-            }
-        }
+    default MobEffectInstance createEffect(int duration) {
+        return new MobEffectInstance(mobEffect(), duration, getAmplifier(), false, isVisible(), shouldShowIcon());
     }
 
     @Override
-    public void onUnequip(LivingEntity entity, boolean wasActive) {
-        if (!entity.level().isClientSide() && getTarget(entity) == entity && wasActive) {
-            MobEffectInstance effectInstance = entity.getEffect(getMobEffect());
-            if (effectInstance != null && effectInstance.getAmplifier() == getAmplifier() && !effectInstance.isVisible() && effectInstance.getDuration() < getDuration() + 19) {
-                entity.removeEffect(getMobEffect());
-            }
-        }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MobEffectAbility that = (MobEffectAbility) o;
-        return mobEffect.equals(that.getMobEffect()) && level.equals(that.level);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(mobEffect, level);
+    default boolean isNonCosmetic() {
+        return level().get() > 0 && duration().get() > 0;
     }
 }
