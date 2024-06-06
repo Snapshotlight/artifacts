@@ -25,7 +25,6 @@ import dev.architectury.event.events.common.TickEvent;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
@@ -146,8 +145,7 @@ public class ArtifactEvents {
     private static EventResult onLightningHurt(LivingEntity entity, DamageSource damageSource, float amount) {
         if (!entity.level().isClientSide()
                 && amount > 0
-                && damageSource.is(DamageTypeTags.IS_LIGHTNING)
-                && AbilityHelper.hasAbilityActive(ModAbilities.LIGHTNING_IMMUNITY.get(), entity)
+                && AbilityHelper.hasAbilityActive(ModAbilities.DAMAGE_IMMUNITY.get(), entity, ability -> damageSource.is(ability.tag()))
         ) {
             return EventResult.interruptFalse();
         }

@@ -115,7 +115,7 @@ public class ModItems {
                     Artifacts.CONFIG.items.shockPendantStrikeChance,
                     Artifacts.CONFIG.items.shockPendantCooldown
             ))
-            .addAbility(new SimpleAbility(ModAbilities.LIGHTNING_IMMUNITY, Artifacts.CONFIG.items.shockPendantCancelLightningDamage))
+            .addAbility(new DamageImmunityAbility(Artifacts.CONFIG.items.shockPendantCancelLightningDamage, DamageTypeTags.IS_LIGHTNING))
     );
     public static final RegistrySupplier<WearableArtifactItem> FLAME_PENDANT = wearableItem("flame_pendant", builder -> builder
             .addAbility(new SetAttackersOnFireAbility(
@@ -259,7 +259,7 @@ public class ModItems {
 
     // feet
     public static final RegistrySupplier<WearableArtifactItem> AQUA_DASHERS = wearableItem("aqua_dashers", builder -> builder
-            .addAbility(new CollideWithFluidsAbility(ModAbilities.SPRINT_ON_FLUIDS, Artifacts.CONFIG.items.aquaDashersEnabled, Value.Constant.TRUE, Optional.empty()))
+            .addAbility(new CollideWithFluidsAbility(ModAbilities.SPRINT_ON_FLUIDS, Artifacts.CONFIG.items.aquaDashersEnabled, Optional.empty()))
     );
     public static final RegistrySupplier<WearableArtifactItem> BUNNY_HOPPERS = wearableItem("bunny_hoppers", builder -> builder
             .addAttributeModifier(Attributes.JUMP_STRENGTH, Artifacts.CONFIG.items.bunnyHoppersJumpStrengthBonus, AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
@@ -297,7 +297,8 @@ public class ModItems {
     );
     public static final RegistrySupplier<WearableArtifactItem> STRIDER_SHOES = wearableItem("strider_shoes", builder -> builder
             .equipSound(SoundEvents.ARMOR_EQUIP_LEATHER)
-            .addAbility(new CollideWithFluidsAbility(ModAbilities.SNEAK_ON_FLUIDS, Artifacts.CONFIG.items.striderShoesEnabled, Value.Constant.FALSE, Optional.of(FluidTags.LAVA)))
+            .addAbility(new CollideWithFluidsAbility(ModAbilities.SNEAK_ON_FLUIDS, Artifacts.CONFIG.items.striderShoesEnabled, Optional.of(FluidTags.LAVA)))
+            .addAbility(new DamageImmunityAbility(Artifacts.CONFIG.items.striderShoesCancelHotFloorDamage, ModTags.IS_HOT_FLOOR))
     );
 
     // curio

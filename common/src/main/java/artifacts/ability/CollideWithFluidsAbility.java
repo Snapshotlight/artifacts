@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
-public record CollideWithFluidsAbility(Supplier<Type<CollideWithFluidsAbility>> type, Value<Boolean> enabled, Value<Boolean> dealLavaDamage, Optional<TagKey<Fluid>> tag) implements ArtifactAbility {
+public record CollideWithFluidsAbility(Supplier<Type<CollideWithFluidsAbility>> type, Value<Boolean> enabled, Optional<TagKey<Fluid>> tag) implements ArtifactAbility {
 
     public static Type<CollideWithFluidsAbility> createType() {
         AtomicReference<Type<CollideWithFluidsAbility>> type = new AtomicReference<>();
@@ -31,20 +31,17 @@ public record CollideWithFluidsAbility(Supplier<Type<CollideWithFluidsAbility>> 
     private static MapCodec<CollideWithFluidsAbility> codec(Supplier<Type<CollideWithFluidsAbility>> type) {
         return RecordCodecBuilder.mapCodec(instance -> instance.group(
                 ValueTypes.BOOLEAN.enabledField().forGetter(CollideWithFluidsAbility::enabled),
-                ValueTypes.BOOLEAN.codec().optionalFieldOf("deal_lava_damage", Value.Constant.TRUE).forGetter(CollideWithFluidsAbility::dealLavaDamage),
                 TagKey.codec(Registries.FLUID).optionalFieldOf("tag").forGetter(CollideWithFluidsAbility::tag)
-        ).apply(instance, (enabled, dealLavaDamage, tag) -> new CollideWithFluidsAbility(type, enabled, dealLavaDamage, tag)));
+        ).apply(instance, (enabled, tag) -> new CollideWithFluidsAbility(type, enabled, tag)));
     }
 
     private static StreamCodec<ByteBuf, CollideWithFluidsAbility> streamCodec(Supplier<Type<CollideWithFluidsAbility>> type) {
         return StreamCodec.composite(
                 ValueTypes.BOOLEAN.streamCodec(),
                 CollideWithFluidsAbility::enabled,
-                ValueTypes.BOOLEAN.streamCodec(),
-                CollideWithFluidsAbility::dealLavaDamage,
                 ByteBufCodecs.optional(ModCodecs.tagKeyStreamCodec(Registries.FLUID)),
                 CollideWithFluidsAbility::tag,
-                (enabled, dealLavaDamage, tag) -> new CollideWithFluidsAbility(type, enabled, dealLavaDamage, tag)
+                (enabled, tag) -> new CollideWithFluidsAbility(type, enabled, tag)
         );
     }
 

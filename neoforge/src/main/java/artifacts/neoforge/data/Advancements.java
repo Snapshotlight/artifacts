@@ -1,6 +1,7 @@
 package artifacts.neoforge.data;
 
 import artifacts.Artifacts;
+import artifacts.neoforge.data.tags.ItemTags;
 import artifacts.registry.ModEntityTypes;
 import artifacts.registry.ModItems;
 import net.minecraft.advancements.Advancement;

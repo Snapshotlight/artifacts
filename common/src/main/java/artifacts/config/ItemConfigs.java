@@ -36,7 +36,7 @@ public class ItemConfigs extends ConfigManager {
             scarfOfInvisibilityEnabled = defineBool(createKey(ModItems.SCARF_OF_INVISIBILITY, "enabled"),
                     "Whether the Scarf of Invisibility makes players invisible"),
             striderShoesEnabled = defineBool(createKey(ModItems.STRIDER_SHOES, "enabled"),
-                    "Whether the strider shoes allow sneaking on lava"),
+                    "Whether the Strider Shoes allow sneaking on lava"),
             universalAttractorEnabled = defineBool(createKey(ModItems.UNIVERSAL_ATTRACTOR, "enabled"),
                     "Whether the Universal Attractor attracts nearby items"),
             warpDriveEnabled = defineBool(createKey(ModItems.WARP_DRIVE, "enabled"),
@@ -54,6 +54,9 @@ public class ItemConfigs extends ConfigManager {
                     "Whether the Snorkel's water breathing effect depletes when underwater"),
             snowshoesAllowWalkingOnPowderedSnow = defineBool(createKey(ModItems.SNOWSHOES, "allowWalkingOnPowderedSnow"),
                     "Whether the Snowshoes allow the wearer to walk on powdered snow"),
+            striderShoesCancelHotFloorDamage = defineBool(createKey(ModItems.STRIDER_SHOES, "cancelHotFloorDamage"),
+                    "Whether the Strider Shoes make the wearer immune to hot floor damage"
+            ),
             umbrellaIsShield = defineBool(createKey(ModItems.UMBRELLA, "isShield"),
                     "Whether the Umbrella can be used as a shield"),
             umbrellaIsGlider = defineBool(createKey(ModItems.UMBRELLA, "isGlider"),

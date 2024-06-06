@@ -48,11 +48,8 @@ public class SwimEvents {
         SwimData swimData = PlatformServices.platformHelper.getSwimData(player);
         if (swimData == null || swimData.isWet() || swimData.isSwimming()) {
             return false;
-        } else if (canSprintOnFluid(player, fluidState)) {
-            dealLavaDamage(player, fluidState, ModAbilities.SPRINT_ON_FLUIDS.get());
-            return true;
-        } else if (canSneakOnFluid(player, fluidState)) {
-            dealLavaDamage(player, fluidState, ModAbilities.SNEAK_ON_FLUIDS.get());
+        } else if (canSprintOnFluid(player, fluidState) || canSneakOnFluid(player, fluidState)) {
+            dealLavaDamage(player, fluidState);
             return true;
         }
         return false;
@@ -73,13 +70,8 @@ public class SwimEvents {
         return AbilityHelper.hasAbilityActive(type, entity, ability -> ability.tag().isEmpty() || fluidState.is(ability.tag().get()));
     }
 
-    private static void dealLavaDamage(LivingEntity entity, FluidState fluidState, ArtifactAbility.Type<CollideWithFluidsAbility> type) {
-        if (fluidState.is(FluidTags.LAVA) && !entity.fireImmune() && !EnchantmentHelper.hasFrostWalker(entity)
-                && AbilityHelper.hasAbilityActive(
-                        type, entity, ability ->
-                        ability.dealLavaDamage().get() && (ability.tag().isEmpty() || fluidState.is(ability.tag().get()))
-                )
-        ) {
+    private static void dealLavaDamage(LivingEntity entity, FluidState fluidState) {
+        if (fluidState.is(FluidTags.LAVA) && !entity.fireImmune() && !EnchantmentHelper.hasFrostWalker(entity)) {
             entity.hurt(entity.damageSources().hotFloor(), 1);
         }
     }

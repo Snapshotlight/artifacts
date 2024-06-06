@@ -1,4 +1,4 @@
-package artifacts.neoforge.data;
+package artifacts.neoforge.data.tags;
 
 import artifacts.Artifacts;
 import artifacts.registry.ModItems;

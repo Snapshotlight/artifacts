@@ -2,6 +2,7 @@ package artifacts.neoforge;
 
 import artifacts.Artifacts;
 import artifacts.neoforge.data.*;
+import artifacts.neoforge.data.tags.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -31,6 +32,7 @@ public class ArtifactsData {
         generator.addProvider(event.includeServer(), new LootTables(packOutput, existingFileHelper, lootModifiers, lookupProvider));
         generator.addProvider(event.includeServer(), new EntityTypeTags(packOutput, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new MobEffectTags(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new DamageTypeTags(packOutput, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new SoundDefinitions(packOutput, existingFileHelper));
         generator.addProvider(event.includeServer(), new Advancements(packOutput, lookupProvider, existingFileHelper));
 
