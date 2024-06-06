@@ -34,8 +34,13 @@ public class AbilityHelper {
     }
 
     public static boolean hasAbility(ArtifactAbility.Type<?> type, ItemStack stack) {
+        return hasAbility(type, stack, ability -> true);
+    }
+
+    public static <T extends ArtifactAbility> boolean hasAbility(ArtifactAbility.Type<T> type, ItemStack stack, Predicate<T> predicate) {
         for (ArtifactAbility ability : getAbilities(stack)) {
-            if (ability.getType() == type && ability.isEnabled()) {
+            // noinspection unchecked
+            if (ability.getType() == type && ability.isEnabled() && predicate.test((T) ability)) {
                 return true;
             }
         }

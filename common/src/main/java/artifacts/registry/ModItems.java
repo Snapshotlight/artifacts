@@ -253,7 +253,8 @@ public class ModItems {
                     MobEffects.WITHER,
                     Artifacts.CONFIG.items.witheredBraceletWitherLevel,
                     Artifacts.CONFIG.items.witheredBraceletWitherDuration,
-                    Artifacts.CONFIG.items.witheredBraceletCooldown
+                    Artifacts.CONFIG.items.witheredBraceletCooldown,
+                    Artifacts.CONFIG.items.witheredBraceletWitherChance
             ))
     );
 

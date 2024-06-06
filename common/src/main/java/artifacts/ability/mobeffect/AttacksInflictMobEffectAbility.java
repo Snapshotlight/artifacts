@@ -15,6 +15,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -24,7 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import java.util.List;
 import java.util.Set;
 
-public record AttacksInflictMobEffectAbility(Holder<MobEffect> mobEffect, Value<Integer> level, Value<Integer> duration, Value<Integer> cooldown) implements MobEffectAbility {
+public record AttacksInflictMobEffectAbility(Holder<MobEffect> mobEffect, Value<Integer> level, Value<Integer> duration, Value<Integer> cooldown, Value<Double> chance) implements MobEffectAbility {
 
     private static final Set<Holder<MobEffect>> CUSTOM_TOOLTIP_MOB_EFFECTS = Set.of(
             MobEffects.WITHER
@@ -33,6 +34,7 @@ public record AttacksInflictMobEffectAbility(Holder<MobEffect> mobEffect, Value<
     public static final MapCodec<AttacksInflictMobEffectAbility> CODEC = RecordCodecBuilder.mapCodec(
             instance -> MobEffectAbility.codecStartWithDuration(instance)
                     .and(ValueTypes.cooldownField().forGetter(AttacksInflictMobEffectAbility::cooldown))
+                    .and(ValueTypes.FRACTION.codec().optionalFieldOf("chance", Value.of(1D)).forGetter(AttacksInflictMobEffectAbility::chance))
                     .apply(instance, AttacksInflictMobEffectAbility::new)
     );
 
@@ -45,17 +47,21 @@ public record AttacksInflictMobEffectAbility(Holder<MobEffect> mobEffect, Value<
             AttacksInflictMobEffectAbility::duration,
             ValueTypes.DURATION.streamCodec(),
             AttacksInflictMobEffectAbility::cooldown,
+            ValueTypes.FRACTION.streamCodec(),
+            AttacksInflictMobEffectAbility::chance,
             AttacksInflictMobEffectAbility::new
     );
 
     @SuppressWarnings("unused")
     public static EventResult onLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {
         LivingEntity attacker = DamageSourceHelper.getAttacker(damageSource);
-        if (attacker != null && DamageSourceHelper.isMeleeAttack(damageSource)) {
+        if (attacker != null && DamageSourceHelper.isMeleeAttack(damageSource) && !entity.level().isClientSide()) {
             AbilityHelper.forEach(ModAbilities.ATTACKS_INFLICT_MOB_EFFECT.get(), attacker, (ability, stack) -> {
-                entity.addEffect(ability.createEffect(attacker), attacker);
-                if (attacker instanceof Player player) {
-                    player.getCooldowns().addCooldown(stack.getItem(), ability.cooldown().get() * 20);
+                if (entity.getRandom().nextDouble() < ability.chance().get()) {
+                    entity.addEffect(ability.createEffect(attacker), attacker);
+                    if (attacker instanceof Player player) {
+                        player.getCooldowns().addCooldown(stack.getItem(), ability.cooldown().get() * 20);
+                    }
                 }
             }, true);
         }
@@ -74,7 +80,7 @@ public record AttacksInflictMobEffectAbility(Holder<MobEffect> mobEffect, Value<
 
     @Override
     public boolean isNonCosmetic() {
-        return duration().get() > 0 && level().get() > 0;
+        return duration().get() > 0 && level().get() > 0 && chance().get() > 0;
     }
 
     @Override
@@ -82,7 +88,12 @@ public record AttacksInflictMobEffectAbility(Holder<MobEffect> mobEffect, Value<
         for (Holder<MobEffect> mobEffect : CUSTOM_TOOLTIP_MOB_EFFECTS) {
             if (mobEffect.isBound() && mobEffect.value() == mobEffect().value()) {
                 //noinspection ConstantConditions
-                tooltip.add(tooltipLine(BuiltInRegistries.MOB_EFFECT.getKey(mobEffect.value()).getPath()));
+                String name = BuiltInRegistries.MOB_EFFECT.getKey(mobEffect.value()).getPath();
+                if (Mth.equal(chance().get(), 1)) {
+                    tooltip.add(tooltipLine(name + ".constant"));
+                } else {
+                    tooltip.add(tooltipLine(name + ".chance"));
+                }
                 return;
             }
         }

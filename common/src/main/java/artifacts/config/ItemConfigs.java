@@ -93,11 +93,11 @@ public class ItemConfigs extends ConfigManager {
                     "The amount of extra ticks the player stays invincible for " +
                     "after taking damage while wearing the Cross Necklace"),
             crystalHeartHealthBonus = defineAttributeModifier(createKey(ModItems.CRYSTAL_HEART, "healthBonus"), 10,
-                    "The amount of extra health points that are granted by the crystal heart"),
+                    "The amount of extra health points that are granted by the Crystal Heart"),
             diggingClawsBlockBreakSpeedBonus = defineAttributeModifier(createKey(ModItems.DIGGING_CLAWS, "blockBreakSpeedBonus"), 0.30,
-                    "How much the digging claws increase the wearer's mining speed"),
+                    "How much the Digging Claws increase the wearer's mining speed"),
             feralClawsAttackSpeedBonus = defineAttributeModifier(createKey(ModItems.FERAL_CLAWS, "attackSpeedBonus"), 0.40,
-                    "How much the feral claws increase the wearer's attack speed"),
+                    "How much the Feral Claws increase the wearer's attack speed"),
             fireGauntletFireDuration = defineAttributeModifier(createKey(ModItems.FIRE_GAUNTLET, "fireDuration"), 8,
                     "How long an entity is set on fire for after being attacked by an entity wearing the Fire Gauntlet"),
             flippersSwimSpeedBonus = defineAttributeModifier(createKey(ModItems.FLIPPERS, "swimSpeedBonus"), 0.70,
@@ -131,7 +131,7 @@ public class ItemConfigs extends ConfigManager {
                     "The maximum amount of healing that can be absorbed in a single hit " +
                     "when attacking an entity while wearing the Vampiric Glove"),
             villagerHatReputationBonus = defineAttributeModifier(createKey(ModItems.VILLAGER_HAT, "reputationBonus"), 75,
-                    "The amount of extra reputation that is granted by the villager hat when trading with villagers");
+                    "The amount of extra reputation that is granted by the Villager Hat when trading with villagers");
 
     public final Value.ConfigValue<Double>
             whoopeeCushionFartChance = defineFraction(createKey(ModItems.WHOOPEE_CUSHION, "fartChance"), 0.12,
@@ -140,15 +140,17 @@ public class ItemConfigs extends ConfigManager {
             chorusTotemTeleportationChance = defineFraction(createKey(ModItems.CHORUS_TOTEM, "teleportationChance"), 1.00,
                     "The probability that the Chorus Totem activates when a player dies"),
             flamePendantStrikeChance = defineFraction(createKey(ModItems.FLAME_PENDANT, "strikeChance"), 0.40,
-                    "The probability that the flame pendant lights an attacker on fire"),
+                    "The probability that the Flame Pendant lights an attacker on fire"),
             nightVisionGogglesStrength = defineFraction(createKey(ModItems.NIGHT_VISION_GOGGLES, "strength"), 0.15,
                     "The strength of the night vision effect applied by the Night Vision Goggles"),
             thornPendantStrikeChance = defineFraction(createKey(ModItems.THORN_PENDANT, "strikeChance"), 0.50,
-                    "The probability that the thorn pendant damages an attacking entity"),
+                    "The probability that the Thorn Pendant damages an attacking entity"),
             shockPendantStrikeChance = defineFraction(createKey(ModItems.SHOCK_PENDANT, "strikeChance"), 0.25,
                     "The probability that the Shock Pendant strikes an attacking entity with lightning"),
             vampiricGloveAbsorptionRatio = defineFraction(createKey(ModItems.VAMPIRIC_GLOVE, "absorptionRatio"), 0.20,
-                    "The proportion of melee damage dealt that is absorbed by the Vampiric Gloves");
+                    "The proportion of melee damage dealt that is absorbed by the Vampiric Gloves"),
+            witheredBraceletWitherChance = defineFraction(createKey(ModItems.WITHERED_BRACELET, "witherChance"), 0.3,
+                    "The probability that the Withered Bracelet inflicts a wither effect");
 
     public final Value.ConfigValue<Integer>
             chorusTotemHealthRestored = defineNonNegativeInt(createKey(ModItems.CHORUS_TOTEM, "healthRestored"), 10,
@@ -162,7 +164,7 @@ public class ItemConfigs extends ConfigManager {
 
     public final Value.ConfigValue<Integer>
             antidoteVesselMaxEffectDuration = defineDuration(createKey(ModItems.ANTIDOTE_VESSEL, "maxEffectDuration"), 5,
-                    "The maximum duration in seconds negative mob effects can last when wearing the antidote vessel"),
+                    "The maximum duration in seconds negative mob effects can last when wearing the Antidote Vessel"),
             chorusTotemCooldown = defineDuration(createKey(ModItems.CHORUS_TOTEM, "cooldown"), 0,
                     "The duration in seconds the Chorus Totem goes on cooldown for after activating"),
             crossNecklaceCooldown = defineDuration(createKey(ModItems.CROSS_NECKLACE, "cooldown"), 0,
@@ -190,19 +192,19 @@ public class ItemConfigs extends ConfigManager {
             panicNecklaceSpeedDuration = defineDuration(createKey(ModItems.PANIC_NECKLACE, "speedDuration"), 8,
                     "The duration in seconds of the speed effect that is applied when taking damage while wearing the Panic Necklace"),
             rootedBootsHungerReplenishingDuration = defineDuration(createKey(ModItems.ROOTED_BOOTS, "hungerReplenishingDuration"), 10,
-                    "The amount of time in seconds it takes to replenish a single point of hunger while wearing the rooted boots"),
+                    "The amount of time in seconds it takes to replenish a single point of hunger while wearing the Rooted Boots"),
             shockPendantCooldown = defineDuration(createKey(ModItems.SHOCK_PENDANT, "cooldown"), 0,
                     "The amount of time in seconds the Shock Pendant goes on cooldown for " +
                             "after striking an attacker with lightning"),
             snorkelWaterBreathingDuration = defineDuration(createKey(ModItems.SNORKEL, "waterBreathingDuration"), 15,
                     "The duration of the water breathing effect that is applied by the Snorkel"),
             thornPendantCooldown = defineDuration(createKey(ModItems.THORN_PENDANT, "cooldown"), 0,
-                    "The duration in seconds the thorn pendant goes on cooldown for after activating"),
+                    "The duration in seconds the Thorn Pendant goes on cooldown for after activating"),
             warpDriveCooldown = defineDuration(createKey(ModItems.WARP_DRIVE, "cooldown"), 0,
                     "The duration Ender Pearls go on cooldown for after being thrown using the Warp Drive"),
             witheredBraceletCooldown = defineDuration(createKey(ModItems.WITHERED_BRACELET, "cooldown"), 0,
                     "The duration the Withered Bracelet goes on cooldown for after inflicting wither on an entity"),
-            witheredBraceletWitherDuration = defineDuration(createKey(ModItems.WITHERED_BRACELET, "witherDuration"), 5,
+            witheredBraceletWitherDuration = defineDuration(createKey(ModItems.WITHERED_BRACELET, "witherDuration"), 8,
                     "The duration of the wither effect applied by the Withered Bracelet");
 
     public final Value.ConfigValue<Integer>
@@ -225,7 +227,7 @@ public class ItemConfigs extends ConfigManager {
 
     public final Value.ConfigValue<UpgradeToolTierAbility.Tier>
             diggingClawsToolTier = defineEnum(createKey(ModItems.DIGGING_CLAWS, "toolTier"), ValueTypes.TOOL_TIER, UpgradeToolTierAbility.Tier.STONE,
-                    "The tool tier that the digging claws increase the wearer's mining level to");
+                    "The tool tier that the Digging Claws increase the wearer's mining level to");
 
     protected ItemConfigs() {
         super("items");

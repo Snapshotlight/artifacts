@@ -14,6 +14,7 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
@@ -102,7 +103,8 @@ public class ItemStackMixin {
         }
         addWhenHurtTooltips(consumer, self);
         addPerFoodPointEatenTooltip(consumer, self);
-        addAttacksInflictTooltip(consumer, self);
+        addAttacksInflictTooltip(consumer, self, false);
+        addAttacksInflictTooltip(consumer, self, true);
     }
 
     @Unique
@@ -195,10 +197,12 @@ public class ItemStackMixin {
     }
 
     @Unique
-    private static void addAttacksInflictTooltip(Consumer<Component> tooltip, ItemStack stack) {
-        if (AbilityHelper.hasAbility(ModAbilities.ATTACKS_INFLICT_MOB_EFFECT.get(), stack)) {
+    private static void addAttacksInflictTooltip(Consumer<Component> tooltip, ItemStack stack, boolean chance) {
+        if (AbilityHelper.hasAbility(ModAbilities.ATTACKS_INFLICT_MOB_EFFECT.get(), stack,
+                ability -> chance ^ Mth.equal(ability.chance().get(), 1)
+        )) {
             tooltip.accept(CommonComponents.EMPTY);
-            tooltip.accept(Component.translatable("artifacts.tooltip.attacks_inflict").withStyle(ChatFormatting.GRAY));
+            tooltip.accept(Component.translatable("artifacts.tooltip.attacks_inflict." + (chance ? "chance" : "constant")).withStyle(ChatFormatting.GRAY));
             AbilityHelper.getAbilities(ModAbilities.ATTACKS_INFLICT_MOB_EFFECT.get(), stack).forEach(ability -> {
                 addMobEffectTooltip(tooltip, ability.mobEffect().value(), ability.duration().get(), ability.level().get(), false);
                 if (ability.cooldown().get() > 0) {
