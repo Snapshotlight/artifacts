@@ -1,4 +1,4 @@
-// 1.20.6	2024-05-30T23:05:26.1955372	Item Models: artifacts
+// 1.20.6	2024-06-06T10:21:34.2650745	Item Models: artifacts
 e78ea7a2e3909a584453c885749c9e809ec4bff5 assets/artifacts/models/item/anglers_hat.json
 6857b5e2e0cc4e6ce94cda70b101fb3b4881fa68 assets/artifacts/models/item/antidote_vessel.json
 aab84990a6af764a8c1930badc4a9533a46604ac assets/artifacts/models/item/aqua_dashers.json
@@ -37,6 +37,7 @@ fffc2f23c032ed974a640c53d35faa86eb31241d assets/artifacts/models/item/running_sh
 01e3d47c4e953dc4d52f818b42920ab6b8d18846 assets/artifacts/models/item/snorkel.json
 eab00a7799bf26d1cc5a17144fd6a5252d798852 assets/artifacts/models/item/snowshoes.json
 9790d5504751cba1d96dd14a429c574bd4dcb104 assets/artifacts/models/item/steadfast_spikes.json
+709fad1976f57c9ace9fbaff6e45acf4ecd5ab35 assets/artifacts/models/item/strider_shoes.json
 cd2c3aa105d7d53091b42f0cf3e2da822939f584 assets/artifacts/models/item/superstitious_hat.json
 8ea2cd608815107191a446c558f3ef6d03790d24 assets/artifacts/models/item/thorn_pendant.json
 a9b754c78878aec03a96e994ad1aeb675ce654c4 assets/artifacts/models/item/universal_attractor.json

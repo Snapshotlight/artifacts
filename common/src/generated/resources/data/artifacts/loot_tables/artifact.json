@@ -170,6 +170,11 @@
         },
         {
           "type": "minecraft:item",
+          "name": "artifacts:strider_shoes",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
           "name": "artifacts:superstitious_hat",
           "weight": 8
         },

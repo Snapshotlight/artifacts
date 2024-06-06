@@ -1,8 +1,8 @@
-// 1.20.6	2024-05-31T18:22:23.9751392	Tags for minecraft:item mod id artifacts
-bda64b688262251b4f45cf58d3e5a0654210ab78 data/artifacts/tags/items/artifacts.json
+// 1.20.6	2024-06-06T10:21:34.2640746	Tags for minecraft:item mod id artifacts
+8dd1563f299da374a09d42f0e3b2b918d201d735 data/artifacts/tags/items/artifacts.json
 2465e2164941a4a1d92ea3320f702f0c092e64c6 data/artifacts/tags/items/slot/all.json
 45ebe6fc31c7b20af72d8dc2fe73cb72dca208ed data/artifacts/tags/items/slot/belt.json
-1ee82169f705b4d2faa0607b952b403077567e85 data/artifacts/tags/items/slot/feet.json
+7ea6d8f0dded59b0270285f0b0d1b80fafbafade data/artifacts/tags/items/slot/feet.json
 71feaab41b2dc1a78f24cb9aa9f3b7bd345d9a9d data/artifacts/tags/items/slot/hands.json
 59bc04456acff9528d3230b7e6f96ee2019efe1e data/artifacts/tags/items/slot/head.json
 7738bbecafe9c111036ed682937ea34045f20568 data/artifacts/tags/items/slot/necklace.json

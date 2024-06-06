@@ -35,6 +35,8 @@ public class ItemConfigs extends ConfigManager {
                     "Whether the Rooted Boots replenish hunger when standing on grass"),
             scarfOfInvisibilityEnabled = defineBool(createKey(ModItems.SCARF_OF_INVISIBILITY, "enabled"),
                     "Whether the Scarf of Invisibility makes players invisible"),
+            striderShoesEnabled = defineBool(createKey(ModItems.STRIDER_SHOES, "enabled"),
+                    "Whether the strider shoes allow sneaking on lava"),
             universalAttractorEnabled = defineBool(createKey(ModItems.UNIVERSAL_ATTRACTOR, "enabled"),
                     "Whether the Universal Attractor attracts nearby items"),
             warpDriveEnabled = defineBool(createKey(ModItems.WARP_DRIVE, "enabled"),

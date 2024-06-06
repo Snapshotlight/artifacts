@@ -19,6 +19,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -293,6 +294,10 @@ public class ModItems {
                     Artifacts.CONFIG.items.rootedBootsHungerReplenishingDuration
             ))
             .addAbility(new SimpleAbility(ModAbilities.GROW_PLANTS_AFTER_EATING, Artifacts.CONFIG.items.rootedBootsGrowPlantsAfterEating))
+    );
+    public static final RegistrySupplier<WearableArtifactItem> STRIDER_SHOES = wearableItem("strider_shoes", builder -> builder
+            .equipSound(SoundEvents.ARMOR_EQUIP_LEATHER)
+            .addAbility(new CollideWithFluidsAbility(ModAbilities.SNEAK_ON_FLUIDS, Artifacts.CONFIG.items.striderShoesEnabled, Value.Constant.FALSE, Optional.of(FluidTags.LAVA)))
     );
 
     // curio
