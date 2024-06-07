@@ -5,7 +5,7 @@ import artifacts.ability.CollideWithFluidsAbility;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModAbilities;
 import artifacts.util.AbilityHelper;
-import dev.architectury.event.EventResult;
+import be.florens.expandability.api.EventResult;
 import dev.architectury.event.events.common.TickEvent;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,12 +36,12 @@ public class SwimEvents {
         SwimData swimData = PlatformServices.platformHelper.getSwimData(player);
         if (swimData != null) {
             if (swimData.isSwimming()) {
-                return EventResult.interruptTrue();
+                return EventResult.SUCCESS;
             } else if (AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), player)) {
-                return EventResult.interruptFalse();
+                return EventResult.FAIL;
             }
         }
-        return EventResult.pass();
+        return EventResult.PASS;
     }
 
     public static boolean onFluidCollision(LivingEntity player, FluidState fluidState) {

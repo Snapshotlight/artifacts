@@ -37,8 +37,7 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
-    // TODO
-    include modCompileOnly("be.florens:expandability-neoforge:${rootProject.expandability_version}")
+    include modImplementation("be.florens:expandability-neoforge:${rootProject.expandability_version}")
     modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
     modImplementation("top.theillusivec4.curios:curios-neoforge:${rootProject.curios_version}")
 
