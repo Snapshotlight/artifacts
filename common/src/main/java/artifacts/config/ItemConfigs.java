@@ -96,7 +96,7 @@ public class ItemConfigs extends ConfigManager {
                     "The amount of extra health points that are granted by the Crystal Heart"),
             diggingClawsBlockBreakSpeedBonus = defineAttributeModifier(createKey(ModItems.DIGGING_CLAWS, "blockBreakSpeedBonus"), 0.30,
                     "How much the Digging Claws increase the wearer's mining speed"),
-            feralClawsAttackSpeedBonus = defineAttributeModifier(createKey(ModItems.FERAL_CLAWS, "attackSpeedBonus"), 0.40,
+            feralClawsAttackSpeedBonus = defineAttributeModifier(createKey(ModItems.FERAL_CLAWS, "attackSpeedBonus"), 0.30,
                     "How much the Feral Claws increase the wearer's attack speed"),
             fireGauntletFireDuration = defineAttributeModifier(createKey(ModItems.FIRE_GAUNTLET, "fireDuration"), 8,
                     "How long an entity is set on fire for after being attacked by an entity wearing the Fire Gauntlet"),
