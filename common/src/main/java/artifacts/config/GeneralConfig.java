@@ -11,7 +11,7 @@ public class GeneralConfig extends ConfigManager {
             "To prevent artifacts from appearing as chest loot, set this to 10000.");
     public final Supplier<Double> everlastingBeefChance = defineFraction("everlastingBeefChance", 1 / 500D,
             "The chance everlasting beef drops when a cow or mooshroom is killed by a player");
-    public final Supplier<Double> entityEquipmentChance = defineFraction("entityEquipmentChance", 1 / 1000D,
+    public final Supplier<Double> entityEquipmentChance = defineFraction("entityEquipmentChance", 0.0015D,
             "The chance that a skeleton, zombie or piglin spawns with an artifact equipped");
     public final Supplier<Double> archaeologyChance = defineFraction("archaeologyChance", 1 / 16D,
             "The chance that an artifact generates in suspicious sand or gravel");
