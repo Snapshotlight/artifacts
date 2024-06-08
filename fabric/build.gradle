@@ -29,8 +29,6 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
-    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${rootProject.mixin_extras_version}")))
-
     include(implementation("com.electronwill.night-config:toml:${rootProject.night_config_version}"))
 
     modImplementation("dev.emi:trinkets:${rootProject.trinkets_version}")
