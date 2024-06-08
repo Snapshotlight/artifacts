@@ -7,6 +7,7 @@ import artifacts.config.value.type.EnumValueType;
 import artifacts.config.value.type.NumberValueType;
 import artifacts.config.value.type.ValueType;
 import artifacts.platform.PlatformServices;
+import com.electronwill.nightconfig.core.ConfigFormat;
 import com.electronwill.nightconfig.core.ConfigSpec;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.file.FileWatcher;
@@ -43,6 +44,7 @@ public abstract class ConfigManager {
                 .sync()
                 .preserveInsertionOrder()
                 .autosave()
+                .onFileNotFound(this::createNewConfigFile)
                 .writingMode(WritingMode.REPLACE)
                 .build();
 
@@ -73,6 +75,13 @@ public abstract class ConfigManager {
         } catch (IOException exception) {
             throw new RuntimeException("Couldn't watch config file", exception);
         }
+    }
+
+    private boolean createNewConfigFile(Path file, ConfigFormat<?> conf) throws IOException {
+        Files.createDirectories(file.getParent());
+        Files.createFile(file);
+        conf.initEmptyFile(file);
+        return true;
     }
 
     private void correctConfigAndSave() {
