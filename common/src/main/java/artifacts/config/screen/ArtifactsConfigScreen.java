@@ -37,8 +37,6 @@ public class ArtifactsConfigScreen {
     }
 
     public Screen build() {
-        Artifacts.CONFIG.configs.forEach(ConfigManager::readValuesFromConfig);
-
         for (ConfigManager config : Artifacts.CONFIG.configs) {
             addConfigs(config);
         }
