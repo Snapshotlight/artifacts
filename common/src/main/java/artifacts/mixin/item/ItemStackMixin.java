@@ -151,6 +151,13 @@ public class ItemStackMixin {
                 list.add(ability.tag().get());
             }
         });
+        AbilityHelper.getAbilities(ModAbilities.APPLY_COOLDOWN_AFTER_DAMAGE.get(), stack).forEach(ability -> {
+            if (ability.tag().isEmpty()) {
+                flag.setTrue();
+            } else if (!list.contains(ability.tag().get())) {
+                list.add(ability.tag().get());
+            }
+        });
 
         if (flag.booleanValue()) {
             tooltip.accept(CommonComponents.EMPTY);
