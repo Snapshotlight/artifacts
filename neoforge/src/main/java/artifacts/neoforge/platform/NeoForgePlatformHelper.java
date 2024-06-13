@@ -64,7 +64,7 @@ public class NeoForgePlatformHelper implements PlatformHelper {
             for (ICurioStacksHandler stacksHandler : itemHandler.get().getCurios().values()) {
                 for (int i = 0; i < stacksHandler.getStacks().getSlots(); i++) {
                     ItemStack item = stacksHandler.getStacks().getStackInSlot(i);
-                    if (!item.isEmpty() && item.getItem() instanceof WearableArtifactItem) {
+                    if (!item.isEmpty()) {
                         init = f.apply(item, init);
                     }
                 }
