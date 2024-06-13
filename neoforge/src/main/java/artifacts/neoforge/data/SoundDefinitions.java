@@ -18,18 +18,18 @@ public class SoundDefinitions extends SoundDefinitionsProvider {
 
     @Override
     public void registerSounds() {
-        addSubtitled(ModSoundEvents.MIMIC_OPEN.get()).with(sound(SoundEvents.CHEST_OPEN));
-        addSubtitled(ModSoundEvents.MIMIC_CLOSE.get()).with(sound(SoundEvents.CHEST_CLOSE));
-        addSubtitled(ModSoundEvents.MIMIC_HURT.get()).with(sounds("mimic/hurt", 3));
-        addSubtitled(ModSoundEvents.MIMIC_DEATH.get()).with(sounds("mimic/death", 2));
+        addSubtitled(ModSoundEvents.MIMIC_OPEN.value()).with(sound(SoundEvents.CHEST_OPEN));
+        addSubtitled(ModSoundEvents.MIMIC_CLOSE.value()).with(sound(SoundEvents.CHEST_CLOSE));
+        addSubtitled(ModSoundEvents.MIMIC_HURT.value()).with(sounds("mimic/hurt", 3));
+        addSubtitled(ModSoundEvents.MIMIC_DEATH.value()).with(sounds("mimic/death", 2));
 
-        add(ModSoundEvents.WATER_STEP.get())
+        add(ModSoundEvents.WATER_STEP.value())
                 .with(sound(SoundEvents.COD_FLOP))
                 .subtitle("subtitles.block.generic.footsteps");
 
-        addSubtitled(ModSoundEvents.FART.get()).with(sounds("fart", 2));
+        addSubtitled(ModSoundEvents.FART.value()).with(sounds("fart", 2));
 
-        add(ModSoundEvents.POP.get()).with(sound(new ResourceLocation("random/pop")));
+        add(ModSoundEvents.POP.value()).with(sound(new ResourceLocation("random/pop")));
 
     }
 

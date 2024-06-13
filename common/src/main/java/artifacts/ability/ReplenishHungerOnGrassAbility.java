@@ -32,7 +32,7 @@ public record ReplenishHungerOnGrassAbility(Value<Boolean> enabled, Value<Intege
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.REPLENISH_HUNGER_ON_GRASS.get();
+        return ModAbilities.REPLENISH_HUNGER_ON_GRASS.value();
     }
 
     @Override

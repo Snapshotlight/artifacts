@@ -22,7 +22,7 @@ public abstract class EntityMixin {
         if (isDown && !isShiftKeyDown() && ((Entity) (Object) this) instanceof LivingEntity entity && !entity.level().isClientSide()) {
             double chance = entity.getAttributeValue(ModAttributes.FLATULENCE);
             if (entity.getRandom().nextFloat() < chance) {
-                entity.level().playSound(null, entity, ModSoundEvents.FART.get(), SoundSource.PLAYERS, 1, 0.9F + entity.getRandom().nextFloat() * 0.2F);
+                entity.level().playSound(null, entity, ModSoundEvents.FART.value(), SoundSource.PLAYERS, 1, 0.9F + entity.getRandom().nextFloat() * 0.2F);
             }
         }
     }

@@ -31,15 +31,15 @@ public record AttractItemsAbility(Value<Boolean> enabled) implements ArtifactAbi
 
     @SuppressWarnings("unused")
     public static EventResult onItemToss(Player player, ItemEntity entity) {
-        if (AbilityHelper.hasAbilityActive(ModAbilities.ATTRACT_ITEMS.get(), player, true)) {
-            AbilityHelper.addCooldown(ModAbilities.ATTRACT_ITEMS.get(), player, 5 * 20);
+        if (AbilityHelper.hasAbilityActive(ModAbilities.ATTRACT_ITEMS.value(), player, true)) {
+            AbilityHelper.addCooldown(ModAbilities.ATTRACT_ITEMS.value(), player, 5 * 20);
         }
         return EventResult.pass();
     }
     
     @Override
     public Type<?> getType() {
-        return ModAbilities.ATTRACT_ITEMS.get();
+        return ModAbilities.ATTRACT_ITEMS.value();
     }
 
     @Override

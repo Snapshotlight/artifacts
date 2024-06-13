@@ -54,7 +54,7 @@ public class SetAttackersOnFireAbility extends RetaliationAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.SET_ATTACKERS_ON_FIRE.get();
+        return ModAbilities.SET_ATTACKERS_ON_FIRE.value();
     }
 
     @Override

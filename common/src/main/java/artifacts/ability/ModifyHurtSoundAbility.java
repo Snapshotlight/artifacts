@@ -25,7 +25,7 @@ public record ModifyHurtSoundAbility(Holder<SoundEvent> soundEvent) implements T
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.MODIFY_HURT_SOUND.get();
+        return ModAbilities.MODIFY_HURT_SOUND.value();
     }
 
     @Override

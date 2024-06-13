@@ -40,7 +40,7 @@ public record DamageImmunityAbility(Value<Boolean> enabled, TagKey<DamageType> t
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.DAMAGE_IMMUNITY.get();
+        return ModAbilities.DAMAGE_IMMUNITY.value();
     }
 
     @Override

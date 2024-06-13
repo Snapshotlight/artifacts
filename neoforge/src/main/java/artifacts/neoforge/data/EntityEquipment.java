@@ -29,44 +29,44 @@ public class EntityEquipment {
         entityTypes.clear();
 
         addItems(EntityType.ZOMBIE,
-                ModItems.COWBOY_HAT.get(),
-                ModItems.BUNNY_HOPPERS.get(),
-                ModItems.SCARF_OF_INVISIBILITY.get()
+                ModItems.COWBOY_HAT.value(),
+                ModItems.BUNNY_HOPPERS.value(),
+                ModItems.SCARF_OF_INVISIBILITY.value()
         );
         addItems(EntityType.HUSK,
-                ModItems.VAMPIRIC_GLOVE.get(),
-                ModItems.THORN_PENDANT.get()
+                ModItems.VAMPIRIC_GLOVE.value(),
+                ModItems.THORN_PENDANT.value()
         );
         addItems(EntityType.DROWNED,
-                ModItems.SNORKEL.get(),
-                ModItems.FLIPPERS.get()
+                ModItems.SNORKEL.value(),
+                ModItems.FLIPPERS.value()
         );
         addEquipment(EntityType.SKELETON, LootPool.lootPool()
-                .add(item(ModItems.NIGHT_VISION_GOGGLES.get()))
+                .add(item(ModItems.NIGHT_VISION_GOGGLES.value()))
                 .add(LootTables.drinkingHat(1))
-                .add(item(ModItems.FLAME_PENDANT.get()))
+                .add(item(ModItems.FLAME_PENDANT.value()))
         );
         addItems(EntityType.STRAY,
-                ModItems.SNOWSHOES.get(),
-                ModItems.STEADFAST_SPIKES.get()
+                ModItems.SNOWSHOES.value(),
+                ModItems.STEADFAST_SPIKES.value()
         );
         addItems(EntityType.WITHER_SKELETON,
-                ModItems.FIRE_GAUNTLET.get(),
-                ModItems.ANTIDOTE_VESSEL.get()
+                ModItems.FIRE_GAUNTLET.value(),
+                ModItems.ANTIDOTE_VESSEL.value()
         );
         addItems(EntityType.PIGLIN,
-                ModItems.GOLDEN_HOOK.get(),
-                ModItems.UNIVERSAL_ATTRACTOR.get(),
-                ModItems.OBSIDIAN_SKULL.get()
+                ModItems.GOLDEN_HOOK.value(),
+                ModItems.UNIVERSAL_ATTRACTOR.value(),
+                ModItems.OBSIDIAN_SKULL.value()
         );
         addItems(EntityType.ZOMBIFIED_PIGLIN,
-                ModItems.GOLDEN_HOOK.get(),
-                ModItems.UNIVERSAL_ATTRACTOR.get(),
-                ModItems.OBSIDIAN_SKULL.get()
+                ModItems.GOLDEN_HOOK.value(),
+                ModItems.UNIVERSAL_ATTRACTOR.value(),
+                ModItems.OBSIDIAN_SKULL.value()
         );
         addItems(EntityType.PIGLIN_BRUTE,
-                ModItems.ONION_RING.get(),
-                ModItems.STRIDER_SHOES.get()
+                ModItems.ONION_RING.value(),
+                ModItems.STRIDER_SHOES.value()
         );
 
         if (!entityTypes.equals(ModLootTables.ENTITY_EQUIPMENT.keySet())) {

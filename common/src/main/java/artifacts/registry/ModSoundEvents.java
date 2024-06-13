@@ -2,6 +2,7 @@ package artifacts.registry;
 
 import artifacts.Artifacts;
 import dev.architectury.registry.registries.DeferredRegister;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 
@@ -9,7 +10,7 @@ public class ModSoundEvents {
 
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(Artifacts.MOD_ID, Registries.SOUND_EVENT);
 
-    public static final RegistrySupplier<SoundEvent>
+    public static final Holder<SoundEvent>
             POP = register("generic.pop"),
             MIMIC_HURT = register("entity.mimic.hurt"),
             MIMIC_DEATH = register("entity.mimic.death"),

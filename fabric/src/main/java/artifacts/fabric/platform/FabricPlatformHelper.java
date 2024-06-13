@@ -152,7 +152,7 @@ public class FabricPlatformHelper implements PlatformHelper {
     }
 
     @Override
-    public boolean isVisibleOnHand(LivingEntity entity, InteractionHand hand, WearableArtifactItem item) {
+    public boolean isVisibleOnHand(LivingEntity entity, InteractionHand hand, Item item) {
         return TrinketsApi.getTrinketComponent(entity).stream()
                 .flatMap(component -> component.getAllEquipped().stream())
                 .filter(tuple -> tuple.getA().inventory().getSlotType().getGroup().equals(
@@ -169,7 +169,7 @@ public class FabricPlatformHelper implements PlatformHelper {
     }
 
     @Override
-    public void registerArtifactRenderer(WearableArtifactItem item, Supplier<ArtifactRenderer> rendererSupplier) {
+    public void registerArtifactRenderer(Item item, Supplier<ArtifactRenderer> rendererSupplier) {
         TrinketRendererRegistry.registerRenderer(item, new ArtifactTrinketRenderer(rendererSupplier.get()));
     }
 

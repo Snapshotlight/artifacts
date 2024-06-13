@@ -52,7 +52,7 @@ public abstract class GuiMixin {
                 for (TrinketInventory inventory : map.values()) {
                     for (int i = 0; i < inventory.getContainerSize(); i++) {
                         ItemStack stack = inventory.getItem(i);
-                        if (!stack.isEmpty() && stack.has(ModDataComponents.ABILITIES.get()) && player.getCooldowns().isOnCooldown(stack.getItem())) {
+                        if (!stack.isEmpty() && stack.has(ModDataComponents.ABILITIES.value()) && player.getCooldowns().isOnCooldown(stack.getItem())) {
                             int x = start + step * k++;
                             guiGraphics.renderItem(player, stack, x, y, k + 1);
                             guiGraphics.renderItemDecorations(minecraft.font, stack, x, y);

@@ -43,79 +43,79 @@ public class ItemTags extends ItemTagsProvider {
     protected void addTags(HolderLookup.Provider provider) {
         tag(ARTIFACTS).add(BuiltInRegistries.ITEM.stream()
                 .filter(item -> BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(Artifacts.MOD_ID))
-                .filter(item -> item != ModItems.MIMIC_SPAWN_EGG.get()).toList().toArray(new Item[]{})
+                .filter(item -> item != ModItems.MIMIC_SPAWN_EGG.value()).toList().toArray(new Item[]{})
         );
         tag(HEAD).add(
-                ModItems.PLASTIC_DRINKING_HAT.get(),
-                ModItems.NOVELTY_DRINKING_HAT.get(),
-                ModItems.SNORKEL.get(),
-                ModItems.NIGHT_VISION_GOGGLES.get(),
-                ModItems.VILLAGER_HAT.get(),
-                ModItems.SUPERSTITIOUS_HAT.get(),
-                ModItems.COWBOY_HAT.get(),
-                ModItems.ANGLERS_HAT.get()
+                ModItems.PLASTIC_DRINKING_HAT.value(),
+                ModItems.NOVELTY_DRINKING_HAT.value(),
+                ModItems.SNORKEL.value(),
+                ModItems.NIGHT_VISION_GOGGLES.value(),
+                ModItems.VILLAGER_HAT.value(),
+                ModItems.SUPERSTITIOUS_HAT.value(),
+                ModItems.COWBOY_HAT.value(),
+                ModItems.ANGLERS_HAT.value()
         );
         tag(NECKLACE).add(
-                ModItems.LUCKY_SCARF.get(),
-                ModItems.SCARF_OF_INVISIBILITY.get(),
-                ModItems.CROSS_NECKLACE.get(),
-                ModItems.PANIC_NECKLACE.get(),
-                ModItems.SHOCK_PENDANT.get(),
-                ModItems.FLAME_PENDANT.get(),
-                ModItems.THORN_PENDANT.get(),
-                ModItems.CHARM_OF_SINKING.get(),
-                ModItems.CHARM_OF_SHRINKING.get()
+                ModItems.LUCKY_SCARF.value(),
+                ModItems.SCARF_OF_INVISIBILITY.value(),
+                ModItems.CROSS_NECKLACE.value(),
+                ModItems.PANIC_NECKLACE.value(),
+                ModItems.SHOCK_PENDANT.value(),
+                ModItems.FLAME_PENDANT.value(),
+                ModItems.THORN_PENDANT.value(),
+                ModItems.CHARM_OF_SINKING.value(),
+                ModItems.CHARM_OF_SHRINKING.value()
         );
         tag(HANDS).add(
-                ModItems.DIGGING_CLAWS.get(),
-                ModItems.FERAL_CLAWS.get(),
-                ModItems.POWER_GLOVE.get(),
-                ModItems.FIRE_GAUNTLET.get(),
-                ModItems.POCKET_PISTON.get(),
-                ModItems.VAMPIRIC_GLOVE.get(),
-                ModItems.GOLDEN_HOOK.get(),
-                ModItems.ONION_RING.get(),
-                ModItems.PICKAXE_HEATER.get(),
-                ModItems.WITHERED_BRACELET.get()
+                ModItems.DIGGING_CLAWS.value(),
+                ModItems.FERAL_CLAWS.value(),
+                ModItems.POWER_GLOVE.value(),
+                ModItems.FIRE_GAUNTLET.value(),
+                ModItems.POCKET_PISTON.value(),
+                ModItems.VAMPIRIC_GLOVE.value(),
+                ModItems.GOLDEN_HOOK.value(),
+                ModItems.ONION_RING.value(),
+                ModItems.PICKAXE_HEATER.value(),
+                ModItems.WITHERED_BRACELET.value()
         );
         tag(BELT).add(
-                ModItems.CLOUD_IN_A_BOTTLE.get(),
-                ModItems.OBSIDIAN_SKULL.get(),
-                ModItems.ANTIDOTE_VESSEL.get(),
-                ModItems.UNIVERSAL_ATTRACTOR.get(),
-                ModItems.CRYSTAL_HEART.get(),
-                ModItems.HELIUM_FLAMINGO.get(),
-                ModItems.CHORUS_TOTEM.get(),
-                ModItems.WARP_DRIVE.get()
+                ModItems.CLOUD_IN_A_BOTTLE.value(),
+                ModItems.OBSIDIAN_SKULL.value(),
+                ModItems.ANTIDOTE_VESSEL.value(),
+                ModItems.UNIVERSAL_ATTRACTOR.value(),
+                ModItems.CRYSTAL_HEART.value(),
+                ModItems.HELIUM_FLAMINGO.value(),
+                ModItems.CHORUS_TOTEM.value(),
+                ModItems.WARP_DRIVE.value()
         );
         tag(FEET).add(
-                ModItems.AQUA_DASHERS.get(),
-                ModItems.BUNNY_HOPPERS.get(),
-                ModItems.KITTY_SLIPPERS.get(),
-                ModItems.RUNNING_SHOES.get(),
-                ModItems.SNOWSHOES.get(),
-                ModItems.STEADFAST_SPIKES.get(),
-                ModItems.FLIPPERS.get(),
-                ModItems.ROOTED_BOOTS.get(),
-                ModItems.STRIDER_SHOES.get()
+                ModItems.AQUA_DASHERS.value(),
+                ModItems.BUNNY_HOPPERS.value(),
+                ModItems.KITTY_SLIPPERS.value(),
+                ModItems.RUNNING_SHOES.value(),
+                ModItems.SNOWSHOES.value(),
+                ModItems.STEADFAST_SPIKES.value(),
+                ModItems.FLIPPERS.value(),
+                ModItems.ROOTED_BOOTS.value(),
+                ModItems.STRIDER_SHOES.value()
         );
         tag(ALL).add(
-                ModItems.WHOOPEE_CUSHION.get()
+                ModItems.WHOOPEE_CUSHION.value()
         );
 
         tag(ORIGINS_MEAT).add(
-                ModItems.EVERLASTING_BEEF.get(),
-                ModItems.ETERNAL_STEAK.get()
+                ModItems.EVERLASTING_BEEF.value(),
+                ModItems.ETERNAL_STEAK.value()
         );
         tag(ORIGINS_SHIELDS).add(
-                ModItems.UMBRELLA.get()
+                ModItems.UMBRELLA.value()
         );
 
         tag(net.minecraft.tags.ItemTags.PIGLIN_LOVED).add(
-                ModItems.GOLDEN_HOOK.get(),
-                ModItems.CROSS_NECKLACE.get(),
-                ModItems.ANTIDOTE_VESSEL.get(),
-                ModItems.UNIVERSAL_ATTRACTOR.get()
+                ModItems.GOLDEN_HOOK.value(),
+                ModItems.CROSS_NECKLACE.value(),
+                ModItems.ANTIDOTE_VESSEL.value(),
+                ModItems.UNIVERSAL_ATTRACTOR.value()
         );
     }
 }

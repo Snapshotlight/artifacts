@@ -28,6 +28,6 @@ public class CampsiteCountPlacement extends RepeatingPlacement {
 
     @Override
     public PlacementModifierType<?> type() {
-        return ModPlacementModifierTypes.CAMPSITE_COUNT.get();
+        return ModPlacementModifierTypes.CAMPSITE_COUNT.value();
     }
 }

@@ -52,11 +52,11 @@ public interface PlatformHelper {
 
     boolean isEyeInWater(Player player);
 
-    boolean isVisibleOnHand(LivingEntity entity, InteractionHand hand, WearableArtifactItem item);
+    boolean isVisibleOnHand(LivingEntity entity, InteractionHand hand, Item item);
 
     boolean areBootsHidden(LivingEntity entity);
 
-    void registerArtifactRenderer(WearableArtifactItem item, Supplier<ArtifactRenderer> rendererSupplier);
+    void registerArtifactRenderer(Item item, Supplier<ArtifactRenderer> rendererSupplier);
 
     @Nullable
     ArtifactRenderer getArtifactRenderer(Item item);

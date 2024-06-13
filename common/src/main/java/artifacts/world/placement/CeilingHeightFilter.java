@@ -41,6 +41,6 @@ public class CeilingHeightFilter extends PlacementFilter {
 
     @Override
     public PlacementModifierType<?> type() {
-        return ModPlacementModifierTypes.CEILING_HEIGHT_FILTER.get();
+        return ModPlacementModifierTypes.CEILING_HEIGHT_FILTER.value();
     }
 }

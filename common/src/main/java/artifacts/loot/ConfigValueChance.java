@@ -21,7 +21,7 @@ public record ConfigValueChance(ChanceConfig chanceConfig) implements LootItemCo
 
     @Override
     public LootItemConditionType getType() {
-        return ModLootConditions.CONFIG_VALUE_CHANCE.get();
+        return ModLootConditions.CONFIG_VALUE_CHANCE.value();
     }
 
     @Override

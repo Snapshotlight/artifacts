@@ -37,6 +37,6 @@ public class CampsiteHeightRangePlacement extends PlacementModifier {
 
     @Override
     public PlacementModifierType<?> type() {
-        return ModPlacementModifierTypes.CAMPSITE_HEIGHT_RANGE.get();
+        return ModPlacementModifierTypes.CAMPSITE_HEIGHT_RANGE.value();
     }
 }

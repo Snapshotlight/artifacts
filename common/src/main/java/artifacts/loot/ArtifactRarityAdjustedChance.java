@@ -18,7 +18,7 @@ public record ArtifactRarityAdjustedChance(float defaultProbability) implements 
 
     @Override
     public LootItemConditionType getType() {
-        return ModLootConditions.ARTIFACT_RARITY_ADJUSTED_CHANCE.get();
+        return ModLootConditions.ARTIFACT_RARITY_ADJUSTED_CHANCE.value();
     }
 
     @Override

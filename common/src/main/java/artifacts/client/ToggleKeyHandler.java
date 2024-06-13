@@ -19,8 +19,8 @@ public class ToggleKeyHandler {
     private static final Map<ArtifactAbility.Type<?>, KeyMapping> TOGGLE_KEY_MAPPINGS = new HashMap<>();
 
     public static void register() {
-        addToggleInputHandler(ModAbilities.NIGHT_VISION.get(), ModKeyMappings.TOGGLE_NIGHT_VISION_GOGGLES);
-        addToggleInputHandler(ModAbilities.ATTRACT_ITEMS.get(), ModKeyMappings.TOGGLE_UNIVERSAL_ATTRACTOR);
+        addToggleInputHandler(ModAbilities.NIGHT_VISION.value(), ModKeyMappings.TOGGLE_NIGHT_VISION_GOGGLES);
+        addToggleInputHandler(ModAbilities.ATTRACT_ITEMS.value(), ModKeyMappings.TOGGLE_UNIVERSAL_ATTRACTOR);
     }
 
     public static KeyMapping getToggleKey(ArtifactAbility.Type<?> ability) {

@@ -26,7 +26,7 @@ public class ArtifactsClient {
     }
 
     public static void onClientStarted() {
-        if (!ModItems.NIGHT_VISION_GOGGLES.supplier().isPresent()) {
+        if (!ModItems.NIGHT_VISION_GOGGLES.isBound()) {
             Artifacts.LOGGER.error("Detected broken mod state, skipping input registration");
             return;
         }
@@ -34,7 +34,7 @@ public class ArtifactsClient {
         CloudInABottleInputHandler.register();
         HeliumFlamingoInputEventHandler.register();
         ItemPropertiesRegistry.register(
-                ModItems.UMBRELLA.get(),
+                ModItems.UMBRELLA.value(),
                 Artifacts.id("blocking"),
                 (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1 : 0
         );
@@ -47,7 +47,7 @@ public class ArtifactsClient {
     }
 
     public static void registerRenderers() {
-        EntityRendererRegistry.register(ModEntityTypes.MIMIC, MimicRenderer::new);
+        EntityRendererRegistry.register(ModEntityTypes.MIMIC::value, MimicRenderer::new);
     }
 
     public static Player getLocalPlayer() {

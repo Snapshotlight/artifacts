@@ -40,7 +40,7 @@ public class ArtifactsNeoForgeClient {
     public void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(
                 () -> ItemProperties.register(
-                        ModItems.UMBRELLA.get(),
+                        ModItems.UMBRELLA.value(),
                         Artifacts.id("blocking"),
                         (stack, level, entity, seed) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1 : 0
                 )

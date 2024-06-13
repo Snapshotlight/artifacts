@@ -50,7 +50,7 @@ public record IncreaseEnchantmentLevelAbility(Holder<Enchantment> enchantment, V
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.INCREASE_ENCHANTMENT_LEVEL.get();
+        return ModAbilities.INCREASE_ENCHANTMENT_LEVEL.value();
     }
 
     @Override

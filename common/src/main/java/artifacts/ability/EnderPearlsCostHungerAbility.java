@@ -31,7 +31,7 @@ public record EnderPearlsCostHungerAbility(Value<Boolean> enabled, Value<Integer
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.ENDER_PEARLS_COST_HUNGER.get();
+        return ModAbilities.ENDER_PEARLS_COST_HUNGER.value();
     }
 
     @Override

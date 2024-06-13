@@ -90,7 +90,7 @@ public record AttributeModifierAbility(Holder<Attribute> attribute, Value<Double
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.ATTRIBUTE_MODIFIER.get();
+        return ModAbilities.ATTRIBUTE_MODIFIER.value();
     }
 
     @Override

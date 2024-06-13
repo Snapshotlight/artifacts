@@ -48,7 +48,7 @@ public abstract class EntityMixin {
     private void playWaterStepSound(BlockPos pos, BlockState blockState, CallbackInfo callbackInfo) {
         if (blockState.liquid() && isRunningWithAquaDashers()) {
             //noinspection ConstantConditions
-            ((LivingEntity) (Object) this).playSound(ModSoundEvents.WATER_STEP.get(), 0.15F, 1);
+            ((LivingEntity) (Object) this).playSound(ModSoundEvents.WATER_STEP.value(), 0.15F, 1);
         }
     }
 
@@ -91,7 +91,7 @@ public abstract class EntityMixin {
         }
         SwimData swimData = PlatformServices.platformHelper.getSwimData(entity);
         return swimData != null
-                && AbilityHelper.hasAbilityActive(ModAbilities.SPRINT_ON_FLUIDS.get(), entity)
+                && AbilityHelper.hasAbilityActive(ModAbilities.SPRINT_ON_FLUIDS.value(), entity)
                 && entity.isSprinting()
                 && !swimData.isWet();
     }

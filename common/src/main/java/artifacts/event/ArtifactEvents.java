@@ -76,8 +76,8 @@ public class ArtifactEvents {
         if (entity.level().isClientSide()) {
             return;
         }
-        List<ArtifactAbility> oldAbilities = oldStack.get(ModDataComponents.ABILITIES.get());
-        List<ArtifactAbility> newAbilities = newStack.get(ModDataComponents.ABILITIES.get());
+        List<ArtifactAbility> oldAbilities = oldStack.get(ModDataComponents.ABILITIES.value());
+        List<ArtifactAbility> newAbilities = newStack.get(ModDataComponents.ABILITIES.value());
         if (oldAbilities == null || oldAbilities.equals(newAbilities)) {
             return;
         } else if (newAbilities == null) {
@@ -96,7 +96,7 @@ public class ArtifactEvents {
         if (entity.level().isClientSide()) {
             return;
         }
-        PlatformServices.platformHelper.findAllEquippedBy(entity, stack -> stack.has(ModDataComponents.ABILITIES.get()))
+        PlatformServices.platformHelper.findAllEquippedBy(entity, stack -> stack.has(ModDataComponents.ABILITIES.value()))
                 .forEach(stack -> {
                     for (ArtifactAbility ability : AbilityHelper.getAbilities(stack)) {
                         boolean isActive = ability.isActive(entity);
@@ -116,8 +116,8 @@ public class ArtifactEvents {
     }
 
     private static EventResult onPendantLivingHurt(LivingEntity entity, DamageSource damageSource, float amount) {
-        activateRetaliationAbility(ModAbilities.SET_ATTACKERS_ON_FIRE.get(), entity, damageSource, amount);
-        activateRetaliationAbility(ModAbilities.THORNS.get(), entity, damageSource, amount);
+        activateRetaliationAbility(ModAbilities.SET_ATTACKERS_ON_FIRE.value(), entity, damageSource, amount);
+        activateRetaliationAbility(ModAbilities.THORNS.value(), entity, damageSource, amount);
 
         return EventResult.pass();
     }
@@ -128,7 +128,7 @@ public class ArtifactEvents {
 
     private static EventResult onEntityJoinWorld(Entity entity, Level level) {
         if (entity instanceof PathfinderMob creeper && creeper.getType().is(ModTags.CREEPERS)) {
-            Predicate<LivingEntity> predicate = target -> AbilityHelper.hasAbilityActive(ModAbilities.SCARE_CREEPERS.get(), target);
+            Predicate<LivingEntity> predicate = target -> AbilityHelper.hasAbilityActive(ModAbilities.SCARE_CREEPERS.value(), target);
             ((MobAccessor) creeper).getGoalSelector().addGoal(3,
                     new AvoidEntityGoal<>(creeper, Player.class, predicate, 6, 1, 1.3, EntitySelector.NO_CREATIVE_OR_SPECTATOR::test)
             );
@@ -138,14 +138,14 @@ public class ArtifactEvents {
 
     public static void onPlaySoundAtEntity(LivingEntity entity, float volume, float pitch) {
         if (Artifacts.CONFIG.general.modifyHurtSounds.get()) {
-            AbilityHelper.forEach(ModAbilities.MODIFY_HURT_SOUND.get(), entity, ability -> entity.playSound(ability.soundEvent().value(), volume, pitch));
+            AbilityHelper.forEach(ModAbilities.MODIFY_HURT_SOUND.value(), entity, ability -> entity.playSound(ability.soundEvent().value(), volume, pitch));
         }
     }
 
     private static EventResult onLightningHurt(LivingEntity entity, DamageSource damageSource, float amount) {
         if (!entity.level().isClientSide()
                 && amount > 0
-                && AbilityHelper.hasAbilityActive(ModAbilities.DAMAGE_IMMUNITY.get(), entity, ability -> damageSource.is(ability.tag()))
+                && AbilityHelper.hasAbilityActive(ModAbilities.DAMAGE_IMMUNITY.value(), entity, ability -> damageSource.is(ability.tag()))
         ) {
             return EventResult.interruptFalse();
         }
@@ -154,7 +154,7 @@ public class ArtifactEvents {
 
     public static ObjectArrayList<ItemStack> getPickaxeHeaterModifiedBlockDrops(ObjectArrayList<ItemStack> items, LootContext context, TagKey<Block> ores, TagKey<Item> rawOres) {
         if (context.getParamOrNull(LootContextParams.THIS_ENTITY) instanceof LivingEntity entity
-                && AbilityHelper.hasAbilityActive(ModAbilities.SMELT_ORES.get(), entity)
+                && AbilityHelper.hasAbilityActive(ModAbilities.SMELT_ORES.value(), entity)
                 && context.hasParam(LootContextParams.ORIGIN)
                 && context.hasParam(LootContextParams.BLOCK_STATE)
                 && context.getParam(LootContextParams.BLOCK_STATE).is(ores)
@@ -241,7 +241,7 @@ public class ArtifactEvents {
 
     public static void applyBoneMealAfterEating(LivingEntity entity, FoodProperties properties) {
         if (!entity.level().isClientSide()
-                && AbilityHelper.hasAbilityActive(ModAbilities.GROW_PLANTS_AFTER_EATING.get(), entity)
+                && AbilityHelper.hasAbilityActive(ModAbilities.GROW_PLANTS_AFTER_EATING.value(), entity)
                 && properties.nutrition() > 0
                 && !properties.canAlwaysEat()
                 && entity.onGround()

@@ -75,8 +75,8 @@ public class AbilityHelper {
     }
 
     public static List<ArtifactAbility> getAbilities(ItemStack stack) {
-        if (stack.has(ModDataComponents.ABILITIES.get())) {
-            return stack.get(ModDataComponents.ABILITIES.get());
+        if (stack.has(ModDataComponents.ABILITIES.value())) {
+            return stack.get(ModDataComponents.ABILITIES.value());
         }
         return List.of();
     }
@@ -100,7 +100,7 @@ public class AbilityHelper {
     }
 
     public static int getEnchantmentSum(Enchantment enchantment, LivingEntity entity) {
-        return sumInt(ModAbilities.INCREASE_ENCHANTMENT_LEVEL.get(), entity, ability ->
+        return sumInt(ModAbilities.INCREASE_ENCHANTMENT_LEVEL.value(), entity, ability ->
                 ability.enchantment().value() == enchantment ? ability.getAmount() : 0, false
         );
     }

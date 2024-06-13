@@ -159,7 +159,7 @@ public class MimicEntity extends Mob implements Enemy {
         }
 
         if (ticksInAir <= 0 && source.is(DamageTypeTags.IS_PROJECTILE) && !source.is(DamageTypeTags.BYPASSES_ARMOR)) {
-            playSound(ModSoundEvents.MIMIC_HURT.get(), getSoundVolume(), getVoicePitch());
+            playSound(ModSoundEvents.MIMIC_HURT.value(), getSoundVolume(), getVoicePitch());
             return false;
         }
 
@@ -172,20 +172,20 @@ public class MimicEntity extends Mob implements Enemy {
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return ModSoundEvents.MIMIC_HURT.get();
+        return ModSoundEvents.MIMIC_HURT.value();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return ModSoundEvents.MIMIC_DEATH.get();
+        return ModSoundEvents.MIMIC_DEATH.value();
     }
 
     protected SoundEvent getJumpingSound() {
-        return ModSoundEvents.MIMIC_OPEN.get();
+        return ModSoundEvents.MIMIC_OPEN.value();
     }
 
     protected SoundEvent getLandingSound() {
-        return ModSoundEvents.MIMIC_CLOSE.get();
+        return ModSoundEvents.MIMIC_CLOSE.value();
     }
 
     @Override

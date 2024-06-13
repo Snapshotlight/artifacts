@@ -36,24 +36,24 @@ public class Advancements extends AdvancementProvider {
     private static void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
         ResourceLocation amateurArcheologist = Artifacts.id("amateur_archaeologist");
         //noinspection removal
-        AdvancementHolder parent = advancement(amateurArcheologist, ModItems.FLAME_PENDANT.get(), "Amateur Archaeologist", "Find an Artifact")
+        AdvancementHolder parent = advancement(amateurArcheologist, ModItems.FLAME_PENDANT.value(), "Amateur Archaeologist", "Find an Artifact")
                 .parent(new ResourceLocation("adventure/root"))
                 .addCriterion("find_artifact", InventoryChangeTrigger.TriggerInstance.hasItems(
                         ItemPredicate.Builder.item().of(ItemTags.ARTIFACTS).build()
                 )).save(saver, amateurArcheologist, existingFileHelper);
 
         ResourceLocation chestSlayer = Artifacts.id("chest_slayer");
-        advancement(chestSlayer, ModItems.MIMIC_SPAWN_EGG.get(), "Chest Slayer", "Kill a Mimic")
+        advancement(chestSlayer, ModItems.MIMIC_SPAWN_EGG.value(), "Chest Slayer", "Kill a Mimic")
                 .parent(parent)
                 .addCriterion("kill_mimic", KilledTrigger.TriggerInstance.playerKilledEntity(
-                        EntityPredicate.Builder.entity().of(ModEntityTypes.MIMIC.get())
+                        EntityPredicate.Builder.entity().of(ModEntityTypes.MIMIC.value())
                 )).save(saver, chestSlayer, existingFileHelper);
 
         ResourceLocation adventurousEater = Artifacts.id("adventurous_eater");
-        advancement(adventurousEater, ModItems.ONION_RING.get(), "Adventurous Eater", "Eat an Artifact", true)
+        advancement(adventurousEater, ModItems.ONION_RING.value(), "Adventurous Eater", "Eat an Artifact", true)
                 .parent(parent)
                 .addCriterion("eat_artifact", ConsumeItemTrigger.TriggerInstance.usedItem(
-                        ItemPredicate.Builder.item().of(ModItems.ONION_RING.get())
+                        ItemPredicate.Builder.item().of(ModItems.ONION_RING.value())
                 )).save(saver, adventurousEater, existingFileHelper);
     }
 

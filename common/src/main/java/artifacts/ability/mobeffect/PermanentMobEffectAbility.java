@@ -54,7 +54,7 @@ public class PermanentMobEffectAbility extends ConstantMobEffectAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.MOB_EFFECT.get();
+        return ModAbilities.MOB_EFFECT.value();
     }
 
     @Override

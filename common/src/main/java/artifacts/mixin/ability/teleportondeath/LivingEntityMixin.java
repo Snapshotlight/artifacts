@@ -31,7 +31,7 @@ public class LivingEntityMixin {
                 && entity.level() instanceof ServerLevel level
                 && !damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY)
         ) {
-            AbilityHelper.getAbilities(ModAbilities.TELEPORT_ON_DEATH.get(), totem).findFirst().ifPresent(ability -> {
+            AbilityHelper.getAbilities(ModAbilities.TELEPORT_ON_DEATH.value(), totem).findFirst().ifPresent(ability -> {
                 if (ability.teleportationChance().get() > entity.getRandom().nextDouble()) {
                     TeleportOnDeathAbility.teleport(entity, level);
                     if (ability.consumedOnUse().get()) {

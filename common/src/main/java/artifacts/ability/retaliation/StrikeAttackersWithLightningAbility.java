@@ -34,7 +34,7 @@ public class StrikeAttackersWithLightningAbility extends RetaliationAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.STRIKE_ATTACKERS_WITH_LIGHTNING.get();
+        return ModAbilities.STRIKE_ATTACKERS_WITH_LIGHTNING.value();
     }
 
     @Override

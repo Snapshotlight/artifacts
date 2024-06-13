@@ -135,7 +135,7 @@ public class NeoForgePlatformHelper implements PlatformHelper {
     }
 
     @Override
-    public boolean isVisibleOnHand(LivingEntity entity, InteractionHand hand, WearableArtifactItem item) {
+    public boolean isVisibleOnHand(LivingEntity entity, InteractionHand hand, Item item) {
         return CuriosApi.getCuriosInventory(entity)
                 .flatMap(handler -> Optional.ofNullable(handler.getCurios().get("hands")))
                 .map(stacksHandler -> {
@@ -163,7 +163,7 @@ public class NeoForgePlatformHelper implements PlatformHelper {
     }
 
     @Override
-    public void registerArtifactRenderer(WearableArtifactItem item, Supplier<ArtifactRenderer> rendererSupplier) {
+    public void registerArtifactRenderer(Item item, Supplier<ArtifactRenderer> rendererSupplier) {
         CuriosRendererRegistry.register(item, () -> new ArtifactCurioRenderer(rendererSupplier.get()));
     }
 

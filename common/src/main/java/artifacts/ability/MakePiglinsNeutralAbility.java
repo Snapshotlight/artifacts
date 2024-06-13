@@ -14,7 +14,7 @@ public record MakePiglinsNeutralAbility() implements TooltiplessAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.MAKE_PIGLINS_NEUTRAL.get();
+        return ModAbilities.MAKE_PIGLINS_NEUTRAL.value();
     }
 
     @Override

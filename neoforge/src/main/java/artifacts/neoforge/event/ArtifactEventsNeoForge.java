@@ -67,7 +67,7 @@ public class ArtifactEventsNeoForge {
 
     private static void onKittySlippersChangeTarget(LivingChangeTargetEvent event) {
         LivingEntity target = event.getNewTarget();
-        if (AbilityHelper.hasAbilityActive(ModAbilities.SCARE_CREEPERS.get(), target)
+        if (AbilityHelper.hasAbilityActive(ModAbilities.SCARE_CREEPERS.value(), target)
                 && event.getEntity() instanceof Mob creeper
                 && creeper.getType().is(ModTags.CREEPERS)
         ) {
@@ -76,7 +76,7 @@ public class ArtifactEventsNeoForge {
     }
 
     private static void onKittySlippersLivingUpdate(LivingEntity entity) {
-        if (AbilityHelper.hasAbilityActive(ModAbilities.SCARE_CREEPERS.get(), entity.getLastHurtByMob())
+        if (AbilityHelper.hasAbilityActive(ModAbilities.SCARE_CREEPERS.value(), entity.getLastHurtByMob())
                 && entity.getType().is(ModTags.CREEPERS)
         ) {
             entity.setLastHurtByMob(null);

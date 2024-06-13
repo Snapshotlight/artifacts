@@ -27,7 +27,7 @@ public class EntityTypeTags extends EntityTypeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        tag(MOB_DUPLICATOR_BLACKLIST).add(ModEntityTypes.MIMIC.get());
+        tag(MOB_DUPLICATOR_BLACKLIST).add(ModEntityTypes.MIMIC.value());
         tag(ModTags.CREEPERS).add(EntityType.CREEPER);
 
         List<String> creepers = Arrays.asList(

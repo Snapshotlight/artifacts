@@ -39,7 +39,7 @@ public record SwimInAirAbility(Value<Integer> flightDuration, Value<Integer> rec
             return;
         }
         int maxFlightTime = getFlightDuration(player);
-        boolean shouldSink = AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), player);
+        boolean shouldSink = AbilityHelper.hasAbilityActive(ModAbilities.SINKING.value(), player);
         boolean canFly = maxFlightTime > 0;
         if (swimData.isSwimming()) {
             if (swimData.getSwimTime() > maxFlightTime
@@ -48,7 +48,7 @@ public record SwimInAirAbility(Value<Integer> flightDuration, Value<Integer> rec
             ) {
                 swimData.setSwimming(player, false);
                 if (!player.onGround() && !player.isInWater()) {
-                    player.playSound(ModSoundEvents.POP.get(), 0.5F, 0.75F);
+                    player.playSound(ModSoundEvents.POP.value(), 0.5F, 0.75F);
                 }
             }
 
@@ -66,16 +66,16 @@ public record SwimInAirAbility(Value<Integer> flightDuration, Value<Integer> rec
     }
 
     public static int getFlightDuration(LivingEntity entity) {
-        return AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.get(), entity, ability -> ability.flightDuration().get() * 20, false);
+        return AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.value(), entity, ability -> ability.flightDuration().get() * 20, false);
     }
 
     public static int getRechargeDuration(LivingEntity entity) {
-        return Math.max(20, AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.get(), entity, ability -> ability.rechargeDuration().get() * 20, false));
+        return Math.max(20, AbilityHelper.maxInt(ModAbilities.SWIM_IN_AIR.value(), entity, ability -> ability.rechargeDuration().get() * 20, false));
     }
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.SWIM_IN_AIR.get();
+        return ModAbilities.SWIM_IN_AIR.value();
     }
 
     @Override

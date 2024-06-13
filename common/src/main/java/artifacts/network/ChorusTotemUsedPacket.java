@@ -23,7 +23,7 @@ public record ChorusTotemUsedPacket() implements CustomPacketPayload {
         Player player = context.getPlayer();
         ItemStack totem = TeleportOnDeathAbility.findTotem(player);
         if (totem.isEmpty()) {
-            totem = new ItemStack(ModItems.CHORUS_TOTEM.get());
+            totem = new ItemStack(ModItems.CHORUS_TOTEM.value());
         }
         Minecraft.getInstance().gameRenderer.displayItemActivation(totem);
         player.level().playSound(context.getPlayer(), context.getPlayer(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1, 1);

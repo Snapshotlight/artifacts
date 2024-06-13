@@ -37,7 +37,7 @@ public class SwimEvents {
         if (swimData != null) {
             if (swimData.isSwimming()) {
                 return EventResult.SUCCESS;
-            } else if (AbilityHelper.hasAbilityActive(ModAbilities.SINKING.get(), player)) {
+            } else if (AbilityHelper.hasAbilityActive(ModAbilities.SINKING.value(), player)) {
                 return EventResult.FAIL;
             }
         }
@@ -56,14 +56,14 @@ public class SwimEvents {
     }
 
     private static boolean canSprintOnFluid(LivingEntity entity, FluidState fluidState) {
-        return canCollideWithFluid(entity, fluidState, ModAbilities.SPRINT_ON_FLUIDS.get())
+        return canCollideWithFluid(entity, fluidState, ModAbilities.SPRINT_ON_FLUIDS.value())
                 && entity.isSprinting()
                 && !entity.isUsingItem()
                 && !entity.isCrouching();
     }
 
     private static boolean canSneakOnFluid(LivingEntity entity, FluidState fluidState) {
-        return entity.isCrouching() && canCollideWithFluid(entity, fluidState, ModAbilities.SNEAK_ON_FLUIDS.get());
+        return entity.isCrouching() && canCollideWithFluid(entity, fluidState, ModAbilities.SNEAK_ON_FLUIDS.value());
     }
 
     private static boolean canCollideWithFluid(LivingEntity entity, FluidState fluidState, ArtifactAbility.Type<CollideWithFluidsAbility> type) {

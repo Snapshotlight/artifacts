@@ -47,7 +47,7 @@ public record TeleportOnDeathAbility(Value<Double> teleportationChance, Value<In
     public static ItemStack findTotem(LivingEntity entity) {
         for (InteractionHand hand : InteractionHand.values()) {
             ItemStack handItem = entity.getItemInHand(hand);
-            if (AbilityHelper.hasAbility(ModAbilities.TELEPORT_ON_DEATH.get(), handItem)
+            if (AbilityHelper.hasAbility(ModAbilities.TELEPORT_ON_DEATH.value(), handItem)
                     && !(entity instanceof Player player && player.getCooldowns().isOnCooldown(handItem.getItem()))
             ) {
                 return handItem;
@@ -55,7 +55,7 @@ public record TeleportOnDeathAbility(Value<Double> teleportationChance, Value<In
         }
 
         return PlatformServices.platformHelper
-                .findAllEquippedBy(entity, stack -> AbilityHelper.hasAbility(ModAbilities.TELEPORT_ON_DEATH.get(), stack)
+                .findAllEquippedBy(entity, stack -> AbilityHelper.hasAbility(ModAbilities.TELEPORT_ON_DEATH.value(), stack)
                         && !(entity instanceof Player player && player.getCooldowns().isOnCooldown(stack.getItem())))
                 .findFirst()
                 .orElse(ItemStack.EMPTY);
@@ -91,7 +91,7 @@ public record TeleportOnDeathAbility(Value<Double> teleportationChance, Value<In
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.TELEPORT_ON_DEATH.get();
+        return ModAbilities.TELEPORT_ON_DEATH.value();
     }
 
     @Override

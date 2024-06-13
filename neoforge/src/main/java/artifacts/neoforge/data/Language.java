@@ -58,7 +58,7 @@ public class Language extends LanguageProvider {
         add("artifacts.key.night_vision_goggles.toggle", "Toggle Night Vision Goggles");
         add("artifacts.key.universal_attractor.toggle", "Toggle Universal Attractor");
         add("artifacts.key_category", "Artifacts");
-        add(ModSoundEvents.FART.get(), "Fart");
+        add(ModSoundEvents.FART.value(), "Fart");
         add("curios.identifier.feet", "Feet");
         add("curios.modifiers.feet", "When on feet:");
     }
@@ -148,10 +148,10 @@ public class Language extends LanguageProvider {
         for (RegistrySupplier<EntityType<?>> entityType : ModEntityTypes.ENTITY_TYPES) {
             add(entityType.get().getDescriptionId(), fromSnakeCasedString(entityType.getId().getPath()));
         }
-        add(ModSoundEvents.MIMIC_CLOSE.get(), "Mimic closes");
-        add(ModSoundEvents.MIMIC_DEATH.get(), "Mimic dies");
-        add(ModSoundEvents.MIMIC_HURT.get(), "Mimic hurts");
-        add(ModSoundEvents.MIMIC_OPEN.get(), "Mimic hops");
+        add(ModSoundEvents.MIMIC_CLOSE.value(), "Mimic closes");
+        add(ModSoundEvents.MIMIC_DEATH.value(), "Mimic dies");
+        add(ModSoundEvents.MIMIC_HURT.value(), "Mimic hurts");
+        add(ModSoundEvents.MIMIC_OPEN.value(), "Mimic hops");
     }
 
     private void addConfigs() {
@@ -202,8 +202,8 @@ public class Language extends LanguageProvider {
         for (RegistrySupplier<Item> item : ModItems.ITEMS) {
             add(item.get(), fromSnakeCasedString(item.getId().getPath()));
         }
-        override(ModItems.ANGLERS_HAT.get().getDescriptionId(), "Angler's Hat");
-        override(ModItems.AQUA_DASHERS.get().getDescriptionId(), "Aqua-Dashers");
+        override(ModItems.ANGLERS_HAT.value().getDescriptionId(), "Angler's Hat");
+        override(ModItems.AQUA_DASHERS.value().getDescriptionId(), "Aqua-Dashers");
     }
 
     private void addTags() {

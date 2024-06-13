@@ -13,7 +13,7 @@ public class ConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> CAMPSITE = Artifacts.key(Registries.CONFIGURED_FEATURE, "campsite");
 
     public static void create(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-        ConfiguredFeature<?, ?> campsite = new ConfiguredFeature<>(ModFeatures.CAMPSITE.get(), FeatureConfiguration.NONE);
+        ConfiguredFeature<?, ?> campsite = new ConfiguredFeature<>(ModFeatures.CAMPSITE.value(), FeatureConfiguration.NONE);
         context.register(CAMPSITE, campsite);
     }
 }

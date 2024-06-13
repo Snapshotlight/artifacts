@@ -39,7 +39,7 @@ public class NightVisionAbility extends ConstantMobEffectAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.NIGHT_VISION.get();
+        return ModAbilities.NIGHT_VISION.value();
     }
 
     @Override

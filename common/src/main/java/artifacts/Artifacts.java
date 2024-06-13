@@ -52,7 +52,7 @@ public class Artifacts {
         ModFeatures.FEATURES.register();
         ModAbilities.register();
 
-        EntityAttributeRegistry.register(ModEntityTypes.MIMIC, MimicEntity::createMobAttributes);
+        EntityAttributeRegistry.register(ModEntityTypes.MIMIC::value, MimicEntity::createMobAttributes);
 
         LifecycleEvent.SETUP.register(Artifacts::setupConfigs);
 

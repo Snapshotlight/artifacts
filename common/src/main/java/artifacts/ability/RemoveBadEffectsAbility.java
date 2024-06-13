@@ -33,7 +33,7 @@ public record RemoveBadEffectsAbility(Value<Boolean> enabled, Value<Integer> max
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.REMOVE_BAD_EFFECTS.get();
+        return ModAbilities.REMOVE_BAD_EFFECTS.value();
     }
 
     @Override

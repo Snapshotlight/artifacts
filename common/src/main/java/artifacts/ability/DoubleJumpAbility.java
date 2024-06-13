@@ -47,7 +47,7 @@ public record DoubleJumpAbility(Value<Boolean> enabled, Value<Double> sprintHori
         }
         if (player.isSprinting()) {
             upwardsMotion *= 1 + AbilityHelper.maxDouble(
-                    ModAbilities.DOUBLE_JUMP.get(), player,
+                    ModAbilities.DOUBLE_JUMP.value(), player,
                     ability -> ability.sprintVerticalVelocity().get(), false
             );
         }
@@ -56,7 +56,7 @@ public record DoubleJumpAbility(Value<Boolean> enabled, Value<Double> sprintHori
         double motionMultiplier = 0;
         if (player.isSprinting()) {
             motionMultiplier = AbilityHelper.maxDouble(
-                    ModAbilities.DOUBLE_JUMP.get(), player,
+                    ModAbilities.DOUBLE_JUMP.value(), player,
                     ability -> ability.sprintHorizontalVelocity().get(), false
             );
         }
@@ -79,7 +79,7 @@ public record DoubleJumpAbility(Value<Boolean> enabled, Value<Double> sprintHori
         if (!player.level().isClientSide()) {
             double chance = player.getAttributeValue(ModAttributes.FLATULENCE);
             if (player.getRandom().nextFloat() < chance) {
-                player.level().playSound(null, player, ModSoundEvents.FART.get(), SoundSource.PLAYERS, 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
+                player.level().playSound(null, player, ModSoundEvents.FART.value(), SoundSource.PLAYERS, 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
             } else {
                 player.level().playSound(null, player, SoundEvents.WOOL_FALL, SoundSource.PLAYERS, 1, 0.9F + player.getRandom().nextFloat() * 0.2F);
             }
@@ -88,7 +88,7 @@ public record DoubleJumpAbility(Value<Boolean> enabled, Value<Double> sprintHori
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.DOUBLE_JUMP.get();
+        return ModAbilities.DOUBLE_JUMP.value();
     }
 
     @Override

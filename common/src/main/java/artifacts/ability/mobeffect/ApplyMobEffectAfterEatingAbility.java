@@ -45,7 +45,7 @@ public record ApplyMobEffectAfterEatingAbility(Holder<MobEffect> mobEffect, Valu
 
     public static void applyEffects(LivingEntity entity, int foodPointsRestored) {
         if (foodPointsRestored > 0) {
-            AbilityHelper.forEach(ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING.get(), entity,
+            AbilityHelper.forEach(ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING.value(), entity,
                     ability -> entity.addEffect(ability.createEffect(ability.duration().get() * 20 * foodPointsRestored))
             );
         }
@@ -58,7 +58,7 @@ public record ApplyMobEffectAfterEatingAbility(Holder<MobEffect> mobEffect, Valu
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING.get();
+        return ModAbilities.APPLY_MOB_EFFECT_AFTER_EATING.value();
     }
 
     @Override

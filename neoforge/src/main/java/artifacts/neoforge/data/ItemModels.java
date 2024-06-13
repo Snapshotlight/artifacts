@@ -18,8 +18,8 @@ public class ItemModels extends ItemModelProvider {
     protected void registerModels() {
         BuiltInRegistries.ITEM.stream()
                 .filter(item -> BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(Artifacts.MOD_ID))
-                .filter(item -> item != ModItems.MIMIC_SPAWN_EGG.get())
-                .filter(item -> item != ModItems.UMBRELLA.get())
+                .filter(item -> item != ModItems.MIMIC_SPAWN_EGG.value())
+                .filter(item -> item != ModItems.UMBRELLA.value())
                 .forEach(this::addGeneratedModel);
     }
 

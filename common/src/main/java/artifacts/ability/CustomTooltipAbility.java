@@ -26,7 +26,7 @@ public record CustomTooltipAbility(Component tooltip) implements ArtifactAbility
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.CUSTOM_TOOLTIP.get();
+        return ModAbilities.CUSTOM_TOOLTIP.value();
     }
 
     @Override

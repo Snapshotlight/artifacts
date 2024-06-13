@@ -35,7 +35,7 @@ public record UpgradeToolTierAbility(Value<Tier> tier) implements ArtifactAbilit
     public static boolean canHarvestWithTier(LivingEntity entity, BlockState state) {
         if (state.is(ModTags.MINEABLE_WITH_DIGGING_CLAWS)) {
             Tier tier = Tier.fromLevel(AbilityHelper.maxInt(
-                    ModAbilities.UPGRADE_TOOL_TIER.get(), entity,
+                    ModAbilities.UPGRADE_TOOL_TIER.value(), entity,
                     ability -> ability.tier().get().getLevel(), false
             ));
             return isCorrectTierForDrops(tier, state);
@@ -57,7 +57,7 @@ public record UpgradeToolTierAbility(Value<Tier> tier) implements ArtifactAbilit
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.UPGRADE_TOOL_TIER.get();
+        return ModAbilities.UPGRADE_TOOL_TIER.value();
     }
 
     @Override

@@ -53,7 +53,7 @@ public class LimitedWaterBreathingAbility extends ConstantMobEffectAbility {
 
     @Override
     public Type<?> getType() {
-        return ModAbilities.LIMITED_WATER_BREATHING.get();
+        return ModAbilities.LIMITED_WATER_BREATHING.value();
     }
 
     @Override

@@ -57,9 +57,9 @@ public record CollideWithFluidsAbility(Supplier<Type<CollideWithFluidsAbility>> 
 
     @Override
     public void addAbilityTooltip(List<MutableComponent> tooltip) {
-        if (getType() == ModAbilities.SNEAK_ON_FLUIDS.get() && tag().isPresent() && FluidTags.LAVA.equals(tag().get())) {
+        if (getType() == ModAbilities.SNEAK_ON_FLUIDS.value() && tag().isPresent() && FluidTags.LAVA.equals(tag().get())) {
             tooltip.add(tooltipLine("lava"));
-        } else if (getType() == ModAbilities.SPRINT_ON_FLUIDS.get() && tag.isEmpty()) {
+        } else if (getType() == ModAbilities.SPRINT_ON_FLUIDS.value() && tag.isEmpty()) {
             ArtifactAbility.super.addAbilityTooltip(tooltip);
         }
     }
