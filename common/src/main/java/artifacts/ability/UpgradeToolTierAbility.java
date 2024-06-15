@@ -44,6 +44,9 @@ public record UpgradeToolTierAbility(Value<Tier> tier) implements ArtifactAbilit
     }
 
     public static boolean isCorrectTierForDrops(Tier tier, BlockState state) {
+        if (!state.requiresCorrectToolForDrops()) {
+            return true;
+        }
         int i = tier.getLevel();
         if (state.is(BlockTags.NEEDS_DIAMOND_TOOL)) {
             return i >= 4;
@@ -51,8 +54,9 @@ public record UpgradeToolTierAbility(Value<Tier> tier) implements ArtifactAbilit
             return i >= 3;
         } else if (state.is(BlockTags.NEEDS_STONE_TOOL)) {
             return i >= 2;
+        } else {
+            return i >= 1;
         }
-        return true;
     }
 
     @Override
