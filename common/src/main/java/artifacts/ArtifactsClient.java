@@ -15,6 +15,7 @@ import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.Nullable;
 
 public class ArtifactsClient {
 
@@ -50,6 +51,7 @@ public class ArtifactsClient {
         EntityRendererRegistry.register(ModEntityTypes.MIMIC::value, MimicRenderer::new);
     }
 
+    @Nullable
     public static Player getLocalPlayer() {
         return Minecraft.getInstance().player;
     }
